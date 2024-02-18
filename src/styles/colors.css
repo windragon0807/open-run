@@ -1,0 +1,11 @@
+:root {
+  --white: #fff;
+  --black: #333;
+  --blue: #2919FF;
+  --mint: #01FF87;
+  --red: #FF0000;
+  --gray: #A7AABC;
+
+  --primary: var(--blue);
+  --secondary: var(--mint);
+}

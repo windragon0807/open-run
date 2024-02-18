@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("@styles/reset.css");
+@import url("@styles/colors.css");
