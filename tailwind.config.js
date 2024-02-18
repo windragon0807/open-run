@@ -38,6 +38,8 @@ module.exports = {
       secondary: 'var(--secondary)',
       red: 'var(--red)',
       gray: 'var(--gray)',
+      kakao: 'var(--kakao)',
+      naver: 'var(--naver)',
     }),
     extend: {},
   },

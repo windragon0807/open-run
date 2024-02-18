@@ -6,6 +6,9 @@
   --red: #FF0000;
   --gray: #A7AABC;
 
+  --kakao: #FEE500;
+  --naver: #06C755;
+
   --primary: var(--blue);
   --secondary: var(--mint);
 }
