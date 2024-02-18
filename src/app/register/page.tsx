@@ -1,6 +1,7 @@
+import { Metadata } from 'next'
+
 import Header from '@/components/register/Header'
 import Spacing from '@/components/shared/Spacing'
-import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'OpenRun | Register',
