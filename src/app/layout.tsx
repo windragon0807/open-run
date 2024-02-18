@@ -1,11 +1,9 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { QueryClient, QueryClientProvider } from 'react-query'
 
 import Recoil from '@/contexts/Recoil'
+import ReactQuery from '@/contexts/ReactQuery'
 import './globals.css'
-
-const queryClient = new QueryClient()
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,9 +16,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <QueryClientProvider client={queryClient}>
+        <ReactQuery>
           <Recoil>{children}</Recoil>
-        </QueryClientProvider>
+        </ReactQuery>
       </body>
     </html>
   )
