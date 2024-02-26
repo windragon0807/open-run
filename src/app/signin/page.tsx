@@ -11,18 +11,18 @@ export const metadata: Metadata = {
   description: "OpenRun, Let's run together!",
 }
 
-export default function SignIn() {
+export default function SignInPage() {
   return (
     <main className="w-full h-full bg-primary flex flex-col justify-center items-center">
       <Logo />
 
-      <Spacing size={35} />
+      <Spacing size={80} />
 
       <Link href="/register">
         <KakaoLoginButton />
       </Link>
 
-      <Spacing size={10} />
+      <Spacing size={15} />
 
       <Link href="/register">
         <NaverLoginButton />

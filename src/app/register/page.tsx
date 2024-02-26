@@ -1,19 +1,16 @@
 import { Metadata } from 'next'
 
-import Header from '@/components/register/Header'
-import Spacing from '@/components/shared/Spacing'
+import Register from '@/components/register/Register'
 
 export const metadata: Metadata = {
   title: 'OpenRun | Register',
   description: "OpenRun, Let's run together!",
 }
 
-export default function Register() {
+export default function RegisterPage() {
   return (
-    <main className="w-full h-full bg-primary flex flex-col items-center">
-      <Spacing size={20} />
-
-      <Header />
+    <main className="w-full h-full bg-primary">
+      <Register />
     </main>
   )
 }

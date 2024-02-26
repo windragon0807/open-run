@@ -4,7 +4,7 @@ import BackIcon from './icons/BackIcon'
 
 export default function Header() {
   return (
-    <header className="h-[60px] w-full px-[20px] flex items-center">
+    <header className="w-full p-20 flex items-center">
       <Link href="signin">
         <BackIcon />
       </Link>
