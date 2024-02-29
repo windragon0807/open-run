@@ -21,12 +21,12 @@ export default function Register() {
       return
     }
 
-    setStep(prev => (prev - 1) as RegisterStep)
+    setStep((prev) => (prev - 1) as RegisterStep)
   }
   const handleStepIncrease = () => {
     if (step === 4) return
 
-    setStep(prev => (prev + 1) as RegisterStep)
+    setStep((prev) => (prev + 1) as RegisterStep)
   }
 
   const [data, setData] = useState<UserRegister>({
@@ -37,19 +37,19 @@ export default function Register() {
   // TODO 닉네임 중복확인 API 스로틀링 적용 (2글자 이상일 때부터 호출)
 
   return (
-    <section className="w-full h-full flex flex-col justify-center items-center">
+    <section className='w-full h-full flex flex-col justify-center items-center'>
       <Header onIconClick={handleStepDecrease} />
 
       {step === 0 ? <Hello /> : null}
       {step === 1 ? (
         <Nickname
           nickname={data.nickname}
-          setNickname={value => setData(prev => ({ ...prev, nickname: value }))}
+          setNickname={(value) => setData((prev) => ({ ...prev, nickname: value }))}
           isValid={isValid}
         />
       ) : null}
 
-      <section className="fixed bottom-50 left-[50%] -translate-x-1/2">
+      <section className='fixed bottom-50 left-[50%] -translate-x-1/2'>
         <NextButton onClick={handleStepIncrease}>다음</NextButton>
         {/* TODO SkipButton */}
       </section>

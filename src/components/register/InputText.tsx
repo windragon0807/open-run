@@ -17,18 +17,20 @@ export default function InputText({ value, maxLength = 15, isValid, onChange }: 
             ${isValid === true ? 'border-secondary' : ''}
             ${isValid === false ? 'border-red' : ''}
           `}
-          type="text"
-          placeholder="닉네임을 입력해주세요"
+          type='text'
+          placeholder='닉네임을 입력해주세요'
           value={value}
-          onChange={e => {
+          onChange={(e) => {
             /* 한글, 영어, 숫자 입력 가능 */
-            const regex = /^[A-Za-z0-9\u3131-\uD79D]*$/;
+            const regex = /^[A-Za-z0-9\u3131-\uD79D]*$/
             if (regex.test(e.target.value) && e.target.value.length <= maxLength) {
               onChange(e.target.value)
             }
           }}
         />
-        <span className='absolute right-20 text-gray top-[50%] -translate-y-1/2'>{value.length}/{maxLength}</span>
+        <span className='absolute right-20 text-gray top-[50%] -translate-y-1/2'>
+          {value.length}/{maxLength}
+        </span>
       </div>
       <Spacing size={10} />
       {isValid === true ? <span className='text-sm text-white'>사용 가능한 닉네임이에요</span> : null}

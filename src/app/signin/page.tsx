@@ -13,18 +13,18 @@ export const metadata: Metadata = {
 
 export default function SignInPage() {
   return (
-    <main className="w-full h-full bg-primary flex flex-col justify-center items-center">
+    <main className='w-full h-full bg-primary flex flex-col justify-center items-center'>
       <Logo />
 
       <Spacing size={80} />
 
-      <Link href="/register">
+      <Link href='/register'>
         <KakaoLoginButton />
       </Link>
 
       <Spacing size={15} />
 
-      <Link href="/register">
+      <Link href='/register'>
         <NaverLoginButton />
       </Link>
     </main>

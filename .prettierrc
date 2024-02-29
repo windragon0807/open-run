@@ -1,13 +1,17 @@
 {
   "endOfLine": "lf",
-  "printWidth": 120,
-  "semi": false,
-  "useTabs": false,
-  "tabWidth": 2,
   "singleQuote": true,
+  "printWidth": 120,
+  "tabWidth": 2,
+  "useTabs": false,
+  "quoteProps": "as-needed",
+  "jsxSingleQuote": true,
   "trailingComma": "all",
+  "arrowParens": "always",
   "bracketSpacing": true,
   "jsxBracketSameLine": true,
-  "arrowParens": "avoid",
-  "plugins": ["prettier-plugin-tailwindcss"]
+  "requirePragma": false,
+  "insertPragma": false,
+  "proseWrap": "preserve",
+  "semi": false
 }

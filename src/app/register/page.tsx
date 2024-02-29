@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function RegisterPage() {
   return (
-    <main className="w-full h-full bg-primary">
+    <main className='w-full h-full bg-primary'>
       <Register />
     </main>
   )
