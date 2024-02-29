@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
-import Recoil from '@/contexts/Recoil'
 import ReactQuery from '@/contexts/ReactQuery'
 import GlobalStyle from '@/components/shared/GlobalStyle'
 import '@styles/globals.css'
@@ -18,9 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={inter.className}>
         <ReactQuery>
-          <Recoil>
-            <GlobalStyle>{children}</GlobalStyle>
-          </Recoil>
+          <GlobalStyle>{children}</GlobalStyle>
         </ReactQuery>
       </body>
     </html>
