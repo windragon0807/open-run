@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
 import ReactQuery from '@/contexts/ReactQuery'
-import GlobalStyle from '@/components/shared/GlobalStyle'
+import Layout from '@/components/shared/Layout'
 import '@styles/globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={inter.className}>
         <ReactQuery>
-          <GlobalStyle>{children}</GlobalStyle>
+          <Layout>{children}</Layout>
         </ReactQuery>
       </body>
     </html>

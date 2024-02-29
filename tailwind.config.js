@@ -1,8 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 
 const px0_10 = { ...Array.from(Array(11)).map((_, i) => `${i}px`) }
+const px0_30 = { ...Array.from(Array(31)).map((_, i) => `${i}px`) }
 const px0_100 = { ...Array.from(Array(101)).map((_, i) => `${i}px`) }
 const px0_200 = { ...Array.from(Array(201)).map((_, i) => `${i}px`) }
+const px0_300 = { ...Array.from(Array(301)).map((_, i) => `${i}px`) }
 
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
@@ -47,11 +49,15 @@ module.exports = {
     }),
     extend: {
       borderWidth: px0_10,
-      width: px0_200,
-      height: px0_200,
+      width: px0_300,
+      height: px0_300,
       padding: px0_100,
       margin: px0_100,
       spacing: px0_200,
+      borderRadius: px0_30,
+      maxWidth: {
+        tablet: '768px',
+      },
     },
   },
   plugins: [],

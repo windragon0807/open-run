@@ -1,13 +1,15 @@
-import Link from 'next/link'
-
 import BackIcon from './icons/BackIcon'
 
-export default function Header() {
+type Props = {
+  onIconClick?: () => void
+}
+
+export default function Header({ onIconClick }: Props) {
   return (
-    <header className="w-full p-20 flex items-center">
-      <Link href="signin">
+    <header className="fixed top-0 w-full max-w-tablet p-20 flex items-center">
+      <button onClick={onIconClick}>
         <BackIcon />
-      </Link>
+      </button>
     </header>
   )
 }

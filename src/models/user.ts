@@ -1,5 +1,5 @@
-export type User = {
-  uid: string
-  email: string
-  name: string
+export type UserRegister = {
+  nickname: string
+  pace?: string
+  frequency?: number
 }
