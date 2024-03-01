@@ -8,6 +8,10 @@ import Header from './Header'
 import NextButton from './NextButton'
 import Hello from './Hello'
 import Nickname from './Nickname'
+import Pace from './Pace'
+import Frequency from './Frequency'
+import Welcome from './Welcome'
+import Spacing from '../shared/Spacing'
 
 type RegisterStep = 0 | 1 | 2 | 3 | 4
 
@@ -24,9 +28,18 @@ export default function Register() {
     setStep((prev) => (prev - 1) as RegisterStep)
   }
   const handleStepIncrease = () => {
-    if (step === 4) return
+    if (step === 4) {
+      // TODO 홈 화면 개발하기 시작하면 홈 화면으로 이동
+      route.replace('/signin')
+      return
+    }
 
     setStep((prev) => (prev + 1) as RegisterStep)
+  }
+
+  const 건너뛰기버튼이보이는단계인가 = step === 2 || step === 3
+  const handleSkipStep = () => {
+    setStep(4)
   }
 
   const [data, setData] = useState<UserRegister>({
@@ -48,10 +61,18 @@ export default function Register() {
           isValid={isValid}
         />
       ) : null}
+      {step === 2 ? <Pace /> : null}
+      {step === 3 ? <Frequency /> : null}
+      {step === 4 ? <Welcome /> : null}
 
-      <section className='fixed bottom-50 left-[50%] -translate-x-1/2'>
+      <section className='fixed bottom-25 h-100 left-[50%] -translate-x-1/2'>
         <NextButton onClick={handleStepIncrease}>다음</NextButton>
-        {/* TODO SkipButton */}
+        <Spacing size={10} />
+        {건너뛰기버튼이보이는단계인가 ? (
+          <button className='w-full text-white text-base mx-auto' onClick={handleSkipStep}>
+            건너뛰기
+          </button>
+        ) : null}
       </section>
     </section>
   )
