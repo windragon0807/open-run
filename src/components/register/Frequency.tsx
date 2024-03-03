@@ -1,13 +1,12 @@
-import Image from 'next/image'
-
 import Spacing from '@shared/Spacing'
 import Title from './Title'
 import SubTitle from './SubTitle'
+import Emoji from './Emoji'
 
 export default function Frequency() {
   return (
     <section className='flex flex-col items-center'>
-      <Image src='/images/register/target.png' alt='Frequence 이미지' width={100} height={100} />
+      <Emoji>🎯</Emoji>
       <Spacing size={20} />
       <Title>일주일에 몇 번 뛰나요?</Title>
       <Spacing size={10} />
