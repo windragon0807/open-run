@@ -9,7 +9,8 @@
       "@models/*": ["src/models/*"],
       "@atoms/*": ["src/atoms/*"],
       "@hooks/*": ["src/hooks/*"],
-      "@styles/*": ["src/styles/*"]
+      "@styles/*": ["src/styles/*"],
+      "@apis/*": ["src/apis/*"],
     }
   }
 }
