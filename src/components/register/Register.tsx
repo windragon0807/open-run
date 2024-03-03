@@ -29,7 +29,7 @@ export default function Register() {
   }
   const handleStepIncrease = () => {
     if (step === 4) {
-      // TODO 홈 화면 개발하기 시작하면 홈 화면으로 이동
+      // CHECK 홈 화면 개발하기 시작하면 홈 화면으로 이동
       route.replace('/signin')
       return
     }
