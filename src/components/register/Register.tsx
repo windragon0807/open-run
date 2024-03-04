@@ -62,7 +62,12 @@ export default function Register() {
         />
       ) : null}
       {step === 2 ? <Pace /> : null}
-      {step === 3 ? <Frequency /> : null}
+      {step === 3 ? (
+        <Frequency
+          frequency={data.frequency}
+          setFrequency={(value) => setData((prev) => ({ ...prev, frequency: value }))}
+        />
+      ) : null}
       {step === 4 ? <Welcome /> : null}
 
       <section className='fixed bottom-25 h-100 left-[50%] -translate-x-1/2'>
