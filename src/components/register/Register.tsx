@@ -17,6 +17,9 @@ type RegisterStep = 0 | 1 | 2 | 3 | 4
 
 export default function Register() {
   const route = useRouter()
+  const [data, setData] = useState<UserRegister>({
+    nickname: '',
+  })
 
   const [step, setStep] = useState<RegisterStep>(0)
   const handleStepDecrease = () => {
@@ -28,13 +31,20 @@ export default function Register() {
     setStep((prev) => (prev - 1) as RegisterStep)
   }
   const handleStepIncrease = () => {
-    if (step === 4) {
-      // CHECK 홈 화면 개발하기 시작하면 홈 화면으로 이동
-      route.replace('/signin')
-      return
-    }
+    if (step === 4) return
 
     setStep((prev) => (prev + 1) as RegisterStep)
+  }
+
+  const handleSubmit = () => {
+    if (step !== 4) return
+
+    // TODO mutation 호출 및 홈 화면으로 이동
+    alert(`
+    nickname: ${data.nickname}
+    pace: ${data.pace}
+    frequency: ${data.frequency}`)
+    route.replace('/signin')
   }
 
   const 건너뛰기버튼이보이는단계인가 = step === 2 || step === 3
@@ -42,9 +52,6 @@ export default function Register() {
     setStep(4)
   }
 
-  const [data, setData] = useState<UserRegister>({
-    nickname: '',
-  })
   const [isValid, setIsValid] = useState<boolean | null>(null)
 
   // TODO 닉네임 중복확인 API 스로틀링 적용 (2글자 이상일 때부터 호출)
@@ -71,7 +78,9 @@ export default function Register() {
       {step === 4 ? <Welcome /> : null}
 
       <section className='fixed bottom-25 h-100 left-[50%] -translate-x-1/2'>
-        <NextButton onClick={handleStepIncrease}>다음</NextButton>
+        <NextButton onClick={step === 4 ? handleSubmit : handleStepIncrease}>
+          {step === 4 ? '합류하기' : '다음'}
+        </NextButton>
         <Spacing size={10} />
         {건너뛰기버튼이보이는단계인가 ? (
           <button className='w-full text-white text-base mx-auto' onClick={handleSkipStep}>

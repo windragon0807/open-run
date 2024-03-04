@@ -1,10 +1,16 @@
 :root {
   --white: #fff;
+  --white: 0 0% 100%;
   --black: #333;
+  --black: 0 0% 20%;
   --blue: #2919FF;
+  --blue: 244 100% 55%;
   --mint: #01FF87;
+  --mint: 151 100% 50%;
   --red: #FF0000;
+  --red: 0 100% 50%;
   --gray: #A7AABC;
+  --gray: 231 14% 70%;
 
   --kakao: #FEE500;
   --naver: #06C755;
