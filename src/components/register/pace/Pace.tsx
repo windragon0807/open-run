@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 
 import Spacing from '@shared/Spacing'
-import { Pace, SingleNumber } from '@/models/user'
+import { Pace, SingleNumber } from '@/models/register'
 import Title from '../shared/Title'
 import SubTitle from '../shared/SubTitle'
 import Emoji from '../shared/Emoji'

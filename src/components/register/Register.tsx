@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { UserRegister } from '@/models/user'
+import { RegisterStep, UserRegister } from '@/models/register'
 import Header from './Header'
 import NextButton from './shared/NextButton'
 import Hello from './hello/Hello'
@@ -12,8 +12,6 @@ import Pace from './pace/Pace'
 import Frequency from './frequency/Frequency'
 import Welcome from './welcome/Welcome'
 import Spacing from '../shared/Spacing'
-
-type RegisterStep = 0 | 1 | 2 | 3 | 4
 
 export default function Register() {
   const route = useRouter()
@@ -41,9 +39,10 @@ export default function Register() {
 
     // TODO mutation 호출 및 홈 화면으로 이동
     alert(`
-    nickname: ${data.nickname}
-    pace: ${data.pace}
-    frequency: ${data.frequency}`)
+      nickname: ${data.nickname}
+      pace: ${data.pace}
+      frequency: ${data.frequency}
+    `)
     route.replace('/signin')
   }
 
@@ -58,7 +57,7 @@ export default function Register() {
 
   return (
     <section className='w-full h-full flex flex-col justify-center items-center'>
-      <Header onIconClick={handleStepDecrease} />
+      <Header step={step} onIconClick={handleStepDecrease} />
 
       {step === 0 ? <Hello /> : null}
       {step === 1 ? (
