@@ -1,9 +1,15 @@
 import Spacing from '@shared/Spacing'
-import Title from './Title'
-import SubTitle from './SubTitle'
-import Emoji from './Emoji'
+import Title from '../shared/Title'
+import SubTitle from '../shared/SubTitle'
+import Emoji from '../shared/Emoji'
+import { Pace } from '@/models/user'
 
-export default function Pace() {
+type Props = {
+  pace?: Pace
+  setPace: (pace: Pace) => void
+}
+
+export default function Pace({ pace, setPace }: Props) {
   return (
     <section className='flex flex-col items-center'>
       <Emoji>🏃🏻‍♂️</Emoji>

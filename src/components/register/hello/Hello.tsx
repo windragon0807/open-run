@@ -1,7 +1,7 @@
 import Spacing from '@shared/Spacing'
-import Title from './Title'
-import SubTitle from './SubTitle'
-import Emoji from './Emoji'
+import Title from '../shared/Title'
+import SubTitle from '../shared/SubTitle'
+import Emoji from '../shared/Emoji'
 
 export default function Hello() {
   return (

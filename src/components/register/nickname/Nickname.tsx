@@ -1,8 +1,8 @@
 import Spacing from '@shared/Spacing'
 import InputText from './InputText'
-import Title from './Title'
-import SubTitle from './SubTitle'
-import Emoji from './Emoji'
+import Title from '../shared/Title'
+import SubTitle from '../shared/SubTitle'
+import Emoji from '../shared/Emoji'
 
 type Props = {
   nickname: string

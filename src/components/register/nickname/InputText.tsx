@@ -1,4 +1,4 @@
-import Spacing from '../shared/Spacing'
+import Spacing from '../../shared/Spacing'
 
 type Props = {
   value: string

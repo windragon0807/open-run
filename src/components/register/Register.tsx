@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation'
 
 import { UserRegister } from '@/models/user'
 import Header from './Header'
-import NextButton from './NextButton'
-import Hello from './Hello'
-import Nickname from './Nickname'
-import Pace from './Pace'
-import Frequency from './Frequency'
-import Welcome from './Welcome'
+import NextButton from './shared/NextButton'
+import Hello from './hello/Hello'
+import Nickname from './nickname/Nickname'
+import Pace from './pace/Pace'
+import Frequency from './frequency/Frequency'
+import Welcome from './welcome/Welcome'
 import Spacing from '../shared/Spacing'
 
 type RegisterStep = 0 | 1 | 2 | 3 | 4
@@ -61,7 +61,7 @@ export default function Register() {
           isValid={isValid}
         />
       ) : null}
-      {step === 2 ? <Pace /> : null}
+      {step === 2 ? <Pace pace={data.pace} setPace={(value) => setData((prev) => ({ ...prev, pace: value }))} /> : null}
       {step === 3 ? (
         <Frequency
           frequency={data.frequency}

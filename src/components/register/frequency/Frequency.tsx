@@ -1,12 +1,13 @@
 import Spacing from '@shared/Spacing'
-import Title from './Title'
-import SubTitle from './SubTitle'
-import Emoji from './Emoji'
+import { WeekCount } from '@/models/user'
+import Title from '../shared/Title'
+import SubTitle from '../shared/SubTitle'
+import Emoji from '../shared/Emoji'
 import Slider from './Slider'
 
 type Props = {
-  frequency?: number
-  setFrequency: (frequency: number) => void
+  frequency?: WeekCount
+  setFrequency: (frequency: WeekCount) => void
 }
 
 export default function Frequency({ frequency = 0, setFrequency }: Props) {
@@ -22,7 +23,7 @@ export default function Frequency({ frequency = 0, setFrequency }: Props) {
 
       <span className='text-white text-2xl font-bold'>{frequency}일</span>
       <Spacing size={20} />
-      <Slider min={0} max={7} value={frequency} onChange={(_, v) => setFrequency(v as number)} />
+      <Slider value={frequency} onChange={(_, value) => setFrequency(value as WeekCount)} min={0} max={7} />
       <Spacing size={20} />
       <div className='w-320 text-sm text-white flex justify-between'>
         <span>0일</span>
