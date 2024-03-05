@@ -4,13 +4,15 @@ import Title from '../shared/Title'
 import SubTitle from '../shared/SubTitle'
 import Emoji from '../shared/Emoji'
 
-type Props = {
+export default function Nickname({
+  nickname,
+  setNickname,
+  isValid,
+}: {
   nickname: string
   setNickname: (nickname: string) => void
   isValid: boolean | null
-}
-
-export default function Nickname({ nickname, setNickname, isValid }: Props) {
+}) {
   return (
     <section className='flex flex-col items-center'>
       <Emoji>👀</Emoji>

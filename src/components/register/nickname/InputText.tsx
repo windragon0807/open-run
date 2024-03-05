@@ -1,13 +1,16 @@
-import Spacing from '../../shared/Spacing'
+import Spacing from '@shared/Spacing'
 
-type Props = {
+export default function InputText({
+  value,
+  maxLength = 15,
+  isValid,
+  onChange,
+}: {
   value: string
   maxLength?: number
   isValid: boolean | null
   onChange: (value: string) => void
-}
-
-export default function InputText({ value, maxLength = 15, isValid, onChange }: Props) {
+}) {
   return (
     <>
       <div className='relative inline-block'>

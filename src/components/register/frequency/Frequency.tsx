@@ -5,12 +5,13 @@ import SubTitle from '../shared/SubTitle'
 import Emoji from '../shared/Emoji'
 import Slider from './Slider'
 
-type Props = {
+export default function Frequency({
+  frequency = 0,
+  setFrequency,
+}: {
   frequency?: WeekCount
   setFrequency: (frequency: WeekCount) => void
-}
-
-export default function Frequency({ frequency = 0, setFrequency }: Props) {
+}) {
   return (
     <section className='flex flex-col items-center'>
       <Emoji>🎯</Emoji>

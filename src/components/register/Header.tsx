@@ -1,12 +1,7 @@
 import { RegisterStep } from '@/models/register'
 import BackIcon from './icons/BackIcon'
 
-type Props = {
-  step: RegisterStep
-  onIconClick?: () => void
-}
-
-export default function Header({ step, onIconClick }: Props) {
+export default function Header({ step, onIconClick }: { step: RegisterStep; onIconClick?: () => void }) {
   return (
     <header className='fixed top-0 w-full max-w-tablet p-20 flex items-center'>
       <button className='' onClick={onIconClick}>

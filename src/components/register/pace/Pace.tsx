@@ -7,12 +7,7 @@ import SubTitle from '../shared/SubTitle'
 import Emoji from '../shared/Emoji'
 import InputNumber from './InputNumber'
 
-type Props = {
-  pace?: Pace
-  setPace: (pace: Pace) => void
-}
-
-export default function Pace({ pace = `00'00"`, setPace }: Props) {
+export default function Pace({ pace = `00'00"`, setPace }: { pace?: Pace; setPace: (pace: Pace) => void }) {
   const secondBox = useRef<HTMLInputElement>(null)
   const thirdBox = useRef<HTMLInputElement>(null)
   const fourthBox = useRef<HTMLInputElement>(null)

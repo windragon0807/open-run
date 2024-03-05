@@ -1,9 +1,5 @@
 import { ReactNode } from 'react'
 
-type Props = {
-  children: ReactNode
-}
-
-export default function Emoji({ children }: Props) {
+export default function Emoji({ children }: { children: ReactNode }) {
   return <span className='text-[100px]'>{children}</span>
 }
