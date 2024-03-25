@@ -55,8 +55,6 @@ export default function Register() {
   const [isValid, setIsValid] = useState<boolean | null>(null)
   const { handleNicknameChange } = useNicknameValidation()
 
-  // TODO 닉네임 중복확인 API 스로틀링 적용 (2글자 이상일 때부터 호출)
-
   return (
     <section className='w-full h-full flex flex-col justify-center items-center'>
       <Header step={step} onIconClick={handleStepDecrease} />
