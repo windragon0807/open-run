@@ -19,7 +19,7 @@ export const useNicknameValidation = () => {
   }
 
   const handleNicknameChange = useCallback(async (nickname: string, setIsValid: (isValid: boolean | null) => void) => {
-    /** 닉네임이 변경된 후 NICKNAME_EXIST_CHK_DELAYms 뒤 중복 확인 api를 호출하도록 디바운싱 처리 */
+    /** 닉네임이 변경된 후 {NICKNAME_EXIST_CHK_DELAY}ms 뒤 중복 확인 api를 호출하도록 디바운싱 처리 */
     clearTimeout(typingTimeout as NodeJS.Timeout)
 
     const timeout = setTimeout(() => {
