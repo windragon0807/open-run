@@ -12,6 +12,7 @@ import Pace from './pace/Pace'
 import Frequency from './frequency/Frequency'
 import Welcome from './welcome/Welcome'
 import Spacing from '../shared/Spacing'
+import { useNicknameValidation } from './nickname/useNicknameValidation'
 
 export default function Register() {
   const route = useRouter()
@@ -52,6 +53,7 @@ export default function Register() {
   }
 
   const [isValid, setIsValid] = useState<boolean | null>(null)
+  const { handleNicknameChange } = useNicknameValidation()
 
   // TODO 닉네임 중복확인 API 스로틀링 적용 (2글자 이상일 때부터 호출)
 
@@ -63,7 +65,10 @@ export default function Register() {
       {step === 1 ? (
         <Nickname
           nickname={data.nickname}
-          setNickname={(value) => setData((prev) => ({ ...prev, nickname: value }))}
+          setNickname={(value) => {
+            setData((prev) => ({ ...prev, nickname: value }))
+            handleNicknameChange(value, setIsValid)
+          }}
           isValid={isValid}
         />
       ) : null}
