@@ -8,7 +8,6 @@ export default function useSignin() {
 
   const kakaoLogin = () => {
     const redirectUri = `${window.location.origin}/kakao/callback`
-    alert(process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID)
     router.push(
       `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${redirectUri}&response_type=code`,
     )
