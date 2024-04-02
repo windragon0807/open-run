@@ -1,5 +1,5 @@
 import Spacing from '@shared/Spacing'
-import { WeekCount } from '@/models/register'
+import { WeekCount } from '@models/register'
 import Title from '../shared/Title'
 import SubTitle from '../shared/SubTitle'
 import Emoji from '../shared/Emoji'

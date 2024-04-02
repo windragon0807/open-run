@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { RegisterStep, UserRegister } from '@/models/register'
+import { RegisterStep, UserRegister } from '@models/register'
 import Header from './Header'
 import NextButton from './shared/NextButton'
 import Hello from './hello/Hello'

@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 
-import Register from '@/components/register/Register'
+import Register from '@components/register/Register'
 
 export const metadata: Metadata = {
   title: 'OpenRun | Register',
