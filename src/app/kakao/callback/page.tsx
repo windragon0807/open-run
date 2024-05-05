@@ -1,42 +1,26 @@
-'use client'
+import { redirect } from 'next/navigation'
 
-import { useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import getToken from '@apis/auth/getToken/api'
 
-import useSignin from '@hooks/useSignin'
+type Props = {
+  searchParams: {
+    code: string
+  }
+}
 
-export default function KakaoCallbackPage() {
-  const router = useRouter()
+export default async function KakaoCallbackPage({ searchParams }: Props) {
+  const { code } = searchParams
 
-  const params = useSearchParams()
-  const code = params.get('code')
+  const response = await getToken({
+    authServer: 'kakao',
+    code,
+  })
 
-  const { getToken } = useSignin()
+  console.log(response)
 
-  useEffect(() => {
-    if (code == null) {
-      alert('로그인에 실패했습니다.')
-      router.replace('/signin')
-    }
+  if (response.message === 'success') {
+    redirect('/')
+  }
 
-    getToken(
-      {
-        authServer: 'kakao',
-        code: code as string,
-      },
-      {
-        onSuccess: () => {
-          alert('로그인에 성공했습니다.')
-          router.replace('/')
-        },
-        onError: () => {
-          alert('토큰을 받아오는데 실패했습니다.')
-          router.replace('/signin')
-        },
-      },
-    )
-  }, [code, router, getToken])
-
-  // TODO 빠르게 처리되지 않으면 로딩 화면 띄워줘야 함
-  return <div></div>
+  redirect('/signin')
 }

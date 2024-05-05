@@ -1,5 +1,13 @@
 import axios, { AxiosHeaders } from 'axios'
 
+/**
+ * 공통 API Response 타입 포맷 정의
+ */
+export type ApiResponse<DataType> = {
+  message: string
+  data: DataType
+}
+
 const http = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
 })
@@ -7,7 +15,6 @@ const http = axios.create({
 http.interceptors.request.use((config) => {
   /* TODO Header 설정 */
   // config.headers = new AxiosHeaders()
-  // config.headers['openrun-jwt'] = 'sample-jwt'
 
   return config
 })
