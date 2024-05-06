@@ -1,4 +1,4 @@
-import { ApiResponse } from '@/apis/axios'
+import { ApiResponse } from '@apis/axios'
 
 export type RequestType = {
   authServer: 'kakao' | 'naver'
