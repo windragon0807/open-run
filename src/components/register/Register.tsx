@@ -4,18 +4,19 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { RegisterStep, UserRegister } from '@models/register'
+import Spacing from '@shared/Spacing'
 import Header from './Header'
 import NextButton from './shared/NextButton'
-import Hello from './hello/Hello'
 import Nickname from './nickname/Nickname'
 import Pace from './pace/Pace'
 import Frequency from './frequency/Frequency'
 import Welcome from './welcome/Welcome'
-import Spacing from '../shared/Spacing'
-import { useNicknameValidation } from './nickname/useNicknameValidation'
+import { useNicknameValidation } from './nickname/hooks/useNicknameValidation'
+import Hello from './hello/Hello'
 
 export default function Register() {
   const route = useRouter()
+
   const [data, setData] = useState<UserRegister>({
     nickname: '',
   })
@@ -56,7 +57,7 @@ export default function Register() {
   const { handleNicknameChange } = useNicknameValidation()
 
   return (
-    <section className='w-full h-full flex flex-col justify-center items-center'>
+    <section className='w-full h-full flex flex-col justify-center items-center bg-white'>
       <Header step={step} onIconClick={handleStepDecrease} />
 
       {step === 0 ? <Hello /> : null}
@@ -79,13 +80,14 @@ export default function Register() {
       ) : null}
       {step === 4 ? <Welcome /> : null}
 
-      <section className='fixed bottom-25 h-100 left-[50%] -translate-x-1/2'>
+      <section className='fixed bottom-25 w-full h-100 left-[50%] -translate-x-1/2 px-16'>
         <NextButton onClick={step === 4 ? handleSubmit : handleStepIncrease}>
           {step === 4 ? '합류하기' : '다음'}
         </NextButton>
         <Spacing size={10} />
+
         {건너뛰기버튼이보이는단계인가 ? (
-          <button className='w-full text-white text-base mx-auto' onClick={handleSkipStep}>
+          <button className='w-full text-base mx-auto' onClick={handleSkipStep}>
             건너뛰기
           </button>
         ) : null}
