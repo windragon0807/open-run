@@ -58,12 +58,12 @@ http.interceptors.response.use(
   /* 응답 실패 시 */
   (error: AxiosError | Error) => {
     if (axios.isAxiosError(error)) {
+      console.log('ryong', error)
       /* LOGGING */
       const { message } = error
       const { method, url } = error.config as AxiosRequestConfig
-      const { status, statusText } = error.response as AxiosResponse
       if (process.env.NODE_ENV === 'development') {
-        console.log(`🚨 [API] ${method?.toUpperCase()} ${url} | Error ${status} ${statusText} | ${message}`)
+        console.log(`🚨 [API] ${method?.toUpperCase()} ${url} | Error ${message}`)
       }
     }
 

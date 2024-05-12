@@ -13,6 +13,8 @@ import Frequency from './frequency/Frequency'
 import Welcome from './welcome/Welcome'
 import { useNicknameValidation } from './nickname/hooks/useNicknameValidation'
 import Hello from './hello/Hello'
+import { useMutation } from 'react-query'
+import { register } from '@/apis/auth/register/api'
 
 export default function Register() {
   const route = useRouter()
@@ -36,16 +38,20 @@ export default function Register() {
     setStep((prev) => (prev + 1) as RegisterStep)
   }
 
+  const { mutate } = useMutation(register, {
+    onSuccess: (data) => {
+      console.log('ryong', data)
+    },
+  })
+
   const handleSubmit = () => {
     if (step !== 4) return
 
     // TODO mutation 호출 및 홈 화면으로 이동
-    alert(`
-      nickname: ${data.nickname}
-      pace: ${data.pace}
-      frequency: ${data.frequency}
-    `)
-    route.replace('/signin')
+    console.log('ryong', data)
+
+    mutate(data)
+    // route.replace('/signin')
   }
 
   const 건너뛰기버튼이보이는단계인가 = step === 2 || step === 3
@@ -71,11 +77,13 @@ export default function Register() {
           isValid={isValid}
         />
       ) : null}
-      {step === 2 ? <Pace pace={data.pace} setPace={(value) => setData((prev) => ({ ...prev, pace: value }))} /> : null}
+      {step === 2 ? (
+        <Pace pace={data.runningPace} setPace={(value) => setData((prev) => ({ ...prev, runningPace: value }))} />
+      ) : null}
       {step === 3 ? (
         <Frequency
-          frequency={data.frequency}
-          setFrequency={(value) => setData((prev) => ({ ...prev, frequency: value }))}
+          frequency={data.runningFrequency}
+          setFrequency={(value) => setData((prev) => ({ ...prev, runningFrequency: value }))}
         />
       ) : null}
       {step === 4 ? <Welcome /> : null}

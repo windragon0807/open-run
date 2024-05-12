@@ -5,6 +5,6 @@ export type Pace = `${SingleNumber}${SingleNumber}'${SingleNumber}${SingleNumber
 export type WeekCount = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
 export type UserRegister = {
   nickname: string
-  pace?: Pace
-  frequency?: WeekCount
+  runningPace?: Pace
+  runningFrequency?: WeekCount
 }

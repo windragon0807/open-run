@@ -1,13 +1,9 @@
-'use client'
-
-import { useRouter } from 'next/navigation'
+import Home from '@components/home/Home'
 
 export default function HomePage() {
-  const router = useRouter()
-
   return (
     <main>
-      <button onClick={() => router.push('/signin')}>로그인 화면으로 돌아가기</button>
+      <Home />
     </main>
   )
 }
