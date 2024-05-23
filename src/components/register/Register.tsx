@@ -41,17 +41,14 @@ export default function Register() {
   const { mutate } = useMutation(register, {
     onSuccess: (data) => {
       console.log('ryong', data)
+      route.replace('/')
     },
   })
 
   const handleSubmit = () => {
     if (step !== 4) return
 
-    // TODO mutation 호출 및 홈 화면으로 이동
-    console.log('ryong', data)
-
     mutate(data)
-    // route.replace('/signin')
   }
 
   const 건너뛰기버튼이보이는단계인가 = step === 2 || step === 3
