@@ -1,32 +1,40 @@
 import { RegisterStep } from '@models/register'
 import BackIcon from './icons/BackIcon'
 
-export default function Header({ step, onIconClick }: { step: RegisterStep; onIconClick?: () => void }) {
+export default function Header({
+  step,
+  onBackIconClick,
+  onSkipTextClick,
+}: {
+  step: RegisterStep
+  onBackIconClick: () => void
+  onSkipTextClick: () => void
+}) {
+  const 건너뛰기버튼이보이는단계인가 = step === 2 || step === 3
+
   return (
-    <header className='fixed top-0 w-full max-w-tablet p-20 flex items-center'>
-      <button className='' onClick={onIconClick}>
-        <BackIcon />
-      </button>
-      <div className='flex gap-40 absolute left-[50%] -translate-x-1/2'>
-        {step !== 0 ? (
-          <>
-            <ProgressCircle status={step === 1 ? 'active' : 'completed'} />
-            <ProgressCircle status={step === 2 ? 'active' : step >= 3 ? 'completed' : 'default'} />
-            <ProgressCircle status={step === 3 ? 'active' : step === 4 ? 'completed' : 'default'} />
-          </>
+    <header className='relative w-full px-16 h-60 flex items-center bg-gray_lighten'>
+      <div className='w-full flex justify-between items-center'>
+        <button onClick={onBackIconClick}>
+          <BackIcon />
+        </button>
+        {건너뛰기버튼이보이는단계인가 ? (
+          <button onClick={onSkipTextClick}>
+            <span className='text-sm mr-8'>건너뛰기</span>
+          </button>
         ) : null}
       </div>
-    </header>
-  )
-}
 
-function ProgressCircle({ status = 'default' }: { status?: 'default' | 'active' | 'completed' }) {
-  return (
-    <div
-      className={`w-25 h-25 rounded-[50%] transition-colors duration-700 ease-in-out
-      ${status === 'default' ? 'bg-gray' : ''}
-      ${status === 'active' ? 'bg-gray outline outline-[5px] outline-secondary' : ''}
-      ${status === 'completed' ? 'bg-secondary' : ''}
-    `}></div>
+      <section className='absolute left-16 right-16 bottom-0 h-3'>
+        <div
+          className='bg-primary w-full h-full'
+          style={{
+            transform: `scaleX(${step / 4})`,
+            transformOrigin: 'left',
+            transition: 'transform 0.3s',
+          }}
+        />
+      </section>
+    </header>
   )
 }

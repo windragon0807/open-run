@@ -4,17 +4,16 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { RegisterStep, UserRegister } from '@models/register'
-import Spacing from '@shared/Spacing'
 import Header from './Header'
 import NextButton from './shared/NextButton'
 import Nickname from './nickname/Nickname'
 import Pace from './pace/Pace'
 import Frequency from './frequency/Frequency'
-import Welcome from './welcome/Welcome'
+import Done from './done'
 import { useNicknameValidation } from './nickname/hooks/useNicknameValidation'
-import Hello from './hello/Hello'
+import Welcome from './welcome'
 import { useMutation } from 'react-query'
-import { register } from '@/apis/auth/register/api'
+import { register } from '@apis/auth/register/api'
 
 export default function Register() {
   const route = useRouter()
@@ -24,7 +23,7 @@ export default function Register() {
   })
 
   const [step, setStep] = useState<RegisterStep>(0)
-  const handleStepDecrease = () => {
+  const handlePrevious = () => {
     if (step === 0) {
       route.replace('/signin')
       return
@@ -32,15 +31,14 @@ export default function Register() {
 
     setStep((prev) => (prev - 1) as RegisterStep)
   }
-  const handleStepIncrease = () => {
+  const handleNext = () => {
     if (step === 4) return
 
     setStep((prev) => (prev + 1) as RegisterStep)
   }
 
   const { mutate } = useMutation(register, {
-    onSuccess: (data) => {
-      console.log('ryong', data)
+    onSuccess: () => {
       route.replace('/')
     },
   })
@@ -51,19 +49,15 @@ export default function Register() {
     mutate(data)
   }
 
-  const 건너뛰기버튼이보이는단계인가 = step === 2 || step === 3
-  const handleSkipStep = () => {
-    setStep(4)
-  }
-
   const [isValid, setIsValid] = useState<boolean | null>(null)
   const { handleNicknameChange } = useNicknameValidation()
 
   return (
-    <section className='w-full h-full flex flex-col justify-center items-center bg-white'>
-      <Header step={step} onIconClick={handleStepDecrease} />
+    <section className='w-full h-full flex flex-col max-w-tablet items-center bg-gray-lighten'>
+      {step > 0 ? <Header step={step} onBackIconClick={handlePrevious} onSkipTextClick={() => setStep(4)} /> : null}
 
-      {step === 0 ? <Hello /> : null}
+      {step === 0 ? <Welcome /> : null}
+
       {step === 1 ? (
         <Nickname
           nickname={data.nickname}
@@ -74,28 +68,26 @@ export default function Register() {
           isValid={isValid}
         />
       ) : null}
+
       {step === 2 ? (
         <Pace pace={data.runningPace} setPace={(value) => setData((prev) => ({ ...prev, runningPace: value }))} />
       ) : null}
+
       {step === 3 ? (
         <Frequency
           frequency={data.runningFrequency}
           setFrequency={(value) => setData((prev) => ({ ...prev, runningFrequency: value }))}
         />
       ) : null}
-      {step === 4 ? <Welcome /> : null}
 
-      <section className='fixed bottom-25 w-full h-100 left-[50%] -translate-x-1/2 px-16'>
-        <NextButton onClick={step === 4 ? handleSubmit : handleStepIncrease}>
-          {step === 4 ? '합류하기' : '다음'}
+      {step === 4 ? <Done /> : null}
+
+      <section className='absolute bottom-40 w-full left-[50%] max-w-tablet -translate-x-1/2 px-16'>
+        <NextButton onClick={step === 4 ? handleSubmit : handleNext}>
+          {step === 0 ? '시작하기' : null}
+          {step === 1 || step === 2 || step === 3 ? '다음' : null}
+          {step === 4 ? '홈으로' : null}
         </NextButton>
-        <Spacing size={10} />
-
-        {건너뛰기버튼이보이는단계인가 ? (
-          <button className='w-full text-base mx-auto' onClick={handleSkipStep}>
-            건너뛰기
-          </button>
-        ) : null}
       </section>
     </section>
   )

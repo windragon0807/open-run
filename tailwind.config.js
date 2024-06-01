@@ -4,7 +4,6 @@ const px0_10 = { ...Array.from(Array(11)).map((_, i) => `${i}px`) }
 const px0_30 = { ...Array.from(Array(31)).map((_, i) => `${i}px`) }
 const px0_100 = { ...Array.from(Array(101)).map((_, i) => `${i}px`) }
 const px0_200 = { ...Array.from(Array(201)).map((_, i) => `${i}px`) }
-const px0_300 = { ...Array.from(Array(301)).map((_, i) => `${i}px`) }
 const px0_500 = { ...Array.from(Array(501)).map((_, i) => `${i}px`) }
 
 module.exports = {
@@ -45,6 +44,7 @@ module.exports = {
       secondary: 'hsl(var(--secondary))',
       red: 'hsl(var(--red))',
       gray: 'hsl(var(--gray))',
+      gray_lighten: 'hsl(var(--gray-lighten))',
       kakao: 'var(--kakao)',
       naver: 'var(--naver)',
     }),

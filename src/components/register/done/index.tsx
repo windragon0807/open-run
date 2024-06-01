@@ -3,7 +3,7 @@ import Title from '../shared/Title'
 import SubTitle from '../shared/SubTitle'
 import Emoji from '../shared/Emoji'
 
-export default function Welcome() {
+export default function Done() {
   return (
     <section className='flex flex-col items-center'>
       <Emoji>👏🏻</Emoji>
