@@ -2,9 +2,6 @@ import { useRef } from 'react'
 
 import Spacing from '@shared/Spacing'
 import { Pace, SingleNumber } from '@models/register'
-import Title from '../shared/Title'
-import SubTitle from '../shared/SubTitle'
-import Emoji from '../shared/Emoji'
 import InputNumber from './InputNumber'
 
 export default function Pace({ pace = `00'00"`, setPace }: { pace?: Pace; setPace: (pace: Pace) => void }) {
@@ -14,13 +11,12 @@ export default function Pace({ pace = `00'00"`, setPace }: { pace?: Pace; setPac
 
   return (
     <section className='flex flex-col items-center'>
-      <Emoji>🏃🏻‍♂️</Emoji>
-      <Spacing size={20} />
-      <Title>달리기 속도가 어떻게 되나요?</Title>
-      <Spacing size={10} />
-      <SubTitle>평균 페이스를 입력해주세요.</SubTitle>
-      <Spacing size={20} />
+      <Spacing size={64} />
+      <p className='text-4xl text-center'>평균 페이스를 알려주세요</p>
+      <p className='text-4xl text-primary font-bold text-center'>나의 평균 페이스는</p>
+      <Spacing size={40} />
 
+      {/* 이 지점에 정대 코드 삽입 예정 */}
       <div className='flex items-start'>
         <InputNumber
           value={Number(pace[0]) as SingleNumber}

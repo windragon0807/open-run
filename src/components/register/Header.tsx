@@ -1,5 +1,5 @@
 import { RegisterStep } from '@models/register'
-import BackIcon from './icons/BackIcon'
+import BackIcon from '@components/icons/BackIcon'
 
 export default function Header({
   step,

@@ -4,7 +4,4 @@ export type RequestType = {
   nickname: string
 }
 
-export type ResponseType = ApiResponse<{
-  message: string
-  data: boolean
-}>
+export type ResponseType = ApiResponse<boolean>

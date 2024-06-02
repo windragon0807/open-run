@@ -1,8 +1,5 @@
 import Spacing from '@shared/Spacing'
 import { WeekCount } from '@models/register'
-import Title from '../shared/Title'
-import SubTitle from '../shared/SubTitle'
-import Emoji from '../shared/Emoji'
 import Slider from './Slider'
 
 export default function Frequency({
@@ -14,11 +11,10 @@ export default function Frequency({
 }) {
   return (
     <section className='flex flex-col items-center'>
-      <Emoji>🎯</Emoji>
-      <Spacing size={20} />
-      <Title>일주일에 몇 번 뛰나요?</Title>
-      <Spacing size={10} />
-      <SubTitle>당신의 목표를 알려주세요!</SubTitle>
+      <Spacing size={64} />
+      <p className='text-4xl text-center'>얼마나 자주 뛰시나요?</p>
+      <p className='text-4xl text-primary font-bold text-center'>나의 일주일 러닝 횟수는</p>
+      <Spacing size={40} />
 
       <Spacing size={20} />
 

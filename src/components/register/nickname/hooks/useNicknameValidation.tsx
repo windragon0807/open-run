@@ -1,14 +1,16 @@
-import checkExistNickname from '@/apis/nickname/checkExistNickname/api'
+import checkExistNickname from '@/apis/auth/checkExistNickname/api'
 import { useCallback, useState } from 'react'
+
+const NICKNAME_EXIST_CHK_DELAY = 500
 
 export const useNicknameValidation = () => {
   const [typingTimeout, setTypingTimeout] = useState<NodeJS.Timeout | null>(null)
-  const NICKNAME_EXIST_CHK_DELAY = 500
 
   const handleNicknameChange = useCallback(
     async (nickname: string, setIsValid: (isValid: boolean | null) => void) => {
       /** 닉네임이 두 글자 이상일 때만 유효성 검사 실시 */
       if (nickname.length < 2) {
+        setIsValid(null)
         return
       }
 
@@ -18,10 +20,9 @@ export const useNicknameValidation = () => {
         try {
           /** 중복 확인 API 호출 이후 data 변경 */
           const response = await checkExistNickname({ nickname })
-          console.log('response', response)
+          setIsValid(!response.data)
         } catch (error) {
           console.error(error)
-          throw error
         }
       }, NICKNAME_EXIST_CHK_DELAY)
 

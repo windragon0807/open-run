@@ -12,16 +12,16 @@ export default function InputText({
   onChange: (value: string) => void
 }) {
   return (
-    <>
+    <article>
       <div className='relative inline-block'>
         <input
-          className={`w-300 h-60 bg-white pl-20 rounded-30 outline-none border-4 caret-secondary
+          className={`w-300 h-50 bg-white pl-10 outline-none border-b-2 caret-primary
             ${isValid === null ? 'border-gray' : ''}
-            ${isValid === true ? 'border-secondary' : ''}
+            ${isValid === true ? 'border-primary' : ''}
             ${isValid === false ? 'border-red' : ''}
           `}
           type='text'
-          placeholder='닉네임을 입력해주세요'
+          placeholder='15글자 내로 입력해 주세요'
           value={value}
           onChange={(e) => {
             /* 한글, 영어, 숫자 입력 가능 */
@@ -31,13 +31,13 @@ export default function InputText({
             }
           }}
         />
-        <span className='absolute right-20 text-gray top-[50%] -translate-y-1/2'>
+        <span className='absolute right-10 text-gray top-[50%] -translate-y-1/2'>
           {value.length}/{maxLength}
         </span>
       </div>
       <Spacing size={10} />
-      {isValid === true ? <span className='text-sm text-white'>사용 가능한 닉네임이에요</span> : null}
-      {isValid === false ? <span className='text-sm text-red'>이미 사용되고 있는 닉네임이에요</span> : null}
-    </>
+      {isValid === true ? <span className='ml-10 text-sm text-primary'>사용 가능한 닉네임이에요</span> : null}
+      {isValid === false ? <span className='ml-10 text-sm text-red'>이미 사용 중인 닉네임이에요</span> : null}
+    </article>
   )
 }

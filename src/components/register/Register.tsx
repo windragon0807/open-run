@@ -2,18 +2,17 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useMutation } from 'react-query'
 
 import { RegisterStep, UserRegister } from '@models/register'
-import Header from './Header'
-import NextButton from './shared/NextButton'
-import Nickname from './nickname/Nickname'
-import Pace from './pace/Pace'
-import Frequency from './frequency/Frequency'
-import Done from './done'
-import { useNicknameValidation } from './nickname/hooks/useNicknameValidation'
-import Welcome from './welcome'
-import { useMutation } from 'react-query'
 import { register } from '@apis/auth/register/api'
+import Header from './Header'
+import BottomButton from '../shared/BottomButton'
+import Nickname from './nickname'
+import Pace from './pace'
+import Frequency from './frequency'
+import Onboarding from './onboarding'
+import Welcome from './welcome'
 
 export default function Register() {
   const route = useRouter()
@@ -33,9 +32,17 @@ export default function Register() {
   }
   const handleNext = () => {
     if (step === 4) return
+    if (step === 1 && isValid === false) {
+      alert('다른 닉네임을 입력해주세요.')
+      return
+    }
 
     setStep((prev) => (prev + 1) as RegisterStep)
   }
+
+  /* STEP 1 : Nickname */
+  const [isValid, setIsValid] = useState<boolean | null>(null)
+  const 닉네임스텝에서버튼이비활성화상태인가 = step === 1 && isValid !== true
 
   const { mutate } = useMutation(register, {
     onSuccess: () => {
@@ -49,9 +56,6 @@ export default function Register() {
     mutate(data)
   }
 
-  const [isValid, setIsValid] = useState<boolean | null>(null)
-  const { handleNicknameChange } = useNicknameValidation()
-
   return (
     <section className='w-full h-full flex flex-col max-w-tablet items-center bg-gray-lighten'>
       {step > 0 ? <Header step={step} onBackIconClick={handlePrevious} onSkipTextClick={() => setStep(4)} /> : null}
@@ -63,9 +67,9 @@ export default function Register() {
           nickname={data.nickname}
           setNickname={(value) => {
             setData((prev) => ({ ...prev, nickname: value }))
-            handleNicknameChange(value, setIsValid)
           }}
           isValid={isValid}
+          setIsValid={setIsValid}
         />
       ) : null}
 
@@ -80,14 +84,14 @@ export default function Register() {
         />
       ) : null}
 
-      {step === 4 ? <Done /> : null}
+      {step === 4 ? <Onboarding nickname={data.nickname} /> : null}
 
       <section className='absolute bottom-40 w-full left-[50%] max-w-tablet -translate-x-1/2 px-16'>
-        <NextButton onClick={step === 4 ? handleSubmit : handleNext}>
+        <BottomButton onClick={step === 4 ? handleSubmit : handleNext} disabled={닉네임스텝에서버튼이비활성화상태인가}>
           {step === 0 ? '시작하기' : null}
           {step === 1 || step === 2 || step === 3 ? '다음' : null}
           {step === 4 ? '홈으로' : null}
-        </NextButton>
+        </BottomButton>
       </section>
     </section>
   )
