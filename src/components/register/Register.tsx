@@ -57,7 +57,7 @@ export default function Register() {
   }
 
   return (
-    <section className='w-full h-full flex flex-col max-w-tablet items-center bg-gray-lighten'>
+    <section className='relative w-full h-full flex flex-col max-w-tablet items-center bg-gray-lighten'>
       {step > 0 ? <Header step={step} onBackIconClick={handlePrevious} onSkipTextClick={() => setStep(4)} /> : null}
 
       {step === 0 ? <Welcome /> : null}
@@ -86,7 +86,7 @@ export default function Register() {
 
       {step === 4 ? <Onboarding nickname={data.nickname} /> : null}
 
-      <section className='absolute bottom-40 w-full left-[50%] max-w-tablet -translate-x-1/2 px-16'>
+      <section className='absolute bottom-40 w-full max-w-tablet left-[50%] -translate-x-1/2 px-16'>
         <BottomButton onClick={step === 4 ? handleSubmit : handleNext} disabled={닉네임스텝에서버튼이비활성화상태인가}>
           {step === 0 ? '시작하기' : null}
           {step === 1 || step === 2 || step === 3 ? '다음' : null}

@@ -15,7 +15,7 @@ export default function InputText({
     <article>
       <div className='relative inline-block'>
         <input
-          className={`w-300 h-50 bg-white pl-10 outline-none border-b-2 caret-primary
+          className={`w-300 h-50 bg-inherit pl-10 outline-none border-b-2 caret-primary
             ${isValid === null ? 'border-gray' : ''}
             ${isValid === true ? 'border-primary' : ''}
             ${isValid === false ? 'border-red' : ''}

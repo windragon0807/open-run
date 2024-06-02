@@ -23,6 +23,7 @@ export default async function HomePage() {
   }
 
   const { data } = await getUserInfo()
+  console.log(data)
 
   return (
     <section className='w-full h-full flex flex-col items-center justify-center'>
