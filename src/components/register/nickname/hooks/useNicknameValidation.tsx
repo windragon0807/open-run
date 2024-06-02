@@ -1,4 +1,4 @@
-import checkExistNickname from '@/apis/auth/checkExistNickname/api'
+import checkExistNickname from '@apis/auth/checkExistNickname/api'
 import { useCallback, useState } from 'react'
 
 const NICKNAME_EXIST_CHK_DELAY = 500
