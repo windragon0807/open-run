@@ -49,6 +49,9 @@ module.exports = {
       naver: 'var(--naver)',
     }),
     extend: {
+      fontFamily: {
+        sans: ['Pretendard', 'sans-serif'],
+      },
       borderWidth: px0_10,
       width: px0_500,
       height: px0_500,
