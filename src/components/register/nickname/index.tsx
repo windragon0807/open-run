@@ -1,6 +1,7 @@
 import Spacing from '@shared/Spacing'
 import InputText from './InputText'
 import { useNicknameValidation } from './hooks/useNicknameValidation'
+import { NicknameValidState } from './types'
 
 export default function Nickname({
   nickname,
@@ -10,8 +11,8 @@ export default function Nickname({
 }: {
   nickname: string
   setNickname: (nickname: string) => void
-  isValid: boolean | null
-  setIsValid: (isValid: boolean | null) => void
+  isValid: NicknameValidState
+  setIsValid: (isValid: NicknameValidState) => void
 }) {
   const { handleNicknameChange } = useNicknameValidation()
 

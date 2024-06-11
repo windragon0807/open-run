@@ -1,14 +1,15 @@
 import Spacing from '@shared/Spacing'
+import { NicknameValidState } from './types'
 
 export default function InputText({
   value,
-  maxLength = 15,
+  maxLength = 10,
   isValid,
   onChange,
 }: {
   value: string
   maxLength?: number
-  isValid: boolean | null
+  isValid: NicknameValidState
   onChange: (value: string) => void
 }) {
   return (
@@ -16,12 +17,12 @@ export default function InputText({
       <div className='relative inline-block'>
         <input
           className={`w-300 h-50 bg-inherit pl-10 outline-none border-b-2 caret-primary
-            ${isValid === null ? 'border-gray' : ''}
-            ${isValid === true ? 'border-primary' : ''}
-            ${isValid === false ? 'border-red' : ''}
+            ${isValid === 'default' ? 'border-gray' : ''}
+            ${isValid === 'pass' ? 'border-primary' : ''}
+            ${isValid === 'overlap' || isValid === 'consonant' ? 'border-red' : ''}
           `}
           type='text'
-          placeholder='15글자 내로 입력해 주세요'
+          placeholder='2-10자 이내로 입력해 주세요'
           value={value}
           onChange={(e) => {
             /* 한글, 영어, 숫자 입력 가능 */
@@ -36,8 +37,9 @@ export default function InputText({
         </span>
       </div>
       <Spacing size={10} />
-      {isValid === true ? <span className='ml-10 text-sm text-primary'>사용 가능한 닉네임이에요</span> : null}
-      {isValid === false ? <span className='ml-10 text-sm text-red'>이미 사용 중인 닉네임이에요</span> : null}
+      {isValid === 'pass' ? <span className='ml-10 text-sm text-primary'>사용 가능한 닉네임이에요</span> : null}
+      {isValid === 'overlap' ? <span className='ml-10 text-sm text-red'>이미 사용 중인 닉네임이에요</span> : null}
+      {isValid === 'consonant' ? <span className='ml-10 text-sm text-red'>올바르지 않은 형식이에요</span> : null}
     </article>
   )
 }

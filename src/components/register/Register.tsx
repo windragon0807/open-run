@@ -13,6 +13,7 @@ import Pace from './pace'
 import Frequency from './frequency'
 import Onboarding from './onboarding'
 import Welcome from './welcome'
+import { NicknameValidState } from './nickname/types'
 
 export default function Register() {
   const route = useRouter()
@@ -32,7 +33,7 @@ export default function Register() {
   }
   const handleNext = () => {
     if (step === 4) return
-    if (step === 1 && isValid === false) {
+    if (step === 1 && (isValid === 'overlap' || isValid === 'consonant')) {
       alert('다른 닉네임을 입력해주세요.')
       return
     }
@@ -41,8 +42,8 @@ export default function Register() {
   }
 
   /* STEP 1 : Nickname */
-  const [isValid, setIsValid] = useState<boolean | null>(null)
-  const 닉네임스텝에서버튼이비활성화상태인가 = step === 1 && isValid !== true
+  const [isValid, setIsValid] = useState<NicknameValidState>('default')
+  const 닉네임스텝에서버튼이비활성화상태인가 = step === 1 && isValid !== 'pass'
 
   const { mutate } = useMutation(register, {
     onSuccess: () => {
