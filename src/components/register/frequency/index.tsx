@@ -11,7 +11,7 @@ export default function Frequency({
 }) {
   return (
     <section className='flex flex-col items-center'>
-      <Spacing size={64} />
+      <Spacing size={60 + 64} />
       <p className='text-4xl text-center'>얼마나 자주 뛰시나요?</p>
       <p className='text-4xl text-primary font-bold text-center'>나의 일주일 러닝 횟수는</p>
       <Spacing size={40} />

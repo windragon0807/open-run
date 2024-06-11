@@ -11,7 +11,7 @@ export default function Pace({ pace = `00'00"`, setPace }: { pace?: Pace; setPac
 
   return (
     <section className='w-full h-full bg-gray_lighten flex flex-col items-center'>
-      <Spacing size={64} />
+      <Spacing size={60 + 64} />
       <p className='text-4xl text-center'>평균 페이스를 알려주세요</p>
       <p className='text-4xl text-primary font-bold text-center'>나의 평균 페이스는</p>
       <Spacing size={40} />

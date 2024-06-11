@@ -18,7 +18,7 @@ export default function Nickname({
 
   return (
     <section className='w-full h-full bg-gray_lighten flex flex-col items-center'>
-      <Spacing size={64} />
+      <Spacing size={60 + 64} />
       <p className='text-4xl text-center'>닉네임을 정해주세요</p>
       <p className='text-4xl text-primary font-bold text-center'>어떻게 불러드릴까요?</p>
       <Spacing size={40} />

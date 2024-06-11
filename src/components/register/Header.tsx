@@ -13,10 +13,10 @@ export default function Header({
   const 건너뛰기버튼이보이는단계인가 = step === 2 || step === 3
 
   return (
-    <header className='relative w-full px-16 h-60 flex items-center bg-gray_lighten'>
+    <header className='absolute w-full px-16 h-60 flex items-center bg-gray_lighten'>
       <div className='w-full flex justify-between items-center'>
         <button onClick={onBackIconClick}>
-          <BackIcon />
+          <BackIcon color='#000000' />
         </button>
         {건너뛰기버튼이보이는단계인가 ? (
           <button onClick={onSkipTextClick}>

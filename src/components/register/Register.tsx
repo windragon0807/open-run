@@ -14,6 +14,7 @@ import Frequency from './frequency'
 import Onboarding from './onboarding'
 import Welcome from './welcome'
 import { NicknameValidState } from './nickname/types'
+import BackIcon from '../icons/BackIcon'
 
 export default function Register() {
   const route = useRouter()
@@ -60,6 +61,11 @@ export default function Register() {
   return (
     <section className='relative w-full h-full flex flex-col max-w-tablet items-center bg-gray-lighten'>
       {step > 0 ? <Header step={step} onBackIconClick={handlePrevious} onSkipTextClick={() => setStep(4)} /> : null}
+      {step === 0 ? (
+        <button className='absolute top-0 left-0 z-[10] pl-16 h-60' onClick={handlePrevious}>
+          <BackIcon color='#ffffff' />
+        </button>
+      ) : null}
 
       {step === 0 ? <Welcome /> : null}
 
