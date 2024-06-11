@@ -4,7 +4,7 @@ import Image from 'next/image'
 export default function Onboarding({ nickname }: { nickname: string }) {
   return (
     <section className='flex flex-col items-center'>
-      <Spacing size={64} />
+      <Spacing size={30 + 64} />
       <p className='text-4xl text-center'>
         <strong>{nickname}</strong> 님
       </p>
