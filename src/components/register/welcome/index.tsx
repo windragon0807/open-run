@@ -5,9 +5,16 @@ import Spacing from '@components/shared/Spacing'
 export default function Welcome() {
   return (
     <section
-      className='relative w-full h-full bg-primary flex flex-col items-center'
+      className='relative w-full h-full flex flex-col items-center'
       style={{ backgroundImage: 'linear-gradient(to bottom, #4A5CEF 50%, #FFF)' }}>
-      <Image className='z-0 absolute' src='/images/bg_signin.png' layout='fill' priority alt='배경 이미지' />
+      <Image
+        className='z-0 absolute object-cover'
+        src='/images/bg_signin.png'
+        priority
+        fill
+        sizes='(max-width: 768px) 100vw, 33vw'
+        alt='배경 이미지'
+      />
       <div className='h-[20dvh]'></div>
       <div className='z-10 flex flex-col text-center items-center'>
         <p className='text-white text-4xl'>당신만의 캐릭터</p>
