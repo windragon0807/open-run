@@ -18,7 +18,9 @@ export default function LogoutButton() {
     <button
       className='px-20 py-10 bg-red text-white rounded-8'
       onClick={() => {
-        deleteUser()
+        if (window.confirm('정말 계정을 삭제하시겠습니까?')) {
+          deleteUser()
+        }
       }}>
       회원 탈퇴
     </button>

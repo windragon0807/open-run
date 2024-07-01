@@ -17,7 +17,7 @@ export default function Nickname({
   const { handleNicknameChange } = useNicknameValidation()
 
   return (
-    <section className='w-full h-full bg-gray_lighten flex flex-col items-center'>
+    <section className='w-full h-full bg-gray-lighten flex flex-col items-center'>
       <Spacing size={60 + 64} />
       <p className='text-4xl text-center'>닉네임을 정해주세요</p>
       <p className='text-4xl text-primary font-bold text-center'>어떻게 불러드릴까요?</p>

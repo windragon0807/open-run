@@ -4,9 +4,7 @@ import Spacing from '@components/shared/Spacing'
 
 export default function Welcome() {
   return (
-    <section
-      className='relative w-full h-full flex flex-col items-center'
-      style={{ backgroundImage: 'linear-gradient(to bottom, #4A5CEF 50%, #FFF)' }}>
+    <section className='relative w-full h-full flex flex-col items-center bg-gradient-primary-white'>
       <Image
         className='z-0 absolute object-cover'
         src='/images/bg_signin.png'

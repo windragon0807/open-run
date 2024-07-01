@@ -44,13 +44,16 @@ module.exports = {
       secondary: 'var(--secondary)',
       red: 'var(--red)',
       gray: 'var(--gray)',
-      gray_lighten: 'var(--gray-lighten)',
+      'gray-lighten': 'var(--gray-lighten)',
       kakao: 'var(--kakao)',
       naver: 'var(--naver)',
     }),
     extend: {
       fontFamily: {
         sans: ['Pretendard', 'sans-serif'],
+      },
+      backgroundImage: {
+        'gradient-primary-white': 'linear-gradient(to bottom, #4A5CEF 50%, #FFF)',
       },
       borderWidth: px0_10,
       width: px0_500,

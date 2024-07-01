@@ -6,6 +6,7 @@ import { useMutation } from 'react-query'
 
 import { RegisterStep, UserRegister } from '@models/register'
 import { register } from '@apis/auth/register/api'
+import Layout from '@shared/Layout'
 import Header from './Header'
 import BottomButton from '../shared/BottomButton'
 import Nickname from './nickname'
@@ -59,47 +60,51 @@ export default function Register() {
   }
 
   return (
-    <section className='relative w-full h-full flex flex-col max-w-tablet items-center bg-gray-lighten'>
-      {step > 0 ? <Header step={step} onBackIconClick={handlePrevious} onSkipTextClick={() => setStep(4)} /> : null}
-      {step === 0 ? (
-        <button className='absolute top-0 left-0 z-[10] pl-16 h-60' onClick={handlePrevious}>
-          <BackIcon color='#ffffff' />
-        </button>
-      ) : null}
+    <Layout className={step === 0 ? 'bg-gradient-primary-white' : 'bg-gray-lighten'}>
+      <section className='relative w-full h-full flex flex-col max-w-tablet items-center'>
+        {step > 0 ? <Header step={step} onBackIconClick={handlePrevious} onSkipTextClick={() => setStep(4)} /> : null}
+        {step === 0 ? (
+          <button className='absolute top-0 left-0 z-[10] pl-16 h-60' onClick={handlePrevious}>
+            <BackIcon color='#ffffff' />
+          </button>
+        ) : null}
 
-      {step === 0 ? <Welcome /> : null}
+        {step === 0 ? <Welcome /> : null}
 
-      {step === 1 ? (
-        <Nickname
-          nickname={data.nickname}
-          setNickname={(value) => {
-            setData((prev) => ({ ...prev, nickname: value }))
-          }}
-          isValid={isValid}
-          setIsValid={setIsValid}
-        />
-      ) : null}
+        {step === 1 ? (
+          <Nickname
+            nickname={data.nickname}
+            setNickname={(value) => {
+              setData((prev) => ({ ...prev, nickname: value }))
+            }}
+            isValid={isValid}
+            setIsValid={setIsValid}
+          />
+        ) : null}
 
-      {step === 2 ? (
-        <Pace pace={data.runningPace} setPace={(value) => setData((prev) => ({ ...prev, runningPace: value }))} />
-      ) : null}
+        {step === 2 ? (
+          <Pace pace={data.runningPace} setPace={(value) => setData((prev) => ({ ...prev, runningPace: value }))} />
+        ) : null}
 
-      {step === 3 ? (
-        <Frequency
-          frequency={data.runningFrequency}
-          setFrequency={(value) => setData((prev) => ({ ...prev, runningFrequency: value }))}
-        />
-      ) : null}
+        {step === 3 ? (
+          <Frequency
+            frequency={data.runningFrequency}
+            setFrequency={(value) => setData((prev) => ({ ...prev, runningFrequency: value }))}
+          />
+        ) : null}
 
-      {step === 4 ? <Onboarding nickname={data.nickname} /> : null}
+        {step === 4 ? <Onboarding nickname={data.nickname} /> : null}
 
-      <section className='absolute bottom-40 w-full max-w-tablet left-[50%] -translate-x-1/2 px-16'>
-        <BottomButton onClick={step === 4 ? handleSubmit : handleNext} disabled={닉네임스텝에서버튼이비활성화상태인가}>
-          {step === 0 ? '시작하기' : null}
-          {step === 1 || step === 2 || step === 3 ? '다음' : null}
-          {step === 4 ? '홈으로' : null}
-        </BottomButton>
+        <section className='absolute bottom-40 w-full max-w-tablet left-[50%] -translate-x-1/2 px-16'>
+          <BottomButton
+            onClick={step === 4 ? handleSubmit : handleNext}
+            disabled={닉네임스텝에서버튼이비활성화상태인가}>
+            {step === 0 ? '시작하기' : null}
+            {step === 1 || step === 2 || step === 3 ? '다음' : null}
+            {step === 4 ? '홈으로' : null}
+          </BottomButton>
+        </section>
       </section>
-    </section>
+    </Layout>
   )
 }
