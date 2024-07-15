@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import { cookies } from 'next/headers'
 
-import { getUserInfo } from '@apis/auth/getUserInfo/api'
-import Layout from '@shared/Layout'
 import Spacing from '@shared/Spacing'
+import Layout from '@shared/Layout'
 import LogoutButton from '@components/home/LogoutButton'
 import DeleteButton from '@components/home/DeleteButton'
+import { getUserInfo } from '@apis/auth/getUserInfo/api'
 
 export default async function HomePage() {
   const token = cookies().get('ACCESSTOKEN')?.value

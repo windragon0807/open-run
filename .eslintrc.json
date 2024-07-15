@@ -5,6 +5,26 @@
     "plugin:storybook/recommended"
   ],
   "rules": {
-    "react/no-unescaped-entities": "off"
+    "react/no-unescaped-entities": "off",
+    "import/order": [
+        "error",
+        {
+          "groups": [
+            "builtin",
+            "external",
+            "internal",
+            "parent",
+            "sibling",
+            "index"
+          ],
+          "alphabetize": {
+            "order": "desc",
+            "caseInsensitive": true
+          },
+          "newlines-between": "ignore"
+        }
+      ],
+      "import/no-unresolved": "off",
+      "import/export": "off"
   }
 }

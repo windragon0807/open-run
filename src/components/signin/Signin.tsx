@@ -2,12 +2,12 @@
 
 import { useEffect } from 'react'
 
-import Spacing from '@components/shared/Spacing'
-import KakaoLoginButton from '@components/signin/KakaoLoginButton'
-import NaverLoginButton from '@components/signin/NaverLoginButton'
-import useOAuth from '@hooks/useOAuth'
 import { removeCookie } from '@utils/cookie'
+import useOAuth from '@hooks/useOAuth'
 import { COOKIE } from '@constants/cookie'
+import NaverLoginButton from '@components/signin/NaverLoginButton'
+import KakaoLoginButton from '@components/signin/KakaoLoginButton'
+import Spacing from '@components/shared/Spacing'
 
 export default function SignIn() {
   const { kakaoLogin, naverLogin } = useOAuth()

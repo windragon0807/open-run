@@ -1,5 +1,5 @@
-import Spacing from '@shared/Spacing'
 import Image from 'next/image'
+import Spacing from '@shared/Spacing'
 
 export default function Onboarding({ nickname }: { nickname: string }) {
   return (
