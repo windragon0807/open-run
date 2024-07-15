@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-
 import { useMutation } from 'react-query'
 import { useRouter } from 'next/navigation'
+
 import Layout from '@shared/Layout'
 import { RegisterStep, UserRegister } from '@models/register'
 import { register } from '@apis/auth/register/api'
