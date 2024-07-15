@@ -4,27 +4,42 @@
     "prettier",
     "plugin:storybook/recommended"
   ],
+  "settings": {
+    "import/resolver": {
+      "node": {},
+      "typescript": {
+        "directory": "./src"
+      }
+    },
+    "import/parsers": {
+      "@typescript-eslint/parser": [
+        ".ts",
+        ".tsx",
+        ".js",
+        ".jsx"
+      ]
+    }
+  },
   "rules": {
-    "react/no-unescaped-entities": "off",
     "import/order": [
-        "error",
-        {
-          "groups": [
-            "builtin",
-            "external",
-            "internal",
-            "parent",
-            "sibling",
-            "index"
-          ],
-          "alphabetize": {
-            "order": "desc",
-            "caseInsensitive": true
-          },
-          "newlines-between": "ignore"
-        }
-      ],
-      "import/no-unresolved": "off",
-      "import/export": "off"
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "alphabetize": {
+          "order": "desc",
+          "caseInsensitive": true
+        },
+        "newlines-between": "ignore"
+      }
+    ],
+    "import/no-unresolved": "off",
+    "import/export": "off"
   }
 }
