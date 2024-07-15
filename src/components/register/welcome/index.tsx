@@ -1,6 +1,6 @@
 import Image from 'next/image'
-
 import Spacing from '@components/shared/Spacing'
+
 
 export default function Welcome() {
   return (

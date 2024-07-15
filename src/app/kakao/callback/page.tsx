@@ -1,5 +1,5 @@
-import { redirect } from 'next/navigation'
 
+import { redirect } from 'next/navigation'
 import OAuthCallback from '@components/signin/OAuthCallback'
 import { getToken } from '@apis/auth/getToken/api'
 

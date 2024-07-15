@@ -1,6 +1,6 @@
+
 import Link from 'next/link'
 import { cookies } from 'next/headers'
-
 import Spacing from '@shared/Spacing'
 import Layout from '@shared/Layout'
 import LogoutButton from '@components/home/LogoutButton'
