@@ -1,11 +1,7 @@
-import React, { useState } from 'react'
-
 import Spacing from '@shared/Spacing'
 import NumberPicker from './NumberPicker'
 
-export default function Pace() {
-  const [value, setValue] = useState<string>("0'0")
-
+export default function Pace({ pace, setPace }: { pace: string; setPace: (pace: string) => void }) {
   return (
     <div className='w-full h-full flex flex-col items-center'>
       <Spacing size={60 + 64} />
@@ -13,8 +9,8 @@ export default function Pace() {
       <div className='text-4xl text-primary font-bold text-center mb-10'>나의 평균 페이스는</div>
       <Spacing size={40} />
       <NumberPicker
-        defaultValue={value}
-        onChange={setValue}
+        defaultValue={pace}
+        onChange={setPace}
         minMinutes={0}
         maxMinutes={20}
         minSeconds={0}

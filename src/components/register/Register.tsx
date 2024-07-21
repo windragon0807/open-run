@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 
 import Layout from '@shared/Layout'
 import { RegisterStep, UserRegister } from '@models/register'
-import { register } from '@apis/auth/register/api'
+import { register as _register } from '@apis/auth/register/api'
 import BottomButton from '../shared/BottomButton'
 import BackIcon from '../icons/BackIcon'
 import Welcome from './welcome'
@@ -22,9 +22,12 @@ export default function Register() {
 
   const [data, setData] = useState<UserRegister>({
     nickname: '',
+    runningPace: "0'0",
+    runningFrequency: 0,
   })
-
   const [step, setStep] = useState<RegisterStep>(0)
+  console.log({ step, data })
+
   const handlePrevious = () => {
     if (step === 0) {
       route.replace('/signin')
@@ -47,7 +50,7 @@ export default function Register() {
   const [isValid, setIsValid] = useState<NicknameValidState>('default')
   const 닉네임스텝에서버튼이비활성화상태인가 = step === 1 && isValid !== 'pass'
 
-  const { mutate } = useMutation(register, {
+  const { mutate: register } = useMutation(_register, {
     onSuccess: () => {
       route.replace('/')
     },
@@ -56,7 +59,7 @@ export default function Register() {
   const handleSubmit = () => {
     if (step !== 4) return
 
-    mutate(data)
+    register(data)
   }
 
   return (
@@ -83,7 +86,10 @@ export default function Register() {
         ) : null}
 
         {step === 2 ? (
-          <Pace pace={data.runningPace} setPace={(value) => setData((prev) => ({ ...prev, runningPace: value }))} />
+          <Pace
+            pace={data.runningPace ?? ''}
+            setPace={(value) => setData((prev) => ({ ...prev, runningPace: value }))}
+          />
         ) : null}
 
         {step === 3 ? (
