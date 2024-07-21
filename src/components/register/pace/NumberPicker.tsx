@@ -24,6 +24,10 @@ export default function NumberPicker({
     handleTouchStart: handleMinutesTouchStart,
     handleTouchMove: handleMinutesTouchMove,
     handleTouchEnd: handleMinutesTouchEnd,
+    handleMouseDown: handleMinutesMouseDown,
+    handleMouseMove: handleMinutesMouseMove,
+    handleMouseUp: handleMinutesMouseUp,
+    handleWheel: handleMinutesWheel,
   } = useNumberDial({
     initialValue: parseInt(defaultValue.split("'")[0]),
     min: minMinutes,
@@ -36,6 +40,10 @@ export default function NumberPicker({
     handleTouchStart: handleSecondsTouchStart,
     handleTouchMove: handleSecondsTouchMove,
     handleTouchEnd: handleSecondsTouchEnd,
+    handleMouseDown: handleSecondsMouseDown,
+    handleMouseMove: handleSecondsMouseMove,
+    handleMouseUp: handleSecondsMouseUp,
+    handleWheel: handleSecondsWheel,
   } = useNumberDial({
     initialValue: parseInt(defaultValue.split("'")[1]),
     min: minSeconds,
@@ -46,7 +54,7 @@ export default function NumberPicker({
 
   return (
     <div className='flex items-center justify-center space-x-4'>
-      <div className='relative w-80 h-[320px] overflow-hidden touch-none'>
+      <div className='relative w-86 h-[320px] overflow-hidden touch-none'>
         <NumberDial
           value={minutes}
           min={minMinutes}
@@ -55,9 +63,13 @@ export default function NumberPicker({
           handleTouchStart={handleMinutesTouchStart}
           handleTouchMove={handleMinutesTouchMove}
           handleTouchEnd={handleMinutesTouchEnd}
+          handleMouseDown={handleMinutesMouseDown}
+          handleMouseMove={handleMinutesMouseMove}
+          handleMouseUp={handleMinutesMouseUp}
+          handleWheel={handleMinutesWheel}
         />
       </div>
-      <div className='text-[#4A5CEF] text-center font-pretendard text-[40px] font-bold leading-[56px] tracking-tight italic'>
+      <div className='w-21 text-[#4A5CEF] text-center font-pretendard text-[40px] font-bold leading-[56px] tracking-tight italic touch-none'>
         '
       </div>
       <div className='relative w-80 h-[320px] overflow-hidden touch-none'>
@@ -71,9 +83,13 @@ export default function NumberPicker({
           handleTouchStart={handleSecondsTouchStart}
           handleTouchMove={handleSecondsTouchMove}
           handleTouchEnd={handleSecondsTouchEnd}
+          handleMouseDown={handleSecondsMouseDown}
+          handleMouseMove={handleSecondsMouseMove}
+          handleMouseUp={handleSecondsMouseUp}
+          handleWheel={handleSecondsWheel}
         />
       </div>
-      <div className='text-[#4A5CEF] text-center font-pretendard text-[40px] font-bold leading-[56px] tracking-tight italic'>
+      <div className='w-21 text-[#4A5CEF] text-center font-pretendard text-[40px] font-bold leading-[56px] tracking-tight italic touch-none'>
         "
       </div>
     </div>

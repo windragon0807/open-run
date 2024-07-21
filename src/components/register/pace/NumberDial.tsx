@@ -8,6 +8,10 @@ interface NumberDialProps {
   handleTouchStart: (e: React.TouchEvent) => void
   handleTouchMove: (e: React.TouchEvent) => void
   handleTouchEnd: () => void
+  handleMouseDown: (e: React.MouseEvent) => void
+  handleMouseMove: (e: React.MouseEvent) => void
+  handleMouseUp: () => void
+  handleWheel: (e: React.WheelEvent) => void
 }
 
 export default function NumberDial({
@@ -18,6 +22,10 @@ export default function NumberDial({
   handleTouchStart,
   handleTouchMove,
   handleTouchEnd,
+  handleMouseDown,
+  handleMouseMove,
+  handleMouseUp,
+  handleWheel,
 }: NumberDialProps) {
   const getDisplayNumbers = (current: number, min: number, max: number) => {
     const numbers = []
@@ -37,10 +45,14 @@ export default function NumberDial({
 
   return (
     <div
-      className='relative w-80 h-full overflow-hidden touch-none'
+      className='relative w-86 h-full overflow-hidden touch-none select-none' // select-none 클래스 추가
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}>
+      onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onWheel={handleWheel}>
       {displayNumbers.map((num, index) => {
         // 현재 선택된 값과의 거리 계산
         const distance = Math.abs(index - 2)
@@ -54,7 +66,7 @@ export default function NumberDial({
                   ? 'text-[rgba(74,92,239,0.18)]'
                   : 'text-[rgba(74,92,239,0.04)]'
             }`}
-            style={{ transform: `translateY(${(index - 2) * 64 + 128}px)`, fontSize: '56px' }} // 중앙 정렬을 위해 +128px 추가
+            style={{ transform: `translateY(${(index - 2) * 64 + 128}px)`, fontSize: '56px', userSelect: 'none' }} // userSelect: 'none' 추가
           >
             {num.toString().padStart(2, '0')}
           </div>

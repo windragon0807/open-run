@@ -12,6 +12,7 @@ interface UseNumberDialProps {
 export function useNumberDial({ initialValue, min, max, onChange }: UseNumberDialProps) {
   const [value, setValue] = useState(initialValue)
   const touchStartY = useRef<number | null>(null)
+  const mouseStartY = useRef<number | null>(null)
   const currentPositionY = useRef<number>(0)
   const lastValue = useRef<number>(value)
 
@@ -20,12 +21,17 @@ export function useNumberDial({ initialValue, min, max, onChange }: UseNumberDia
     touchStartY.current = e.touches[0].clientY
   }, [])
 
-  // 터치 이동 핸들러
-  const handleTouchMove = useCallback(
-    (e: React.TouchEvent) => {
-      if (touchStartY.current !== null) {
-        const touchY = e.touches[0].clientY
-        const diff = touchStartY.current - touchY
+  // 마우스 다운 핸들러
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    mouseStartY.current = e.clientY
+  }, [])
+
+  // 터치 및 마우스 이동 핸들러
+  const handleMove = useCallback(
+    (clientY: number) => {
+      const startY = touchStartY.current ?? mouseStartY.current
+      if (startY !== null) {
+        const diff = startY - clientY // 이동 방향 수정
         currentPositionY.current += diff
 
         const newValue = Math.round(currentPositionY.current / 64) // 숫자 사이의 간격을 64px로 조정
@@ -42,22 +48,64 @@ export function useNumberDial({ initialValue, min, max, onChange }: UseNumberDia
           currentPositionY.current = 0 // 위치 초기화
         }
 
-        touchStartY.current = touchY
+        if (touchStartY.current !== null) {
+          touchStartY.current = clientY
+        }
+        if (mouseStartY.current !== null) {
+          mouseStartY.current = clientY
+        }
       }
     },
     [min, max, onChange, value],
   )
 
-  // 터치 종료 핸들러
-  const handleTouchEnd = useCallback(() => {
+  // 터치 이동 핸들러
+  const handleTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      handleMove(e.touches[0].clientY)
+    },
+    [handleMove],
+  )
+
+  // 마우스 이동 핸들러
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      handleMove(e.clientY)
+    },
+    [handleMove],
+  )
+
+  // 터치 및 마우스 종료 핸들러
+  const handleEnd = useCallback(() => {
     touchStartY.current = null
+    mouseStartY.current = null
     currentPositionY.current = 0
   }, [])
+
+  // 휠 핸들러
+  const handleWheel = useCallback(
+    (e: React.WheelEvent) => {
+      const newValue = value + (e.deltaY > 0 ? 1 : -1)
+      let nextValue = newValue
+      if (nextValue < min) {
+        nextValue = max
+      } else if (nextValue > max) {
+        nextValue = min
+      }
+      setValue(nextValue)
+      onChange(nextValue)
+    },
+    [min, max, onChange, value],
+  )
 
   return {
     value,
     handleTouchStart,
     handleTouchMove,
-    handleTouchEnd,
+    handleTouchEnd: handleEnd,
+    handleMouseDown,
+    handleMouseMove,
+    handleMouseUp: handleEnd,
+    handleWheel,
   }
 }
