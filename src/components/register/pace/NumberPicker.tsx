@@ -53,7 +53,9 @@ export default function NumberPicker({
   })
 
   return (
-    <div className='flex items-center justify-center space-x-4'>
+    <div className='flex items-center justify-center'>
+      {' '}
+      {/* 구분자 간격 조정 */}
       <div className='relative w-86 h-[320px] overflow-hidden touch-none'>
         <NumberDial
           value={minutes}
@@ -69,10 +71,10 @@ export default function NumberPicker({
           handleWheel={handleMinutesWheel}
         />
       </div>
-      <div className='w-21 text-[#4A5CEF] text-center font-pretendard text-[40px] font-bold leading-[56px] tracking-tight italic touch-none'>
+      <div className='text-[#4A5CEF] text-center font-pretendard text-[40px] font-bold leading-[56px] tracking-tight italic touch-none mb-18 ml-[-2px] mr-4'>
         '
       </div>
-      <div className='relative w-80 h-[320px] overflow-hidden touch-none'>
+      <div className='relative w-86 h-[320px] overflow-hidden touch-none'>
         <NumberDial
           value={seconds}
           min={minSeconds}
@@ -89,7 +91,7 @@ export default function NumberPicker({
           handleWheel={handleSecondsWheel}
         />
       </div>
-      <div className='w-21 text-[#4A5CEF] text-center font-pretendard text-[40px] font-bold leading-[56px] tracking-tight italic touch-none'>
+      <div className='text-[#4A5CEF] text-center font-pretendard text-[40px] font-bold leading-[56px] tracking-tight italic touch-none mb-18 ml-[-4px]'>
         "
       </div>
     </div>
