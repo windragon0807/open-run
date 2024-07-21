@@ -72,7 +72,7 @@ export default function NumberPicker({
         />
       </div>
       <div className='text-[#4A5CEF] text-center font-pretendard text-[40px] font-bold leading-[56px] tracking-tight italic touch-none mb-18 ml-[-2px] mr-4'>
-        '
+        {`'`}
       </div>
       <div className='relative w-86 h-[320px] overflow-hidden touch-none'>
         <NumberDial
@@ -92,7 +92,7 @@ export default function NumberPicker({
         />
       </div>
       <div className='text-[#4A5CEF] text-center font-pretendard text-[40px] font-bold leading-[56px] tracking-tight italic touch-none mb-18 ml-[-4px]'>
-        "
+        {`"`}
       </div>
     </div>
   )

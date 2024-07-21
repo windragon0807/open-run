@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+
+import Spacing from '@shared/Spacing'
 import NumberPicker from './NumberPicker'
-import Spacing from '@/components/shared/Spacing'
 
 export default function Pace() {
   const [value, setValue] = useState<string>("0'0")
