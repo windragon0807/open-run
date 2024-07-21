@@ -1,7 +1,7 @@
 import Spacing from '@shared/Spacing'
+import { NicknameValidState } from './types'
 import InputText from './InputText'
 import { useNicknameValidation } from './hooks/useNicknameValidation'
-import { NicknameValidState } from './types'
 
 export default function Nickname({
   nickname,

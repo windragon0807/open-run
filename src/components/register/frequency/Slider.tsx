@@ -1,5 +1,5 @@
-import { Slider as BaseSlider, SliderThumbSlotProps, SliderProps } from '@mui/base/Slider'
 import { forwardRef } from 'react'
+import { Slider as BaseSlider, SliderThumbSlotProps, SliderProps } from '@mui/base/Slider'
 
 const Thumb = forwardRef(function Thumb(props: SliderThumbSlotProps, ref: React.ForwardedRef<HTMLSpanElement>) {
   const { ownerState, className = '', ...other } = props

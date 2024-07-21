@@ -1,21 +1,21 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { useMutation } from 'react-query'
+import { useRouter } from 'next/navigation'
 
+import Layout from '@shared/Layout'
 import { RegisterStep, UserRegister } from '@models/register'
 import { register } from '@apis/auth/register/api'
-import Layout from '@shared/Layout'
-import Header from './Header'
 import BottomButton from '../shared/BottomButton'
-import Nickname from './nickname'
-import Pace from './pace'
-import Frequency from './frequency'
-import Onboarding from './onboarding'
-import Welcome from './welcome'
-import { NicknameValidState } from './nickname/types'
 import BackIcon from '../icons/BackIcon'
+import Welcome from './welcome'
+import Pace from './pace'
+import Onboarding from './onboarding'
+import { NicknameValidState } from './nickname/types'
+import Nickname from './nickname'
+import Header from './Header'
+import Frequency from './frequency'
 
 export default function Register() {
   const route = useRouter()

@@ -2,8 +2,8 @@
 
 import { useMutation } from 'react-query'
 
-import { deleteUser as _deleteUser } from '@apis/auth/deleteUser/api'
 import { useRouter } from 'next/navigation'
+import { deleteUser as _deleteUser } from '@apis/auth/deleteUser/api'
 
 export default function LogoutButton() {
   const router = useRouter()

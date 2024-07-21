@@ -1,10 +1,10 @@
+
 import Image from 'next/image'
 import { Metadata } from 'next'
-
 import Layout from '@shared/Layout'
 import SignIn from '@components/signin/Signin'
-import Logo from '@components/icons/Logo'
 import Spacing from '@components/shared/Spacing'
+import Logo from '@components/icons/Logo'
 
 export default function SignInPage() {
   return (

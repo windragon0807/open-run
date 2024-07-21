@@ -1,8 +1,8 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 
+import { useRouter } from 'next/navigation'
 import { setCookie } from '@utils/cookie'
 import { COOKIE } from '@constants/cookie'
 
