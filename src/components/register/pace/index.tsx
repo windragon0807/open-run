@@ -1,5 +1,5 @@
 import Spacing from '@shared/Spacing'
-import NumberPicker from './NumberPicker'
+import FaceNumberPicker from './FaceNumberPicker'
 
 export default function Pace({ pace, setPace }: { pace: string; setPace: (pace: string) => void }) {
   return (
@@ -8,7 +8,7 @@ export default function Pace({ pace, setPace }: { pace: string; setPace: (pace: 
       <div className='text-4xl text-center mt-10'>평균 페이스를 알려주세요</div>
       <div className='text-4xl text-primary font-bold text-center mb-10'>나의 평균 페이스는</div>
       <Spacing size={40} />
-      <NumberPicker
+      <FaceNumberPicker
         defaultValue={pace}
         onChange={setPace}
         minMinutes={0}

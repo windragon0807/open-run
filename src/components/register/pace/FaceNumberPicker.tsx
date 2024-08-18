@@ -2,7 +2,7 @@ import React from 'react'
 import NumberDial from './NumberDial'
 import { useNumberDial } from './hooks/useNumberDial'
 
-interface NumberPickerProps {
+interface FaceNumberPickerProps {
   defaultValue: string
   onChange: (value: string) => void
   minMinutes?: number
@@ -11,14 +11,14 @@ interface NumberPickerProps {
   maxSeconds?: number
 }
 
-export default function NumberPicker({
+export default function FaceNumberPicker({
   defaultValue,
   onChange,
   minMinutes = 0,
   maxMinutes = 59,
   minSeconds = 0,
   maxSeconds = 59,
-}: NumberPickerProps) {
+}: FaceNumberPickerProps) {
   const {
     value: minutes,
     handleTouchStart: handleMinutesTouchStart,
@@ -69,6 +69,7 @@ export default function NumberPicker({
           handleMouseMove={handleMinutesMouseMove}
           handleMouseUp={handleMinutesMouseUp}
           handleWheel={handleMinutesWheel}
+          digits={2}
         />
       </div>
       <div className='text-[#4A5CEF] text-center font-pretendard text-[40px] font-bold leading-[56px] tracking-tight italic touch-none mb-18 ml-[-2px] mr-4'>
@@ -89,6 +90,7 @@ export default function NumberPicker({
           handleMouseMove={handleSecondsMouseMove}
           handleMouseUp={handleSecondsMouseUp}
           handleWheel={handleSecondsWheel}
+          digits={2}
         />
       </div>
       <div className='text-[#4A5CEF] text-center font-pretendard text-[40px] font-bold leading-[56px] tracking-tight italic touch-none mb-18 ml-[-4px]'>

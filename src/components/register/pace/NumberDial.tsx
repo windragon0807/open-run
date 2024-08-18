@@ -12,6 +12,7 @@ interface NumberDialProps {
   handleMouseMove: (e: React.MouseEvent) => void
   handleMouseUp: () => void
   handleWheel: (e: React.WheelEvent) => void
+  digits: number // 표시할 자릿수
 }
 
 export default function NumberDial({
@@ -26,6 +27,8 @@ export default function NumberDial({
   handleMouseMove,
   handleMouseUp,
   handleWheel,
+  /** 표시할 자릿수 */
+  digits = 1,
 }: NumberDialProps) {
   const getDisplayNumbers = (current: number, min: number, max: number) => {
     const numbers = []
@@ -45,7 +48,7 @@ export default function NumberDial({
 
   return (
     <div
-      className='relative w-86 h-full overflow-hidden touch-none select-none' // select-none 클래스 추가
+      className='relative w-86 h-full overflow-hidden touch-none select-none'
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -54,7 +57,6 @@ export default function NumberDial({
       onMouseUp={handleMouseUp}
       onWheel={handleWheel}>
       {displayNumbers.map((num, index) => {
-        // 현재 선택된 값과의 거리 계산
         const distance = Math.abs(index - 2)
         return (
           <div
@@ -66,9 +68,8 @@ export default function NumberDial({
                   ? 'text-[rgba(74,92,239,0.18)]'
                   : 'text-[rgba(74,92,239,0.04)]'
             }`}
-            style={{ transform: `translateY(${(index - 2) * 64 + 128}px)`, fontSize: '56px', userSelect: 'none' }} // userSelect: 'none' 추가
-          >
-            {num.toString().padStart(2, '0')}
+            style={{ transform: `translateY(${(index - 2) * 64 + 128}px)`, fontSize: '56px', userSelect: 'none' }}>
+            {num.toString().padStart(digits, '0')}
           </div>
         )
       })}
