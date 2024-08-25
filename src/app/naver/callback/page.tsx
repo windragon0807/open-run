@@ -1,7 +1,6 @@
-
 import { redirect } from 'next/navigation'
 import OAuthCallback from '@components/signin/OAuthCallback'
-import { getToken } from '@apis/auth/getToken/api'
+import { fetchToken } from '@/apis/users/fetchToken/api'
 
 type Props = {
   searchParams: {
@@ -13,7 +12,7 @@ type Props = {
 export default async function NaverCallbackPage({ searchParams }: Props) {
   const { code, state } = searchParams
 
-  const response = await getToken({
+  const response = await fetchToken({
     authServer: 'naver',
     code,
     state,

@@ -7,8 +7,8 @@ export type ResponseType = ApiResponse<{
   email: string
   identityAuthenticated: boolean
   provider: string
-  createdDate: any
-  lastLoginDate: any
+  createdDate: string
+  lastLoginDate: string
   blockchainAddress: string
   runningPace: string
   runningFrequency: number

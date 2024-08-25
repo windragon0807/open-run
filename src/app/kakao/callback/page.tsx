@@ -1,7 +1,6 @@
-
 import { redirect } from 'next/navigation'
 import OAuthCallback from '@components/signin/OAuthCallback'
-import { getToken } from '@apis/auth/getToken/api'
+import { fetchToken } from '@/apis/users/fetchToken/api'
 
 type Props = {
   searchParams: {
@@ -12,7 +11,7 @@ type Props = {
 export default async function KakaoCallbackPage({ searchParams }: Props) {
   const { code } = searchParams
 
-  const response = await getToken({
+  const response = await fetchToken({
     authServer: 'kakao',
     code,
   })

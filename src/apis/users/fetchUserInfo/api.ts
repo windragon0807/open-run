@@ -7,6 +7,6 @@ import { ResponseType } from './type'
  * # 로그인 토큰 함께 보내야 함
  * https://open-run.xyz/swagger-ui/index.html#/user-controller/getUserInfo
  */
-export function getUserInfo(): Promise<ResponseType> {
+export function fetchUserInfo(): Promise<ResponseType> {
   return http.get('/v1/users')
 }

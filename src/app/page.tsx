@@ -1,11 +1,10 @@
-
 import Link from 'next/link'
 import { cookies } from 'next/headers'
 import Spacing from '@shared/Spacing'
 import Layout from '@shared/Layout'
 import LogoutButton from '@components/home/LogoutButton'
 import DeleteButton from '@components/home/DeleteButton'
-import { getUserInfo } from '@apis/auth/getUserInfo/api'
+import { fetchUserInfo } from '@/apis/users/fetchUserInfo/api'
 
 export default async function HomePage() {
   const token = cookies().get('ACCESSTOKEN')?.value
@@ -26,7 +25,7 @@ export default async function HomePage() {
     )
   }
 
-  const { data } = await getUserInfo()
+  const { data } = await fetchUserInfo()
   console.log('userInfo', data)
 
   return (
@@ -49,6 +48,10 @@ export default async function HomePage() {
         <Spacing size={16} />
         <Link href='/signin'>
           <button className='px-20 py-10 text-white bg-primary rounded-8'>로그인</button>
+        </Link>
+        <Spacing size={16} />
+        <Link href='/bungs'>
+          <button className='px-20 py-10 text-white bg-primary rounded-8'>벙 테스트</button>
         </Link>
         <Spacing size={16} />
         <LogoutButton />

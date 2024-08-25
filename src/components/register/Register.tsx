@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 
 import Layout from '@shared/Layout'
 import { RegisterStep, UserRegister } from '@models/register'
-import { register as _register } from '@apis/auth/register/api'
+import { register as _register } from '@/apis/users/register/api'
 import BottomButton from '../shared/BottomButton'
 import BackIcon from '../icons/BackIcon'
 import Welcome from './welcome'
