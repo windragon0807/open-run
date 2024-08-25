@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
+
 import OAuthCallback from '@components/signin/OAuthCallback'
-import { fetchToken } from '@/apis/users/fetchToken/api'
+import { fetchToken } from '@apis/users/fetchToken/api'
 
 type Props = {
   searchParams: {

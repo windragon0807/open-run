@@ -1,6 +1,6 @@
-
 import Image from 'next/image'
 import { Metadata } from 'next'
+
 import Layout from '@shared/Layout'
 import SignIn from '@components/signin/Signin'
 import Spacing from '@components/shared/Spacing'
@@ -32,6 +32,6 @@ export default function SignInPage() {
 }
 
 export const metadata: Metadata = {
-  title: 'OpenRun | 로그인',
+  title: 'OpenRun | 로그인', // TODO: template 적용
   description: "OpenRun, Let's run together!",
 }
