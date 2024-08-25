@@ -32,6 +32,6 @@ export default function SignInPage() {
 }
 
 export const metadata: Metadata = {
-  title: 'OpenRun | 로그인', // TODO: template 적용
+  title: '로그인',
   description: "OpenRun, Let's run together!",
 }
