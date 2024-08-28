@@ -1,0 +1,65 @@
+'use client'
+
+import { ko } from 'date-fns/locale'
+import { format } from 'date-fns'
+
+import Spacing from '@shared/Spacing'
+import PlaceIcon from '@components/icons/PlaceIcon'
+import CalendarIcon from '@components/icons/CalendarIcon'
+import Avartar from './Avartar'
+
+const participantList = [
+  '/temp/nft_participant_5.png',
+  '/temp/nft_participant_4.png',
+  '/temp/nft_participant_3.png',
+  '/temp/nft_participant_2.png',
+  '/temp/nft_participant_1.png',
+]
+
+export default function RecommendationCard({
+  title,
+  place,
+  time,
+  tags,
+}: {
+  title: string
+  place: string
+  time: Date
+  tags: string[]
+}) {
+  // 남은 시간을 상태로 관리
+  const formattedDate = format(time, 'M월 d일 (E) a h:mm', { locale: ko })
+
+  return (
+    <article
+      className='relative w-full max-w-[500px] mx-auto bg-black h-200 rounded-8 p-16 text-white bg-cover bg-center'
+      style={{ backgroundImage: "url('/temp/bg_bung.png')" }}>
+      <span className='text-[16px] font-bold leading-[24px] tracking-[-0.32px]'>{title}</span>
+      <Spacing size={8} />
+      <div className='flex gap-6 items-center'>
+        <PlaceIcon />
+        <span className='text-[14px] leading-[20px] tracking-[-0.28px]'>{place}</span>
+      </div>
+      <Spacing size={2} />
+      <div className='flex gap-6 items-center'>
+        <CalendarIcon />
+        <span className='text-[14px] leading-[20px] tracking-[-0.28px]'>{formattedDate}</span>
+      </div>
+      <Spacing size={12} />
+      <div className='flex items-center'>
+        {participantList.map((src, index) => (
+          <Avartar key={src} className={index !== 0 ? '-ml-12' : ''} imageSrc={src} size={35} />
+        ))}
+        <Spacing direction='horizontal' size={8} />
+        <span>n 자리 남음</span>
+      </div>
+      <div className='absolute flex bottom-16 left-16 gap-4'>
+        {tags.map((value) => (
+          <div key={`tag-${value}`} className='bg-black-lighten px-6 text-white rounded-4'>
+            <span className='text-[12px] leading-[16px] tracking-[-0.24px]'>{value}</span>
+          </div>
+        ))}
+      </div>
+    </article>
+  )
+}

@@ -55,6 +55,9 @@ module.exports = {
       backgroundImage: {
         'gradient-primary-white': 'linear-gradient(to bottom, #4A5CEF 50%, #FFF)',
       },
+      backgroundColor: {
+        'black-lighten': 'rgba(34, 34, 34, 0.60)',
+      },
       borderWidth: px0_10,
       width: px0_500,
       height: px0_500,
@@ -64,6 +67,18 @@ module.exports = {
       borderRadius: px0_30,
       maxWidth: {
         tablet: '768px',
+      },
+      boxShadow: {
+        'custom-white': '0px 0px 16px 0px rgba(74, 92, 239, 0.20)',
+      },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+      },
+      animation: {
+        marquee: 'marquee 7s linear infinite',
       },
     },
   },

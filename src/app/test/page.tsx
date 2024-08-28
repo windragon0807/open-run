@@ -3,9 +3,9 @@ import { cookies } from 'next/headers'
 
 import Spacing from '@shared/Spacing'
 import Layout from '@shared/Layout'
-import LogoutButton from '@components/home/LogoutButton'
-import DeleteButton from '@components/home/DeleteButton'
-import { fetchUserInfo } from '@/apis/users/fetchUserInfo/api'
+import LogoutButton from '@components/temp/LogoutButton'
+import DeleteButton from '@components/temp/DeleteButton'
+import { fetchUserInfo } from '@apis/users/fetchUserInfo/api'
 
 export default async function TestPage() {
   const token = cookies().get('ACCESSTOKEN')?.value

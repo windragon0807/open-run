@@ -1,14 +1,18 @@
 'use client'
 
+import { useEffect } from 'react'
+
 export default function DarkMode() {
-  if (
-    localStorage.getItem('theme') === 'dark' ||
-    (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)
-  ) {
-    document.documentElement.classList.add('dark')
-  } else {
-    document.documentElement.classList.remove('dark')
-  }
+  useEffect(() => {
+    if (
+      localStorage.getItem('theme') === 'dark' ||
+      (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [])
 
   return null
 }

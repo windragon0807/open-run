@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation'
 import Layout from '@shared/Layout'
 import { RegisterStep, UserRegister } from '@models/register'
 import { register as _register } from '@/apis/users/register/api'
-import BottomButton from '../shared/BottomButton'
 import BackIcon from '../icons/BackIcon'
 import Welcome from './welcome'
 import Pace from './pace'
@@ -16,6 +15,7 @@ import { NicknameValidState } from './nickname/types'
 import Nickname from './nickname'
 import Header from './Header'
 import Frequency from './frequency'
+import BottomButton from './BottomButton'
 
 export default function Register() {
   const route = useRouter()
