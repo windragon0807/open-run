@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 
+import DarkMode from '@shared/DarkMode'
 import ReactQuery from '@contexts/ReactQuery'
 import '@styles/globals.css'
 
@@ -7,6 +8,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang='ko'>
       <body className='font-pretendard'>
+        <DarkMode />
         <ReactQuery>{children}</ReactQuery>
       </body>
     </html>
