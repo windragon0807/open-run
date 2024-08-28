@@ -50,7 +50,7 @@ module.exports = {
     }),
     extend: {
       fontFamily: {
-        sans: ['Pretendard', 'sans-serif'],
+        pretendard: ['Pretendard', 'sans-serif'],
       },
       backgroundImage: {
         'gradient-primary-white': 'linear-gradient(to bottom, #4A5CEF 50%, #FFF)',
