@@ -8,6 +8,7 @@ import Recommendation from '@components/home/Recommendation'
 import MyNFTs from '@components/home/MyNFTs'
 import MyBungs from '@components/home/MyBungs'
 import Header from '@components/home/Header'
+import FixedBottomMenuButton from '@/components/shared/FixedBottomMenuButton'
 
 export default async function HomePage() {
   const token = cookies().get('ACCESSTOKEN')?.value
@@ -27,6 +28,7 @@ export default async function HomePage() {
         <Recommendation />
         <Spacing size={40} />
       </div>
+      <FixedBottomMenuButton />
     </Layout>
   )
 }
