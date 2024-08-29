@@ -10,6 +10,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className='font-pretendard'>
         <DarkMode />
         <ReactQuery>{children}</ReactQuery>
+        <div id='root-portal'></div>
       </body>
     </html>
   )

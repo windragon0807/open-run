@@ -1,14 +1,13 @@
-import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 
 import Spacing from '@shared/Spacing'
 import Layout from '@shared/Layout'
+import FixedBottomMenuButton from '@shared/FixedBottomMenuButton'
 import Recommendation from '@components/home/Recommendation'
 import MyNFTs from '@components/home/MyNFTs'
 import MyBungs from '@components/home/MyBungs'
 import Header from '@components/home/Header'
-import FixedBottomMenuButton from '@/components/shared/FixedBottomMenuButton'
 
 export default async function HomePage() {
   const token = cookies().get('ACCESSTOKEN')?.value
