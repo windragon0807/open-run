@@ -14,7 +14,12 @@ export default function Header({ nickname }: { nickname: string }) {
       </div>
       <div className='flex items-center gap-[13px]'>
         <BellIcon />
-        <button onClick={logout}>
+        <button
+          onClick={() => {
+            if (window.confirm('정말로 로그아웃하시겠습니까? (유재린이 추가해달라고 함)')) {
+              logout()
+            }
+          }}>
           <Avartar imageSrc='/temp/nft_character_sm.png' size={40} />
         </button>
       </div>
