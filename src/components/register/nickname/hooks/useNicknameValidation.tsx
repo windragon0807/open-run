@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 
-import checkExistNickname from '@/apis/users/checkExistNickname/api'
+import checkExistNickname from '@apis/users/checkExistNickname/api'
 import { NicknameValidState } from '../types'
 
 const NICKNAME_EXIST_CHK_DELAY = 500

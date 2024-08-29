@@ -1,6 +1,6 @@
 'use client'
 
-import { toggleDarkMode } from '@/utils/darkMode'
+import { toggleDarkMode } from '@utils/darkMode'
 
 export default function ToggleDarkModeButton() {
   return (

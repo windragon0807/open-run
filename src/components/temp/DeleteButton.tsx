@@ -3,7 +3,7 @@
 import { useMutation } from 'react-query'
 
 import { useRouter } from 'next/navigation'
-import { deleteUser as _deleteUser } from '@/apis/users/deleteUser/api'
+import { deleteUser as _deleteUser } from '@apis/users/deleteUser/api'
 
 export default function DeleteButton() {
   const router = useRouter()

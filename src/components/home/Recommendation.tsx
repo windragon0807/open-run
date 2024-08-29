@@ -16,6 +16,21 @@ export default function Recommendation() {
         time={new Date(2024, 8, 12, 19, 0, 0)}
         tags={['해시태크', '런', '마포구']}
       />
+      <Spacing size={8} />
+      <RecommendationCard
+        title='타이틀이 여기 들어갑니다.'
+        place='서울시 강남구'
+        time={new Date(2024, 8, 12, 19, 0, 0)}
+        tags={['해시태크', '런', '마포구']}
+      />
+      <Spacing size={8} />
+      <RecommendationCard
+        title='타이틀이 여기 들어갑니다.'
+        place='서울시 강남구'
+        time={new Date(2024, 8, 12, 19, 0, 0)}
+        tags={['해시태크', '런', '마포구']}
+      />
+      <Spacing size={60} />
     </section>
   )
 }

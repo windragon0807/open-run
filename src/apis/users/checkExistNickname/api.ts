@@ -1,5 +1,5 @@
+import { RequestType, ResponseType } from '@apis/users/checkExistNickname/type'
 import http from '@apis/axios'
-import { RequestType, ResponseType } from '@/apis/users/checkExistNickname/type'
 
 /**
  * 해당 닉네임이 중복된 닉네임인지 확인하는 API
