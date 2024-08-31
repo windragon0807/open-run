@@ -1,5 +1,5 @@
 import Spacing from '@shared/Spacing'
-import PlusIcon from '@components/icons/PlusIcon'
+import CreateBungButton from './CreateBungButton'
 import BungCard from './BungCard'
 
 export default function MyBungs() {
@@ -22,10 +22,7 @@ export default function MyBungs() {
         isBungMaster
       />
       <Spacing size={8} />
-      <button className='w-full max-w-[500px] mx-auto rounded-8 border border-dashed border-black dark:border-white py-12 flex gap-8 justify-center items-center'>
-        <span className='text-black dark:text-white'>벙 만들기</span>
-        <PlusIcon />
-      </button>
+      <CreateBungButton>벙 만들기</CreateBungButton>
     </section>
   )
 }

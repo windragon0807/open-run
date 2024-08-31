@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 
 import DarkMode from '@shared/DarkMode'
 import ReactQuery from '@contexts/ReactQuery'
+import { ModalContextProvider } from '@contexts/ModalContext'
 import '@styles/globals.css'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -9,7 +10,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='ko'>
       <body className='font-pretendard'>
         <DarkMode />
-        <ReactQuery>{children}</ReactQuery>
+        <ReactQuery>
+          <ModalContextProvider>{children}</ModalContextProvider>
+        </ReactQuery>
         <div id='root-portal'></div>
       </body>
     </html>
