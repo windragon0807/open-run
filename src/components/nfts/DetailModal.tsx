@@ -45,6 +45,7 @@ export default function DetailModal({
         <Spacing size={24} />
         <Link
           href={`https://test.bithomp.com/en/nft/00000000098BCEBEAF52FB858B3C184D4CB555211185AFAE433F664A000539B3/${id}`}
+          target='_blank'
           className='h-24 rounded-12 px-13 py-4 flex gap-4 items-center bg-[rgba(255,255,255,0.20)]'>
           <span className='text-[12px] leading-[16px] text-white'>스캐너 페이지로 이동</span>
           <TripleGraterIcons />
