@@ -6,6 +6,7 @@ import RunnerIcon from '@components/icons/RunnerIcon'
 import PlaceIcon from '@components/icons/PlaceIcon'
 import CalendarIcon from '@components/icons/CalendarIcon'
 import NaverMap from '@components/bung/NaverMap'
+import BungCompleteButton from '@components/bung/BungCompleteButton'
 
 type Props = {
   params: {
@@ -25,7 +26,7 @@ export default function Page({ params: { bungId } }: Props) {
   return (
     <Layout className='relative'>
       <div className='w-full h-200 bg-[url("/temp/img_thumbnail_1.png")] bg-cover' />
-      <section className='w-full h-[calc(100%-185px)] bg-[url("/images/bg_home_gradient.png")] bg-cover transform -translate-y-15 rounded-[8px_8px_0_0] overflow-y-auto'>
+      <section className='w-full h-[calc(100%-185px)] bg-gradient-main bg-cover transform -translate-y-15 rounded-[8px_8px_0_0] overflow-y-auto'>
         <div className='px-16'>
           <Spacing size={24} />
           <span className='text-[28px] leading-[36px] tracking-[-0.56px] font-bold text-white'>
@@ -47,9 +48,7 @@ export default function Page({ params: { bungId } }: Props) {
             <span className='text-[14px] leading-[20px] tracking-[-0.28px] text-white'>{`6km 5'41"`}</span>
           </div>
           <Spacing size={24} />
-          <button className='w-full h-56 rounded-8 bg-secondary flex items-center justify-center'>
-            <span className='text-[16px] text-black font-bold'>참여 완료</span>
-          </button>
+          <BungCompleteButton />
         </div>
         <Spacing size={56} />
         <div className='flex flex-col gap-8'>

@@ -1,5 +1,5 @@
 import Layout from '@shared/Layout'
-import CustomAvatar from '@/components/avatar/CustomAvatar'
+import CustomAvatar from '@components/avatar/CustomAvatar'
 
 export default function AvatarPage() {
   return (
