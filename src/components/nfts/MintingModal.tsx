@@ -6,7 +6,17 @@ import Image from 'next/image'
 import Spacing from '@shared/Spacing'
 import { useModalContext } from '@contexts/ModalContext'
 
-export default function MintingModal() {
+export default function MintingModal({
+  serialNumber,
+  imageSrc,
+  rarity,
+  category,
+}: {
+  serialNumber: string
+  imageSrc: string
+  rarity: string
+  category: string
+}) {
   const router = useRouter()
   const { closeModal } = useModalContext()
 
@@ -19,20 +29,20 @@ export default function MintingModal() {
           <Image src='/images/img_new.png' alt='' width={39} height={24} />
           <div className='relative w-168 aspect-[1]'>
             <span className='absolute bottom-5 text-black-darken text-[40px] font-black w-full text-center'>
-              000001
+              {serialNumber}
             </span>
-            <Image src='/temp/nft_minting.png' alt='' fill />
+            <Image src={imageSrc || ''} alt='' fill />
           </div>
           <Spacing size={8} />
           <div className='px-8 rounded-4 bg-[rgba(255,255,255,0.20)]'>
-            <span className='text-[12px] font-bold leading-[16px] text-white'>COMMON</span>
+            <span className='text-[12px] font-bold leading-[16px] text-white'>{rarity.toUpperCase()}</span>
           </div>
           <Spacing size={8} />
           <span className='text-[16px] leading-[24px] tracking-[-0.32px] font-bold text-white'>
-            아이템 이름이 들어갑니다
+            아이템을 획득하였습니다.
           </span>
           <Spacing size={4} />
-          <span className='text-[12px] leading-[16px] tracking-[-0.24px] text-white'>아이템 분류</span>
+          <span className='text-[12px] leading-[16px] tracking-[-0.24px] text-white'>{category}</span>
           <Spacing size={72} />
         </div>
       </div>

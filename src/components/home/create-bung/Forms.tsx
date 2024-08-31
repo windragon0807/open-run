@@ -2,6 +2,7 @@
 
 import { ChangeEvent, useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
+import { useRouter } from 'next/navigation'
 
 import Spacing from '@shared/Spacing'
 import { useModalContext } from '@contexts/ModalContext'
@@ -16,6 +17,8 @@ type FormValues = {
 }
 
 export default function Forms() {
+  const router = useRouter()
+
   const [formValues, setFormValues] = useState<FormValues>({
     bungName: '',
     location: '',
@@ -77,6 +80,7 @@ export default function Forms() {
       },
       {
         onSuccess: () => {
+          router.refresh()
           closeModal()
         },
       },

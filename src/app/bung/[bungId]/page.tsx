@@ -23,14 +23,16 @@ type Props = {
 const mock = [
   { imageSrc: '/temp/nft_detail_1.png', name: '참여자 1' },
   { imageSrc: '/temp/nft_detail_2.png', name: '참여자 2' },
-  { imageSrc: '/temp/nft_detail_3.png', name: '참여자 3' },
-  { imageSrc: '/temp/nft_detail_4.png', name: '참여자 4' },
+  { imageSrc: '/temp/nft_detail_4.png', name: '참여자 3' },
+  { imageSrc: '/temp/nft_detail_1.png', name: '참여자 4' },
+  { imageSrc: '/temp/nft_detail_2.png', name: '참여자 5' },
+  { imageSrc: '/temp/nft_detail_4.png', name: '참여자 6' },
 ]
 
 export default async function Page({ params: { bungId } }: Props) {
   const { data } = await fetchBungDetail({ bungId })
-  console.log('ryong', data)
   const formattedDate = format(convertStringTimeToDate(data.startDateTime), 'M월 d일 (E) a h:mm', { locale: ko })
+
   return (
     <Layout className='relative'>
       <header className='absolute top-16 left-8 flex justify-between items-center'>
@@ -63,17 +65,19 @@ export default async function Page({ params: { bungId } }: Props) {
         </div>
         <Spacing size={56} />
         <div className='flex flex-col gap-8'>
-          <span className='text-[16px] leading-[24px] tracking-[-0.32px] font-bold text-white px-16'>참여자 5명</span>
+          <span className='text-[16px] leading-[24px] tracking-[-0.32px] font-bold text-white px-16'>참여자 7명</span>
           <div className='flex gap-8 overflow-x-auto px-16 pb-20'>
             <div className='flex flex-col gap-6 items-center'>
-              <div className='w-76 aspect-[1] bg-black rounded-8'>{/* 유저의 아바타가 들어갑니다. */}</div>
+              <div className='relative w-76 aspect-[1] bg-black rounded-8'>
+                <Image src='/temp/nft_detail_3.png' alt='' fill sizes='100%' />
+              </div>
               <div className='flex gap-4'>
                 <span className='text-[12px] leading-[16px] font-bold text-white'>닉네임</span>
                 <Image src='/images/icon_crown_white.png' alt='' width={16} height={16} />
               </div>
             </div>
-            {mock.map((item) => (
-              <div key={item.imageSrc} className='flex flex-col gap-6 items-center'>
+            {mock.map((item, index) => (
+              <div key={`${item.imageSrc}-${index}`} className='flex flex-col gap-6 items-center'>
                 <div className='relative w-76 aspect-[1] bg-black rounded-8'>
                   <Image src={item.imageSrc} alt='' fill sizes='100%' />
                 </div>

@@ -4,6 +4,6 @@ export type ResponseType = ApiResponse<{
   nfTokenId: string
   taxon: any
   nftSerial: string
-  decodeUri: string
+  decodedUri: string
   decodedMemoData: string
 }>

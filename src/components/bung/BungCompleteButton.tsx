@@ -7,11 +7,17 @@ import { minting } from '@apis/nfts/minting/api'
 import MintingModal from '../nfts/MintingModal'
 
 export default function BungCompleteButton() {
-  const { mutate } = useMutation(minting, {
-    onSuccess: (data) => {
-      console.log('ryong', data)
+  const { mutate, isLoading } = useMutation(minting, {
+    onSuccess: ({ data }) => {
       openModal({
-        contents: <MintingModal />,
+        contents: (
+          <MintingModal
+            serialNumber={data.nftSerial}
+            imageSrc={data.decodedUri}
+            rarity={data.decodedMemoData}
+            category={data.taxon}
+          />
+        ),
       })
     },
   })
@@ -23,7 +29,7 @@ export default function BungCompleteButton() {
       onClick={() => {
         mutate()
       }}>
-      <span className='text-[16px] text-black font-bold'>참여 완료</span>
+      <span className='text-[16px] text-black font-bold'>{isLoading ? 'NFT 발급 중입니다...' : '참여 완료'}</span>
     </button>
   )
 }
