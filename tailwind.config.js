@@ -41,6 +41,7 @@ module.exports = {
       white: 'var(--white)',
       black: 'var(--black)',
       'black-darken': 'var(--black-darken)',
+      'black-darkest': 'var(--black-darkest)',
       primary: 'var(--primary)',
       secondary: 'var(--secondary)',
       red: 'var(--red)',
