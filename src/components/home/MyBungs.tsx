@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Spacing from '@shared/Spacing'
 import { fetchBungs } from '@apis/bungs/fetchBungs/api'
 import CreateBungButton from './CreateBungButton'
@@ -20,13 +21,15 @@ export default async function MyBungs() {
         </span>
       </div>
       <Spacing size={8} />
-      <BungCard
-        place='서울 마포구 공덕동'
-        time={new Date(2024, 8, 28, 19, 0, 0)}
-        distance={6}
-        pace={`5' 41"`}
-        isBungMaster
-      />
+      <Link href='/bung/asdfasdf'>
+        <BungCard
+          place='서울 마포구 공덕동'
+          time={new Date(2024, 8, 28, 19, 0, 0)}
+          distance={6}
+          pace={`5' 41"`}
+          isBungMaster
+        />
+      </Link>
       <Spacing size={8} />
       <CreateBungButton>벙 만들기</CreateBungButton>
     </section>

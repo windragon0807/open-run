@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import DarkMode from '@shared/DarkMode'
 import ReactQuery from '@contexts/ReactQuery'
 import { ModalContextProvider } from '@contexts/ModalContext'
+import NaverMapContext from '@/contexts/NaverMapContext'
 import '@styles/globals.css'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -11,7 +12,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className='font-pretendard'>
         <DarkMode />
         <ReactQuery>
-          <ModalContextProvider>{children}</ModalContextProvider>
+          <ModalContextProvider>
+            <NaverMapContext>{children}</NaverMapContext>
+          </ModalContextProvider>
         </ReactQuery>
         <div id='root-portal'></div>
       </body>
