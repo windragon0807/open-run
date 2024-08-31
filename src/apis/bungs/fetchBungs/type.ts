@@ -1,7 +1,7 @@
 import { ApiResponse } from '@apis/axios'
 
 export type RequestType = {
-  status: 'ALL' | 'AVAILABLE' | 'JOINED' | 'FINISHED'
+  status: 'ALL' | 'AVAILABLE' | 'PENDING' | 'ACHIEVED'
   page: number
   limit: number
 }
@@ -19,5 +19,6 @@ export type ResponseType = ApiResponse<
     memberNumber: number
     hasAfterRun: boolean
     afterRunDescription: string
+    isOwner: boolean
   }>
 >

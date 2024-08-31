@@ -12,7 +12,7 @@ export default function CustomAvatar() {
   const [selectedCategory, setSelectedCategory] = useState('전체')
 
   return (
-    <div className='flex flex-col h-full'>
+    <div className='flex flex-col h-full bg-gradient-main'>
       <Header />
       <AvatarPreview />
       <SelectedParts />

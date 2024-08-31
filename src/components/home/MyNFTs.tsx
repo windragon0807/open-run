@@ -62,10 +62,10 @@ export default function MyNFTs() {
 
         <Spacing size={16} />
 
-        <Link href='/avatar'>
-        <button className='self-center shadow-custom-white dark:shadow-[unset] bg-white dark:bg-black rounded-20 px-20 py-4'>
+        <Link
+          href='/avatar'
+          className='self-center shadow-custom-white dark:shadow-[unset] bg-white dark:bg-black rounded-20 px-20 py-4'>
           <span className='text-[12px] leading-[16px] tracing-[-0.24px] text-black dark:text-white'>아바타 변경</span>
-        </button>
         </Link>
       </div>
     </section>

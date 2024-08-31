@@ -5,7 +5,6 @@ import Image from 'next/image'
 
 import Spacing from '@shared/Spacing'
 import { useModalContext } from '@contexts/ModalContext'
-import XIcon from '@components/icons/XIcon'
 
 export default function MintingModal() {
   const router = useRouter()

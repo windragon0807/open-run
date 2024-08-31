@@ -1,13 +1,14 @@
-import Image from 'next/image'
+import Link from 'next/link'
+
+import BackIcon from '@components/icons/BackIcon'
 
 export default function Header() {
   return (
-    <header className='h-[60px] flex justify-between items-center px-5'>
-      <button>
-        <Image src='/icons/back.svg' alt='뒤로가기' width={24} height={24} />
-      </button>
-      <h1 className='text-lg font-semibold'>저장 버튼</h1>
-      <button className='bg-primary text-white px-4 py-2 rounded'>저장</button>
+    <header className='relative w-full h-60 flex justify-center items-center px-5 bg-black-darken'>
+      <Link href='/' className='absolute left-16'>
+        <BackIcon color='white' />
+      </Link>
+      <h1 className='text-[16px] font-bold text-white'>아바타 변경</h1>
     </header>
   )
 }

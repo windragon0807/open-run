@@ -7,7 +7,7 @@ import RecommendationCard from './RecommendationCard'
 
 export default async function Recommendation() {
   const { data } = await fetchBungs({
-    status: 'ALL',
+    status: 'AVAILABLE',
     page: 0,
     limit: 10,
   })
