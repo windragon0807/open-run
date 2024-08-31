@@ -4,11 +4,15 @@ import { useState } from 'react'
 import Image from 'next/image'
 
 import Spacing from '@shared/Spacing'
+import { useModalContext } from '@contexts/ModalContext'
+import DetailModal from '../nfts/DetailModal'
 
 type Category = '상의' | '신발' | '악세서리' | '배경'
 
 export default function Avatars() {
   const [category, setCategory] = useState<Category>('상의')
+
+  const { openModal } = useModalContext()
 
   return (
     <section className='w-full h-[calc(100%-270px)]'>
@@ -37,14 +41,35 @@ export default function Avatars() {
       <Spacing size={16} />
       <div className='h-[calc(100%-88px)] overflow-y-auto px-16'>
         <div className='grid grid-cols-3 gap-x-[18px] gap-y-[20px]'>
-          {[...Array(9)].map((_, index) => (
-            <div
-              key={index}
-              className='relative aspect-square flex items-center justify-center bg-[rgba(255,255,255,0.20)] rounded-4 border border-[rgba(255,255,255,0.20)]'>
-              <Image className='absolute left-8 top-12' src='/images/img_new.png' alt='' width={29} height={16} />
-              파츠 {index + 1}
-            </div>
-          ))}
+          <button
+            className='relative aspect-square flex items-center justify-center bg-[rgba(255,255,255,0.20)] rounded-4 border border-[rgba(255,255,255,0.20)]'
+            onClick={() => {
+              openModal({ contents: <DetailModal serialNumber='' imageSrc='' rarity='' category='' name='' /> })
+            }}>
+            <Image className='absolute left-8 top-12' src='/images/img_new.png' alt='' width={29} height={16} />
+            파츠 1
+          </button>
+          <button
+            className='relative aspect-square flex items-center justify-center bg-[rgba(255,255,255,0.20)] rounded-4 border border-[rgba(255,255,255,0.20)]'
+            onClick={() => {
+              openModal({ contents: <DetailModal serialNumber='' imageSrc='' rarity='' category='' name='' /> })
+            }}>
+            파츠 2
+          </button>
+          <button
+            className='relative aspect-square flex items-center justify-center bg-[rgba(255,255,255,0.20)] rounded-4 border border-[rgba(255,255,255,0.20)]'
+            onClick={() => {
+              openModal({ contents: <DetailModal serialNumber='' imageSrc='' rarity='' category='' name='' /> })
+            }}>
+            파츠 3
+          </button>
+          <button
+            className='relative aspect-square flex items-center justify-center bg-[rgba(255,255,255,0.20)] rounded-4 border border-[rgba(255,255,255,0.20)]'
+            onClick={() => {
+              openModal({ contents: <DetailModal serialNumber='' imageSrc='' rarity='' category='' name='' /> })
+            }}>
+            파츠 4
+          </button>
         </div>
         <Spacing size={30} />
       </div>
