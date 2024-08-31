@@ -44,31 +44,71 @@ export default function Avatars() {
           <button
             className='relative aspect-square flex items-center justify-center bg-[rgba(255,255,255,0.20)] rounded-4 border border-[rgba(255,255,255,0.20)]'
             onClick={() => {
-              openModal({ contents: <DetailModal serialNumber='' imageSrc='' rarity='' category='' name='' /> })
+              openModal({
+                contents: (
+                  <DetailModal
+                    serialNumber='341285'
+                    imageSrc='https://xrpl-s3-bucket.s3.ap-northeast-2.amazonaws.com/green_shoe.png'
+                    rarity='common'
+                    category='Shoes'
+                    name='신발 1'
+                    id='0000000045EC17AA98C48D9309D9519FFB347FCDBE2799E3F88173C600053525'
+                  />
+                ),
+              })
             }}>
-            <Image className='absolute left-8 top-12' src='/images/img_new.png' alt='' width={29} height={16} />
-            파츠 1
+            <Image
+              className='absolute left-8 top-12'
+              src='https://xrpl-s3-bucket.s3.ap-northeast-2.amazonaws.com/green_shoe.png'
+              alt=''
+              fill
+            />
           </button>
           <button
             className='relative aspect-square flex items-center justify-center bg-[rgba(255,255,255,0.20)] rounded-4 border border-[rgba(255,255,255,0.20)]'
             onClick={() => {
-              openModal({ contents: <DetailModal serialNumber='' imageSrc='' rarity='' category='' name='' /> })
+              openModal({
+                contents: (
+                  <DetailModal
+                    serialNumber='342450'
+                    imageSrc='https://xrpl-s3-bucket.s3.ap-northeast-2.amazonaws.com/green_shoe.png'
+                    rarity='common'
+                    category='Shoes'
+                    name='신발 2'
+                    id='00000000098BCEBEAF52FB858B3C184D4CB555211185AFAE2C59954B000539B2'
+                  />
+                ),
+              })
             }}>
-            파츠 2
+            <Image
+              className='absolute left-8 top-12'
+              src='https://xrpl-s3-bucket.s3.ap-northeast-2.amazonaws.com/green_shoe.png'
+              alt=''
+              fill
+            />
           </button>
           <button
             className='relative aspect-square flex items-center justify-center bg-[rgba(255,255,255,0.20)] rounded-4 border border-[rgba(255,255,255,0.20)]'
             onClick={() => {
-              openModal({ contents: <DetailModal serialNumber='' imageSrc='' rarity='' category='' name='' /> })
+              openModal({
+                contents: (
+                  <DetailModal
+                    serialNumber='342451'
+                    imageSrc='https://xrpl-s3-bucket.s3.ap-northeast-2.amazonaws.com/outer_set.png'
+                    rarity='common'
+                    category='Top'
+                    name='상의 1'
+                    id='00000000098BCEBEAF52FB858B3C184D4CB555211185AFAE433F664A000539B3'
+                  />
+                ),
+              })
             }}>
-            파츠 3
-          </button>
-          <button
-            className='relative aspect-square flex items-center justify-center bg-[rgba(255,255,255,0.20)] rounded-4 border border-[rgba(255,255,255,0.20)]'
-            onClick={() => {
-              openModal({ contents: <DetailModal serialNumber='' imageSrc='' rarity='' category='' name='' /> })
-            }}>
-            파츠 4
+            <Image
+              className='absolute left-8 top-12'
+              src='https://xrpl-s3-bucket.s3.ap-northeast-2.amazonaws.com/outer_set.png'
+              alt=''
+              fill
+            />
           </button>
         </div>
         <Spacing size={30} />
