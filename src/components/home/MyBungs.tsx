@@ -6,8 +6,12 @@ export default function MyBungs() {
   return (
     <section className='px-16 flex flex-col'>
       <div className='flex justify-between items-center w-full max-w-[500px] mx-auto'>
-        <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black'>참여 예정</span>
-        <span className='text-[12px] leading-[16px] tracking-[-0.24px] text-black'>아직 일정이 없어요</span>
+        <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black dark:text-white'>
+          참여 예정
+        </span>
+        <span className='text-[12px] leading-[16px] tracking-[-0.24px] text-black dark:text-white'>
+          아직 일정이 없어요
+        </span>
       </div>
       <Spacing size={8} />
       <BungCard
@@ -18,8 +22,8 @@ export default function MyBungs() {
         isBungMaster
       />
       <Spacing size={8} />
-      <button className='w-full max-w-[500px] mx-auto rounded-8 border border-dashed border-black py-12 flex gap-8 justify-center items-center'>
-        벙 만들기
+      <button className='w-full max-w-[500px] mx-auto rounded-8 border border-dashed border-black dark:border-white py-12 flex gap-8 justify-center items-center'>
+        <span className='text-black dark:text-white'>벙 만들기</span>
         <PlusIcon />
       </button>
     </section>

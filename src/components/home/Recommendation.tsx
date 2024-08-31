@@ -6,7 +6,7 @@ export default function Recommendation() {
   return (
     <section className='px-16 flex flex-col'>
       <button className='flex justify-between items-center w-full max-w-[500px] mx-auto'>
-        <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black'>추천</span>
+        <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black dark:text-white'>추천</span>
         <ArrowRight />
       </button>
       <Spacing size={8} />
