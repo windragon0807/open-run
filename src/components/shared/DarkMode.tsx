@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 
 export default function DarkMode() {
   useEffect(() => {
+    localStorage.setItem('theme', 'dark')
     if (
       localStorage.getItem('theme') === 'dark' ||
       (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)

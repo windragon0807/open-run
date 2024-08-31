@@ -19,7 +19,7 @@ export default async function HomePage() {
   const { data: userInfo } = await fetchUserInfo()
 
   return (
-    <Layout className='bg-gray-lighten'>
+    <Layout className='bg-gray-lighten dark:bg-[url("/images/bg_home_gradient.png")] dark:bg-cover'>
       <div className='h-full overflow-y-auto'>
         <Header nickname={userInfo.nickname} />
         <Spacing size={95} />

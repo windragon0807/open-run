@@ -1,12 +1,23 @@
 import { ApiResponse } from '@apis/axios'
 
 export type RequestType = {
-  isParticipating: boolean
-  pageable: {
-    page: number
-    size: number
-    sort: string[]
-  }
+  status: 'ALL' | 'AVAILABLE' | 'JOINED' | 'FINISHED'
+  page: number
+  limit: number
 }
 
-export type ResponseType = ApiResponse<{}>
+export type ResponseType = ApiResponse<
+  Array<{
+    bungId: string
+    name: string
+    description: string
+    location: string
+    startDateTime: string
+    endDateTime: string
+    distance: number
+    pace: string
+    memberNumber: number
+    hasAfterRun: boolean
+    afterRunDescription: string
+  }>
+>

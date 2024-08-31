@@ -40,6 +40,8 @@ module.exports = {
 
       white: 'var(--white)',
       black: 'var(--black)',
+      'black-darken': 'var(--black-darken)',
+      'black-darkest': 'var(--black-darkest)',
       primary: 'var(--primary)',
       secondary: 'var(--secondary)',
       red: 'var(--red)',
@@ -53,7 +55,9 @@ module.exports = {
         pretendard: ['Pretendard', 'sans-serif'],
       },
       backgroundImage: {
+        // 회원가입, 로그인 페이지 백그라운드 그라디언트
         'gradient-primary-white': 'linear-gradient(to bottom, #4A5CEF 50%, #FFF)',
+        'gradient-black': 'linear-gradient(180deg, rgba(224, 251, 96, 0.10) 0%, rgba(74, 92, 239, 0.00) 100%)',
       },
       backgroundColor: {
         'black-lighten': 'rgba(34, 34, 34, 0.60)',

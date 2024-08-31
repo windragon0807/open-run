@@ -1,6 +1,8 @@
 :root {
   --white: #fff;
   --black: #333;
+  --black-darken: #222;
+  --black-darkest: #000;
   --blue: #4A5CEF;
   --fluorescent: #E0FB60;
   --red: #FF0000;
