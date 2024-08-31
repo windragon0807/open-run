@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
+import Link from 'next/link'
 import Image from 'next/image'
-
 import addDelimiter from '@utils/addDelimiter'
 import Spacing from '@shared/Spacing'
 
@@ -57,9 +57,11 @@ export default function MyNFTs() {
 
         <Spacing size={16} />
 
-        <button className='self-center shadow-custom-white bg-white rounded-20 px-20 py-4'>
-          <span className='text-[12px] leading-[16px] tracing-[-0.24px]'>아바타 변경</span>
-        </button>
+        <Link href='/avatar'>
+          <button className='self-center shadow-custom-white bg-white rounded-20 px-20 py-4'>
+            <span className='text-[12px] leading-[16px] tracing-[-0.24px]'>아바타 변경</span>
+          </button>
+        </Link>
       </div>
     </section>
   )
