@@ -19,7 +19,7 @@ export default function MyNFTs() {
       <div className='w-184 h-230 relative'>
         <Image className='absolute' src='/temp/nft_bg.png' alt='NFT Background' width={184} height={184} />
         <Image className='absolute' src='/temp/nft_character_lg.png' alt='NFT Character' width={184} height={230} />
-        <SkewedLikeLabel like={3503234} />
+        <SkewedLikeLabel like={91} />
       </div>
 
       <div className='flex flex-col w-[calc(100%-184px)]'>
@@ -50,12 +50,12 @@ export default function MyNFTs() {
               <div className='w-full flex gap-4 items-center'>
                 <div className='relative overflow-hidden whitespace-nowrap w-[calc(100%-20px)]'>
                   <span className='animate-marquee inline-block text-[12px] leading-[16px] tracking-[-0.24px] text-black dark:text-white'>
-                    이곳에 도전과제 내용이 들어갑니다.
+                    벙 참여하여 완료하기
                   </span>
                 </div>
                 <span className='text-[12px] leading-[16px] tracking-[-0.24px] text-black dark:text-white'>4/10</span>
               </div>
-              <ProgressBar progress={60} />
+              <ProgressBar progress={40} />
             </div>
           </div>
         </div>

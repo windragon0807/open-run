@@ -1,12 +1,15 @@
 'use client'
 
 import { ChangeEvent, useCallback, useState } from 'react'
+import { useMutation } from 'react-query'
 
 import Spacing from '@shared/Spacing'
+import { useModalContext } from '@contexts/ModalContext'
+import { createBung } from '@apis/bungs/createBung/api'
 
 type FormValues = {
   bungName: string
-  place: string
+  location: string
   startTime: string
   distance: number
   pace: string
@@ -15,7 +18,7 @@ type FormValues = {
 export default function Forms() {
   const [formValues, setFormValues] = useState<FormValues>({
     bungName: '',
-    place: '',
+    location: '',
     startTime: '',
     distance: 0,
     pace: '',
@@ -28,15 +31,18 @@ export default function Forms() {
     }))
   }, [])
 
+  const { mutate } = useMutation(createBung)
+  const { closeModal } = useModalContext()
+
   const handleSubmit = () => {
-    const { bungName, place, startTime, distance, pace } = formValues
+    const { bungName, location, startTime, distance, pace } = formValues
 
     if (bungName === '') {
       alert('벙 이름을 입력해주세요')
       return
     }
 
-    if (place === '') {
+    if (location === '') {
       alert('장소를 입력해주세요')
       return
     }
@@ -55,6 +61,26 @@ export default function Forms() {
       alert('페이스를 입력해주세요')
       return
     }
+
+    mutate(
+      {
+        name: bungName,
+        description: '',
+        location,
+        startDateTime: new Date(startTime),
+        endDateTime: new Date(startTime),
+        distance,
+        pace,
+        memberNumber: 2,
+        hasAfterRun: false,
+        afterRunDescription: '',
+      },
+      {
+        onSuccess: () => {
+          closeModal()
+        },
+      },
+    )
   }
 
   return (
@@ -74,11 +100,11 @@ export default function Forms() {
       <div className='flex flex-col gap-8'>
         <span className={labelStyles}>장소</span>
         <input
-          name='place'
+          name='location'
           type='text'
           placeholder='장소를 입력하세요'
           className={inputStyles}
-          value={formValues.place}
+          value={formValues.location}
           onChange={handleFormValues}
         />
       </div>
@@ -88,31 +114,37 @@ export default function Forms() {
         <input
           name='startTime'
           type='text'
-          placeholder='시작 일시를 입력하세요'
+          placeholder='시작 일시를 입력하세요 (yyyy-mm-dd)'
           className={inputStyles}
           value={formValues.startTime}
           onChange={handleFormValues}
         />
       </div>
       <Spacing size={16} />
-      <div className='flex flex-col gap-8'>
+      <div className='relative flex flex-col gap-8'>
         <span className={labelStyles}>거리</span>
         <input
           name='distance'
-          type='distance'
+          type='text'
           placeholder='목표 거리를 입력하세요'
           className={inputStyles}
           value={formValues.distance}
-          onChange={handleFormValues}
+          onChange={(e) => {
+            // 숫자 또는 빈 문자열만 허용
+            if (/^\d*$/.test(e.target.value)) {
+              handleFormValues(e)
+            }
+          }}
         />
+        <span className='absolute right-16 bottom-10 text-[14px] text-white'>km</span>
       </div>
       <Spacing size={16} />
       <div className='flex flex-col gap-8'>
         <span className={labelStyles}>페이스</span>
         <input
-          name='startTime'
+          name='pace'
           type='pace'
-          placeholder='페이스를 입력하세요'
+          placeholder={`페이스를 입력하세요 (n'mm")`}
           className={inputStyles}
           value={formValues.pace}
           onChange={handleFormValues}

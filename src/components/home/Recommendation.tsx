@@ -1,35 +1,34 @@
+import { convertStringTimeToDate } from '@utils/time'
 import Spacing from '@shared/Spacing'
 import ArrowRight from '@components/icons/ArrowRight'
+import { fetchBungs } from '@apis/bungs/fetchBungs/api'
 import RecommendationCard from './RecommendationCard'
 
-export default function Recommendation() {
+export default async function Recommendation() {
+  const { data } = await fetchBungs({
+    status: 'ALL',
+    page: 0,
+    limit: 10,
+  })
+
   return (
     <section className='px-16 flex flex-col'>
       <button className='flex justify-between items-center w-full max-w-[500px] mx-auto'>
         <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black dark:text-white'>추천</span>
         <ArrowRight />
       </button>
-      <Spacing size={8} />
-      <RecommendationCard
-        title='타이틀이 여기 들어갑니다.'
-        place='서울시 강남구'
-        time={new Date(2024, 8, 12, 19, 0, 0)}
-        tags={['해시태크', '런', '마포구']}
-      />
-      <Spacing size={8} />
-      <RecommendationCard
-        title='타이틀이 여기 들어갑니다.'
-        place='서울시 강남구'
-        time={new Date(2024, 8, 12, 19, 0, 0)}
-        tags={['해시태크', '런', '마포구']}
-      />
-      <Spacing size={8} />
-      <RecommendationCard
-        title='타이틀이 여기 들어갑니다.'
-        place='서울시 강남구'
-        time={new Date(2024, 8, 12, 19, 0, 0)}
-        tags={['해시태크', '런', '마포구']}
-      />
+      {data.map((item, index) => (
+        <>
+          <Spacing size={8} />
+          <RecommendationCard
+            key={item.bungId}
+            title={item.name}
+            place={item.location}
+            time={convertStringTimeToDate(item.startDateTime)}
+            tags={['해시태그', '런', '마포구']}
+          />
+        </>
+      ))}
       <Spacing size={60} />
     </section>
   )

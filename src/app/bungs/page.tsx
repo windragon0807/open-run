@@ -16,12 +16,12 @@ export default function Page() {
   // })
 
   // WARNING CORS
-  const fetchBungsQuery = { isParticipating: false, pageable: { page: 0, size: 1, sort: [''] } }
-  const { data } = useQuery({
-    queryKey: ['/v1/bungs', fetchBungsQuery],
-    queryFn: () => fetchBungs(fetchBungsQuery),
-  })
-  console.log('ryong', data)
+  // const fetchBungsQuery = { isParticipating: false, pageable: { page: 0, size: 1, sort: [''] } }
+  // const { data } = useQuery({
+  //   queryKey: ['/v1/bungs', fetchBungsQuery],
+  //   queryFn: () => fetchBungs(fetchBungsQuery),
+  // })
+  // console.log('ryong', data)
 
   return (
     <Layout>
