@@ -114,7 +114,7 @@ export default function Forms() {
       </div>
       <Spacing size={16} />
       <div className='flex flex-col gap-8'>
-        <span className={labelStyles}>시작 장소</span>
+        <span className={labelStyles}>시작 시간</span>
         <input
           name='startTime'
           type='text'
