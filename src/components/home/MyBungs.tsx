@@ -12,21 +12,22 @@ export default async function MyBungs() {
     page: 0,
     limit: 10,
   })
+  console.log('ryong', data)
 
   return (
     <section className='px-16 flex flex-col'>
-      <div className='flex justify-between items-ceter w-full max-w-[500px] mx-auto'>
+      <div className='flex justify-between w-full max-w-[500px] mx-auto'>
         <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black dark:text-white'>
           참여 예정
         </span>
-        {data.length === 0 ? (
-          <span className='text-[12px] leading-[16px] tracking-[-0.24px] text-black dark:text-white'>
+        {data == null || data?.length === 0 ? (
+          <span className='text-[12px] leading-[16px] tracking-[-0.24px] text-black dark:text-white place-content-center'>
             아직 일정이 없어요
           </span>
         ) : null}
       </div>
       <Spacing size={8} />
-      {data.map((item, index) => (
+      {data?.map((item, index) => (
         <>
           <Link key={index} href={`/bung/${item.bungId}`}>
             <BungCard

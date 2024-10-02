@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { removeCookie } from '@utils/cookie'
-import { COOKIE } from '@/constants/cookie'
+import { COOKIE } from '@constants/cookie'
 
 type Props = {
   error: Error

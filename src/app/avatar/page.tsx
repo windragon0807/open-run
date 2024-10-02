@@ -1,9 +1,9 @@
 import Image from 'next/image'
 
+import Spacing from '@shared/Spacing'
 import Layout from '@shared/Layout'
 import Header from '@components/avatar/Header'
 import Avatars from '@components/avatar/Avatars'
-import Spacing from '@/components/shared/Spacing'
 
 export default function AvatarPage() {
   return (

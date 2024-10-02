@@ -19,7 +19,7 @@ export default async function Recommendation() {
         <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black dark:text-white'>추천</span>
         <ArrowRight />
       </button>
-      {data.map((item) => (
+      {data?.map((item) => (
         <Fragment key={item.bungId}>
           <Spacing size={8} />
           <RecommendationCard
