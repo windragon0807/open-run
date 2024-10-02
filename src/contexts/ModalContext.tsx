@@ -21,7 +21,7 @@ const defaultValues: ModalProps = {
   closeModal: () => {},
 }
 
-export function ModalContextProvider({ children }: { children: ReactNode }) {
+export function ModalContext({ children }: { children: ReactNode }) {
   const [modalProps, setModalProps] = useState(defaultValues)
 
   const $portal_root = typeof window === 'undefined' ? null : document.getElementById('root-portal')

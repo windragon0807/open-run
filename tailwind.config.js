@@ -70,6 +70,7 @@ module.exports = {
       margin: px0_100,
       spacing: px0_200,
       borderRadius: px0_30,
+      fontSize: px0_30,
       maxWidth: {
         tablet: '768px',
       },

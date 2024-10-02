@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 import Spacing from '@shared/Spacing'
 import { useModalContext } from '@contexts/ModalContext'
-import XIcon from '@components/icons/XIcon'
+import CloseIcon from '@/components/icons/CloseIcon'
 import TripleGraterIcons from '@components/icons/TripleGraterIcons'
 
 export default function DetailModal({
@@ -54,7 +54,7 @@ export default function DetailModal({
       <button
         className='absolute bottom-60 bg-[#fff] bg-opacity-20 w-56 aspect-[1] rounded-8 flex justify-center items-center'
         onClick={() => closeModal()}>
-        <XIcon />
+        <CloseIcon />
       </button>
     </section>
   )

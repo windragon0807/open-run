@@ -7,10 +7,13 @@ import { useRouter } from 'next/navigation'
 import Spacing from '@shared/Spacing'
 import { useModalContext } from '@contexts/ModalContext'
 import { createBung } from '@apis/bungs/createBung/api'
+import AddressSearchModal from './AddressSearchModal'
 
 type FormValues = {
   bungName: string
+  description: string
   location: string
+  locationDetail: string
   startTime: string
   distance: number
   pace: string
@@ -21,18 +24,22 @@ export default function Forms() {
 
   const [formValues, setFormValues] = useState<FormValues>({
     bungName: '',
+    description: '',
     location: '',
+    locationDetail: '',
     startTime: '',
     distance: 0,
     pace: '',
   })
 
-  const handleFormValues = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const handleFormValues = useCallback((e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormValues((prevFormValues) => ({
       ...prevFormValues,
       [e.target.name]: e.target.value,
     }))
   }, [])
+
+  const [isAddressSearchModalOpen, setAddressSearchModalOpen] = useState(false)
 
   const { mutate } = useMutation(createBung)
   const { closeModal } = useModalContext()
@@ -89,8 +96,20 @@ export default function Forms() {
 
   return (
     <section className='w-full flex flex-col overflow-y-auto'>
+      {isAddressSearchModalOpen ? (
+        <AddressSearchModal
+          onClose={() => setAddressSearchModalOpen(false)}
+          onComplete={(address) => {
+            setFormValues((prevFormValues) => ({
+              ...prevFormValues,
+              location: address.address,
+            }))
+          }}
+        />
+      ) : null}
+
       <div className='flex flex-col gap-8'>
-        <span className={labelStyles}>벙 이름</span>
+        <FormTitle required>벙 이름</FormTitle>
         <input
           name='bungName'
           type='text'
@@ -102,19 +121,46 @@ export default function Forms() {
       </div>
       <Spacing size={16} />
       <div className='flex flex-col gap-8'>
-        <span className={labelStyles}>장소</span>
-        <input
-          name='location'
-          type='text'
-          placeholder='장소를 입력하세요'
-          className={inputStyles}
-          value={formValues.location}
+        <FormTitle>설명</FormTitle>
+        <textarea
+          name='description'
+          placeholder='벙 설명을 입력하세요'
+          className={`${inputStyles} h-80 resize-none pt-10`}
+          value={formValues.description}
           onChange={handleFormValues}
         />
       </div>
       <Spacing size={16} />
       <div className='flex flex-col gap-8'>
-        <span className={labelStyles}>시작 시간</span>
+        <FormTitle required>장소</FormTitle>
+        <div className='w-full flex gap-8'>
+          <input
+            name='location'
+            type='text'
+            placeholder='주소 검색'
+            className={`${inputStyles} w-[calc(100%-88px)]`}
+            value={formValues.location}
+            onChange={handleFormValues}
+            disabled
+          />
+          <button
+            className='w-80 h-40 bg-primary rounded-8 text-white font-semibold place-items-center text-14'
+            onClick={() => setAddressSearchModalOpen(true)}>
+            주소 검색
+          </button>
+        </div>
+        <input
+          name='locationDetail'
+          type='text'
+          placeholder='상세 주소를 입력하세요'
+          className={inputStyles}
+          value={formValues.locationDetail}
+          onChange={handleFormValues}
+        />
+      </div>
+      <Spacing size={16} />
+      <div className='flex flex-col gap-8'>
+        <FormTitle required>시작 일시</FormTitle>
         <input
           name='startTime'
           type='text'
@@ -126,7 +172,7 @@ export default function Forms() {
       </div>
       <Spacing size={16} />
       <div className='relative flex flex-col gap-8'>
-        <span className={labelStyles}>거리</span>
+        <FormTitle required>거리</FormTitle>
         <input
           name='distance'
           type='text'
@@ -144,7 +190,7 @@ export default function Forms() {
       </div>
       <Spacing size={16} />
       <div className='flex flex-col gap-8'>
-        <span className={labelStyles}>페이스</span>
+        <FormTitle required>페이스</FormTitle>
         <input
           name='pace'
           type='pace'
@@ -162,7 +208,18 @@ export default function Forms() {
   )
 }
 
-const labelStyles: HTMLSpanElement['className'] =
-  'text-[14px] leading-[24px] tracking-[-0.28px] text-bold text-black dark:text-white'
 const inputStyles: HTMLSpanElement['className'] =
-  'w-full h-40 bg-black-darkest px-16 rounded-8 dark:text-white dark:placeholder-black focus:border-gray focus:outline-none'
+  'w-full h-40 text-14 border border-gray dark:bg-black-darkest px-16 rounded-8 dark:text-white dark:placeholder-black focus:border-primary dark:focus:border-gray focus:outline-none'
+
+function FormTitle({ children, required = false }: { children: string; required?: boolean }) {
+  return (
+    <div className='relative w-fit'>
+      <span className='text-14 leading-[24px] -tracking-[0.28px] font-bold text-black dark:text-white'>{children}</span>
+      {required && (
+        <svg className='absolute top-2 -right-6 fill-primary' width='4' height='4' viewBox='0 0 4 4' fill='none'>
+          <circle cx='2' cy='2' r='2' />
+        </svg>
+      )}
+    </div>
+  )
+}

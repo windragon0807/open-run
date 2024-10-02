@@ -26,7 +26,7 @@ export default function MyNFTs() {
         <Spacing size={8} />
 
         {/* dark 모드일 때, bg-white 선언 시, dark 모드 색상 적용이 안 됨 */}
-        <div className='w-full h-168 dark:bg-gradient-black shadow-custom-white dark:shadow-[unset] flex flex-col py-16'>
+        <div className='w-full dark:bg-gradient-black shadow-custom-white dark:shadow-[unset] flex flex-col py-16'>
           <span className='text-[14px] leading-[20px] tracking-[-0.28px] font-bold pl-16 dark:text-white'>
             최근 획득한 NFT
           </span>
