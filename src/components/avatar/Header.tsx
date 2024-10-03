@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import BackIcon from '@components/icons/BackIcon'
+import BackIcon from '@icons/BackIcon'
 
 export default function Header() {
   return (

@@ -1,7 +1,7 @@
 'use client'
 
 import useLogout from '@hooks/useLogout'
-import BellIcon from '@components/icons/BellIcon'
+import BellIcon from '@icons/BellIcon'
 import Avartar from './Avartar'
 
 export default function Header({ nickname }: { nickname: string }) {

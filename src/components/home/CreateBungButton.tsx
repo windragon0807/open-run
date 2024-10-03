@@ -3,7 +3,7 @@
 import { ReactNode } from 'react'
 
 import { useModalContext } from '@contexts/ModalContext'
-import PlusIcon from '@components/icons/PlusIcon'
+import PlusIcon from '@icons/PlusIcon'
 import CreateBung from './create-bung/CreateBung'
 
 export default function CreateBungButton({ children }: { children?: ReactNode }) {

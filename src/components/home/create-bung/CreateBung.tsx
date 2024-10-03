@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 
 import Spacing from '@shared/Spacing'
 import { useModalContext } from '@contexts/ModalContext'
-import CloseIcon from '@/components/icons/CloseIcon'
+import CloseIcon from '@icons/CloseIcon'
 import Forms from './Forms'
 
 export default function CreateBung() {

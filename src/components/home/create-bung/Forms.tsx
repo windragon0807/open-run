@@ -13,7 +13,7 @@ type FormValues = {
   bungName: string
   description: string
   location: string
-  locationDetail: string
+  detailedAddress: string
   startTime: string
   distance: number
   pace: string
@@ -26,7 +26,7 @@ export default function Forms() {
     bungName: '',
     description: '',
     location: '',
-    locationDetail: '',
+    detailedAddress: '',
     startTime: '',
     distance: 0,
     pace: '',
@@ -150,11 +150,11 @@ export default function Forms() {
           </button>
         </div>
         <input
-          name='locationDetail'
+          name='detailedAddress'
           type='text'
-          placeholder='상세 주소를 입력하세요'
+          placeholder='정확한 위치를 입력하세요'
           className={inputStyles}
-          value={formValues.locationDetail}
+          value={formValues.detailedAddress}
           onChange={handleFormValues}
         />
       </div>

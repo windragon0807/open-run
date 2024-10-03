@@ -1,7 +1,7 @@
 import DaumPostcodeEmbed, { Address } from 'react-daum-postcode'
 
 import Spacing from '@shared/Spacing'
-import CloseIcon from '@components/icons/CloseIcon'
+import CloseIcon from '@icons/CloseIcon'
 
 export default function AddressSearchModal({
   onClose,

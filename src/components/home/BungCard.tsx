@@ -5,10 +5,10 @@ import { ko } from 'date-fns/locale'
 import { format, differenceInSeconds } from 'date-fns'
 
 import Spacing from '@shared/Spacing'
-import RunnerIcon from '@components/icons/RunnerIcon'
-import PlaceIcon from '@components/icons/PlaceIcon'
-import CrownIcon from '@components/icons/CrownIcon'
-import CalendarIcon from '@components/icons/CalendarIcon'
+import RunnerIcon from '@icons/RunnerIcon'
+import PlaceIcon from '@icons/PlaceIcon'
+import CrownIcon from '@icons/CrownIcon'
+import CalendarIcon from '@icons/CalendarIcon'
 
 export default function BungCard({
   place,

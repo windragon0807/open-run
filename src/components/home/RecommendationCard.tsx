@@ -4,8 +4,8 @@ import { ko } from 'date-fns/locale'
 import { format } from 'date-fns'
 
 import Spacing from '@shared/Spacing'
-import PlaceIcon from '@components/icons/PlaceIcon'
-import CalendarIcon from '@components/icons/CalendarIcon'
+import PlaceIcon from '@icons/PlaceIcon'
+import CalendarIcon from '@icons/CalendarIcon'
 import Avartar from './Avartar'
 
 const participantList = [

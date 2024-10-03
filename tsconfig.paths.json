@@ -5,6 +5,7 @@
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@shared/*": ["src/components/shared/*"],
+      "@icons/*": ["src/components/icons/*"],
       "@temp/*": ["src/components/temp/*"],
       "@contexts/*": ["src/contexts/*"],
       "@models/*": ["src/models/*"],
@@ -13,8 +14,7 @@
       "@styles/*": ["src/styles/*"],
       "@apis/*": ["src/apis/*"],
       "@utils/*": ["src/utils/*"],
-      "@constants/*": ["src/constants/*"],
-
+      "@constants/*": ["src/constants/*"]
     }
   }
 }

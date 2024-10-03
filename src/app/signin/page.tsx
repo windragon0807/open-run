@@ -4,7 +4,7 @@ import { Metadata } from 'next'
 import Layout from '@shared/Layout'
 import SignIn from '@components/signin/Signin'
 import Spacing from '@components/shared/Spacing'
-import Logo from '@components/icons/Logo'
+import Logo from '@icons/Logo'
 
 export default function SignInPage() {
   return (

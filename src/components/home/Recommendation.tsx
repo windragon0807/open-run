@@ -2,7 +2,7 @@ import { Fragment } from 'react'
 
 import { convertStringTimeToDate } from '@utils/time'
 import Spacing from '@shared/Spacing'
-import ArrowRight from '@components/icons/ArrowRight'
+import ArrowRight from '@icons/ArrowRight'
 import { fetchBungs } from '@apis/bungs/fetchBungs/api'
 import RecommendationCard from './RecommendationCard'
 

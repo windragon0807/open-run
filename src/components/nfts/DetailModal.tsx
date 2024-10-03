@@ -5,8 +5,8 @@ import Image from 'next/image'
 
 import Spacing from '@shared/Spacing'
 import { useModalContext } from '@contexts/ModalContext'
-import CloseIcon from '@/components/icons/CloseIcon'
-import TripleGraterIcons from '@components/icons/TripleGraterIcons'
+import CloseIcon from '@icons/CloseIcon'
+import TripleGraterIcons from '@icons/TripleGraterIcons'
 
 export default function DetailModal({
   serialNumber,

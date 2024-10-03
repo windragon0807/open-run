@@ -5,24 +5,6 @@
     "plugin:storybook/recommended"
   ],
   "rules": {
-    "import/order": [
-      "warn",
-      {
-        "groups": [
-          "builtin",
-          "external",
-          "internal",
-          "parent",
-          "sibling",
-          "index"
-        ],
-        "alphabetize": {
-          "order": "desc",
-          "caseInsensitive": true
-        },
-        "newlines-between": "ignore"
-      }
-    ],
     "import/no-unresolved": "off",
     "import/export": "off"
   }

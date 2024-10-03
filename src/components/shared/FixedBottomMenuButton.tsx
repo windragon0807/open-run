@@ -6,9 +6,9 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import Profile from '@components/icons/Profile'
-import Openrun from '@components/icons/Openrun'
-import FilledBellIcon from '@components/icons/FilledBellIcon'
+import Profile from '@icons/Profile'
+import Openrun from '@icons/Openrun'
+import FilledBellIcon from '@icons/FilledBellIcon'
 
 export default function FixedBottomMenuButton() {
   const [isDimmed, setDimmed] = useState(false)
