@@ -17,6 +17,10 @@ export default async function HomePage() {
   }
 
   const { data: userInfo } = await fetchUserInfo()
+  /* 토큰이 만료되었을 경우, 로그인 페이지로 리다이렉트 */
+  if (userInfo == null) {
+    redirect('/signin')
+  }
 
   return (
     <Layout className='bg-gray-lighten dark:bg-gradient-main dark:bg-cover'>
