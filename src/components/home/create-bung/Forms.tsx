@@ -1,12 +1,17 @@
 'use client'
 
-import { ChangeEvent, useCallback, useState } from 'react'
+import { ChangeEvent, ReactNode, useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
 import { useRouter } from 'next/navigation'
+import { format } from 'date-fns'
 
 import Spacing from '@shared/Spacing'
+import DatePicker from '@shared/DatePicker'
+import TimePicker from '@shared/TimePicker'
 import { useModalContext } from '@contexts/ModalContext'
 import { createBung } from '@apis/bungs/createBung/api'
+import CalendarIcon from '@icons/CalendarIcon'
+import ClockIcon from '@icons/ClockIcon'
 import AddressSearchModal from './AddressSearchModal'
 
 type FormValues = {
@@ -14,7 +19,8 @@ type FormValues = {
   description: string
   location: string
   detailedAddress: string
-  startTime: string
+  startDate?: Date
+  startTime?: string // 'hh:mm'
   distance: number
   pace: string
 }
@@ -27,7 +33,6 @@ export default function Forms() {
     description: '',
     location: '',
     detailedAddress: '',
-    startTime: '',
     distance: 0,
     pace: '',
   })
@@ -39,13 +44,11 @@ export default function Forms() {
     }))
   }, [])
 
-  const [isAddressSearchModalOpen, setAddressSearchModalOpen] = useState(false)
-
   const { mutate } = useMutation(createBung)
   const { closeModal } = useModalContext()
 
   const handleSubmit = () => {
-    const { bungName, location, startTime, distance, pace } = formValues
+    const { bungName, description, location, startTime, distance, pace } = formValues
 
     if (bungName === '') {
       alert('벙 이름을 입력해주세요')
@@ -72,27 +75,34 @@ export default function Forms() {
       return
     }
 
-    mutate(
-      {
-        name: bungName,
-        description: '',
-        location,
-        startDateTime: new Date(startTime),
-        endDateTime: new Date(startTime),
-        distance,
-        pace,
-        memberNumber: 2,
-        hasAfterRun: false,
-        afterRunDescription: '',
-      },
-      {
-        onSuccess: () => {
-          router.refresh()
-          closeModal()
-        },
-      },
-    )
+    const result = {
+      name: bungName,
+      description,
+      location: `${location} ${formValues.detailedAddress}`,
+      startDateTime: new Date(),
+      endDateTime: new Date(),
+      distance,
+      pace,
+      memberNumber: 2,
+      hasAfterRun: false,
+      afterRunDescription: '',
+    }
+    console.log('ryong', result)
+
+    // mutate(result, {
+    //   onSuccess: () => {
+    //     router.refresh()
+    //     closeModal()
+    //   },
+    // })
   }
+
+  const [isAddressSearchModalOpen, setAddressSearchModalOpen] = useState(false)
+  const [isDatePickerOpen, setDatePickerOpen] = useState(false)
+  const [isTimePickerOpen, setTimePickerOpen] = useState(false)
+
+  const 시작날짜를선택했는가 = formValues.startDate != null
+  const 시작시간을선택했는가 = formValues.startTime != null
 
   return (
     <section className='w-full flex flex-col overflow-y-auto'>
@@ -120,6 +130,7 @@ export default function Forms() {
         />
       </div>
       <Spacing size={16} />
+
       <div className='flex flex-col gap-8'>
         <FormTitle>설명</FormTitle>
         <textarea
@@ -131,6 +142,7 @@ export default function Forms() {
         />
       </div>
       <Spacing size={16} />
+
       <div className='flex flex-col gap-8'>
         <FormTitle required>장소</FormTitle>
         <div className='w-full flex gap-8'>
@@ -138,9 +150,8 @@ export default function Forms() {
             name='location'
             type='text'
             placeholder='주소 검색'
-            className={`${inputStyles} w-[calc(100%-88px)]`}
+            className={`${inputStyles} flex-1`}
             value={formValues.location}
-            onChange={handleFormValues}
             disabled
           />
           <button
@@ -159,18 +170,62 @@ export default function Forms() {
         />
       </div>
       <Spacing size={16} />
-      <div className='flex flex-col gap-8'>
+
+      <div className='relative flex flex-col gap-8'>
         <FormTitle required>시작 일시</FormTitle>
-        <input
-          name='startTime'
-          type='text'
-          placeholder='시작 일시를 입력하세요 (yyyy-mm-dd)'
-          className={inputStyles}
-          value={formValues.startTime}
-          onChange={handleFormValues}
-        />
+        <div className='w-full flex gap-8'>
+          <StartDateButton
+            className={시작날짜를선택했는가 ? 'border-primary bg-[rgba(74,92,239,0.10)]' : 'bg-white'}
+            onClick={() => {
+              setDatePickerOpen((prev) => !prev)
+              if (isTimePickerOpen) setTimePickerOpen(false)
+            }}>
+            <CalendarIcon color={시작날짜를선택했는가 ? 'var(--primary)' : 'var(--black)'} />
+            <p className={시작날짜를선택했는가 ? 'text-primary' : 'text-black'}>
+              {시작날짜를선택했는가 ? format(formValues.startDate as Date, 'yyyy년 M월 d일') : '날짜 선택'}
+            </p>
+          </StartDateButton>
+          <StartDateButton
+            className={시작시간을선택했는가 ? 'border-primary bg-[rgba(74,92,239,0.10)]' : 'bg-white'}
+            onClick={() => {
+              setTimePickerOpen((prev) => !prev)
+              if (isDatePickerOpen) setDatePickerOpen(false)
+            }}>
+            <ClockIcon color={시작시간을선택했는가 ? 'var(--primary)' : 'var(--black)'} />
+            <p className={시작시간을선택했는가 ? 'text-primary' : 'text-black'}>
+              {시작시간을선택했는가 ? (formValues.startTime as string).replace(':', ' : ') : '시간 선택'}
+            </p>
+          </StartDateButton>
+        </div>
+        {isDatePickerOpen ? (
+          <div className='w-fit bg-white p-16 rounded-8 border border-gray'>
+            <DatePicker
+              defaultValue={formValues.startDate}
+              onDateClick={(date) => {
+                setFormValues((prevFormValues) => ({
+                  ...prevFormValues,
+                  startDate: date,
+                }))
+              }}
+            />
+          </div>
+        ) : null}
+        {isTimePickerOpen ? (
+          <div className='bg-white p-16 rounded-8 border border-gray'>
+            <TimePicker
+              value={formValues.startTime}
+              onChange={(time) => {
+                setFormValues((prevFormValues) => ({
+                  ...prevFormValues,
+                  startTime: time,
+                }))
+              }}
+            />
+          </div>
+        ) : null}
       </div>
       <Spacing size={16} />
+
       <div className='relative flex flex-col gap-8'>
         <FormTitle required>거리</FormTitle>
         <input
@@ -189,6 +244,7 @@ export default function Forms() {
         <span className='absolute right-16 bottom-10 text-[14px] text-white'>km</span>
       </div>
       <Spacing size={16} />
+
       <div className='flex flex-col gap-8'>
         <FormTitle required>페이스</FormTitle>
         <input
@@ -201,6 +257,7 @@ export default function Forms() {
         />
       </div>
       <Spacing size={40} />
+
       <button className='w-full h-56 bg-primary rounded-8' onClick={handleSubmit}>
         <span className='text-[16px] text-white font-bold leading-[24px] tracking-[-0.32px]'>벙 만들기</span>
       </button>
@@ -221,5 +278,23 @@ function FormTitle({ children, required = false }: { children: string; required?
         </svg>
       )}
     </div>
+  )
+}
+
+function StartDateButton({
+  children,
+  className,
+  onClick,
+}: {
+  children: ReactNode
+  className?: string
+  onClick?: () => void
+}) {
+  return (
+    <button
+      className={`flex-1 h-40 border border-gray rounded-8 pl-16 flex items-center gap-8 text-14 font-semibold ${className}`}
+      onClick={onClick}>
+      {children}
+    </button>
   )
 }

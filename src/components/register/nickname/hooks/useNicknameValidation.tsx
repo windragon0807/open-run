@@ -35,7 +35,6 @@ export const useNicknameValidation = () => {
         try {
           /** 중복 확인 API 호출 이후 data 변경 */
           const response = await checkExistNickname({ nickname })
-          console.log('ryong', response)
           setIsValid(response.data === true ? 'overlap' : 'pass')
         } catch (error) {
           console.error(error)

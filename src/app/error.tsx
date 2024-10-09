@@ -15,7 +15,7 @@ export default function ErrorPage({ error, reset }: Props) {
   const router = useRouter()
 
   useEffect(() => {
-    console.error(error)
+    console.error('ryong', error)
   }, [error])
 
   return (

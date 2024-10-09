@@ -21,7 +21,6 @@ export default function Page() {
   //   queryKey: ['/v1/bungs', fetchBungsQuery],
   //   queryFn: () => fetchBungs(fetchBungsQuery),
   // })
-  // console.log('ryong', data)
 
   return (
     <Layout>

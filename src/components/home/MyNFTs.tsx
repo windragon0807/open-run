@@ -18,7 +18,14 @@ export default function MyNFTs() {
     <section className='flex'>
       <div className='w-184 h-230 relative'>
         <Image className='absolute' src='/temp/nft_bg.png' alt='NFT Background' width={184} height={184} />
-        <Image className='absolute' src='/temp/nft_character_lg.png' alt='NFT Character' width={184} height={230} />
+        <Image
+          className='absolute'
+          src='/temp/nft_character_lg.png'
+          alt='NFT Character'
+          width={184}
+          height={230}
+          priority
+        />
         <SkewedLikeLabel like={91} />
       </div>
 

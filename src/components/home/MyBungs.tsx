@@ -12,7 +12,6 @@ export default async function MyBungs() {
     page: 0,
     limit: 10,
   })
-  console.log('ryong', data)
 
   return (
     <section className='px-16 flex flex-col'>

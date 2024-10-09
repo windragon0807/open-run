@@ -58,7 +58,7 @@ http.interceptors.response.use(
   /* 응답 실패 시 */
   (error: AxiosError | Error) => {
     if (axios.isAxiosError(error)) {
-      console.log('ryong', error)
+      console.log('Axios Error: ', error)
       /* LOGGING */
       const { message } = error
       const { method, url } = error.config as AxiosRequestConfig
@@ -67,7 +67,7 @@ http.interceptors.response.use(
       }
     }
 
-    return Promise.reject(error)
+    return error
   },
 )
 
