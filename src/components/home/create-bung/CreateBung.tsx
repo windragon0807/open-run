@@ -1,15 +1,19 @@
 'use client'
 
 import Image from 'next/image'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 
 import Spacing from '@shared/Spacing'
-import { useModalContext } from '@contexts/ModalContext'
 import CloseIcon from '@icons/CloseIcon'
+import { useModalContext } from '@contexts/ModalContext'
 import Forms from './Forms'
 
 export default function CreateBung() {
   const { closeModal } = useModalContext()
+
+  const [step, setStep] = useState<'create' | 'invitation'>('create')
+
   return (
     <motion.div
       initial={{ y: '50%' }}
