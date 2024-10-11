@@ -23,9 +23,9 @@ export default function CreateBung() {
           <CloseIcon />
         </button>
       </header>
-      <section className='h-[calc(100%-110px)] overflow-y-auto px-16'>
-        <section className='relative w-full h-184 rounded-8'>
-          <Image className='w-full h-full rounded-8' src='/temp/img_thumbnail_1.png' alt='Thumbnail Image' fill />
+      <section className='h-[calc(100%-110px)] overflow-y-auto'>
+        <section className='relative w-[calc(100%-32px)] mx-auto h-184'>
+          <Image className='rounded-8' src='/temp/img_thumbnail_1.png' alt='Thumbnail Image' fill />
         </section>
         <Spacing size={32} />
         <Forms />

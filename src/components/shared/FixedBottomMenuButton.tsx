@@ -56,7 +56,7 @@ export default function FixedBottomMenuButton() {
           {isDimmed ? (
             <MenuBar />
           ) : (
-            <div className='w-full h-full bg-white rounded-[32px] shadow-custom-white flex items-center justify-center'>
+            <div className='w-full h-full bg-white rounded-[32px] shadow-shadow_white flex items-center justify-center'>
               <Dots />
             </div>
           )}

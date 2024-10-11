@@ -14,4 +14,7 @@
 
   --primary: var(--blue);
   --secondary: var(--fluorescent);
+
+  /* background */
+  --focusedBlue: rgba(74, 92, 239, 0.10);
 }

@@ -75,7 +75,7 @@ module.exports = {
         tablet: '768px',
       },
       boxShadow: {
-        'custom-white': '0px 0px 16px 0px rgba(74, 92, 239, 0.20)',
+        shadow_white: '0px 0px 16px 0px rgba(74, 92, 239, 0.20)',
       },
       keyframes: {
         marquee: {

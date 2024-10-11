@@ -4,8 +4,8 @@ export type RequestType = {
   name: string
   description: string
   location: string
-  startDateTime: Date
-  endDateTime: Date
+  startDateTime: string
+  endDateTime: string
   distance: number
   pace: string
   memberNumber: number
