@@ -1,20 +1,18 @@
 import { InputHTMLAttributes, ReactNode } from 'react'
 
-export default function NumberInput({
+export default function Input({
   className,
   setValue,
   onChange,
   addon,
   ...rest
-}: Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'inputMode'> & {
+}: InputHTMLAttributes<HTMLInputElement> & {
   setValue?: (value: string) => void
   addon?: ReactNode
 }) {
   return (
     <div className='w-full relative'>
       <input
-        type='number'
-        inputMode='numeric'
         className={`w-full h-40 text-14 border border-gray px-16 rounded-8 caret-primary focus:outline-none dark:bg-black-darkest dark:text-white dark:placeholder-black focus:border-primary dark:focus:border-gray ${className}`}
         onChange={(event) => {
           setValue?.(event.target.value)
@@ -23,18 +21,6 @@ export default function NumberInput({
         {...rest}
       />
       {addon}
-      <style jsx>{`
-        /* 숫자 입력 필드의 화살표 제거 */
-        input[type='number']::-webkit-outer-spin-button,
-        input[type='number']::-webkit-inner-spin-button {
-          -webkit-appearance: none;
-          margin: 0;
-        }
-
-        input[type='number'] {
-          -moz-appearance: textfield; /* Firefox에서 화살표 제거 */
-        }
-      `}</style>
     </div>
   )
 }

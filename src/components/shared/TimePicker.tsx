@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback, TouchEvent, MouseEvent, WheelEvent, useEffect } from 'react'
+import { useState, useRef, useCallback, TouchEvent, MouseEvent } from 'react'
 
 // [00, 01, 02, ..., 23]
 const hours = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'))

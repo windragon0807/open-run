@@ -1,14 +1,15 @@
-'use client'
-
 import { ChangeEvent, ReactNode, useCallback, useEffect, useState } from 'react'
 import { useMutation } from 'react-query'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
 
+import Input from '@shared/Input'
+import NumberInput from '@shared/NumberInput'
+import TextArea from '@shared/TextArea'
 import DatePicker from '@shared/DatePicker'
 import TimePicker from '@shared/TimePicker'
-import NumberInput from '@shared/NumberInput'
-import CloseIcon from '@icons/CloseIcon'
+import HashTag from '@shared/HashTag'
 import ClockIcon from '@icons/ClockIcon'
 import CalendarIcon from '@icons/CalendarIcon'
 import { useModalContext } from '@contexts/ModalContext'
@@ -31,7 +32,7 @@ type FormValues = {
   hashTags: string[]
 }
 
-export default function Forms() {
+export default function Forms({ nextStep }: { nextStep: () => void }) {
   const router = useRouter()
 
   const [formValues, setFormValues] = useState<FormValues>({
@@ -138,7 +139,7 @@ export default function Forms() {
     mutate(result, {
       onSuccess: () => {
         router.refresh()
-        closeModal()
+        nextStep()
       },
     })
   }
@@ -164,14 +165,17 @@ export default function Forms() {
         />
       ) : null}
 
+      <section className='relative w-full mx-auto h-184 mb-32'>
+        <Image className='rounded-8' src='/temp/img_thumbnail_1.png' alt='Thumbnail Image' fill />
+      </section>
+
       {/** 벙 이름 */}
       <div className='flex flex-col gap-8 mb-16'>
         <FormTitle required>벙 이름</FormTitle>
-        <input
+        <Input
           name='bungName'
           type='text'
           placeholder='벙 이름을 입력하세요'
-          className={inputStyles}
           value={formValues.bungName}
           onChange={handleFormValues}
         />
@@ -180,10 +184,10 @@ export default function Forms() {
       {/** 설명 */}
       <div className='flex flex-col gap-8 mb-16'>
         <FormTitle>설명</FormTitle>
-        <textarea
+        <TextArea
+          className='h-80 pt-10'
           name='description'
           placeholder='벙 설명을 입력하세요'
-          className={`${inputStyles} h-80 resize-none pt-10`}
           value={formValues.description}
           onChange={handleFormValues}
         />
@@ -193,25 +197,26 @@ export default function Forms() {
       <div className='flex flex-col gap-8 mb-16'>
         <FormTitle required>장소</FormTitle>
         <div className='w-full flex gap-8'>
-          <input
-            name='location'
-            type='text'
-            placeholder='주소 검색'
-            className={`${inputStyles} flex-1`}
-            value={formValues.location}
-            disabled
-          />
+          <div className='flex-1'>
+            <Input
+              className='disabled:bg-gray'
+              name='location'
+              type='text'
+              placeholder='주소 검색'
+              value={formValues.location}
+              disabled
+            />
+          </div>
           <button
-            className='w-80 h-40 bg-primary rounded-8 text-white font-semibold place-items-center text-14'
+            className='w-80 h-40 bg-primary rounded-8 text-white font-semibold place-items-center text-sm'
             onClick={() => setAddressSearchModalOpen(true)}>
             주소 검색
           </button>
         </div>
-        <input
+        <Input
           name='detailedAddress'
           type='text'
           placeholder='정확한 위치를 입력하세요'
-          className={inputStyles}
           value={formValues.detailedAddress}
           onChange={handleFormValues}
         />
@@ -277,36 +282,35 @@ export default function Forms() {
       <div className='relative flex flex-col gap-8 mb-16'>
         <FormTitle required>예상 시간</FormTitle>
         <NumberInput
-          className={inputStyles}
+          className='pr-40'
           name='runningTime'
           placeholder='예상되는 소요 시간을 알려주세요'
           value={formValues.runningTime}
           onChange={handleFormValues}
+          addon={<span className='absolute right-16 bottom-10 text-sm text-black dark:text-white'>분</span>}
         />
-        <span className='absolute right-16 bottom-10 text-14 text-black dark:text-white'>분</span>
       </div>
 
       {/** 거리 (km) */}
       <div className='relative flex flex-col gap-8 mb-16'>
         <FormTitle required>거리</FormTitle>
         <NumberInput
-          className={inputStyles}
+          className='pr-40'
           name='distance'
           placeholder='목표 거리를 입력하세요'
           value={formValues.distance}
           onChange={handleFormValues}
+          addon={<span className='absolute right-16 bottom-10 text-sm text-black dark:text-white'>km</span>}
         />
-        <span className='absolute right-16 bottom-10 text-14 text-black dark:text-white'>km</span>
       </div>
 
       {/** 페이스 (n'mm") */}
       <div className='flex flex-col gap-8 mb-16'>
         <FormTitle required>페이스</FormTitle>
-        <input
+        <Input
           name='pace'
           type='text'
           placeholder={`페이스를 입력하세요 (n'mm")`}
-          className={inputStyles}
           value={formValues.pace}
           onChange={handleFormValues}
         />
@@ -315,13 +319,13 @@ export default function Forms() {
       {/** 참가 인원 */}
       <div className='relative flex flex-col gap-8 mb-16'>
         <FormTitle required>참가 인원</FormTitle>
-        <span className='absolute left-16 bottom-10 text-14 text-black dark:text-white'>1 ~</span>
         <NumberInput
+          className='pl-40'
           name='memberNumber'
           placeholder='참가 인원을 입력하세요'
-          className={`${inputStyles} pl-40`}
           value={formValues.memberNumber}
           onChange={handleFormValues}
+          addon={<span className='absolute left-16 bottom-10 text-sm text-black dark:text-white'>1 ~</span>}
         />
       </div>
 
@@ -351,10 +355,10 @@ export default function Forms() {
           </Button>
         </div>
         {formValues.hasAfterRun ? (
-          <textarea
+          <TextArea
             name='afterRunDescription'
             placeholder='뒷풀이에 대한 내용을 입력하세요'
-            className={`${inputStyles} h-80 resize-none pt-10`}
+            className='h-80 pt-10'
             value={formValues.afterRunDescription}
             onChange={handleFormValues}
           />
@@ -389,20 +393,17 @@ export default function Forms() {
       </div>
 
       {/** 벙 만들기 버튼 */}
-      <button className='w-full h-56 bg-primary rounded-8' onClick={handleSubmit}>
+      <button className='w-full h-56 bg-primary rounded-8 mb-40' onClick={handleSubmit}>
         <span className='text-[16px] text-white font-bold leading-[24px] tracking-[-0.32px]'>벙 만들기</span>
       </button>
     </section>
   )
 }
 
-const inputStyles: HTMLSpanElement['className'] =
-  'w-full h-40 text-14 border border-gray dark:bg-black-darkest px-16 rounded-8 dark:text-white dark:placeholder-black focus:border-primary dark:focus:border-gray focus:outline-none'
-
 function FormTitle({ children, required = false }: { children: string; required?: boolean }) {
   return (
     <div className='relative w-fit'>
-      <span className='text-14 leading-[24px] -tracking-[0.28px] font-bold text-black dark:text-white'>{children}</span>
+      <span className='text-sm leading-[24px] -tracking-[0.28px] font-bold text-black dark:text-white'>{children}</span>
       {required && (
         <svg className='absolute top-2 -right-6 fill-primary' width='4' height='4' viewBox='0 0 4 4' fill='none'>
           <circle cx='2' cy='2' r='2' />
@@ -415,21 +416,10 @@ function FormTitle({ children, required = false }: { children: string; required?
 function Button({ children, className, onClick }: { children: ReactNode; className?: string; onClick?: () => void }) {
   return (
     <button
-      className={`flex-1 h-40 border border-gray rounded-8 flex items-center gap-8 text-14 font-semibold ${className}`}
+      className={`flex-1 h-40 border border-gray rounded-8 flex items-center gap-8 text-sm font-semibold ${className}`}
       onClick={onClick}>
       {children}
     </button>
-  )
-}
-
-function HashTag({ label, onCloseButtonClick }: { label: string; onCloseButtonClick: () => void }) {
-  return (
-    <div className='flex w-fit items-center gap-8 px-8 py-4 bg-black-darken rounded-4'>
-      <span className='text-white text-14'>{label}</span>
-      <button onClick={onCloseButtonClick}>
-        <CloseIcon className='fill-white' size={16} />
-      </button>
-    </div>
   )
 }
 
@@ -449,18 +439,12 @@ function HashTagSearch({ onTagClick }: { onTagClick?: (tag: string) => void }) {
 
   return (
     <div className='relative'>
-      <input
-        className={inputStyles}
-        type='text'
-        placeholder='해시태그를 입력하세요'
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-      />
+      <Input type='text' placeholder='해시태그를 입력하세요' value={inputValue} setValue={setInputValue} />
       <ul className='absolute -bottom-130 w-full rounded-8 bg-white shadow-shadow_white'>
         {recommendHashTags.map((tag) => (
           <li
             key={tag}
-            className='text-14 text-black block py-10 pl-16 hover:text-primary cursor-pointer'
+            className='text-sm text-black block py-10 pl-16 hover:text-primary cursor-pointer'
             onClick={() => {
               onTagClick?.(tag.replace(' (직접 입력)', ''))
               setInputValue('')
