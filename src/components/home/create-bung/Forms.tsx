@@ -25,7 +25,8 @@ type FormValues = {
   startTime?: string // 'hh:mm'
   runningTime?: string
   distance?: string
-  pace: string
+  paceMinute?: string
+  paceSecond?: string
   memberNumber?: string
   hasAfterRun?: boolean
   afterRunDescription: string
@@ -40,7 +41,6 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
     description: '',
     location: '',
     detailedAddress: '',
-    pace: '',
     afterRunDescription: '',
     hashTags: [],
   })
@@ -64,7 +64,8 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
       startTime,
       runningTime,
       distance,
-      pace,
+      paceMinute,
+      paceSecond,
       memberNumber,
       hasAfterRun,
       afterRunDescription,
@@ -90,18 +91,23 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
       return
     }
 
-    if (runningTime == null) {
-      alert('예상 시간을 입력해주세요')
+    if (runningTime == null || Number(runningTime) <= 0) {
+      alert('예상 시간을 확인해주세요')
       return
     }
 
-    if (distance == null || Number(distance) === 0) {
-      alert('목표 거리를 입력해주세요')
+    if (distance == null || Number(distance) <= 0) {
+      alert('목표 거리를 확인해주세요')
       return
     }
 
-    if (pace === '') {
-      alert('페이스를 입력해주세요')
+    if (paceMinute == null || Number(paceMinute) < 0) {
+      alert('페이스를 확인해주세요')
+      return
+    }
+
+    if (paceSecond == null || Number(paceSecond) < 0) {
+      alert('페이스를 확인해주세요')
       return
     }
 
@@ -129,7 +135,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
       startDateTime: startDate.toISOString(),
       endDateTime: endDate.toISOString(),
       distance: Number(distance),
-      pace,
+      pace: `${formValues.paceMinute}'${formValues.paceSecond}"`,
       memberNumber: Number(memberNumber),
       hasAfterRun,
       afterRunDescription: hasAfterRun ? afterRunDescription : '',
@@ -307,13 +313,22 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
       {/** 페이스 (n'mm") */}
       <div className='flex flex-col gap-8 mb-16'>
         <FormTitle required>페이스</FormTitle>
-        <Input
-          name='pace'
-          type='text'
-          placeholder={`페이스를 입력하세요 (n'mm")`}
-          value={formValues.pace}
-          onChange={handleFormValues}
-        />
+        <div className='flex gap-8'>
+          <NumberInput
+            name='paceMinute'
+            placeholder='분'
+            value={formValues.paceMinute}
+            onChange={handleFormValues}
+            addon={<span className='absolute right-16 bottom-10 text-sm text-black dark:text-white'>{"'"}</span>}
+          />
+          <NumberInput
+            name='paceSecond'
+            placeholder='초'
+            value={formValues.paceSecond}
+            onChange={handleFormValues}
+            addon={<span className='absolute right-16 bottom-10 text-sm text-black dark:text-white'>{'"'}</span>}
+          />
+        </div>
       </div>
 
       {/** 참가 인원 */}

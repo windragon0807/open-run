@@ -11,7 +11,7 @@ import Invitation from './Invitation'
 export default function CreateBung() {
   const { closeModal } = useModalContext()
 
-  const [step, setStep] = useState<'create' | 'invitation'>('invitation')
+  const [step, setStep] = useState<'create' | 'invitation'>('create')
 
   return (
     <motion.div
