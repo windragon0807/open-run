@@ -10,9 +10,9 @@ import TextArea from '@shared/TextArea'
 import DatePicker from '@shared/DatePicker'
 import TimePicker from '@shared/TimePicker'
 import HashTag from '@shared/HashTag'
+import LoadingLogo from '@shared/LoadingLogo'
 import ClockIcon from '@icons/ClockIcon'
 import CalendarIcon from '@icons/CalendarIcon'
-import { useModalContext } from '@contexts/ModalContext'
 import { createBung } from '@apis/bungs/createBung/api'
 import AddressSearchModal from './AddressSearchModal'
 
@@ -52,8 +52,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
     }))
   }, [])
 
-  const { mutate } = useMutation(createBung)
-  const { closeModal } = useModalContext()
+  const { mutate, isLoading } = useMutation(createBung)
 
   const handleSubmit = () => {
     const {
@@ -319,14 +318,18 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             placeholder='분'
             value={formValues.paceMinute}
             onChange={handleFormValues}
-            addon={<span className='absolute right-16 bottom-10 text-sm text-black dark:text-white'>{"'"}</span>}
+            addon={
+              <span className='absolute right-16 bottom-10 text-sm text-black font-bold dark:text-white'>{"'"}</span>
+            }
           />
           <NumberInput
             name='paceSecond'
             placeholder='초'
             value={formValues.paceSecond}
             onChange={handleFormValues}
-            addon={<span className='absolute right-16 bottom-10 text-sm text-black dark:text-white'>{'"'}</span>}
+            addon={
+              <span className='absolute right-16 bottom-10 text-sm text-black font-bold dark:text-white'>{'"'}</span>
+            }
           />
         </div>
       </div>
@@ -409,7 +412,11 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
 
       {/** 벙 만들기 버튼 */}
       <button className='w-full h-56 bg-primary rounded-8 mb-40' onClick={handleSubmit}>
-        <span className='text-[16px] text-white font-bold leading-[24px] tracking-[-0.32px]'>벙 만들기</span>
+        {isLoading ? (
+          <LoadingLogo color='var(--secondary)' className='mx-auto' />
+        ) : (
+          <span className='text-[16px] text-white font-bold leading-[24px] tracking-[-0.32px]'>벙 만들기</span>
+        )}
       </button>
     </section>
   )
