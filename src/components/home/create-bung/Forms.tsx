@@ -319,7 +319,9 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             value={formValues.paceMinute}
             onChange={handleFormValues}
             addon={
-              <span className='absolute right-16 bottom-10 text-sm text-black font-bold dark:text-white'>{"'"}</span>
+              <span className='absolute right-16 bottom-10 text-sm text-black font-bold italic dark:text-white'>
+                {"'"}
+              </span>
             }
           />
           <NumberInput
@@ -328,7 +330,9 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             value={formValues.paceSecond}
             onChange={handleFormValues}
             addon={
-              <span className='absolute right-16 bottom-10 text-sm text-black font-bold dark:text-white'>{'"'}</span>
+              <span className='absolute right-16 bottom-10 text-sm text-black font-bold italic dark:text-white'>
+                {'"'}
+              </span>
             }
           />
         </div>
