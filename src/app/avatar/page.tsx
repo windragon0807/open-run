@@ -7,7 +7,7 @@ import Avatars from '@components/avatar/Avatars'
 
 export default function AvatarPage() {
   return (
-    <Layout>
+    <Layout className='bg-gradient-main bg-cover'>
       <Header />
       <section className='w-full h-[calc(100%-60px)] bg-gradient-main bg-cover flex flex-col items-center'>
         <Spacing size={24} />

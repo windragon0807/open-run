@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 
-import DarkMode from '@shared/DarkMode'
 import ReactQuery from '@contexts/ReactQuery'
 import NaverMapContext from '@contexts/NaverMapContext'
 import { ModalContext } from '@contexts/ModalContext'
+import DarkMode from '@shared/DarkMode'
+import AppBridge from '@shared/AppBridge'
 import '@styles/globals.css'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -13,7 +14,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <DarkMode />
         <ReactQuery>
           <ModalContext>
-            <NaverMapContext>{children}</NaverMapContext>
+            <NaverMapContext>
+              <AppBridge>{children}</AppBridge>
+            </NaverMapContext>
           </ModalContext>
         </ReactQuery>
         <div id='root-portal' />
