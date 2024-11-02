@@ -64,6 +64,8 @@ export const postMessageToRN = (payload: any) => {
 }
 
 const checkIsApp = () => {
+  if (typeof window === 'undefined') return false
+
   const isReactNativeWebView = !!window.ReactNativeWebView
   const isAndroidWebView = /wv/.test(navigator.userAgent)
   const isIOSWebView = /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent)

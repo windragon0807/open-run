@@ -23,11 +23,11 @@ type FormValues = {
   detailedAddress: string
   startDate?: Date
   startTime?: string // 'hh:mm'
-  runningTime?: string
-  distance?: string
-  paceMinute?: string
-  paceSecond?: string
-  memberNumber?: string
+  runningTime: string
+  distance: string
+  paceMinute: string
+  paceSecond: string
+  memberNumber: string
   hasAfterRun?: boolean
   afterRunDescription: string
   hashTags: string[]
@@ -41,6 +41,11 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
     description: '',
     location: '',
     detailedAddress: '',
+    runningTime: '',
+    distance: '',
+    paceMinute: '',
+    paceSecond: '',
+    memberNumber: '',
     afterRunDescription: '',
     hashTags: [],
   })
@@ -356,7 +361,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         <FormTitle required>뒷풀이</FormTitle>
         <div className='flex gap-8'>
           <Button
-            className={`justify-center ${formValues.hasAfterRun ? 'bg-[var(--focusedBlue)] border-primary' : 'bg-white border-gray'}`}
+            className={`justify-center ${formValues.hasAfterRun === true ? 'bg-[var(--focusedBlue)] border-primary' : 'bg-white border-gray'}`}
             onClick={() => {
               setFormValues((prev) => ({
                 ...prev,
@@ -366,7 +371,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             유
           </Button>
           <Button
-            className={`justify-center ${formValues.hasAfterRun ? 'bg-white border-gray' : 'bg-[var(--focusedBlue)] border-primary'}`}
+            className={`justify-center ${formValues.hasAfterRun === false ? 'bg-[var(--focusedBlue)] border-primary' : 'bg-white border-gray'}`}
             onClick={() => {
               setFormValues((prev) => ({
                 ...prev,

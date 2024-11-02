@@ -14,11 +14,11 @@ const http = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
 })
 
-http.interceptors.request.use(async (config) => {
+http.interceptors.request.use(async (request) => {
   /* LOGGING */
-  const { method, url } = config
+  const { method, url, data } = request
   if (process.env.NODE_ENV === 'development') {
-    console.log(`🚀 [API] ${method?.toUpperCase()} ${url} | Request`)
+    console.log(`🚀 [API] ${method?.toUpperCase()} ${url} | Request\n\n${JSON.stringify(data, null, 2)}\n`)
   }
 
   /* HEADER CONFIG */
@@ -35,11 +35,11 @@ http.interceptors.request.use(async (config) => {
 
   /* 쿠키에 토큰 값이 있으면 헤더에 토큰을 넣어서 보냄 */
   if (token != null) {
-    config.headers = new AxiosHeaders()
-    config.headers['Authorization'] = token
+    request.headers = new AxiosHeaders()
+    request.headers['Authorization'] = token
   }
 
-  return config
+  return request
 })
 
 http.interceptors.response.use(
@@ -47,12 +47,12 @@ http.interceptors.response.use(
   (response: AxiosResponse) => {
     /* LOGGING */
     const { method, url } = response.config
-    const { status } = response
+    const { status, data } = response
     if (process.env.NODE_ENV === 'development') {
-      console.log(`🚀 [API] ${method?.toUpperCase()} ${url} | Response ${status}`)
+      console.log(`🚀 [API] ${method?.toUpperCase()} ${url} | Response ${status}\n\n${JSON.stringify(data, null, 2)}\n`)
     }
 
-    return response.data
+    return data
   },
 
   /* 응답 실패 시 */
