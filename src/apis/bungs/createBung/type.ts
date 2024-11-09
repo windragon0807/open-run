@@ -11,6 +11,7 @@ export type RequestType = {
   memberNumber: number
   hasAfterRun: boolean
   afterRunDescription: string
+  hashtags: string[]
 }
 
 export type ResponseType = ApiResponse<{}>

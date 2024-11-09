@@ -13,8 +13,10 @@ import HashTag from '@shared/HashTag'
 import LoadingLogo from '@shared/LoadingLogo'
 import ClockIcon from '@icons/ClockIcon'
 import CalendarIcon from '@icons/CalendarIcon'
-import { createBung } from '@apis/bungs/createBung/api'
+import { createBung as _createBung } from '@apis/bungs/createBung/api'
+import { fetchHashtags as _fetchHashtags } from '@apis/bungs/fetchHashtags/api'
 import AddressSearchModal from './AddressSearchModal'
+import useDebounce from '@/hooks/useDebounce'
 
 type FormValues = {
   bungName: string
@@ -57,7 +59,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
     }))
   }, [])
 
-  const { mutate, isLoading } = useMutation(createBung)
+  const { mutate: createBung, isLoading } = useMutation(_createBung)
 
   const handleSubmit = () => {
     const {
@@ -143,10 +145,10 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
       memberNumber: Number(memberNumber),
       hasAfterRun,
       afterRunDescription: hasAfterRun ? afterRunDescription : '',
-      // TODO hashTags
+      hashtags: formValues.hashTags,
     }
 
-    mutate(result, {
+    createBung(result, {
       onSuccess: () => {
         router.refresh()
         nextStep()
@@ -456,22 +458,32 @@ function Button({ children, className, onClick }: { children: ReactNode; classNa
 
 function HashTagSearch({ onTagClick }: { onTagClick?: (tag: string) => void }) {
   const [inputValue, setInputValue] = useState('')
+  const debouncedTag = useDebounce(inputValue, 300)
   const [recommendHashTags, setRecommendHashTags] = useState<string[]>([])
 
-  // TODO 추천 태그 API 연동
+  const { mutate: fetchHashtags } = useMutation(_fetchHashtags)
 
+  // 지연 적용 하기
   useEffect(() => {
-    if (inputValue !== '') {
-      setRecommendHashTags([`${inputValue} (직접 입력)`, '추천 태그 1', '추천 태그 2'])
+    if (debouncedTag !== '') {
+      fetchHashtags(
+        { tag: debouncedTag },
+        {
+          onSuccess: ({ data }) => {
+            const sliced = data.slice(0, 2)
+            setRecommendHashTags([`${debouncedTag} (직접 입력)`, ...sliced])
+          },
+        },
+      )
     } else {
       setRecommendHashTags([])
     }
-  }, [inputValue])
+  }, [debouncedTag, fetchHashtags])
 
   return (
     <div className='relative'>
       <Input type='text' placeholder='해시태그를 입력하세요' value={inputValue} setValue={setInputValue} />
-      <ul className='absolute -bottom-130 w-full rounded-8 bg-white shadow-shadow_white'>
+      <ul className='absolute top-45 w-full rounded-8 bg-white shadow-shadow_white'>
         {recommendHashTags.map((tag) => (
           <li
             key={tag}
