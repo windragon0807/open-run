@@ -47,6 +47,7 @@ module.exports = {
       red: 'var(--red)',
       gray: 'var(--gray)',
       'gray-lighten': 'var(--gray-lighten)',
+      pink: 'var(--pink)',
       kakao: 'var(--kakao)',
       naver: 'var(--naver)',
     }),
@@ -62,6 +63,7 @@ module.exports = {
       },
       backgroundColor: {
         'black-lighten': 'rgba(34, 34, 34, 0.60)',
+        'pink-transparent': 'rgba(240, 101, 149, 0.10)',
       },
       borderWidth: px0_10,
       width: px0_500,

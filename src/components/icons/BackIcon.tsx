@@ -1,6 +1,6 @@
-export default function BackIcon({ color }: { color: string }) {
+export default function BackIcon({ size = 40, color }: { size?: number; color: string }) {
   return (
-    <svg width='40' height='40' viewBox='0 0 40 40' fill='none'>
+    <svg width={size} height={size} viewBox='0 0 40 40' fill='none'>
       <path
         fillRule='evenodd'
         clipRule='evenodd'

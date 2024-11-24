@@ -1,10 +1,4 @@
-import { ApiResponse } from '@apis/axios'
-
-export type RequestType = {
-  bungId: string
-}
-
-export type ResponseType = ApiResponse<{
+export type BungDetail = {
   bungId: string
   name: string
   description: string
@@ -25,4 +19,4 @@ export type ResponseType = ApiResponse<{
     participationStatus: boolean
     owner: boolean
   }>
-}>
+}

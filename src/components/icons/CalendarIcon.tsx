@@ -1,6 +1,14 @@
-export default function CalendarIcon({ color = 'white', className }: { color?: string; className?: string }) {
+export default function CalendarIcon({
+  color = 'white',
+  size = 16,
+  className,
+}: {
+  color?: string
+  size?: number
+  className?: string
+}) {
   return (
-    <svg width='16' height='16' viewBox='0 0 16 16' fill='none' className={className}>
+    <svg width={size} height={size} viewBox='0 0 16 16' fill='none' className={className}>
       <path
         fillRule='evenodd'
         clipRule='evenodd'
