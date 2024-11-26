@@ -13,7 +13,7 @@ export type ResponseType = ApiResponse<{
   endDateTime: string
   distance: number
   pace: string
-  memberNumber: number
+  memberNumber: number // 총 참여자 수
   hasAfterRun: boolean
   afterRunDescription: string
   hashtags: string[]

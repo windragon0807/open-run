@@ -21,4 +21,10 @@ export type ResponseType = ApiResponse<
     afterRunDescription: string
     isOwner: boolean
   }>
->
+> & {
+  totalPages: number
+  totalElements: number
+  first: boolean
+  last: boolean
+  empty: boolean
+}

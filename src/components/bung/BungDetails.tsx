@@ -18,18 +18,13 @@ import CalendarIcon from '@icons/CalendarIcon'
 import RunnerIcon from '@icons/RunnerIcon'
 import PersonIcon from '@icons/PersonIcon'
 import { BungDetail } from '@models/bung'
+import useTimer from '@hooks/useTimer'
 import { convertStringTimeToDate } from '@utils/time'
 
-const mock = [
-  { imageSrc: '/temp/nft_detail_1.png', name: '참여자 1' },
-  { imageSrc: '/temp/nft_detail_2.png', name: '참여자 2' },
-  { imageSrc: '/temp/nft_detail_4.png', name: '참여자 3' },
-  { imageSrc: '/temp/nft_detail_1.png', name: '참여자 4' },
-  { imageSrc: '/temp/nft_detail_2.png', name: '참여자 5' },
-  { imageSrc: '/temp/nft_detail_4.png', name: '참여자 6' },
-]
-
 export default function BungDetails({ details, isParticipated }: { details: BungDetail; isParticipated: boolean }) {
+  const 참여인원수 = details.memberList.length
+
+  /* 스크롤이 올라갈수록 컨텐츠 영역이 올라가는 효과를 주기 위한 로직 */
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollY } = useScroll({
     container: containerRef,
@@ -43,6 +38,10 @@ export default function BungDetails({ details, isParticipated }: { details: Bung
   }
 
   const translateY = useTransform(scrollY, [0, 200], [-15, isParticipated ? -108 : -140])
+
+  /* 시작까지 남은 시간을 타이머로 표시하기 위한 로직 */
+  const { days, hours, minutes, seconds } = useTimer(convertStringTimeToDate(details.startDateTime))
+  const formattedTime = `${String(days).padStart(2, '0')} : ${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`
 
   return (
     <Layout className='relative'>
@@ -59,7 +58,7 @@ export default function BungDetails({ details, isParticipated }: { details: Bung
         className='relative w-full h-full bg-gray-lighten bg-cover rounded-[8px_8px_0_0]'>
         {isParticipated && (
           <div className='absolute -top-32 -z-[1] w-full h-40 px-16 flex justify-between bg-[#F06595] bg-opacity-60 rounded-[8px_8px_0_0]'>
-            <span className='relative italic text-14 font-bold text-white top-6'>00 : 09 : 32 : 56</span>
+            <span className='relative italic text-14 font-bold text-white top-6'>{formattedTime}</span>
             <span className='relative text-14 text-white top-6'>시작까지 남은 시간</span>
           </div>
         )}
@@ -91,8 +90,8 @@ export default function BungDetails({ details, isParticipated }: { details: Bung
             <div className='flex gap-8 items-center'>
               <PersonIcon color='var(--black)' />
               <div className='flex gap-4 items-center'>
-                <span className='text-sm text-black'>{`${details.memberNumber} / ${details.memberList.length}`}</span>
-                <span className='px-4 py-2 bg-pink-transparent rounded-4 text-12 font-bold text-pink'>{`${details.memberList.length - details.memberNumber}자리 남았어요`}</span>
+                <span className='text-sm text-black'>{`${참여인원수} / ${details.memberNumber}`}</span>
+                <span className='px-4 py-2 bg-pink-transparent rounded-4 text-12 font-bold text-pink'>{`${details.memberNumber - 참여인원수}자리 남았어요`}</span>
               </div>
             </div>
             <Spacing size={24} />
@@ -101,38 +100,31 @@ export default function BungDetails({ details, isParticipated }: { details: Bung
           <Spacing size={24} />
 
           <div className='flex flex-col gap-8'>
-            <span className='text-base font-bold text-black-darken px-16'>
-              {details.memberNumber}명이 함께 뛸 예정이에요
-            </span>
+            <span className='text-base font-bold text-black-darken px-16'>{참여인원수}명이 함께 뛸 예정이에요</span>
             <div className='flex gap-8 overflow-x-auto px-16'>
-              <div className='flex flex-col gap-6 items-center'>
-                <div className='relative w-76 aspect-[1] bg-black rounded-8'>
-                  <Image src='/temp/nft_detail_3.png' alt='' fill sizes='100%' />
-                </div>
-                <div className='flex gap-4 items-center'>
-                  <span className='text-12 font-bold text-black-darken'>벙주</span>
-                  <Image src='/images/icon_crown.png' alt='Crown Icon' width={16} height={18} />
-                </div>
-              </div>
-              {mock.map((item, index) => (
-                <div key={`${item.imageSrc}-${index}`} className='flex flex-col gap-6 items-center'>
+              {details.memberList.map((member) => (
+                <div key={`${member.nickname}`} className='flex flex-col gap-6 items-center'>
                   <div className='relative w-76 aspect-[1] bg-black rounded-8'>
-                    <Image src={item.imageSrc} alt='' fill sizes='100%' />
+                    <Image src={'/temp/nft_detail_1.png'} alt='' fill sizes='100%' />
                   </div>
-                  <span className='text-12 font-bold text-black-darken'>{item.name}</span>
+                  <div className='flex gap-4 items-center'>
+                    <span className='text-12 font-bold text-black-darken'>{member.nickname}</span>
+                    {member.owner && <Image src='/images/icon_crown.png' alt='Crown Icon' width={16} height={18} />}
+                  </div>
                 </div>
               ))}
             </div>
           </div>
           <Spacing size={24} />
-          <p className='w-full px-16 text-sm text-black-darken'>
-            벙 설명이 들어갈 공간입니다. 벙 설명이 들어갈 공간입니다. 벙 설명이 들어갈 공간입니다. 벙 설명이 들어갈
-            공간입니다.
-          </p>
-          <Spacing size={24} />
-          <h3 className='text-sm text-black-darken font-bold pl-16'>뒷풀이</h3>
-          <Spacing size={4} />
-          <p className='text-sm text-black-darken pl-16'>뒷풀이 정보가 들어갑니다. (유/무, 장소(카페, 식사) 등)</p>
+          <p className='w-full px-16 text-sm text-black-darken'>{details.description}</p>
+          {details.hasAfterRun && (
+            <>
+              <Spacing size={24} />
+              <h3 className='text-sm text-black-darken font-bold pl-16'>뒷풀이</h3>
+              <Spacing size={4} />
+              <p className='text-sm text-black-darken pl-16'>{details.afterRunDescription}</p>
+            </>
+          )}
           <Spacing size={40} />
           <div className='flex items-center gap-4 pl-16'>
             <PlaceIcon color='var(--black)' />
@@ -140,7 +132,8 @@ export default function BungDetails({ details, isParticipated }: { details: Bung
           </div>
           <Spacing size={8} />
           <div className='px-16'>
-            <NaverMap />
+            {/* <NaverMap location={details.location} /> */}
+            <NaverMap location={'서울시 서대문구 증가로 191'} />
           </div>
           <Spacing size={18} />
           <div className='flex flex-wrap gap-8 px-16'>
