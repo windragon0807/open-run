@@ -2,15 +2,16 @@ import Link from 'next/link'
 
 import { convertStringTimeToDate } from '@utils/time'
 import Spacing from '@shared/Spacing'
-import { fetchBungs } from '@apis/bungs/fetchBungs/api'
+import { fetchMyBungs } from '@apis/bungs/fetchMyBungs/api'
 import CreateBungButton from './CreateBungButton'
 import BungCard from './BungCard'
 
 export default async function MyBungs() {
-  const { data } = await fetchBungs({
-    status: 'PENDING',
+  const { data } = await fetchMyBungs({
+    isOwned: null,
+    status: 'PARTICIPATING',
     page: 0,
-    limit: 10,
+    limit: 50,
   })
 
   return (
@@ -34,7 +35,7 @@ export default async function MyBungs() {
               time={convertStringTimeToDate(item.startDateTime)}
               distance={item.distance}
               pace={item.pace}
-              isBungMaster={item.isOwner === true}
+              isBungMaster={true} // TODO
             />
           </Link>
           <Spacing size={8} />
