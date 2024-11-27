@@ -132,8 +132,7 @@ export default function BungDetails({ details, isParticipated }: { details: Bung
           </div>
           <Spacing size={8} />
           <div className='px-16'>
-            {/* <NaverMap location={details.location} /> */}
-            <NaverMap location={'서울시 서대문구 증가로 191'} />
+            <NaverMap location={details.location} />
           </div>
           <Spacing size={18} />
           <div className='flex flex-wrap gap-8 px-16'>
