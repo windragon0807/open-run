@@ -133,6 +133,12 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
     const endDate = new Date(startDate)
     endDate.setMinutes(endDate.getMinutes() + Number(runningTime))
 
+    const now = new Date()
+    if (startDate < now) {
+      alert('시작 시간은 현재 시점 이후여야 합니다.')
+      return
+    }
+
     const result = {
       name: bungName,
       description,
@@ -270,6 +276,14 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
                   ...prevFormValues,
                   startDate: date,
                 }))
+              }}
+              startMonth={new Date()}
+              disabled={(date) => {
+                // 오늘 이전 날짜는 비활성화
+                const today = new Date()
+                today.setHours(0, 0, 0, 0)
+                date.setHours(0, 0, 0, 0)
+                return date < today
               }}
             />
           </div>

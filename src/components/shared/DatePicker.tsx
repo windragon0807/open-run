@@ -1,15 +1,18 @@
 import { useState } from 'react'
-import { DayPicker } from 'react-day-picker'
+import { DayPicker, DayPickerProps } from 'react-day-picker'
 import { ko } from 'react-day-picker/locale'
 import 'react-day-picker/style.css'
+
+type OmitDayPickerProps = 'mode' | 'showOutsideDays' | 'locale' | 'selected' | 'onSelect'
 
 export default function DatePicker({
   defaultValue,
   onDateClick,
+  ...rest
 }: {
   defaultValue?: Date
   onDateClick: (date: Date | undefined) => void
-}) {
+} & Omit<DayPickerProps, OmitDayPickerProps>) {
   const [date, setDate] = useState<Date | undefined>(defaultValue)
 
   return (
@@ -23,6 +26,7 @@ export default function DatePicker({
           setDate(date)
           onDateClick(date)
         }}
+        {...rest}
       />
       <style>{`
         .rdp-nav {
