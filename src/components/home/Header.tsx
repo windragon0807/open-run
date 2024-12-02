@@ -2,7 +2,7 @@
 
 import useLogout from '@hooks/useLogout'
 import BellIcon from '@icons/BellIcon'
-import Avartar from './Avartar'
+import Avatar from './Avatar'
 
 export default function Header({ nickname }: { nickname: string }) {
   const { logout } = useLogout()
@@ -20,7 +20,7 @@ export default function Header({ nickname }: { nickname: string }) {
               logout()
             }
           }}>
-          <Avartar imageSrc='/temp/nft_character_sm.png' size={40} />
+          <Avatar imageSrc='/temp/nft_character_sm.png' size={40} />
         </button>
       </div>
     </header>

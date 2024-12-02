@@ -6,7 +6,7 @@ import { format } from 'date-fns'
 import Spacing from '@shared/Spacing'
 import PlaceIcon from '@icons/PlaceIcon'
 import CalendarIcon from '@icons/CalendarIcon'
-import Avartar from './Avartar'
+import Avatar from './Avatar'
 
 const participantList = [
   '/temp/nft_participant_5.png',
@@ -48,7 +48,7 @@ export default function RecommendationCard({
       <Spacing size={12} />
       <div className='flex items-center'>
         {participantList.map((src, index) => (
-          <Avartar key={src} className={index !== 0 ? '-ml-12' : ''} imageSrc={src} size={35} />
+          <Avatar key={src} className={index !== 0 ? '-ml-12' : ''} imageSrc={src} size={35} />
         ))}
         <Spacing direction='horizontal' size={8} />
         <span>n 자리 남음</span>
