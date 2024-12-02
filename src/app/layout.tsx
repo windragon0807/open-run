@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Jost } from 'next/font/google'
 
 import ReactQuery from '@contexts/ReactQuery'
 import NaverMapContext from '@contexts/NaverMapContext'
@@ -7,10 +8,15 @@ import DarkMode from '@shared/DarkMode'
 import AppBridge from '@shared/AppBridge'
 import '@styles/globals.css'
 
+const jost = Jost({
+  subsets: ['latin'],
+  variable: '--font-jost',
+})
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='ko'>
-      <body className='font-pretendard'>
+      <body className={`font-pretendard ${jost.variable}`}>
         <DarkMode />
         <ReactQuery>
           <ModalContext>

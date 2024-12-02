@@ -83,7 +83,7 @@ function SkewedLikeLabel({ like }: { like: number }) {
   return (
     <div className='absolute left-8 bottom-8 h-28 bg-secondary rounded-lg transform skew-x-[-10deg] border-2 border-black flex items-center justify-center gap-4 px-8'>
       <Image className='' src='/images/icon_thumbup.png' alt='Thumb Up Icon' width={16} height={16} />
-      <span className='text-[16px] font-[900]'>{addDelimiter(like)}</span>
+      <span className='font-jost text-base font-[900]'>{addDelimiter(like)}</span>
     </div>
   )
 }

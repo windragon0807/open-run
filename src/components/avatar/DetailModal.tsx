@@ -38,7 +38,7 @@ export default function DetailModal({
         </header>
 
         <div className='relative w-168 aspect-square mb-8'>
-          <span className='absolute left-1/2 -translate-x-1/2 bottom-0 text-[56px] font-[900] italic text-black-darken opacity-10'>
+          <span className='absolute left-1/2 -translate-x-1/2 bottom-0 font-jost text-[56px] font-[900] italic text-black-darken opacity-10'>
             {serialNumber}
           </span>
           <Image src={imageSrc} alt='Avatar' fill className='object-contain' />

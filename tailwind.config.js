@@ -55,6 +55,7 @@ module.exports = {
     extend: {
       fontFamily: {
         pretendard: ['Pretendard', 'sans-serif'],
+        jost: ['var(--font-jost)'],
       },
       backgroundImage: {
         // 회원가입, 로그인 페이지 백그라운드 그라디언트
