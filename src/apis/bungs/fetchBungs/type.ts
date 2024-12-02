@@ -2,7 +2,11 @@ import { ApiResponse } from '@apis/axios'
 import { Pagination } from '@apis/type'
 
 export type RequestType = {
-  status: 'ALL' | 'AVAILABLE' | 'PENDING' | 'ACHIEVED'
+  /**
+   * true : 참가할 수 있는 벙만 보여집니다.
+   * false : 이미 참가한 벙도 보여집니다.
+   */
+  isAvailableOnly: boolean
   page: number
   limit: number
 }
@@ -21,6 +25,5 @@ export type ResponseType = Pagination &
       memberNumber: number
       hasAfterRun: boolean
       afterRunDescription: string
-      isOwner: boolean
     }>
   >

@@ -7,8 +7,8 @@ import { fetchBungs } from '@apis/bungs/fetchBungs/api'
 import RecommendationCard from './RecommendationCard'
 
 export default async function Recommendation() {
-  const { data } = await fetchBungs({
-    status: 'AVAILABLE',
+  const { data: recommendationList } = await fetchBungs({
+    isAvailableOnly: true,
     page: 0,
     limit: 10,
   })
@@ -19,7 +19,7 @@ export default async function Recommendation() {
         <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black dark:text-white'>추천</span>
         <ArrowRight />
       </button>
-      {data?.map((item) => (
+      {recommendationList?.map((item) => (
         <Fragment key={item.bungId}>
           <Spacing size={8} />
           <RecommendationCard
