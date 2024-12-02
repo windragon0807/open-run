@@ -12,7 +12,7 @@ export default function AvatarCloset() {
       <Header onSaveButtonClick={() => {}} />
 
       <section className='w-full h-[calc(100%-60px)] bg-gray-lighten flex flex-col items-center'>
-        <section className='w-full px-16 shadow-shadow_white bg-white z-10'>
+        <section className='w-full px-16 shadow-custom-white bg-white z-10'>
           <div className='relative w-full h-248 bg-black-darken rounded-16 mb-16 flex justify-center'>
             <Image
               className='absolute top-16'

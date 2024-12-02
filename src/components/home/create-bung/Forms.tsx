@@ -496,7 +496,7 @@ function HashTagSearch({ onTagClick }: { onTagClick?: (tag: string) => void }) {
   return (
     <div className='relative'>
       <Input type='text' placeholder='해시태그를 입력하세요' value={inputValue} setValue={setInputValue} />
-      <ul className='absolute top-45 w-full rounded-8 bg-white shadow-shadow_white'>
+      <ul className='absolute top-45 w-full rounded-8 bg-white shadow-custom-white'>
         {recommendHashTags.map((tag) => (
           <li
             key={tag}

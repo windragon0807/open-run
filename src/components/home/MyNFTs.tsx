@@ -33,7 +33,7 @@ export default function MyNFTs() {
         <Spacing size={8} />
 
         {/* dark 모드일 때, bg-white 선언 시, dark 모드 색상 적용이 안 됨 */}
-        <div className='w-full dark:bg-gradient-black shadow-shadow_white dark:shadow-[unset] flex flex-col py-16'>
+        <div className='w-full shadow-custom-white flex flex-col py-16'>
           <span className='text-[14px] leading-[20px] tracking-[-0.28px] font-bold pl-16 dark:text-white'>
             최근 획득한 NFT
           </span>
@@ -69,10 +69,8 @@ export default function MyNFTs() {
 
         <Spacing size={16} />
 
-        <Link
-          href='/avatar'
-          className='self-center shadow-shadow_white dark:shadow-[unset] bg-white dark:bg-black rounded-20 px-20 py-4'>
-          <span className='text-[12px] leading-[16px] tracing-[-0.24px] text-black dark:text-white'>아바타 변경</span>
+        <Link href='/avatar' className='self-center shadow-custom-white bg-white rounded-20 px-20 py-4'>
+          <span className='text-[12px] leading-[16px] tracing-[-0.24px] text-black'>아바타 변경</span>
         </Link>
       </div>
     </section>

@@ -22,7 +22,7 @@ export default function AvatarList() {
         {avatarList?.data.map((avatar) => (
           <button
             key={avatar.id}
-            className='relative w-full p-12 flex flex-col items-center gap-10 bg-[rgba(255,255,255,0.20)] rounded-4 hover:bg-white hover:shadow-shadow_white'
+            className='relative w-full p-12 flex flex-col items-center gap-10 bg-[rgba(255,255,255,0.20)] rounded-4 hover:bg-white hover:shadow-custom-white'
             onClick={() => {}}>
             <div className='relative w-full max-w-80 aspect-square'>
               <Image src={avatar.imageUrl} alt='' fill className='object-contain' />

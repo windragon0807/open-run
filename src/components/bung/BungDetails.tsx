@@ -67,7 +67,7 @@ export default function BungDetails({ details, isParticipated }: { details: Bung
           ref={containerRef}
           className='overflow-y-auto rounded-[8px_8px_0_0] bg-gray-lighten'
           style={{ height: isParticipated ? 'calc(100% - 80px)' : 'calc(100% - 50px)' }}>
-          <div className='p-16 bg-white shadow-shadow_white rounded-8'>
+          <div className='p-16 bg-white shadow-custom-white rounded-8'>
             <span className='text-xl font-bold text-black'>{details.name}</span>
             <Spacing size={16} />
             <div className='flex gap-8 items-center'>

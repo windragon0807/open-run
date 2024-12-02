@@ -60,8 +60,8 @@ module.exports = {
       backgroundImage: {
         // 회원가입, 로그인 페이지 백그라운드 그라디언트
         'gradient-primary-white': 'linear-gradient(to bottom, #4A5CEF 50%, #FFF)',
-        'gradient-black': 'linear-gradient(180deg, rgba(224, 251, 96, 0.10) 0%, rgba(74, 92, 239, 0.00) 100%)',
-        'gradient-main': 'url("/images/bg_home_gradient.png")',
+        'nft-gradient':
+          'linear-gradient(146deg, rgba(255, 255, 255, 0.20) 41.23%, rgba(224, 251, 96, 0.20) 65.21%, rgba(74, 92, 239, 0.20) 81.2%)',
       },
       backgroundColor: {
         'black-lighten': 'rgba(34, 34, 34, 0.60)',
@@ -79,7 +79,7 @@ module.exports = {
         tablet: '768px',
       },
       boxShadow: {
-        shadow_white: '0px 0px 16px 0px rgba(74, 92, 239, 0.20)',
+        'custom-white': '0px 0px 16px 0px rgba(74, 92, 239, 0.20)',
       },
       keyframes: {
         marquee: {

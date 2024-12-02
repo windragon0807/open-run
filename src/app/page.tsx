@@ -23,7 +23,7 @@ export default async function HomePage() {
   }
 
   return (
-    <Layout className='bg-gray-lighten dark:bg-gradient-main dark:bg-cover'>
+    <Layout className='bg-gray-lighten'>
       <div className='h-full overflow-y-auto'>
         <Header nickname={userInfo.nickname} />
         <Spacing size={95} />
