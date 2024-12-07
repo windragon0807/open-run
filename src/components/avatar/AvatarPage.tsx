@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Avatar, WearingAvatar } from '@/types/avatar'
+import { Avatar, SelectedCategory, WearingAvatar } from '@/types/avatar'
 import Header from './Header'
 import Category from './Category'
 import AvatarList from './AvatarList'
@@ -15,6 +15,19 @@ export default function AvatarPage({
   wearingAvatar: WearingAvatar
 }) {
   const [selectedAvatar, setSelectedAvatar] = useState<WearingAvatar>(wearingAvatar)
+  const [selectedCategory, setSelectedCategory] = useState<SelectedCategory>({
+    mainCategory: null,
+    subCategory: null,
+  })
+
+  const filteredAvatarList = avatarList.filter((avatar) => {
+    if (selectedCategory.mainCategory === null) return true
+    if (selectedCategory.mainCategory === avatar.mainCategory) {
+      if (selectedCategory.subCategory === null) return true
+      return selectedCategory.subCategory === avatar.subCategory
+    }
+    return false
+  })
 
   return (
     <article className='w-full h-full'>
@@ -22,8 +35,12 @@ export default function AvatarPage({
 
       <section className='w-full h-[calc(100%-60px)] bg-gray-lighten flex flex-col items-center'>
         <AvatarCloset selectedAvatar={selectedAvatar} />
-        <Category />
-        <AvatarList avatarList={avatarList} selectedAvatar={selectedAvatar} setSelectedAvatar={setSelectedAvatar} />
+        <Category selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
+        <AvatarList
+          avatarList={filteredAvatarList}
+          selectedAvatar={selectedAvatar}
+          setSelectedAvatar={setSelectedAvatar}
+        />
       </section>
     </article>
   )

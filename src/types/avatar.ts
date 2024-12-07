@@ -36,3 +36,8 @@ export type WearingAvatar = {
   }
   background: Avatar | null
 }
+
+export type SelectedCategory = {
+  mainCategory: MainCategory | null
+  subCategory: SubCategory | null
+}
