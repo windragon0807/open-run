@@ -1,10 +1,15 @@
 import Layout from '@shared/Layout'
-import AvatarCloset from '@components/avatar/AvatarCloset'
+import AvatarPage from '@components/avatar/AvatarPage'
+import { fetchNftList } from '@apis/nfts/fetchNftList/api'
+import { fetchWearingAvatar } from '@apis/nfts/fetchWearingAvatar/api'
 
-export default function AvatarPage() {
+export default async function Page() {
+  const { data: avatarList } = await fetchNftList()
+  const { data: wearingAvatar } = await fetchWearingAvatar()
+
   return (
     <Layout>
-      <AvatarCloset />
+      <AvatarPage avatarList={avatarList} wearingAvatar={wearingAvatar} />
     </Layout>
   )
 }

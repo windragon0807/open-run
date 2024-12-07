@@ -140,7 +140,7 @@ export default function BungDetails({ details, isParticipated }: { details: Bung
               <HashTag key={label} label={label} />
             ))}
           </div>
-          <Spacing size={40} />
+          <Spacing size={80} />
         </section>
       </motion.section>
     </Layout>

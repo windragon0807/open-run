@@ -1,31 +1,79 @@
-'use client'
-
 import Image from 'next/image'
-import { useQuery } from 'react-query'
 
 import Spacing from '@shared/Spacing'
 import { useModalContext } from '@contexts/ModalContext'
-import { fetchNftList } from '@apis/nfts/fetchNftList/api'
 import DetailModal from './DetailModal'
+import { Avatar, SubCategory, WearingAvatar } from '@/types/avatar'
 
-export default function AvatarList() {
+export default function AvatarList({
+  avatarList,
+  selectedAvatar,
+  setSelectedAvatar,
+}: {
+  avatarList: Avatar[]
+  selectedAvatar: WearingAvatar
+  setSelectedAvatar: (avatar: WearingAvatar) => void
+}) {
   const { openModal } = useModalContext()
 
-  const { data: avatarList } = useQuery({
-    queryKey: ['avatarList'],
-    queryFn: fetchNftList,
-  })
+  const handleAvatarSelect = (avatar: Avatar) => {
+    if (avatar.mainCategory === 'accessories') {
+      if (selectedAvatar.accessories?.[avatar.subCategory as SubCategory]?.id === avatar.id) {
+        setSelectedAvatar({
+          ...selectedAvatar,
+          accessories: {
+            ...selectedAvatar.accessories,
+            [avatar.subCategory as SubCategory]: null,
+          },
+        })
+      } else {
+        setSelectedAvatar({
+          ...selectedAvatar,
+          accessories: {
+            ...selectedAvatar.accessories,
+            [avatar.subCategory as SubCategory]: avatar,
+          },
+        })
+      }
+    } else {
+      if (selectedAvatar[avatar.mainCategory]?.id === avatar.id) {
+        setSelectedAvatar({
+          ...selectedAvatar,
+          [avatar.mainCategory]: null,
+        })
+      } else {
+        setSelectedAvatar({
+          ...selectedAvatar,
+          [avatar.mainCategory]: avatar,
+        })
+      }
+    }
+  }
 
   return (
     <section className='w-full h-full overflow-y-auto px-16'>
       <div className='grid grid-cols-3 gap-8'>
-        {avatarList?.data.map((avatar) => (
+        {avatarList.map((avatar) => (
           <button
             key={avatar.id}
-            className='relative w-full p-12 flex flex-col items-center gap-10 bg-[rgba(255,255,255,0.20)] rounded-4 hover:bg-white hover:shadow-custom-white'
-            onClick={() => {}}>
+            className={`relative w-full p-12 flex flex-col items-center gap-10 bg-[rgba(255,255,255,0.20)] rounded-4 hover:bg-white hover:shadow-custom-white ${
+              avatar.mainCategory === 'accessories'
+                ? selectedAvatar.accessories[avatar.subCategory as SubCategory]?.id === avatar.id
+                  ? 'bg-white shadow-custom-white'
+                  : ''
+                : selectedAvatar[avatar.mainCategory]?.id === avatar.id
+                  ? 'bg-white shadow-custom-white'
+                  : ''
+            }`}
+            onClick={() => handleAvatarSelect(avatar)}>
             <div className='relative w-full max-w-80 aspect-square'>
-              <Image src={avatar.imageUrl} alt='' fill className='object-contain' />
+              <Image
+                src={avatar.imageUrl}
+                alt=''
+                fill
+                sizes='(max-width: 768px) 100vw, 33vw'
+                className='object-contain'
+              />
               {/* Skewed New Label */}
               <div className='absolute left-[50%] -translate-x-[50%] bottom-0 h-20 bg-secondary rounded-lg transform -skew-x-[10deg] border-2 border-black flex items-center justify-center gap-4 px-8'>
                 <span className='text-12 font-[900]'>NEW</span>
@@ -34,7 +82,7 @@ export default function AvatarList() {
             <span className='text-12 text-black-darken'>{avatar.name}</span>
 
             {/* Info Modal */}
-            <button
+            <div
               className='absolute top-6 right-6'
               onClick={() => {
                 openModal({
@@ -50,7 +98,7 @@ export default function AvatarList() {
                 })
               }}>
               <InfoIcon />
-            </button>
+            </div>
           </button>
         ))}
       </div>
