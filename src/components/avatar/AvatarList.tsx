@@ -53,54 +53,58 @@ export default function AvatarList({
   return (
     <section className='w-full h-full overflow-y-auto px-16'>
       <div className='grid grid-cols-3 gap-8'>
-        {avatarList.map((avatar) => (
-          <button
-            key={avatar.id}
-            className={`relative w-full p-12 flex flex-col items-center gap-10 bg-[rgba(255,255,255,0.20)] rounded-4 hover:bg-white hover:shadow-custom-white ${
-              avatar.mainCategory === 'accessories'
-                ? selectedAvatar.accessories[avatar.subCategory as SubCategory]?.id === avatar.id
-                  ? 'bg-white shadow-custom-white'
-                  : ''
-                : selectedAvatar[avatar.mainCategory]?.id === avatar.id
-                  ? 'bg-white shadow-custom-white'
-                  : ''
-            }`}
-            onClick={() => handleAvatarSelect(avatar)}>
-            <div className='relative w-full max-w-80 aspect-square'>
-              <Image
-                src={avatar.imageUrl}
-                alt=''
-                fill
-                sizes='(max-width: 768px) 100vw, 33vw'
-                className='object-contain'
-              />
-              {/* Skewed New Label */}
-              <div className='absolute left-[50%] -translate-x-[50%] bottom-0 h-20 bg-secondary rounded-lg transform -skew-x-[10deg] border-2 border-black flex items-center justify-center gap-4 px-8'>
-                <span className='text-12 font-[900]'>NEW</span>
+        {avatarList.length !== 0 ? (
+          avatarList.map((avatar) => (
+            <button
+              key={avatar.id}
+              className={`relative w-full p-12 flex flex-col items-center gap-10 bg-[rgba(255,255,255,0.20)] rounded-4 hover:bg-white hover:shadow-custom-white ${
+                avatar.mainCategory === 'accessories'
+                  ? selectedAvatar.accessories[avatar.subCategory as SubCategory]?.id === avatar.id
+                    ? 'bg-white shadow-custom-white'
+                    : ''
+                  : selectedAvatar[avatar.mainCategory]?.id === avatar.id
+                    ? 'bg-white shadow-custom-white'
+                    : ''
+              }`}
+              onClick={() => handleAvatarSelect(avatar)}>
+              <div className='relative w-full max-w-80 aspect-square'>
+                <Image
+                  src={avatar.imageUrl}
+                  alt=''
+                  fill
+                  sizes='(max-width: 768px) 100vw, 33vw'
+                  className='object-contain'
+                />
+                {/* Skewed New Label */}
+                <div className='absolute left-[50%] -translate-x-[50%] bottom-0 h-20 bg-secondary rounded-lg transform -skew-x-[10deg] border-2 border-black flex items-center justify-center gap-4 px-8'>
+                  <span className='text-12 font-[900]'>NEW</span>
+                </div>
               </div>
-            </div>
-            <span className='text-12 text-black-darken'>{avatar.name}</span>
+              <span className='text-12 text-black-darken'>{avatar.name}</span>
 
-            {/* Info Modal */}
-            <div
-              className='absolute top-6 right-6'
-              onClick={() => {
-                openModal({
-                  contents: (
-                    <DetailModal
-                      serialNumber={avatar.id}
-                      imageSrc={avatar.imageUrl}
-                      rarity={avatar.rarity}
-                      category={avatar.mainCategory}
-                      name={avatar.name}
-                    />
-                  ),
-                })
-              }}>
-              <InfoIcon />
-            </div>
-          </button>
-        ))}
+              {/* Info Modal */}
+              <div
+                className='absolute top-6 right-6'
+                onClick={() => {
+                  openModal({
+                    contents: (
+                      <DetailModal
+                        serialNumber={avatar.id}
+                        imageSrc={avatar.imageUrl}
+                        rarity={avatar.rarity}
+                        category={avatar.mainCategory}
+                        name={avatar.name}
+                      />
+                    ),
+                  })
+                }}>
+                <InfoIcon />
+              </div>
+            </button>
+          ))
+        ) : (
+          <div>획득한 파츠가 없습니다.</div>
+        )}
       </div>
 
       <Spacing size={30} />
