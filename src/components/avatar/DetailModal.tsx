@@ -24,7 +24,7 @@ export default function DetailModal({
   return (
     <section className='w-full h-full px-16 flex justify-center items-center'>
       <div
-        className='relative w-full max-w-328 h-480 rounded-8 flex flex-col items-center bg-white bg-nft-gradient'
+        className='relative w-full max-w-[328px] h-480 rounded-8 flex flex-col items-center bg-white bg-nft-gradient'
         onClick={(e) => e.stopPropagation()}>
         <header className='relative w-full h-60 flex items-center justify-center mb-16'>
           <span className='text-base font-bold'>NFT 아이템</span>

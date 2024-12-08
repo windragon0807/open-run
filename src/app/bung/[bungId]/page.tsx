@@ -11,6 +11,7 @@ export default async function Page({ params: { bungId } }: Props) {
   const { data } = await fetchBungDetail({ bungId })
 
   const isParticipated = true
+  const isOwner = true
 
-  return <BungDetails details={data} isParticipated={isParticipated} />
+  return <BungDetails details={data} isParticipated={isParticipated} isOwner={isOwner} />
 }

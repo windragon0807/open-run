@@ -9,6 +9,7 @@ import PlaceIcon from '@icons/PlaceIcon'
 import CrownIcon from '@icons/CrownIcon'
 import CalendarIcon from '@icons/CalendarIcon'
 import useTimer from '@hooks/useTimer'
+import { padStart } from '@utils/string'
 
 export default function BungCard({
   place,
@@ -24,7 +25,7 @@ export default function BungCard({
   isBungMaster: boolean
 }) {
   const { days, hours, minutes, seconds } = useTimer(time)
-  const formattedTime = `${String(days).padStart(2, '0')} : ${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(seconds).padStart(2, '0')}`
+  const formattedTime = `${padStart(days)} : ${padStart(hours)} : ${padStart(minutes)} : ${padStart(seconds)}`
   const formattedDate = format(time, 'M월 d일 (E) a h:mm', { locale: ko })
 
   return (

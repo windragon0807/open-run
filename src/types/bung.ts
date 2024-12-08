@@ -11,12 +11,14 @@ export type BungDetail = {
   hasAfterRun: boolean
   afterRunDescription: string
   hashtags: string[]
-  memberList: Array<{
-    userId: string
-    nickname: string
-    email: string
-    userBungId: number
-    participationStatus: boolean
-    owner: boolean
-  }>
+  memberList: BungDetailMember[]
+}
+
+export type BungDetailMember = {
+  userId: string
+  nickname: string
+  email: string
+  userBungId: number
+  participationStatus: boolean
+  owner: boolean
 }

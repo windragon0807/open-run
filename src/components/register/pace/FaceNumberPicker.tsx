@@ -1,4 +1,4 @@
-import React from 'react'
+import { padStart } from '@utils/string'
 import NumberDial from './NumberDial'
 import { useNumberDial } from './hooks/useNumberDial'
 
@@ -32,7 +32,7 @@ export default function FaceNumberPicker({
     initialValue: parseInt(defaultValue.split("'")[0]),
     min: minMinutes,
     max: maxMinutes,
-    onChange: (newMinutes) => onChange(`${newMinutes}'${seconds.toString().padStart(2, '0')}`),
+    onChange: (newMinutes) => onChange(`${newMinutes}'${padStart(seconds)}`),
   })
 
   const {
@@ -48,8 +48,7 @@ export default function FaceNumberPicker({
     initialValue: parseInt(defaultValue.split("'")[1]),
     min: minSeconds,
     max: maxSeconds,
-    onChange: (newSeconds) =>
-      onChange(`${minutes.toString().padStart(2, '0')}'${newSeconds.toString().padStart(2, '0')}`),
+    onChange: (newSeconds) => onChange(`${padStart(minutes)}'${padStart(newSeconds)}`),
   })
 
   return (
@@ -61,7 +60,7 @@ export default function FaceNumberPicker({
           value={minutes}
           min={minMinutes}
           max={maxMinutes}
-          onChange={(newMinutes) => onChange(`${newMinutes}'${seconds.toString().padStart(2, '0')}`)}
+          onChange={(newMinutes) => onChange(`${newMinutes}'${padStart(seconds)}`)}
           handleTouchStart={handleMinutesTouchStart}
           handleTouchMove={handleMinutesTouchMove}
           handleTouchEnd={handleMinutesTouchEnd}
@@ -80,9 +79,7 @@ export default function FaceNumberPicker({
           value={seconds}
           min={minSeconds}
           max={maxSeconds}
-          onChange={(newSeconds) =>
-            onChange(`${minutes.toString().padStart(2, '0')}'${newSeconds.toString().padStart(2, '0')}`)
-          }
+          onChange={(newSeconds) => onChange(`${padStart(minutes)}'${padStart(newSeconds)}`)}
           handleTouchStart={handleSecondsTouchStart}
           handleTouchMove={handleSecondsTouchMove}
           handleTouchEnd={handleSecondsTouchEnd}

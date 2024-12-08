@@ -1,4 +1,4 @@
-import { RegisterStep } from '@models/register'
+import { RegisterStep } from '@/types/register'
 import BackIcon from '@icons/BackIcon'
 
 export default function Header({

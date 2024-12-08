@@ -51,13 +51,13 @@ export default function AvatarList({
   }
 
   return (
-    <section className='w-full h-full overflow-y-auto px-16'>
+    <section className='w-full h-full overflow-y-auto px-16 pt-24'>
       <div className='grid grid-cols-3 gap-8'>
         {avatarList.length !== 0 ? (
           avatarList.map((avatar) => (
             <button
               key={avatar.id}
-              className={`relative w-full p-12 flex flex-col items-center gap-10 bg-[rgba(255,255,255,0.20)] rounded-4 hover:bg-white hover:shadow-custom-white ${
+              className={`relative w-full p-12 flex flex-col items-center gap-10 bg-[rgba(255,255,255,0.20)] rounded-8 hover:bg-white hover:shadow-custom-white ${
                 avatar.mainCategory === 'accessories'
                   ? selectedAvatar.accessories[avatar.subCategory as SubCategory]?.id === avatar.id
                     ? 'bg-white shadow-custom-white'

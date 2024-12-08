@@ -5,7 +5,7 @@ import { useMutation } from 'react-query'
 import { useRouter } from 'next/navigation'
 
 import Layout from '@shared/Layout'
-import { RegisterStep, UserRegister } from '@models/register'
+import { RegisterStep, UserRegister } from '@/types/register'
 import { register as _register } from '@apis/users/register/api'
 import BackIcon from '../icons/BackIcon'
 import Welcome from './welcome'

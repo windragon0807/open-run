@@ -49,7 +49,7 @@ export default function Category({
   setSelectedCategory: (category: SelectedCategory) => void
 }) {
   return (
-    <section className='w-full flex flex-col gap-16 pt-16 pb-24'>
+    <section className='w-full flex flex-col gap-16 pt-16'>
       <div className='w-full px-16 overflow-x-auto flex items-center gap-6'>
         {categoryList.map((item) => (
           <button

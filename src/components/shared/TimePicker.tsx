@@ -1,9 +1,10 @@
 import { useState, useRef, useCallback, TouchEvent, MouseEvent } from 'react'
+import { padStart } from '@utils/string'
 
 // [00, 01, 02, ..., 23]
-const hours = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'))
+const hours = Array.from({ length: 24 }, (_, i) => padStart(i))
 // [00, 05, 10, ..., 55]
-const minutes5Term = Array.from({ length: 12 }, (_, i) => (i * 5).toString().padStart(2, '0'))
+const minutes5Term = Array.from({ length: 12 }, (_, i) => padStart(i * 5))
 
 export default function TimePicker({
   value,
@@ -43,12 +44,12 @@ export default function TimePicker({
 
 const getNarrowTime = () => {
   const now = new Date()
-  const hour = now.getHours().toString().padStart(2, '0')
+  const hour = padStart(now.getHours())
   const minute = Math.floor(now.getMinutes() / 5 + 1) * 5
 
   return {
     hour,
-    minute: minute === 60 ? '00' : minute.toString().padStart(2, '0'),
+    minute: minute === 60 ? '00' : padStart(minute),
   }
 }
 
