@@ -1,6 +1,5 @@
 import Image from 'next/image'
 
-import Spacing from '@shared/Spacing'
 import { useModalContext } from '@contexts/ModalContext'
 import DetailModal from './DetailModal'
 import { Avatar, SubCategory, WearingAvatar } from '@/types/avatar'
@@ -51,10 +50,10 @@ export default function AvatarList({
   }
 
   return (
-    <section className='w-full h-full overflow-y-auto px-16 pt-24'>
-      <div className='grid grid-cols-3 gap-8'>
-        {avatarList.length !== 0 ? (
-          avatarList.map((avatar) => (
+    <section className='w-full h-full overflow-y-auto px-16 pt-24 pb-30'>
+      {avatarList.length !== 0 ? (
+        <div className='grid grid-cols-3 gap-8'>
+          {avatarList.map((avatar) => (
             <button
               key={avatar.id}
               className={`relative w-full p-12 flex flex-col items-center gap-10 bg-[rgba(255,255,255,0.20)] rounded-8 hover:bg-white hover:shadow-custom-white ${
@@ -102,13 +101,14 @@ export default function AvatarList({
                 <InfoIcon />
               </div>
             </button>
-          ))
-        ) : (
-          <div>획득한 파츠가 없습니다.</div>
-        )}
-      </div>
-
-      <Spacing size={30} />
+          ))}
+        </div>
+      ) : (
+        <section className='w-full pt-80 text-center text-gray-darken leading-[24px]'>
+          <p>아이템이 없어요.</p>
+          <p>도전과제를 달성하고 NFT를 획득하세요!</p>
+        </section>
+      )}
     </section>
   )
 }
