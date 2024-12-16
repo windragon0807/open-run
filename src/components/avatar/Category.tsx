@@ -17,9 +17,9 @@ const categoryList: {
   mainCategory: MainCategory
   icon: ElementType
 }[] = [
-  { mainCategory: 'fullSet', icon: FullSetIcon },
   { mainCategory: 'upperClothing', icon: UpperClothingIcon },
   { mainCategory: 'lowerClothing', icon: LowerClothingIcon },
+  { mainCategory: 'fullSet', icon: FullSetIcon },
   { mainCategory: 'footwear', icon: FootwearIcon },
   { mainCategory: 'face', icon: FaceIcon },
   { mainCategory: 'skin', icon: SkinIcon },
@@ -57,14 +57,8 @@ export default function Category({
             className={`flex-shrink-0 w-40 h-40 rounded-4 flex items-center justify-center ${
               selectedCategory.mainCategory === item.mainCategory ? 'bg-gray' : ''
             }`}
-            onClick={() =>
-              setSelectedCategory(
-                selectedCategory.mainCategory === item.mainCategory
-                  ? { mainCategory: null, subCategory: null }
-                  : { mainCategory: item.mainCategory, subCategory: null },
-              )
-            }>
-            <item.icon />
+            onClick={() => setSelectedCategory({ mainCategory: item.mainCategory, subCategory: null })}>
+            <item.icon focused={selectedCategory.mainCategory === item.mainCategory} />
           </button>
         ))}
       </div>

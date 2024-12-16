@@ -1,7 +1,7 @@
 export type MainCategory =
-  | 'fullSet'
   | 'upperClothing'
   | 'lowerClothing'
+  | 'fullSet'
   | 'footwear'
   | 'face'
   | 'skin'

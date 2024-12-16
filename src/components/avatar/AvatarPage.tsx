@@ -16,12 +16,11 @@ export default function AvatarPage({
 }) {
   const [selectedAvatar, setSelectedAvatar] = useState<WearingAvatar>(wearingAvatar)
   const [selectedCategory, setSelectedCategory] = useState<SelectedCategory>({
-    mainCategory: null,
+    mainCategory: 'upperClothing',
     subCategory: null,
   })
 
   const filteredAvatarList = avatarList.filter((avatar) => {
-    if (selectedCategory.mainCategory === null) return true
     if (selectedCategory.mainCategory === avatar.mainCategory) {
       if (selectedCategory.subCategory === null) return true
       return selectedCategory.subCategory === avatar.subCategory

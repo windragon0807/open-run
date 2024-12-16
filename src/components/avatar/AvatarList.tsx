@@ -69,8 +69,9 @@ export default function AvatarList({
               onClick={() => handleAvatarSelect(avatar)}>
               <div className='relative w-full max-w-80 aspect-square'>
                 <Image
+                  alt='아바타 파츠'
                   src={avatar.imageUrl}
-                  alt=''
+                  loading='lazy'
                   fill
                   sizes='(max-width: 768px) 100vw, 33vw'
                   className='object-contain'
