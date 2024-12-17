@@ -11,6 +11,10 @@ export function fetchNftList(): Promise<ResponseType> {
   })
 }
 
+/**
+ * TODO 썸네일 이미지 URL 추가
+ * TODO 머리의 경우 앞, 뒤 따로 URL 추가
+ */
 const mockData: ResponseType['data'] = [
   {
     id: '00001',

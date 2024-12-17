@@ -1,5 +1,3 @@
-'use client'
-
 import { ko } from 'date-fns/locale'
 import { format } from 'date-fns'
 
@@ -18,14 +16,14 @@ const participantList = [
 
 export default function RecommendationCard({
   title,
-  place,
+  location,
   time,
-  tags,
+  hashtags,
 }: {
   title: string
-  place: string
+  location: string
   time: Date
-  tags: string[]
+  hashtags: string[]
 }) {
   // 남은 시간을 상태로 관리
   const formattedDate = format(time, 'M월 d일 (E) a h:mm', { locale: ko })
@@ -38,7 +36,7 @@ export default function RecommendationCard({
       <Spacing size={8} />
       <div className='flex gap-6 items-center'>
         <PlaceIcon />
-        <span className='text-[14px] leading-[20px] tracking-[-0.28px]'>{place}</span>
+        <span className='text-[14px] leading-[20px] tracking-[-0.28px]'>{location}</span>
       </div>
       <Spacing size={2} />
       <div className='flex gap-6 items-center'>
@@ -54,7 +52,7 @@ export default function RecommendationCard({
         <span>n 자리 남음</span>
       </div>
       <div className='absolute flex bottom-16 left-16 gap-4'>
-        {tags.map((value) => (
+        {hashtags.map((value) => (
           <div key={`tag-${value}`} className='bg-black-lighten px-6 text-white rounded-4'>
             <span className='text-[12px] leading-[16px] tracking-[-0.24px]'>{value}</span>
           </div>

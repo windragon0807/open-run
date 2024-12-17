@@ -25,5 +25,6 @@ export type ResponseType = Pagination &
       memberNumber: number
       hasAfterRun: boolean
       afterRunDescription: string
+      hashtags: string[]
     }>
   >

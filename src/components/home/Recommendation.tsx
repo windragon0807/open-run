@@ -1,4 +1,4 @@
-import { Fragment } from 'react'
+import Link from 'next/link'
 
 import { convertStringTimeToDate } from '@utils/time'
 import Spacing from '@shared/Spacing'
@@ -19,17 +19,18 @@ export default async function Recommendation() {
         <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black dark:text-white'>추천</span>
         <ArrowRight />
       </button>
-      {recommendationList?.map((item) => (
-        <Fragment key={item.bungId}>
-          <Spacing size={8} />
-          <RecommendationCard
-            title={item.name}
-            place={item.location}
-            time={convertStringTimeToDate(item.startDateTime)}
-            tags={['해시태그', '런', '마포구']}
-          />
-        </Fragment>
-      ))}
+      <section className='flex flex-col gap-8'>
+        {recommendationList?.map((item) => (
+          <Link href={`/bung/${item.bungId}`} key={item.bungId}>
+            <RecommendationCard
+              title={item.name}
+              location={item.location}
+              time={convertStringTimeToDate(item.startDateTime)}
+              hashtags={item.hashtags}
+            />
+          </Link>
+        ))}
+      </section>
       <Spacing size={60} />
     </section>
   )
