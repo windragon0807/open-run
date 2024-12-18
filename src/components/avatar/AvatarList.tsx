@@ -69,7 +69,7 @@ export default function AvatarList({
               <div className='relative w-full max-w-80 aspect-square'>
                 <Image
                   alt='아바타 파츠'
-                  src={avatar.imageUrl}
+                  src={Array.isArray(avatar.imageUrl) ? avatar.imageUrl[0] : avatar.imageUrl}
                   loading='lazy'
                   fill
                   sizes='(max-width: 768px) 100vw, 33vw'
@@ -90,7 +90,7 @@ export default function AvatarList({
                     contents: (
                       <DetailModal
                         serialNumber={avatar.id}
-                        imageSrc={avatar.imageUrl}
+                        imageSrc={Array.isArray(avatar.imageUrl) ? avatar.imageUrl[0] : avatar.imageUrl}
                         rarity={avatar.rarity}
                         category={avatar.mainCategory}
                         name={avatar.name}

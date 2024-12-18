@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 const FOCUSED_COLOR = '#222222'
 const UNFOCUSED_COLOR = '#89939D'
 
@@ -69,7 +67,16 @@ export function FaceIcon({ focused }: { focused: boolean }) {
 }
 
 export function SkinIcon({ focused }: { focused: boolean }) {
-  return <Image src='/images/icon_skin.png' alt='Skin' width={24} height={24} />
+  return (
+    <svg width='24' height='24' viewBox='0 0 24 24' fill='none'>
+      <path
+        fillRule='evenodd'
+        clipRule='evenodd'
+        d='M20.5023 14.9589C19.2785 18.4759 15.934 21 12 21C8.066 21 4.72153 18.4759 3.4977 14.9589C3.33582 14.9859 3.16956 15 3 15C1.34315 15 0 13.6569 0 12C0 10.3431 1.34315 9 3 9C3.16955 9 3.33582 9.01407 3.4977 9.0411C4.72154 5.52407 8.066 3 12 3C15.934 3 19.2785 5.52407 20.5023 9.0411C20.6642 9.01407 20.8304 9 21 9C22.6569 9 24 10.3431 24 12C24 13.6569 22.6569 15 21 15C20.8304 15 20.6642 14.9859 20.5023 14.9589Z'
+        fill={focused ? FOCUSED_COLOR : UNFOCUSED_COLOR}
+      />
+    </svg>
+  )
 }
 
 export function HairIcon({ focused }: { focused: boolean }) {

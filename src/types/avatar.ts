@@ -8,11 +8,12 @@ export type MainCategory =
   | 'hair'
   | 'accessories'
   | 'background'
-export type SubCategory = 'hair-accessories' | 'eye-accessories' | 'ear-accessories' | 'body-accessories'
+export type SubCategory = 'head-accessories' | 'eye-accessories' | 'ear-accessories' | 'body-accessories'
 
 export type Avatar = {
   id: string
-  imageUrl: string
+  imageUrl: string | string[]
+  thumbnailUrl: string
   rarity: string
   name: string
   mainCategory: MainCategory
@@ -29,7 +30,7 @@ export type WearingAvatar = {
   skin: Avatar | null
   hair: Avatar | null
   accessories: {
-    'hair-accessories': Avatar | null
+    'head-accessories': Avatar | null
     'eye-accessories': Avatar | null
     'ear-accessories': Avatar | null
     'body-accessories': Avatar | null

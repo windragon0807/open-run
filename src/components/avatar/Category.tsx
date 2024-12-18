@@ -35,7 +35,7 @@ const subCategoryList: {
   subCategory: SubCategory
   label: string
 }[] = [
-  { subCategory: 'hair-accessories', label: '머리 장식' },
+  { subCategory: 'head-accessories', label: '머리 장식' },
   { subCategory: 'eye-accessories', label: '눈 장식' },
   { subCategory: 'ear-accessories', label: '귀 장식' },
   { subCategory: 'body-accessories', label: '몸 장식' },
