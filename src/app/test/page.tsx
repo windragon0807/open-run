@@ -1,9 +1,9 @@
-import MapDistance from '@components/temp/MapDistance'
+import TestClient from '@components/temp/TestClient'
 
 export default function TestPage() {
   return (
     <section className='flex items-center justify-center w-dvw h-dvh bg-primary'>
-      <MapDistance />
+      <TestClient />
     </section>
   )
 }

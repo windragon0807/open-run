@@ -1,8 +1,8 @@
 export type RequestType = {
-  startLat: number
-  startLng: number
-  endLat: number
-  endLng: number
+  startLat: string
+  startLng: string
+  endLat: string
+  endLng: string
 }
 
 export type ResponseType = number | null

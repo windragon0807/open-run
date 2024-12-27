@@ -2,13 +2,13 @@ import { RequestType, ResponseType } from './type'
 
 export async function fetchDistance(request: RequestType): Promise<ResponseType> {
   const params = new URLSearchParams({
-    startLat: request.startLat.toString(),
-    startLng: request.startLng.toString(),
-    endLat: request.endLat.toString(),
-    endLng: request.endLng.toString(),
+    startLat: request.startLat,
+    startLng: request.startLng,
+    endLat: request.endLat,
+    endLng: request.endLng,
   })
 
-  const response = await fetch(`/api/map-distance?${params}`)
+  const response = await fetch(`/api/distance?${params}`)
   const data: NaverMapDistance5Response = await response.json()
 
   const distance = data?.route?.traoptimal?.[0]?.summary?.distance
@@ -21,9 +21,9 @@ type NaverMapDistance5Response = {
   message: string
   route: {
     traoptimal: Array<{
-      guide: any
-      path: any
-      section: any
+      guide: unknown
+      path: unknown
+      section: unknown
       summary: {
         distance: number // (m 미터)
       }

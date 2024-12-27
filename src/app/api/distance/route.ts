@@ -1,12 +1,13 @@
 import { NextResponse, NextRequest } from 'next/server'
 
 /**
- * lat: 위도, lng: 경도
+ * GET /api/distance
+ * query params:
  * {
- *   startLat: 37.519570,
- *   startLng: 127.027964,
- *   endLat: 37.516263,
- *   endLng: 127.019895
+ *   startLng: string; (경도)
+ *   startLat: string; (위도)
+ *   endLng: string; (경도)
+ *   endLat: string; (위도)
  * }
  */
 export async function GET(request: NextRequest) {
@@ -23,7 +24,7 @@ export async function GET(request: NextRequest) {
   try {
     // https://api.ncloud-docs.com/docs/ai-naver-mapsdirections-driving
     const response = await fetch(
-      `${process.env.NAVER_MAP_DIRECTION5_SERVER_URL}/driving?start=${startLng}%2C${startLat}&goal=${endLng}%2C${endLat}`,
+      `${NAVER_MAP_DIRECTION5_API_URL}/driving?start=${startLng}%2C${startLat}&goal=${endLng}%2C${endLat}`,
       {
         headers: {
           'X-NCP-APIGW-API-KEY-ID': process.env.NAVER_MAP_CLIENT_ID,
@@ -38,3 +39,5 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: '경로 조회 실패' }, { status: 500 })
   }
 }
+
+const NAVER_MAP_DIRECTION5_API_URL = 'https://naveropenapi.apigw.ntruss.com/map-direction/v1'
