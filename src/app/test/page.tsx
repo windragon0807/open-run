@@ -1,11 +1,9 @@
-'use client'
-
-import LoadingLogo from '@shared/LoadingLogo'
+import MapDistance from '@components/temp/MapDistance'
 
 export default function TestPage() {
   return (
     <section className='flex items-center justify-center w-dvw h-dvh bg-primary'>
-      <LoadingLogo color='var(--secondary)' size={100} />
+      <MapDistance />
     </section>
   )
 }

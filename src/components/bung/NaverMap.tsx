@@ -12,6 +12,7 @@ export default function NaverMap({ location }: { location: string }) {
   const [coordinates, setCoordinates] = useState<Coordinates>()
 
   useEffect(() => {
+    console.log(naver.maps.Service)
     naver.maps.Service.geocode({ query: location }, (_, response) => {
       if (response.v2.addresses.length > 0) {
         setCoordinates({

@@ -11,7 +11,7 @@ export type ApiResponse<DataType> = {
 }
 
 const http = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_SERVER_URL,
 })
 
 http.interceptors.request.use(async (request) => {
