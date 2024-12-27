@@ -1,25 +1,17 @@
 'use client'
 
-import { fetchDistance } from '@apis/naver-maps/fetchDistance/api'
-import { useQuery } from 'react-query'
+import useGeolocation from '@hooks/useGeolocation'
 
 export default function MapDistance() {
-  const { data } = useQuery({
-    queryKey: ['map-distance'],
-    queryFn: () =>
-      fetchDistance({
-        startLat: 37.51957,
-        startLng: 127.027964,
-        endLat: 37.516263,
-        endLng: 127.019895,
-      }),
-  })
+  const { latitude, longitude } = useGeolocation()
 
-  console.log(data)
+  console.log(latitude, longitude)
 
   return (
     <div>
-      <p>두 지점 사이의 거리: km</p>
+      <p>
+        현재 위치: {latitude}, {longitude}
+      </p>
     </div>
   )
 }
