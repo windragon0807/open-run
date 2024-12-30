@@ -1,27 +1,16 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { Container, NaverMap as Map, Marker, useNavermaps } from 'react-naver-maps'
-
+import { useQuery } from 'react-query'
+import { fetchGeocode } from '@apis/maps/fetchGeocode/api'
 import './map.css'
-
-type Coordinates = { lat: number; lng: number }
 
 export default function NaverMap({ location }: { location: string }) {
   const navermaps = useNavermaps()
-  const [coordinates, setCoordinates] = useState<Coordinates>()
-
-  useEffect(() => {
-    console.log(naver.maps.Service)
-    naver.maps.Service.geocode({ query: location }, (_, response) => {
-      if (response.v2.addresses.length > 0) {
-        setCoordinates({
-          lat: Number(response.v2.addresses[0].y),
-          lng: Number(response.v2.addresses[0].x),
-        })
-      }
-    })
-  }, [location])
+  const { data: coordinates } = useQuery({
+    queryKey: ['geocode', location],
+    queryFn: () => fetchGeocode({ address: location }),
+  })
 
   if (coordinates == null)
     return (
@@ -34,8 +23,8 @@ export default function NaverMap({ location }: { location: string }) {
 
   return (
     <Container className='maps' style={{ height: 200 }}>
-      <Map defaultCenter={new navermaps.LatLng(coordinates.lat, coordinates.lng)} defaultZoom={15}>
-        <Marker defaultPosition={new navermaps.LatLng(coordinates.lat, coordinates.lng)} />
+      <Map defaultCenter={new navermaps.LatLng(Number(coordinates.lat), Number(coordinates.lng))} defaultZoom={15}>
+        <Marker defaultPosition={new navermaps.LatLng(Number(coordinates.lat), Number(coordinates.lng))} />
       </Map>
     </Container>
   )
