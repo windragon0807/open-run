@@ -11,7 +11,6 @@ import { useModalContext } from '@contexts/ModalContext'
 import Layout from '@shared/Layout'
 import NaverMap from '@components/bung/NaverMap'
 import ParticipateButton from '@components/bung/ParticipateButton'
-import CloseIcon from '@icons/CloseIcon'
 import BackIcon from '@icons/BackIcon'
 import PlaceIcon from '@icons/PlaceIcon'
 import CalendarIcon from '@icons/CalendarIcon'
@@ -22,7 +21,9 @@ import { BungDetail } from '@/types/bung'
 import useTimer from '@hooks/useTimer'
 import { convertStringTimeToDate } from '@utils/time'
 import { padStart } from '@utils/string'
-import DelegateOwnerModal from './DelegateOwnerModal'
+import DelegateOwnerModal from './modal/DelegateOwnerModal'
+import WhyCertificationModal from './modal/WhyCertificationModal'
+import CertifyParticipationModal from './modal/CertifyParticipationModal'
 
 export default function BungDetails({
   details,
@@ -102,11 +103,13 @@ export default function BungDetails({
           <div className='p-16 bg-white shadow-custom-white rounded-8 mb-24'>
             {/* 벙 이름 */}
             <span className='inline-block text-xl font-bold text-black mb-16'>{details.name}</span>
+
             {/* 벙 위치 */}
             <div className='flex gap-8 items-center mb-8'>
               <PlaceIcon color='var(--black)' />
               <span className='text-sm text-black'>{details.location}</span>
             </div>
+
             {/* 벙 시작 날짜 및 시간 */}
             <div className='flex gap-8 items-center mb-8'>
               <CalendarIcon color='var(--black)' />
@@ -114,11 +117,13 @@ export default function BungDetails({
                 {format(convertStringTimeToDate(details.startDateTime), 'M월 d일 (E) a h:mm', { locale: ko })}
               </span>
             </div>
+
             {/* 벙 거리 및 페이스 */}
             <div className='flex gap-8 items-center mb-8'>
               <RunnerIcon color='var(--black)' />
               <span className='text-sm text-black'>{`${details.distance} km ${details.pace}`}</span>
             </div>
+
             {/* 벙 참여 인원 및 남은 자리 */}
             <div className='flex gap-8 items-center mb-24'>
               <PersonIcon color='var(--black)' />
@@ -135,7 +140,13 @@ export default function BungDetails({
                       ? '러닝 시작 전, 모든 멤버가 모이면\n참여 인증을 안내해 주세요'
                       : '러닝 시작 전, 벙주의 안내에 따라\n참여 인증을 해주세요'}
                   </p>
-                  <button className='bg-black-darken px-14 py-10 rounded-8 text-sm text-white font-bold disabled:bg-gray disabled:text-white'>
+                  <button
+                    className='bg-black-darken px-14 py-10 rounded-8 text-sm text-white font-bold disabled:bg-gray disabled:text-white'
+                    onClick={() => {
+                      openModal({
+                        contents: <CertifyParticipationModal destination={details.location} />,
+                      })
+                    }}>
                     참여 인증
                   </button>
                 </div>
@@ -180,8 +191,10 @@ export default function BungDetails({
               ))}
             </div>
           </div>
+
           {/* 벙 설명 */}
           <p className='w-full px-16 text-sm text-black-darken'>{details.description}</p>
+
           {/* 벙 뒷풀이 */}
           {details.hasAfterRun && (
             <>
@@ -189,6 +202,8 @@ export default function BungDetails({
               <p className='text-sm text-black-darken pl-16 mt-4'>{details.afterRunDescription}</p>
             </>
           )}
+
+          {/* 위치 및 지도 */}
           <div className='flex items-center gap-4 pl-16 mt-40 mb-8'>
             <PlaceIcon color='var(--black)' />
             <span className='text-sm text-black-darken font-bold'>{details.location}</span>
@@ -196,6 +211,8 @@ export default function BungDetails({
           <div className='px-16 mb-18'>
             <NaverMap location={details.location} />
           </div>
+
+          {/* 해시태그 */}
           <div className='flex flex-wrap gap-8 px-16 mb-80'>
             {details.hashtags.map((label) => (
               <HashTag key={label} label={label} />
@@ -254,23 +271,5 @@ function TrashIcon() {
       <path d='M14.5714 17.4H12.8571V10.2H14.5714V17.4Z' />
       <path fillRule='evenodd' clipRule='evenodd' d='M6 21V6.6H18V21H6ZM16.2857 19.2H7.71429V8.4H16.2857V19.2Z' />
     </svg>
-  )
-}
-
-function WhyCertificationModal() {
-  const { closeModal } = useModalContext()
-  return (
-    <section
-      className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-[328px] h-[70%] bg-white rounded-8'
-      onClick={(e) => e.stopPropagation()}>
-      <div className='w-full h-full'>
-        <header className='relative w-full h-60 flex items-center justify-center'>
-          <h3 className='text-16 font-bold text-black-darken'>참여 인증을 왜 해야 하나요?</h3>
-          <button className='absolute right-16' onClick={closeModal}>
-            <CloseIcon size={24} />
-          </button>
-        </header>
-      </div>
-    </section>
   )
 }

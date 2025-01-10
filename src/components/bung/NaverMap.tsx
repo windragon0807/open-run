@@ -5,7 +5,13 @@ import { useQuery } from 'react-query'
 import { fetchGeocode } from '@apis/maps/fetchGeocode/api'
 import './map.css'
 
-export default function NaverMap({ location }: { location: string }) {
+export default function NaverMap({
+  location,
+  curCoordinates,
+}: {
+  location: string
+  curCoordinates?: [string, string]
+}) {
   const navermaps = useNavermaps()
   const { data: coordinates } = useQuery({
     queryKey: ['geocode', location],
@@ -25,6 +31,9 @@ export default function NaverMap({ location }: { location: string }) {
     <Container className='maps' style={{ height: 200 }}>
       <Map defaultCenter={new navermaps.LatLng(Number(coordinates.lat), Number(coordinates.lng))} defaultZoom={15}>
         <Marker defaultPosition={new navermaps.LatLng(Number(coordinates.lat), Number(coordinates.lng))} />
+        {curCoordinates && (
+          <Marker defaultPosition={new navermaps.LatLng(Number(curCoordinates[0]), Number(curCoordinates[1]))} />
+        )}
       </Map>
     </Container>
   )
