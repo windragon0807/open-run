@@ -4,7 +4,7 @@ import { Pagination } from '@apis/type'
 export type RequestType = {
   /* null : 전체, true : 내가 벙주인 벙, false : 내가 참여한 벙 */
   isOwned: boolean | null
-  /* null : 전부, PARTICIPATING : 아직 시작하지 않은, ACCOMPLISHED : 완료된 */
+  /* null : 현재 일자보다 미래 시점의 모든 벙, PARTICIPATING : 시작은 했는데 안 끝난 벙, ACCOMPLISHED : 완료된 벙 */
   status: 'PARTICIPATING' | 'ACCOMPLISHED' | null
   page: number
   limit: number

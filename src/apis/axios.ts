@@ -15,11 +15,17 @@ const http = axios.create({
 })
 
 http.interceptors.request.use(async (request) => {
-  /* LOGGING */
-  const { method, url, data } = request
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`🚀 [API] ${method?.toUpperCase()} ${url} | Request\n\n${JSON.stringify(data, null, 2)}\n`)
+  const { method, url, params } = request
+
+  /* null, undefined 값을 가진 파라미터 제거 */
+  if (params != null) {
+    request.params = Object.fromEntries(
+      Object.entries(params).filter(([_, value]) => value !== null && value !== undefined),
+    )
   }
+
+  /* LOGGING */
+  console.log(`🚀 [API] ${method?.toUpperCase()} ${url} | Request\n\n${JSON.stringify(request.params, null, 2)}\n`)
 
   /* HEADER CONFIG */
   let token
@@ -45,12 +51,11 @@ http.interceptors.request.use(async (request) => {
 http.interceptors.response.use(
   /* 응답 성공 시 */
   (response: AxiosResponse) => {
-    /* LOGGING */
     const { method, url } = response.config
     const { status, data } = response
-    if (process.env.NODE_ENV === 'development') {
-      console.log(`🚀 [API] ${method?.toUpperCase()} ${url} | Response ${status}\n\n${JSON.stringify(data, null, 2)}\n`)
-    }
+
+    /* LOGGING */
+    console.log(`🎁 [API] ${method?.toUpperCase()} ${url} | Response ${status}\n\n${JSON.stringify(data, null, 2)}\n`)
 
     return data
   },

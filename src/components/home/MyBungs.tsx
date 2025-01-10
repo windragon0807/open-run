@@ -9,7 +9,7 @@ import BungCard from './BungCard'
 export default async function MyBungs() {
   const { data } = await fetchMyBungs({
     isOwned: null,
-    status: 'PARTICIPATING',
+    status: null,
     page: 0,
     limit: 50,
   })
