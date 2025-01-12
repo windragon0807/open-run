@@ -9,7 +9,6 @@ import { format } from 'date-fns'
 
 import { useModalContext } from '@contexts/ModalContext'
 import Layout from '@shared/Layout'
-import NaverMap from '@components/bung/NaverMap'
 import ParticipateButton from '@components/bung/ParticipateButton'
 import BackIcon from '@icons/BackIcon'
 import PlaceIcon from '@icons/PlaceIcon'
@@ -24,6 +23,7 @@ import { padStart } from '@utils/string'
 import DelegateOwnerModal from './modal/DelegateOwnerModal'
 import WhyCertificationModal from './modal/WhyCertificationModal'
 import CertifyParticipationModal from './modal/CertifyParticipationModal'
+import OneMarkerMap from './OneMarkerMap'
 
 export default function BungDetails({
   details,
@@ -209,7 +209,7 @@ export default function BungDetails({
             <span className='text-sm text-black-darken font-bold'>{details.location}</span>
           </div>
           <div className='px-16 mb-18'>
-            <NaverMap location={details.location} />
+            <OneMarkerMap location={details.location} />
           </div>
 
           {/* 해시태그 */}
