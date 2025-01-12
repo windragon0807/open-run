@@ -4,7 +4,7 @@ import { Container, NaverMap, Marker, useNavermaps } from 'react-naver-maps'
 import { useGeocode } from '@apis/maps/fetchGeocode/query'
 import './map.css'
 
-export default function OneMarkerMap({ location }: { location: string }) {
+export default function Map({ location }: { location: string }) {
   const navermaps = useNavermaps()
   const { data: coordinates } = useGeocode(location)
 

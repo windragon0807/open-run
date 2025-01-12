@@ -23,7 +23,7 @@ import { padStart } from '@utils/string'
 import DelegateOwnerModal from './modal/DelegateOwnerModal'
 import WhyCertificationModal from './modal/WhyCertificationModal'
 import CertifyParticipationModal from './modal/CertifyParticipationModal'
-import OneMarkerMap from './OneMarkerMap'
+import Map from './Map'
 
 export default function BungDetails({
   details,
@@ -209,7 +209,7 @@ export default function BungDetails({
             <span className='text-sm text-black-darken font-bold'>{details.location}</span>
           </div>
           <div className='px-16 mb-18'>
-            <OneMarkerMap location={details.location} />
+            <Map location={details.location} />
           </div>
 
           {/* 해시태그 */}
