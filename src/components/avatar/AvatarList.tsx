@@ -85,7 +85,8 @@ export default function AvatarList({
               {/* Info Modal */}
               <div
                 className='absolute top-6 right-6'
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation()
                   openModal({
                     contents: (
                       <DetailModal
