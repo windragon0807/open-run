@@ -11,6 +11,7 @@ import CheckIcon from '@icons/CheckIcon'
 import useDebounce from '@hooks/useDebounce'
 import { searchByNickname as _searchByNickname } from '@apis/users/searchByNickname/api'
 import { fetchSuggestion } from '@apis/users/fetchSuggestion/api'
+import PrimaryButton from '@shared/PrimaryButton'
 
 export default function Invitation() {
   const [selectedMembers, setSelectedMembers] = useState<string[]>([])
@@ -87,11 +88,9 @@ export default function Invitation() {
       <ul className='flex flex-col gap-8 h-[calc(100%-160px)] overflow-y-auto pr-8 pb-20'>
         {멤버추천리스트를보여줄상태인가 ? renderSuggestionList() : renderSearchedList()}
       </ul>
-      <button
-        className='absolute bottom-20 bg-primary w-[calc(100%-32px)] h-58 rounded-8 text-white text-base disabled:bg-gray disabled:text-gray-lighten'
-        disabled={selectedMembers.length === 0}>
-        초대 완료
-      </button>
+      <div className='absolute bottom-20 w-[calc(100%-32px)]'>
+        <PrimaryButton disabled={selectedMembers.length === 0}>초대 완료</PrimaryButton>
+      </div>
     </section>
   )
 }

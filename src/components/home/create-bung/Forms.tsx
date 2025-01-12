@@ -9,6 +9,7 @@ import NumberInput from '@shared/NumberInput'
 import TextArea from '@shared/TextArea'
 import DatePicker from '@shared/DatePicker'
 import TimePicker from '@shared/TimePicker'
+import PrimaryButton from '@shared/PrimaryButton'
 import HashTag from '@shared/HashTag'
 import LoadingLogo from '@shared/LoadingLogo'
 import ClockIcon from '@icons/ClockIcon'
@@ -16,7 +17,7 @@ import CalendarIcon from '@icons/CalendarIcon'
 import { createBung as _createBung } from '@apis/bungs/createBung/api'
 import { fetchHashtags as _fetchHashtags } from '@apis/bungs/fetchHashtags/api'
 import AddressSearchModal from './AddressSearchModal'
-import useDebounce from '@/hooks/useDebounce'
+import useDebounce from '@hooks/useDebounce'
 
 type FormValues = {
   bungName: string
@@ -435,13 +436,9 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
       </div>
 
       {/** 벙 만들기 버튼 */}
-      <button className='w-full h-56 bg-primary rounded-8 mb-40' onClick={handleSubmit}>
-        {isLoading ? (
-          <LoadingLogo color='var(--secondary)' className='mx-auto' />
-        ) : (
-          <span className='text-[16px] text-white font-bold leading-[24px] tracking-[-0.32px]'>벙 만들기</span>
-        )}
-      </button>
+      <PrimaryButton className='mb-40' onClick={handleSubmit}>
+        {isLoading ? <LoadingLogo color='var(--secondary)' className='mx-auto' /> : '벙 만들기'}
+      </PrimaryButton>
     </section>
   )
 }

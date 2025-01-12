@@ -5,6 +5,7 @@ import Link from 'next/link'
 
 import { useModalContext } from '@contexts/ModalContext'
 import CloseIcon from '@icons/CloseIcon'
+import PrimaryButton from '@shared/PrimaryButton'
 
 export default function DetailModal({
   serialNumber,
@@ -46,10 +47,8 @@ export default function DetailModal({
         <h4 className='text-base font-bold text-black-darken mb-4'>{name}</h4>
         <span className='text-12 text-gray-darken'>{category}</span>
 
-        <Link
-          href=''
-          className='absolute bottom-40 w-[calc(100%-32px)] h-56 bg-primary rounded-8 flex items-center justify-center'>
-          <span className='text-16 font-bold text-white'>스캐너 페이지로 이동</span>
+        <Link href='' className='absolute bottom-40 w-[calc(100%-32px)]'>
+          <PrimaryButton>스캐너 페이지로 이동</PrimaryButton>
         </Link>
       </div>
     </section>
