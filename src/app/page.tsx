@@ -8,6 +8,7 @@ import Recommendation from '@components/home/Recommendation'
 import MyNFTs from '@components/home/MyNFTs'
 import MyBungs from '@components/home/MyBungs'
 import Header from '@components/home/Header'
+import PrePermissions from '@components/home/PrePermissions'
 import { fetchUserInfo } from '@apis/users/fetchUserInfo/api'
 
 export default async function HomePage() {
@@ -24,6 +25,7 @@ export default async function HomePage() {
 
   return (
     <Layout className='bg-gray-lighten'>
+      <PrePermissions />
       <div className='h-full overflow-y-auto'>
         <Header nickname={userInfo.nickname} />
         <Spacing size={95} />
