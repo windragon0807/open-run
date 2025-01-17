@@ -24,6 +24,7 @@ import DelegateOwnerModal from './modal/DelegateOwnerModal'
 import WhyCertificationModal from './modal/WhyCertificationModal'
 import CertifyParticipationModal from './modal/CertifyParticipationModal'
 import OneMarkerMap from './OneMarkerMap'
+import DeleteBungModal from './modal/DeleteBungModal'
 
 export default function BungDetails({
   details,
@@ -71,13 +72,16 @@ export default function BungDetails({
           {벙에참여한멤버인가 && <button className='text-white text-14'>참여 취소</button>}
           {벙에참여한벙주인가 && (
             <>
+              {/** 벙 수정 */}
               <button>
                 <PencilIcon />
               </button>
+              {/** 벙주 넘기기 */}
               <button onClick={() => openModal({ contents: <DelegateOwnerModal memberList={details.memberList} /> })}>
                 <EscapeIcon />
               </button>
-              <button>
+              {/** 벙 삭제 */}
+              <button onClick={() => openModal({ contents: <DeleteBungModal bungId={details.bungId} /> })}>
                 <TrashIcon />
               </button>
             </>
