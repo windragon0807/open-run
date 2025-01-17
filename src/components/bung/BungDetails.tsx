@@ -25,6 +25,7 @@ import WhyCertificationModal from './modal/WhyCertificationModal'
 import CertifyParticipationModal from './modal/CertifyParticipationModal'
 import OneMarkerMap from './OneMarkerMap'
 import DeleteBungModal from './modal/DeleteBungModal'
+import ManageMembersModal from './modal/ManageMembersModal'
 
 export default function BungDetails({
   details,
@@ -179,7 +180,13 @@ export default function BungDetails({
           <div className='flex flex-col gap-8 mb-24'>
             <div className='w-full flex justify-between items-center px-16'>
               <span className='text-base font-bold text-black-darken'>{참여인원수}명이 함께 뛸 예정이에요</span>
-              {벙에참여한벙주인가 && <button className='text-sm font-normal text-black-darken'>멤버관리</button>}
+              {벙에참여한벙주인가 && (
+                <button
+                  className='text-sm font-normal text-black-darken'
+                  onClick={() => openModal({ contents: <ManageMembersModal memberList={details.memberList} /> })}>
+                  멤버관리
+                </button>
+              )}
             </div>
             <div className='flex gap-8 overflow-x-auto px-16'>
               {details.memberList.map((member) => (
