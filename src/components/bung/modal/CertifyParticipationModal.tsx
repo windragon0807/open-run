@@ -6,6 +6,7 @@ import { useModalContext } from '@contexts/ModalContext'
 import useGeolocation from '@hooks/useGeolocation'
 import CloseIcon from '@icons/CloseIcon'
 import PrimaryButton from '@shared/PrimaryButton'
+import LoadingLogo from '@shared/LoadingLogo'
 import '../map.css'
 
 const 참여인증거리 = 3_000
@@ -50,7 +51,7 @@ export default function CertifyParticipationModal({ destination }: { destination
         )}
       </section>
       <PrimaryButton className='mt-20 mb-40' disabled={distance == null || distance > 참여인증거리}>
-        참여 인증 완료
+        {distance == null ? <LoadingLogo /> : '참여 인증 완료'}
       </PrimaryButton>
     </section>
   )
