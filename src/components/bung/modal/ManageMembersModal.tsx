@@ -8,7 +8,7 @@ import MagnifierIcon from '@icons/MagnifierIcon'
 import { BungDetailMember } from '@/types/bung'
 import { colors } from '@styles/colors'
 
-export default function DelegateOwnerModal({ memberList }: { memberList: BungDetailMember[] }) {
+export default function ManageMembersModal({ memberList }: { memberList: BungDetailMember[] }) {
   const { closeModal } = useModalContext()
 
   const [search, setSearch] = useState('')
@@ -18,21 +18,9 @@ export default function DelegateOwnerModal({ memberList }: { memberList: BungDet
         <button className='absolute left-16' onClick={closeModal}>
           <BackIcon size={24} color={colors.blackDarken} />
         </button>
-        <span className='text-base font-bold text-black'>벙주 넘기기</span>
+        <span className='text-base font-bold text-black'>멤버 관리</span>
       </header>
       <section className='flex flex-col gap-16 w-full h-full px-16'>
-        <div className='w-full rounded-8 bg-white p-16'>
-          <h5 className='text-sm font-bold text-black-darken text-center mb-4'>
-            개설한 벙을 다른 멤버에게 양도할 수 있어요
-          </h5>
-          <ul className='space-y-2 px-16'>
-            <li className='list-disc text-black-darken text-sm'>양도 요청은 벙 시작 1시간 전까지 가능합니다.</li>
-            <li className='list-disc text-black-darken text-sm'>
-              지정한 멤버가 30분 이내에 요청을 수락하면 완료됩니다.
-            </li>
-          </ul>
-        </div>
-
         <Input
           className='pr-40'
           type='text'
@@ -55,9 +43,7 @@ export default function DelegateOwnerModal({ memberList }: { memberList: BungDet
                 />
                 <span className='text-sm font-bold text-black-darken'>{member.nickname}</span>
               </div>
-              <button className='bg-black-darken rounded-12 px-13 py-4 text-12 text-white -tracking-[0.28px]'>
-                벙주 넘기기
-              </button>
+              <button className='bg-pink rounded-12 px-13 py-4 text-12 text-white -tracking-[0.28px]'>내보내기</button>
             </li>
           ))}
         </ul>
