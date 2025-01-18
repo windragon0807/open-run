@@ -6,6 +6,7 @@ import { BungDetail } from '@/types/bung'
 import BungDetails from './BungDetails'
 import { PageCategory } from './types'
 import ManageMembers from './ManageMembers'
+import DelegateOwner from './DelegateOwner'
 
 export default function PageCategory({
   details,
@@ -30,6 +31,12 @@ export default function PageCategory({
       )}
       {pageCategory === '멤버관리' && (
         <ManageMembers memberList={details.memberList} setPageCategory={setPageCategory} />
+      )}
+      {pageCategory === '벙주 넘기기' && (
+        <DelegateOwner
+          memberList={details.memberList.filter(({ owner }) => !owner)}
+          setPageCategory={setPageCategory}
+        />
       )}
     </Layout>
   )

@@ -18,7 +18,6 @@ import { convertStringTimeToDate } from '@utils/time'
 import { padStart } from '@utils/string'
 import { colors } from '@styles/colors'
 import Map from './Map'
-import DelegateOwnerModal from './modal/DelegateOwnerModal'
 import WhyCertificationModal from './modal/WhyCertificationModal'
 import CertifyParticipationModal from './modal/CertifyParticipationModal'
 import DeleteBungModal from './modal/DeleteBungModal'
@@ -77,7 +76,7 @@ export default function BungDetails({
                 <PencilIcon />
               </button>
               {/** 벙주 넘기기 */}
-              <button onClick={() => openModal({ contents: <DelegateOwnerModal memberList={details.memberList} /> })}>
+              <button onClick={() => setPageCategory('벙주 넘기기')}>
                 <EscapeIcon />
               </button>
               {/** 벙 삭제 */}
