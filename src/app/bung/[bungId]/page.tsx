@@ -1,4 +1,5 @@
 import BungDetails from '@components/bung/BungDetails'
+import { fetchUserInfo } from '@apis/users/fetchUserInfo/api'
 import { fetchBungDetail } from '@apis/bungs/fetchBungDetails/api'
 
 type Props = {
@@ -8,10 +9,12 @@ type Props = {
 }
 
 export default async function Page({ params: { bungId } }: Props) {
-  const { data } = await fetchBungDetail({ bungId })
+  const { data: userInfo } = await fetchUserInfo()
+  const { data: bungDetail } = await fetchBungDetail({ bungId })
 
-  const isParticipated = true
-  const isOwner = true
+  const userId = userInfo.userId
+  const isParticipated = bungDetail.memberList.some((participant) => participant.userId === userId)
+  const isOwner = bungDetail.memberList.find((participant) => participant.userId === userId)!.owner
 
-  return <BungDetails details={data} isParticipated={isParticipated} isOwner={isOwner} />
+  return <BungDetails details={bungDetail} isParticipated={isParticipated} isOwner={isOwner} />
 }
