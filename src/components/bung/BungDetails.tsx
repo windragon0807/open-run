@@ -1,14 +1,10 @@
-'use client'
-
 import Link from 'next/link'
 import Image from 'next/image'
 import { Fragment, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { ko } from 'date-fns/locale'
 import { format } from 'date-fns'
-
 import { useModalContext } from '@contexts/ModalContext'
-import Layout from '@shared/Layout'
 import ParticipateButton from '@components/bung/ParticipateButton'
 import BackIcon from '@icons/BackIcon'
 import PlaceIcon from '@icons/PlaceIcon'
@@ -20,25 +16,28 @@ import { BungDetail } from '@/types/bung'
 import useTimer from '@hooks/useTimer'
 import { convertStringTimeToDate } from '@utils/time'
 import { padStart } from '@utils/string'
+import { colors } from '@styles/colors'
+import Map from './Map'
 import DelegateOwnerModal from './modal/DelegateOwnerModal'
 import WhyCertificationModal from './modal/WhyCertificationModal'
 import CertifyParticipationModal from './modal/CertifyParticipationModal'
-import Map from './Map'
 import DeleteBungModal from './modal/DeleteBungModal'
-import ManageMembersModal from './modal/ManageMembersModal'
+import { PageCategory } from './types'
 
 export default function BungDetails({
   details,
   isParticipated,
   isOwner,
+  setPageCategory,
 }: {
   details: BungDetail
   isParticipated: boolean
   isOwner: boolean
+  setPageCategory: (category: PageCategory) => void
 }) {
-  const { openModal } = useModalContext()
-
   const 참여인원수 = details.memberList.length
+
+  const { openModal } = useModalContext()
 
   /* 스크롤이 올라갈수록 컨텐츠 영역이 올라가는 효과를 주기 위한 로직 */
   const containerRef = useRef<HTMLDivElement>(null)
@@ -64,7 +63,7 @@ export default function BungDetails({
   const 벙에참여한유저인가 = isParticipated
 
   return (
-    <Layout className='relative'>
+    <section className='w-full h-full relative'>
       <header className='absolute w-full h-60 px-16 flex justify-between items-center' onClick={handleScrollToTop}>
         <Link href='/' onClick={(e) => e.stopPropagation()}>
           <BackIcon size={24} color='white' />
@@ -95,7 +94,8 @@ export default function BungDetails({
         style={{ y: translateY }}
         className='relative w-full h-full bg-gray-lighten bg-cover rounded-[8px_8px_0_0]'>
         {벙에참여한유저인가 && (
-          <div className='absolute -top-32 -z-[1] w-full h-40 px-16 flex justify-between bg-[#F06595] bg-opacity-60 rounded-[8px_8px_0_0]'>
+          <div
+            className={`absolute -top-32 -z-[1] w-full h-40 px-16 flex justify-between bg-[${colors.pink}] bg-opacity-60 rounded-[8px_8px_0_0]`}>
             <span className='relative italic text-14 font-bold text-white top-6'>{formattedTime}</span>
             <span className='relative text-14 text-white top-6'>시작까지 남은 시간</span>
           </div>
@@ -181,9 +181,7 @@ export default function BungDetails({
             <div className='w-full flex justify-between items-center px-16'>
               <span className='text-base font-bold text-black-darken'>{참여인원수}명이 함께 뛸 예정이에요</span>
               {벙에참여한벙주인가 && (
-                <button
-                  className='text-sm font-normal text-black-darken'
-                  onClick={() => openModal({ contents: <ManageMembersModal memberList={details.memberList} /> })}>
+                <button className='text-sm font-normal text-black-darken' onClick={() => setPageCategory('멤버관리')}>
                   멤버관리
                 </button>
               )}
@@ -192,7 +190,7 @@ export default function BungDetails({
               {details.memberList.map((member) => (
                 <div key={`${member.nickname}`} className='flex flex-col gap-6 items-center'>
                   <div className='relative w-76 aspect-[1] bg-black rounded-8'>
-                    <Image src='/temp/nft_detail_1.png' alt='' fill sizes='100%' />
+                    <Image src='/temp/nft_detail_2.png' alt='' fill sizes='100%' />
                   </div>
                   <div className='flex gap-4 items-center'>
                     <span className='text-12 font-bold text-black-darken'>{member.nickname}</span>
@@ -231,7 +229,7 @@ export default function BungDetails({
           </div>
         </section>
       </motion.section>
-    </Layout>
+    </section>
   )
 }
 

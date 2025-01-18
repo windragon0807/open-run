@@ -1,6 +1,6 @@
-import BungDetails from '@components/bung/BungDetails'
 import { fetchUserInfo } from '@apis/users/fetchUserInfo/api'
 import { fetchBungDetail } from '@apis/bungs/fetchBungDetails/api'
+import PageCategory from '@components/bung/PageCategory'
 
 type Props = {
   params: {
@@ -16,5 +16,5 @@ export default async function Page({ params: { bungId } }: Props) {
   const isParticipated = bungDetail.memberList.some((participant) => participant.userId === userId)
   const isOwner = bungDetail.memberList.find((participant) => participant.userId === userId)!.owner
 
-  return <BungDetails details={bungDetail} isParticipated={isParticipated} isOwner={isOwner} />
+  return <PageCategory details={bungDetail} isParticipated={isParticipated} isOwner={isOwner} />
 }

@@ -1,7 +1,6 @@
 'use client'
 
 import { CSSProperties, ReactNode } from 'react'
-
 import { useAppMessage } from '@store/app'
 
 export default function Layout({

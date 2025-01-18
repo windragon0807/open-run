@@ -8410,6 +8410,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fuse.js@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "fuse.js@npm:7.0.0"
+  checksum: 3574b7fc2e0ccb047e05dbe5f8f04e8f0754f62fa209669ef426ea1354a32ae7355620788af8f1d29f94e1fdecd513f1f3787f012848a31ec90bb4e0e6092504
+  languageName: node
+  linkType: hard
+
 "gensync@npm:^1.0.0-beta.2":
   version: 1.0.0-beta.2
   resolution: "gensync@npm:1.0.0-beta.2"
@@ -11111,6 +11118,7 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-storybook: "npm:^0.8.0"
     framer-motion: "npm:^11.0.6"
+    fuse.js: "npm:^7.0.0"
     next: "npm:14.2.4"
     postcss: "npm:^8.4.33"
     prettier: "npm:^3.2.5"
