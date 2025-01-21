@@ -84,7 +84,7 @@ function Map({ curLat, curLng, desLat, desLng }: { curLat: number; curLng: numbe
             size: new navermaps.Size(16, 27),
             scaledSize: new navermaps.Size(16, 27),
             origin: new navermaps.Point(0, 0),
-            anchor: new navermaps.Point(8, 36),
+            anchor: new navermaps.Point(9, 36),
           }}
         />
       </NaverMap>
