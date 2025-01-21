@@ -15,6 +15,7 @@ import PrimaryButton from '@shared/PrimaryButton'
 
 export default function Invitation() {
   const [selectedMembers, setSelectedMembers] = useState<string[]>([])
+  console.log(selectedMembers)
 
   /* 멤버 추천 관련 */
   const { data: suggestionList } = useQuery({
@@ -32,6 +33,7 @@ export default function Invitation() {
         imageUrl='/temp/nft_invitation.png' // TODO
         isRecommend
         name={nickname}
+        isSelected={selectedMembers.includes(userId)}
         onInvite={(isInvited) => {
           setSelectedMembers((prev) => (isInvited ? [...prev, userId] : prev.filter((id) => id !== userId)))
         }}
@@ -61,6 +63,7 @@ export default function Invitation() {
         imageUrl='/temp/nft_invitation.png' // TODO
         isRecommend={false}
         name={nickname}
+        isSelected={selectedMembers.includes(userId)}
         onInvite={(isInvited) => {
           setSelectedMembers((prev) => (isInvited ? [...prev, userId] : prev.filter((id) => id !== userId)))
         }}
@@ -70,8 +73,6 @@ export default function Invitation() {
   /* -------- */
 
   const 멤버추천리스트를보여줄상태인가 = debouncedSearch === ''
-
-  // TODO 초대 완료 시, userId string[] 배열을 백엔드로 전달
 
   return (
     <section className='relative w-full h-full flex flex-col overflow-y-auto px-16'>
@@ -99,14 +100,16 @@ function Member({
   imageUrl,
   isRecommend,
   name,
+  isSelected,
   onInvite,
 }: {
   imageUrl: string
   isRecommend: boolean
   name: string
+  isSelected: boolean
   onInvite?: (isInvited: boolean) => void
 }) {
-  const [isInvited, setIsInvited] = useState(false)
+  const [isInvited, setIsInvited] = useState(isSelected)
   return (
     <li>
       <div className='flex justify-between items-center'>
