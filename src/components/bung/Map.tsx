@@ -1,10 +1,11 @@
 'use client'
 
+import { memo } from 'react'
 import { Container, NaverMap, Marker, useNavermaps } from 'react-naver-maps'
 import { useGeocode } from '@apis/maps/fetchGeocode/query'
 import './map.css'
 
-export default function Map({ location }: { location: string }) {
+function Map({ location }: { location: string }) {
   const navermaps = useNavermaps()
   const { data: coordinates } = useGeocode(location)
 
@@ -34,3 +35,5 @@ export default function Map({ location }: { location: string }) {
     </Container>
   )
 }
+
+export default memo(Map)
