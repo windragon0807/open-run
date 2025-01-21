@@ -16,13 +16,15 @@ export default function BungCard({
   time,
   distance,
   pace,
-  isBungMaster,
+  isBungOwner,
+  title,
 }: {
   place: string
   time: Date
   distance: number
   pace: string
-  isBungMaster: boolean
+  isBungOwner: boolean
+  title: string
 }) {
   const { days, hours, minutes, seconds } = useTimer(time)
   const formattedTime = `${padStart(days)} : ${padStart(hours)} : ${padStart(minutes)} : ${padStart(seconds)}`
@@ -32,8 +34,10 @@ export default function BungCard({
     <article
       className='relative w-full max-w-[500px] mx-auto bg-black h-184 rounded-8 p-16 text-white bg-cover bg-center'
       style={{ backgroundImage: "url('/temp/bg_bung.png')" }}>
-      {isBungMaster ? <CrownIcon className='absolute top-16 right-16' /> : null}
+      {isBungOwner ? <CrownIcon className='absolute top-16 right-16' /> : null}
       <span className='text-[16px] italic font-black leading-[24px] tracking-[-0.32px]'>{formattedTime}</span>
+      <Spacing size={8} />
+      <p className='text-base font-bold text-white truncate'>{title}</p>
       <Spacing size={8} />
       <div className='flex gap-6 items-center'>
         <PlaceIcon />
