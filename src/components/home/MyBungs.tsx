@@ -35,7 +35,7 @@ export default async function MyBungs() {
               time={convertStringTimeToDate(item.startDateTime)}
               distance={item.distance}
               pace={item.pace}
-              isBungOwner={true} // TODO
+              isBungOwner={item.hasOwnership}
               title={item.name}
             />
           </Link>

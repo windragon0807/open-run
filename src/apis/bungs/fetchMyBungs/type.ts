@@ -17,12 +17,15 @@ export type ResponseType = Pagination &
       name: string
       description: string
       location: string
-      startDateTime: string // 2024-11-27T07:47:20.196Z
+      startDateTime: string // "2025-01-31 00:00:00"
       endDateTime: string
       distance: number
       pace: string
       memberNumber: number
       hasAfterRun: boolean
       afterRunDescription: string
+      isCompleted: boolean
+      hastags: string[]
+      hasOwnership: boolean
     }>
   >
