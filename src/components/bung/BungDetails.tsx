@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Fragment, useRef } from 'react'
+import { useMutation } from 'react-query'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { ko } from 'date-fns/locale'
 import { format } from 'date-fns'
@@ -22,6 +23,7 @@ import WhyCertificationModal from './modal/WhyCertificationModal'
 import CertifyParticipationModal from './modal/CertifyParticipationModal'
 import DeleteBungModal from './modal/DeleteBungModal'
 import { PageCategory } from './types'
+import { completeBung as _completeBung } from '@apis/bungs/completeBung/api'
 
 export default function BungDetails({
   details,
@@ -37,6 +39,7 @@ export default function BungDetails({
   const 참여인원수 = details.memberList.length
 
   const { openModal } = useModalContext()
+  const { mutate: completeBung } = useMutation(_completeBung)
 
   /* 스크롤이 올라갈수록 컨텐츠 영역이 올라가는 효과를 주기 위한 로직 */
   const containerRef = useRef<HTMLDivElement>(null)
@@ -60,6 +63,7 @@ export default function BungDetails({
   const 벙에참여한벙주인가 = isParticipated && isOwner
   const 벙에참여한멤버인가 = isParticipated && !isOwner
   const 벙에참여한유저인가 = isParticipated
+  const 벙완료시각이지났는가 = new Date() >= convertStringTimeToDate(details.startDateTime)
 
   return (
     <section className='w-full h-full relative'>
@@ -165,9 +169,28 @@ export default function BungDetails({
                   <ArrowRight size={16} color='var(--black-darken)' />
                 </button>
                 {벙에참여한벙주인가 && (
-                  <button className='w-full h-56 rounded-8 bg-black-darken text-base font-bold text-white mt-16'>
-                    벙 완료
-                  </button>
+                  <>
+                    <button
+                      className='w-full h-56 rounded-8 bg-black-darken text-base font-bold text-white mt-16 disabled:bg-gray disabled:text-white'
+                      disabled={벙완료시각이지났는가 === false}
+                      onClick={() => {
+                        completeBung(
+                          { bungId: details.bungId },
+                          {
+                            onSuccess: (data) => {
+                              console.log(data)
+                              // TODO 벙 완료 좋아요 모달 띄우기
+                            },
+                          },
+                        )
+                      }}>
+                      벙 완료
+                    </button>
+                    <p className='text-sm text-red mt-4 pl-4'>
+                      {format(convertStringTimeToDate(details.endDateTime), 'M월 d일 a h시 mm분', { locale: ko })}{' '}
+                      이후에 버튼이 활성화됩니다
+                    </p>
+                  </>
                 )}
               </Fragment>
             ) : (
