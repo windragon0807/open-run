@@ -5,71 +5,55 @@ type Geolocation = {
   longitude: number | null
 }
 
-// 위치 권한 요청을 위한 함수
-export async function requestGeolocationPermission(): Promise<boolean> {
-  if (!navigator.geolocation) {
-    return false
-  }
-
-  try {
-    // iOS Safari를 위한 직접적인 위치 정보 요청
-    return new Promise((resolve) => {
-      navigator.geolocation.getCurrentPosition(
-        () => resolve(true),
-        (error) => {
-          console.error('Geolocation 권한 요청 실패:', error.message)
-          if (error.code === 1) {
-            // PERMISSION_DENIED
-            alert('브라우저 설정에서 위치 권한을 허용해주세요.')
-          }
-          resolve(false)
-        },
-        {
-          enableHighAccuracy: true,
-          maximumAge: 0,
-          timeout: 5000, // 타임아웃 추가
-        },
-      )
-    })
-  } catch (error) {
-    console.error('Geolocation 권한 요청 중 오류 발생:', error)
-    return false
-  }
-}
-
 export default function useGeolocation() {
   const [location, setLocation] = useState<Geolocation>({
     latitude: null,
     longitude: null,
   })
+  const [error, setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (!navigator.geolocation) {
+      setError('이 브라우저는 위치 정보를 지원하지 않습니다.')
+      setLoading(false)
       return
     }
 
-    // permissions API 사용하지 않고 직접 위치 정보 요청
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
+    const getLocation = async () => {
+      try {
+        const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, {
+            enableHighAccuracy: true,
+            maximumAge: 0,
+          })
+        })
+
         setLocation({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         })
-      },
-      (error) => {
-        console.error('위치 정보 가져오기 실패:', error.message)
-        setLocation({
-          latitude: null,
-          longitude: null,
-        })
-      },
-      {
-        enableHighAccuracy: true,
-        maximumAge: 0,
-        timeout: 5000,
-      },
-    )
+        setError(null)
+      } catch (err) {
+        if (err instanceof GeolocationPositionError) {
+          if (err.code === 1) {
+            setError('위치 정보 접근 권한이 거부되었습니다. 브라우저 설정에서 권한을 허용해주세요.')
+          } else if (err.code === 2) {
+            setError('위치 정보를 가져올 수 없습니다.')
+          } else if (err.code === 3) {
+            setError('위치 정보 요청 시간이 초과되었습니다.')
+          }
+        } else {
+          setError('위치 정보를 가져오는 중 오류가 발생했습니다.')
+        }
+        setLocation({ latitude: null, longitude: null })
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    getLocation()
   }, [])
 
-  return location
+  return { ...location, error, loading }
 }
