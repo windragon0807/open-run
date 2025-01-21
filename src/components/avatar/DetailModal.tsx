@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { useModalContext } from '@contexts/ModalContext'
 import CloseIcon from '@icons/CloseIcon'
 import PrimaryButton from '@shared/PrimaryButton'
+import RarityBadge from './shared/RarityBadge'
+import { Rarity } from '@/types/avatar'
 
 export default function DetailModal({
   serialNumber,
@@ -16,7 +18,7 @@ export default function DetailModal({
 }: {
   serialNumber: string
   imageSrc: string
-  rarity: string
+  rarity: Rarity
   category: string
   name: string
 }) {
@@ -41,9 +43,7 @@ export default function DetailModal({
           <Image src={imageSrc} alt='Avatar' fill className='object-contain' />
         </div>
 
-        <div className='bg-[rgba(34,34,34,0.10)] px-8 py-2 rounded-4 mb-8'>
-          <span className='text-12 font-bold text-black-darken uppercase'>{rarity}</span>
-        </div>
+        <RarityBadge rarity={rarity} />
         <h4 className='text-base font-bold text-black-darken mb-4'>{name}</h4>
         <span className='text-12 text-gray-darken'>{category}</span>
 

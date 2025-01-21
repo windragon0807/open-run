@@ -9,12 +9,13 @@ export type MainCategory =
   | 'accessories'
   | 'background'
 export type SubCategory = 'head-accessories' | 'eye-accessories' | 'ear-accessories' | 'body-accessories'
+export type Rarity = 'common' | 'rare' | 'epic'
 
 export type Avatar = {
   id: string
   imageUrl: string | string[]
   thumbnailUrl: string
-  rarity: string
+  rarity: Rarity
   name: string
   mainCategory: MainCategory
   subCategory: SubCategory | null

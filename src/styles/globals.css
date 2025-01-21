@@ -5,3 +5,26 @@
 @import url("@styles/reset.css");
 @import url("@styles/colors.css");
 @import url("@styles/fonts.css");
+
+@layer components {
+  .rarity-common {
+    background: linear-gradient(274deg, #DEE2E6 0%, #ADB5BD 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .rarity-rare {
+    background: linear-gradient(274deg, #89939D 0%, #4A5CEF 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .rarity-epic {
+    background: linear-gradient(274deg, #9D61C2 0%, #F06595 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}

@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useModalContext } from '@contexts/ModalContext'
 import DetailModal from './DetailModal'
 import { Avatar, SubCategory, WearingAvatar } from '@/types/avatar'
+import RarityIcon from './shared/RarityIcon'
 
 export default function AvatarList({
   avatarList,
@@ -80,7 +81,10 @@ export default function AvatarList({
                   <span className='text-12 font-[900]'>NEW</span>
                 </div>
               </div>
-              <span className='text-12 text-black-darken'>{avatar.name}</span>
+              <div className='flex gap-2 items-center'>
+                <RarityIcon rarity={avatar.rarity} size={16} />
+                <span className='text-12 text-black-darken truncate'>{avatar.name}</span>
+              </div>
 
               {/* Info Modal */}
               <div
