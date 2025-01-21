@@ -7,9 +7,13 @@ import MyBungs from '@components/home/MyBungs'
 import Header from '@components/home/Header'
 import PrePermissions from '@components/home/PrePermissions'
 import { fetchUserInfo } from '@apis/users/fetchUserInfo/api'
+import { redirect } from 'next/navigation'
 
 export default async function HomePage() {
   const { data: userInfo } = await fetchUserInfo()
+  if (userInfo == null) {
+    redirect('/signin')
+  }
 
   return (
     <Layout className='bg-gray-lighten'>

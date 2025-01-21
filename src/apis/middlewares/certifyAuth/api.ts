@@ -13,7 +13,7 @@ export async function certifyAuth(params: RequestType): Promise<ResponseType> {
 
   const url = `${process.env.NEXT_PUBLIC_API_SERVER_URL}/v1/users/login/${params.authServer}?${queryParams}`
   try {
-    console.log(`🚀 [Server] [Request] [GET] ${url}`)
+    console.log(`🚀 [Middleware] [Request] [GET] ${url}`)
     const response = await fetch(url, {
       method: 'GET',
       headers: {
@@ -22,15 +22,15 @@ export async function certifyAuth(params: RequestType): Promise<ResponseType> {
     })
 
     if (!response.ok) {
-      console.log(`🚨 [Server] [Response] ${url}`, response.status)
+      console.log(`🚨 [Middleware] [Response] ${url}`, response.status)
       throw new Error('Network response was not ok')
     }
 
     const data = await response.json()
-    console.log(`🎁 [Server] [Response] ${url}`, JSON.stringify(data, null, 2))
+    console.log(`🎁 [Middleware] [Response] ${url}`, JSON.stringify(data, null, 2))
     return data
   } catch (error) {
-    console.log(`🚨 [Server] [Response] ${url}`, error)
+    console.log(`🚨 [Middleware] [Response] ${url}`, error)
     throw error
   }
 }
