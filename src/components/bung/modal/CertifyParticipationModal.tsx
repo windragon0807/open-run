@@ -67,8 +67,26 @@ function Map({ curLat, curLng, desLat, desLng }: { curLat: number; curLng: numbe
   return (
     <Container className='maps' style={{ height: 200 }}>
       <NaverMap defaultCenter={currentPosition} defaultZoom={15}>
-        <Marker defaultPosition={currentPosition} />
-        <Marker defaultPosition={destinationPosition} />
+        <Marker
+          defaultPosition={currentPosition}
+          icon={{
+            url: '/images/maps/marker_current.png',
+            size: new navermaps.Size(16, 16),
+            scaledSize: new navermaps.Size(16, 16),
+            origin: new navermaps.Point(0, 0),
+            anchor: new navermaps.Point(8, 25),
+          }}
+        />
+        <Marker
+          defaultPosition={destinationPosition}
+          icon={{
+            url: '/images/maps/marker_destination.png',
+            size: new navermaps.Size(16, 27),
+            scaledSize: new navermaps.Size(16, 27),
+            origin: new navermaps.Point(0, 0),
+            anchor: new navermaps.Point(8, 36),
+          }}
+        />
       </NaverMap>
     </Container>
   )

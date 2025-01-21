@@ -20,7 +20,16 @@ export default function Map({ location }: { location: string }) {
   return (
     <Container className='maps' style={{ height: 200 }}>
       <NaverMap defaultCenter={new navermaps.LatLng(Number(coordinates.lat), Number(coordinates.lng))} defaultZoom={15}>
-        <Marker defaultPosition={new navermaps.LatLng(Number(coordinates.lat), Number(coordinates.lng))} />
+        <Marker
+          defaultPosition={new navermaps.LatLng(Number(coordinates.lat), Number(coordinates.lng))}
+          icon={{
+            url: '/images/maps/marker_destination.png',
+            size: new navermaps.Size(16, 27),
+            scaledSize: new navermaps.Size(16, 27),
+            origin: new navermaps.Point(0, 0),
+            anchor: new navermaps.Point(8, 36),
+          }}
+        />
       </NaverMap>
     </Container>
   )
