@@ -12,9 +12,15 @@ import useDebounce from '@hooks/useDebounce'
 import { searchByNickname as _searchByNickname } from '@apis/users/searchByNickname/api'
 import { fetchSuggestion } from '@apis/users/fetchSuggestion/api'
 import PrimaryButton from '@shared/PrimaryButton'
+import CloseIcon from '@icons/CloseIcon'
 
 export default function Invitation() {
-  const [selectedMembers, setSelectedMembers] = useState<string[]>([])
+  const [selectedMembers, setSelectedMembers] = useState<
+    {
+      userId: string
+      nickname: string
+    }[]
+  >([])
   console.log(selectedMembers)
 
   /* 멤버 추천 관련 */
@@ -33,9 +39,11 @@ export default function Invitation() {
         imageUrl='/temp/nft_invitation.png' // TODO
         isRecommend
         name={nickname}
-        isSelected={selectedMembers.includes(userId)}
+        isSelected={selectedMembers.some((member) => member.userId === userId)}
         onInvite={(isInvited) => {
-          setSelectedMembers((prev) => (isInvited ? [...prev, userId] : prev.filter((id) => id !== userId)))
+          setSelectedMembers((prev) =>
+            isInvited ? [...prev, { userId, nickname }] : prev.filter((member) => member.userId !== userId),
+          )
         }}
       />
     ))
@@ -63,9 +71,11 @@ export default function Invitation() {
         imageUrl='/temp/nft_invitation.png' // TODO
         isRecommend={false}
         name={nickname}
-        isSelected={selectedMembers.includes(userId)}
+        isSelected={selectedMembers.some((member) => member.userId === userId)}
         onInvite={(isInvited) => {
-          setSelectedMembers((prev) => (isInvited ? [...prev, userId] : prev.filter((id) => id !== userId)))
+          setSelectedMembers((prev) =>
+            isInvited ? [...prev, { userId, nickname }] : prev.filter((member) => member.userId !== userId),
+          )
         }}
       />
     ))
@@ -85,7 +95,22 @@ export default function Invitation() {
         setValue={setSearch}
         addon={<MagnifierIcon className='absolute right-16 bottom-1/2 translate-y-1/2' />}
       />
-      <Spacing size={24} />
+      <Spacing size={16} />
+      <div className='w-full'>
+        <ul className='h-28 flex items-center gap-8 overflow-x-auto'>
+          {selectedMembers.map((member) => (
+            <li key={member.userId} className='shrink-0'>
+              <SelectedMember
+                nickname={member.nickname}
+                onClose={() => {
+                  setSelectedMembers((prev) => prev.filter(({ userId }) => userId !== member.userId))
+                }}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
+      <Spacing size={32} />
       <ul className='flex flex-col gap-8 h-[calc(100%-160px)] overflow-y-auto pr-8 pb-20'>
         {멤버추천리스트를보여줄상태인가 ? renderSuggestionList() : renderSearchedList()}
       </ul>
@@ -109,7 +134,6 @@ function Member({
   isSelected: boolean
   onInvite?: (isInvited: boolean) => void
 }) {
-  const [isInvited, setIsInvited] = useState(isSelected)
   return (
     <li>
       <div className='flex justify-between items-center'>
@@ -120,11 +144,10 @@ function Member({
             <span className='text-14 font-bold text-black-darken'>{name}</span>
           </div>
         </div>
-        {isInvited === false ? (
+        {isSelected === false ? (
           <button
             className='w-67 h-24 bg-black-darken flex justify-center items-center rounded-12 text-white text-12'
             onClick={() => {
-              setIsInvited(true)
               onInvite?.(true)
             }}>
             초대하기
@@ -133,7 +156,6 @@ function Member({
           <button
             className='w-67 h-24 bg-primary flex justify-center items-center gap-2 rounded-12 text-white text-12'
             onClick={() => {
-              setIsInvited(false)
               onInvite?.(false)
             }}>
             선택
@@ -142,5 +164,16 @@ function Member({
         )}
       </div>
     </li>
+  )
+}
+
+function SelectedMember({ nickname, onClose }: { nickname: string; onClose: () => void }) {
+  return (
+    <div className='shrink-0 flex items-center gap-8 px-8 py-4 rounded-4 bg-gray w-fit'>
+      <span className='text-sm font-bold'>{nickname}</span>
+      <button onClick={onClose}>
+        <CloseIcon size={16} />
+      </button>
+    </div>
   )
 }
