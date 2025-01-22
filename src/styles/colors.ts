@@ -8,6 +8,7 @@ export const colors = {
   red: '#FF0000',
   gray: '#DEE2E6',
   grayLighten: '#F8F9FA',
+  grayLittleDarken: '#ADB5BD',
   grayDarken: '#868E96',
   pink: '#F06595',
 

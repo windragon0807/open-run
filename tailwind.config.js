@@ -48,6 +48,7 @@ module.exports = {
       red: 'var(--red)',
       gray: 'var(--gray)',
       'gray-lighten': 'var(--gray-lighten)',
+      'gray-little-darken': 'var(--gray-little-darken)',
       'gray-darken': 'var(--gray-darken)',
       pink: 'var(--pink)',
       kakao: 'var(--kakao)',

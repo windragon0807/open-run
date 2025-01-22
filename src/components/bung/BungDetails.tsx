@@ -186,10 +186,12 @@ export default function BungDetails({
                       }}>
                       벙 완료
                     </button>
-                    <p className='text-sm text-red mt-4 pl-4'>
-                      {format(convertStringTimeToDate(details.endDateTime), 'M월 d일 a h시 mm분', { locale: ko })}{' '}
-                      이후에 버튼이 활성화됩니다
-                    </p>
+                    {벙완료시각이지났는가 === false && (
+                      <p className='text-12 font-semibold text-gray-little-darken mt-4 text-center'>
+                        {format(convertStringTimeToDate(details.endDateTime), 'M/d a h:mm', { locale: ko })} 이후에
+                        버튼이 활성화됩니다
+                      </p>
+                    )}
                   </>
                 )}
               </Fragment>
