@@ -24,6 +24,7 @@ import CertifyParticipationModal from './modal/CertifyParticipationModal'
 import DeleteBungModal from './modal/DeleteBungModal'
 import { PageCategory } from './types'
 import { completeBung as _completeBung } from '@apis/bungs/completeBung/api'
+import ModifyBungModal from './modal/ModifyBungModal'
 
 export default function BungDetails({
   details,
@@ -76,7 +77,7 @@ export default function BungDetails({
           {벙에참여한벙주인가 && (
             <>
               {/** 벙 수정 */}
-              <button>
+              <button onClick={() => openModal({ contents: <ModifyBungModal /> })}>
                 <PencilIcon />
               </button>
               {/** 벙주 넘기기 */}
