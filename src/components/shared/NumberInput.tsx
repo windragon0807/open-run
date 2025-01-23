@@ -15,7 +15,7 @@ export default function NumberInput({
       <input
         type='number'
         inputMode='numeric'
-        className={`w-full h-40 text-14 border border-gray px-16 rounded-8 caret-primary focus:outline-none dark:bg-black-darkest dark:text-white dark:placeholder-black focus:border-primary dark:focus:border-gray ${className}`}
+        className={`w-full h-40 text-14 border border-gray px-16 rounded-8 caret-primary focus:outline-none dark:bg-black-darkest dark:text-white dark:placeholder-black focus:border-primary disabled:bg-gray disabled:text-gray-little-darken ${className}`}
         onChange={(event) => {
           setValue?.(event.target.value)
           onChange?.(event)

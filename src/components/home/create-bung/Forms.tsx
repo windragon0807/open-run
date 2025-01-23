@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactNode, useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -15,9 +15,10 @@ import LoadingLogo from '@shared/LoadingLogo'
 import ClockIcon from '@icons/ClockIcon'
 import CalendarIcon from '@icons/CalendarIcon'
 import { createBung as _createBung } from '@apis/bungs/createBung/api'
-import { fetchHashtags as _fetchHashtags } from '@apis/bungs/fetchHashtags/api'
 import AddressSearchModal from './AddressSearchModal'
-import useDebounce from '@hooks/useDebounce'
+import FormTitle from '@components/bung/components/FormTitle'
+import HashTagSearch from '@components/bung/components/HashTagSearch'
+import Button from '@components/bung/components/Button'
 
 type FormValues = {
   bungName: string
@@ -440,72 +441,5 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         {isLoading ? <LoadingLogo color='var(--secondary)' className='mx-auto' /> : '벙 만들기'}
       </PrimaryButton>
     </section>
-  )
-}
-
-function FormTitle({ children, required = false }: { children: string; required?: boolean }) {
-  return (
-    <div className='relative w-fit'>
-      <span className='text-sm leading-[24px] -tracking-[0.28px] font-bold text-black dark:text-white'>{children}</span>
-      {required && (
-        <svg className='absolute top-2 -right-6 fill-primary' width='4' height='4' viewBox='0 0 4 4' fill='none'>
-          <circle cx='2' cy='2' r='2' />
-        </svg>
-      )}
-    </div>
-  )
-}
-
-function Button({ children, className, onClick }: { children: ReactNode; className?: string; onClick?: () => void }) {
-  return (
-    <button
-      className={`flex-1 h-40 border border-gray rounded-8 flex items-center gap-8 text-sm font-semibold ${className}`}
-      onClick={onClick}>
-      {children}
-    </button>
-  )
-}
-
-function HashTagSearch({ onTagClick }: { onTagClick?: (tag: string) => void }) {
-  const [inputValue, setInputValue] = useState('')
-  const debouncedTag = useDebounce(inputValue, 300)
-  const [recommendHashTags, setRecommendHashTags] = useState<string[]>([])
-
-  const { mutate: fetchHashtags } = useMutation(_fetchHashtags)
-
-  // 지연 적용 하기
-  useEffect(() => {
-    if (debouncedTag !== '') {
-      fetchHashtags(
-        { tag: debouncedTag },
-        {
-          onSuccess: ({ data }) => {
-            const sliced = data.slice(0, 2)
-            setRecommendHashTags([`${debouncedTag} (직접 입력)`, ...sliced])
-          },
-        },
-      )
-    } else {
-      setRecommendHashTags([])
-    }
-  }, [debouncedTag, fetchHashtags])
-
-  return (
-    <div className='relative'>
-      <Input type='text' placeholder='해시태그를 입력하세요' value={inputValue} setValue={setInputValue} />
-      <ul className='absolute top-45 w-full rounded-8 bg-white shadow-custom-white'>
-        {recommendHashTags.map((tag) => (
-          <li
-            key={tag}
-            className='text-sm text-black block py-10 pl-16 hover:text-primary cursor-pointer'
-            onClick={() => {
-              onTagClick?.(tag.replace(' (직접 입력)', ''))
-              setInputValue('')
-            }}>
-            {tag}
-          </li>
-        ))}
-      </ul>
-    </div>
   )
 }

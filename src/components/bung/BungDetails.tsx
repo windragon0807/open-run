@@ -77,7 +77,7 @@ export default function BungDetails({
           {벙에참여한벙주인가 && (
             <>
               {/** 벙 수정 */}
-              <button onClick={() => openModal({ contents: <ModifyBungModal /> })}>
+              <button onClick={() => openModal({ contents: <ModifyBungModal details={details} /> })}>
                 <PencilIcon />
               </button>
               {/** 벙주 넘기기 */}
