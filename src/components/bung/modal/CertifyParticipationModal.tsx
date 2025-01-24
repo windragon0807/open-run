@@ -71,8 +71,8 @@ function Map({ curLat, curLng, desLat, desLng }: { curLat: number; curLng: numbe
           defaultPosition={currentPosition}
           icon={{
             url: '/images/maps/marker_current.png',
-            size: new navermaps.Size(16, 16),
-            scaledSize: new navermaps.Size(16, 16),
+            size: new navermaps.Size(22, 22),
+            scaledSize: new navermaps.Size(22, 22),
             origin: new navermaps.Point(0, 0),
             anchor: new navermaps.Point(8, 25),
           }}
@@ -81,10 +81,10 @@ function Map({ curLat, curLng, desLat, desLng }: { curLat: number; curLng: numbe
           defaultPosition={destinationPosition}
           icon={{
             url: '/images/maps/marker_destination.png',
-            size: new navermaps.Size(16, 27),
-            scaledSize: new navermaps.Size(16, 27),
+            size: new navermaps.Size(22, 34),
+            scaledSize: new navermaps.Size(22, 34),
             origin: new navermaps.Point(0, 0),
-            anchor: new navermaps.Point(9, 36),
+            anchor: new navermaps.Point(11, 42),
           }}
         />
       </NaverMap>

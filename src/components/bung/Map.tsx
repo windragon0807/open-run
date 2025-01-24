@@ -25,10 +25,10 @@ function Map({ location }: { location: string }) {
           defaultPosition={new navermaps.LatLng(Number(coordinates.lat), Number(coordinates.lng))}
           icon={{
             url: '/images/maps/marker_destination.png',
-            size: new navermaps.Size(16, 27),
-            scaledSize: new navermaps.Size(16, 27),
+            size: new navermaps.Size(22, 34),
+            scaledSize: new navermaps.Size(22, 34),
             origin: new navermaps.Point(0, 0),
-            anchor: new navermaps.Point(9, 36),
+            anchor: new navermaps.Point(11, 42),
           }}
         />
       </NaverMap>
