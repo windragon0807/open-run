@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { useQuery } from 'react-query'
 import { Container, NaverMap, Marker, useNavermaps } from 'react-naver-maps'
 import { useGeocode } from '@apis/maps/fetchGeocode/query'
@@ -39,15 +40,13 @@ export default function CertifyParticipationModal({ destination }: { destination
         </button>
         <span className='text-black-darken text-base font-bold'>참여 인증</span>
       </header>
-      <section className='w-full h-200'>
+      <section className='w-full'>
         {모든좌표가유효한가 === true ? (
           <Map curLat={latitude} curLng={longitude} desLat={Number(coordinates.lat)} desLng={Number(coordinates.lng)} />
         ) : (
-          <Container className='maps' style={{ height: 200 }}>
-            <div className='flex items-center justify-center w-full h-full border border-gray'>
-              <span className='text-sm text-gray'>지도를 표시할 수 없습니다.</span>
-            </div>
-          </Container>
+          <div className='relative w-full aspect-square animate-pulse'>
+            <Image className='object-cover' src='/images/maps/map_placeholder.png' alt='map' fill />
+          </div>
         )}
       </section>
       <PrimaryButton className='mt-20 mb-40' disabled={distance == null || distance > 참여인증거리}>
@@ -65,7 +64,7 @@ function Map({ curLat, curLng, desLat, desLng }: { curLat: number; curLng: numbe
   const destinationPosition = new navermaps.LatLng(desLat, desLng)
 
   return (
-    <Container className='maps' style={{ height: 200 }}>
+    <Container className='maps' style={{ aspectRatio: 1 }}>
       <NaverMap defaultCenter={currentPosition} defaultZoom={15}>
         <Marker
           defaultPosition={currentPosition}

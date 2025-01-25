@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { memo } from 'react'
 import { Container, NaverMap, Marker, useNavermaps } from 'react-naver-maps'
 import { useGeocode } from '@apis/maps/fetchGeocode/query'
@@ -11,11 +12,9 @@ function Map({ location }: { location: string }) {
 
   if (coordinates == null)
     return (
-      <Container className='maps' style={{ height: 200 }}>
-        <div className='flex items-center justify-center w-full h-full border border-gray'>
-          <span className='text-sm text-gray'>지도를 표시할 수 없습니다.</span>
-        </div>
-      </Container>
+      <div className='relative w-full h-200 animate-pulse'>
+        <Image className='object-cover' src='/images/maps/map_placeholder.png' alt='map' fill />
+      </div>
     )
 
   return (
