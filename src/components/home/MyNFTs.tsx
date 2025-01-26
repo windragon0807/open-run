@@ -33,7 +33,7 @@ export default function MyNFTs() {
         <Spacing size={8} />
 
         {/* dark 모드일 때, bg-white 선언 시, dark 모드 색상 적용이 안 됨 */}
-        <div className='w-full shadow-custom-white flex flex-col py-16'>
+        <div className='w-full shadow-floating-primary flex flex-col py-16'>
           <span className='text-[14px] leading-[20px] tracking-[-0.28px] font-bold pl-16 dark:text-white'>
             최근 획득한 NFT
           </span>
@@ -56,11 +56,13 @@ export default function MyNFTs() {
             <div className='w-[calc(100%-46px)] flex flex-col items-center justify-center gap-5'>
               <div className='w-full flex gap-4 items-center'>
                 <div className='relative overflow-hidden whitespace-nowrap w-[calc(100%-20px)]'>
-                  <span className='animate-marquee inline-block text-[12px] leading-[16px] tracking-[-0.24px] text-black dark:text-white'>
+                  <span className='animate-marquee inline-block text-[12px] leading-[16px] tracking-[-0.24px] text-black-default dark:text-white'>
                     벙 참여하여 완료하기
                   </span>
                 </div>
-                <span className='text-[12px] leading-[16px] tracking-[-0.24px] text-black dark:text-white'>4/10</span>
+                <span className='text-[12px] leading-[16px] tracking-[-0.24px] text-black-default dark:text-white'>
+                  4/10
+                </span>
               </div>
               <ProgressBar progress={40} />
             </div>
@@ -69,8 +71,8 @@ export default function MyNFTs() {
 
         <Spacing size={16} />
 
-        <Link href='/avatar' className='self-center shadow-custom-white bg-white rounded-20 px-20 py-4'>
-          <span className='text-[12px] leading-[16px] tracing-[-0.24px] text-black'>아바타 변경</span>
+        <Link href='/avatar' className='self-center shadow-floating-primary bg-white rounded-20 px-20 py-4'>
+          <span className='text-[12px] leading-[16px] tracing-[-0.24px] text-black-default'>아바타 변경</span>
         </Link>
       </div>
     </section>
@@ -79,7 +81,7 @@ export default function MyNFTs() {
 
 function SkewedLikeLabel({ like }: { like: number }) {
   return (
-    <div className='absolute left-8 bottom-8 h-28 bg-secondary rounded-lg transform skew-x-[-10deg] border-2 border-black flex items-center justify-center gap-4 px-8'>
+    <div className='absolute left-8 bottom-8 h-28 bg-secondary rounded-lg transform skew-x-[-10deg] border-2 border-black-default flex items-center justify-center gap-4 px-8'>
       <Image className='' src='/images/icon_thumbup.png' alt='Thumb Up Icon' width={16} height={16} />
       <span className='font-jost text-base font-[900]'>{addDelimiter(like)}</span>
     </div>
@@ -89,7 +91,7 @@ function SkewedLikeLabel({ like }: { like: number }) {
 function NFTBox({ children }: { children: ReactNode }) {
   return (
     <li className='inline-block'>
-      <div className='w-40 aspect-[1] rounded-4 border border-gray dark:border-[rgba(255,255,255,0.20)] bg-gray-lighten dark:bg-black flex justify-center items-center'>
+      <div className='w-40 aspect-[1] rounded-4 border border-gray-default dark:border-[rgba(255,255,255,0.20)] bg-gray-lighten dark:bg-black-default flex justify-center items-center'>
         {children}
       </div>
     </li>
@@ -98,7 +100,7 @@ function NFTBox({ children }: { children: ReactNode }) {
 
 function ProgressBar({ progress }: { progress: number }) {
   return (
-    <div className='w-full h-5 bg-gray overflow-hidden rounded-6'>
+    <div className='w-full h-5 bg-gray-default overflow-hidden rounded-6'>
       <div
         className='h-5 bg-primary'
         style={{

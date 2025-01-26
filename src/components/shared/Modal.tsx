@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react'
 import { motion } from 'framer-motion'
-import { colors } from '@styles/colors'
 
 export default function Modal({
   isOpen,
@@ -23,9 +22,7 @@ export default function Modal({
 
 export function ModalDimmed({ children, onClick }: { children: ReactNode; onClick?: () => void }) {
   return (
-    <section
-      className={`fixed top-0 right-0 left-0 bottom-0 bg-[${colors.blackDarkest}] bg-opacity-60 z-[1000]`}
-      onClick={onClick}>
+    <section className={`fixed top-0 right-0 left-0 bottom-0 bg-[#000] bg-opacity-60 z-[1000]`} onClick={onClick}>
       <motion.section
         className='w-full h-full'
         initial={{ opacity: 0 }}

@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Profile from '@icons/Profile'
 import Openrun from '@icons/Openrun'
 import FilledBellIcon from '@icons/FilledBellIcon'
+import { colors } from '@styles/colors'
 
 export default function FixedBottomMenuButton() {
   const [isDimmed, setDimmed] = useState(false)
@@ -32,7 +33,7 @@ export default function FixedBottomMenuButton() {
       <AnimatePresence>
         {isDimmed && (
           <motion.div
-            className='fixed inset-0 bg-[#000] bg-opacity-60 z-[999]'
+            className={`fixed inset-0 bg-[#000] bg-opacity-60 z-[999]`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -56,7 +57,7 @@ export default function FixedBottomMenuButton() {
           {isDimmed ? (
             <MenuBar />
           ) : (
-            <div className='w-full h-full bg-white rounded-[32px] shadow-custom-white flex items-center justify-center'>
+            <div className='w-full h-full bg-white rounded-[32px] shadow-floating-primary flex items-center justify-center'>
               <Dots />
             </div>
           )}
@@ -70,7 +71,7 @@ export default function FixedBottomMenuButton() {
 function MenuBar() {
   return (
     <div
-      className='w-full h-full flex items-center rounded-[32px] bg-[#fff] bg-opacity-20'
+      className={`w-full h-full flex items-center rounded-[32px] bg-[#fff] bg-opacity-20`}
       style={{ backdropFilter: 'blur(3px)' }}>
       <Link href='/' className='w-[36%] h-full rounded-[32px] bg-white flex items-center justify-center gap-20'>
         <Openrun />
@@ -86,7 +87,7 @@ function MenuBar() {
 }
 
 function Dots() {
-  const color = '#222222'
+  const color = colors.black.darken
   return (
     <svg width='24' height='24' viewBox='0 0 24 24' fill='none'>
       <circle cx='7' cy='7' r='3' fill={color} />

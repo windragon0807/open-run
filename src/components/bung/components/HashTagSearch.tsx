@@ -31,11 +31,11 @@ export default function HashTagSearch({ onTagClick }: { onTagClick?: (tag: strin
   return (
     <div className='relative'>
       <Input type='text' placeholder='해시태그를 입력하세요' value={inputValue} setValue={setInputValue} />
-      <ul className='absolute top-45 w-full rounded-8 bg-white shadow-custom-white'>
+      <ul className='absolute top-45 w-full rounded-8 bg-white shadow-floating-primary'>
         {recommendHashTags.map((tag) => (
           <li
             key={tag}
-            className='text-sm text-black block py-10 pl-16 hover:text-primary cursor-pointer'
+            className='text-sm text-black-default block py-10 pl-16 hover:text-primary cursor-pointer'
             onClick={() => {
               onTagClick?.(tag.replace(' (직접 입력)', ''))
               setInputValue('')

@@ -23,9 +23,9 @@ export default function ManageMembers({
     <section className='w-full h-full bg-gray-lighten'>
       <header className='relative w-full h-60 flex justify-center items-center'>
         <button className='absolute left-16' onClick={() => setPageCategory('벙 상세')}>
-          <BackIcon size={24} color={colors.blackDarken} />
+          <BackIcon size={24} color={colors.black.darken} />
         </button>
-        <span className='text-base font-bold text-black'>멤버 관리</span>
+        <span className='text-base font-bold text-black-default'>멤버 관리</span>
       </header>
       <section className='flex flex-col gap-16 w-full h-full px-16'>
         <Input
@@ -55,7 +55,7 @@ export default function ManageMembers({
               </div>
               {member.owner === false && (
                 <button
-                  className='bg-pink rounded-12 px-13 py-4 text-12 text-white -tracking-[0.28px]'
+                  className='bg-pink-default rounded-12 px-13 py-4 text-12 text-white -tracking-[0.28px]'
                   onClick={() => {
                     openModal({ contents: <ConfirmDropoutModal member={member} /> })
                   }}>

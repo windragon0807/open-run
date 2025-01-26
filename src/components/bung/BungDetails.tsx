@@ -99,7 +99,7 @@ export default function BungDetails({
         className='relative w-full h-full bg-gray-lighten bg-cover rounded-[8px_8px_0_0]'>
         {벙에참여한유저인가 && (
           <div
-            className={`absolute -top-32 -z-[1] w-full h-40 px-16 flex justify-between bg-[${colors.pink}] bg-opacity-60 rounded-[8px_8px_0_0]`}>
+            className={`absolute -top-32 -z-[1] w-full h-40 px-16 flex justify-between bg-[#F06595] bg-opacity-60 rounded-[8px_8px_0_0]`}>
             <span className='relative italic text-14 font-bold text-white top-6'>{formattedTime}</span>
             <span className='relative text-14 text-white top-6'>시작까지 남은 시간</span>
           </div>
@@ -109,36 +109,36 @@ export default function BungDetails({
           ref={containerRef}
           className='overflow-y-auto rounded-[8px_8px_0_0] bg-gray-lighten'
           style={{ height: 벙에참여한유저인가 ? 'calc(100% - 80px)' : 'calc(100% - 50px)' }}>
-          <div className='p-16 bg-white shadow-custom-white rounded-8 mb-24'>
+          <div className='p-16 bg-white shadow-floating-primary rounded-8 mb-24'>
             {/* 벙 이름 */}
-            <span className='inline-block text-xl font-bold text-black mb-16'>{details.name}</span>
+            <span className='inline-block text-xl font-bold text-black-default mb-16'>{details.name}</span>
 
             {/* 벙 위치 */}
             <div className='flex gap-8 items-center mb-8'>
-              <PlaceIcon color='var(--black)' />
-              <span className='text-sm text-black'>{details.location}</span>
+              <PlaceIcon color={colors.black.default} />
+              <span className='text-sm text-black-default'>{details.location}</span>
             </div>
 
             {/* 벙 시작 날짜 및 시간 */}
             <div className='flex gap-8 items-center mb-8'>
-              <CalendarIcon color='var(--black)' />
-              <span className='text-sm text-black'>
+              <CalendarIcon color={colors.black.default} />
+              <span className='text-sm text-black-default'>
                 {format(convertStringTimeToDate(details.startDateTime), 'M월 d일 (E) a h:mm', { locale: ko })}
               </span>
             </div>
 
             {/* 벙 거리 및 페이스 */}
             <div className='flex gap-8 items-center mb-8'>
-              <RunnerIcon color='var(--black)' />
-              <span className='text-sm text-black'>{`${details.distance} km ${details.pace}`}</span>
+              <RunnerIcon color={colors.black.default} />
+              <span className='text-sm text-black-default'>{`${details.distance} km ${details.pace}`}</span>
             </div>
 
             {/* 벙 참여 인원 및 남은 자리 */}
             <div className='flex gap-8 items-center mb-24'>
-              <PersonIcon color='var(--black)' />
+              <PersonIcon color={colors.black.default} />
               <div className='flex gap-4 items-center'>
-                <span className='text-sm text-black'>{`${참여인원수} / ${details.memberNumber}`}</span>
-                <span className='px-4 py-2 bg-pink-transparent rounded-4 text-12 font-bold text-pink'>{`${details.memberNumber - 참여인원수}자리 남았어요`}</span>
+                <span className='text-sm text-black-default'>{`${참여인원수} / ${details.memberNumber}`}</span>
+                <span className='px-4 py-2 bg-pink-transparent rounded-4 text-12 font-bold text-pink-default'>{`${details.memberNumber - 참여인원수}자리 남았어요`}</span>
               </div>
             </div>
             {벙에참여한유저인가 ? (
@@ -150,7 +150,7 @@ export default function BungDetails({
                       : '러닝 시작 전, 벙주의 안내에 따라\n참여 인증을 해주세요'}
                   </p>
                   <button
-                    className='bg-black-darken px-14 py-10 rounded-8 text-sm text-white font-bold disabled:bg-gray disabled:text-white'
+                    className='bg-black-darken px-14 py-10 rounded-8 text-sm text-white font-bold disabled:bg-gray-default disabled:text-white'
                     onClick={() => {
                       openModal({
                         contents: <CertifyParticipationModal destination={details.location} />,
@@ -167,12 +167,12 @@ export default function BungDetails({
                     })
                   }}>
                   <p className='text-12 text-black-darken font-bold'>참여 인증을 왜 해야 하나요?</p>
-                  <ArrowRight size={16} color='var(--black-darken)' />
+                  <ArrowRight size={16} color={colors.black.darken} />
                 </button>
                 {벙에참여한벙주인가 && (
                   <>
                     <button
-                      className='w-full h-56 rounded-8 bg-black-darken text-base font-bold text-white mt-16 disabled:bg-gray disabled:text-white'
+                      className='w-full h-56 rounded-8 bg-black-darken text-base font-bold text-white mt-16 disabled:bg-gray-default disabled:text-white'
                       disabled={벙완료시각이지났는가 === false}
                       onClick={() => {
                         completeBung(
@@ -188,7 +188,7 @@ export default function BungDetails({
                       벙 완료
                     </button>
                     {벙완료시각이지났는가 === false && (
-                      <p className='text-12 font-semibold text-gray-little-darken mt-4 text-center'>
+                      <p className='text-12 font-semibold text-gray-darken mt-4 text-center'>
                         {format(convertStringTimeToDate(details.endDateTime), 'M/d a h:mm', { locale: ko })} 이후에
                         버튼이 활성화됩니다
                       </p>
@@ -214,7 +214,7 @@ export default function BungDetails({
             <div className='flex gap-8 overflow-x-auto px-16'>
               {details.memberList.map((member) => (
                 <div key={`${member.nickname}`} className='flex flex-col gap-6 items-center'>
-                  <div className='relative w-76 aspect-[1] bg-black rounded-8'>
+                  <div className='relative w-76 aspect-[1] bg-black-default rounded-8'>
                     <Image src='/temp/nft_detail_2.png' alt='' fill sizes='100%' />
                   </div>
                   <div className='flex gap-4 items-center'>
@@ -239,7 +239,7 @@ export default function BungDetails({
 
           {/* 위치 및 지도 */}
           <div className='flex items-center gap-4 pl-16 mt-40 mb-8'>
-            <PlaceIcon color='var(--black)' />
+            <PlaceIcon color={colors.black.default} />
             <span className='text-sm text-black-darken font-bold'>{details.location}</span>
           </div>
           <div className='px-16 mb-18'>

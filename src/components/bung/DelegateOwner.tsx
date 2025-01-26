@@ -23,9 +23,9 @@ export default function DelegateOwner({
     <section className='w-full h-full bg-gray-lighten' onClick={(e) => e.stopPropagation()}>
       <header className='relative w-full h-60 flex justify-center items-center'>
         <button className='absolute left-16' onClick={() => setPageCategory('벙 상세')}>
-          <BackIcon size={24} color={colors.blackDarken} />
+          <BackIcon size={24} color={colors.black.darken} />
         </button>
-        <span className='text-base font-bold text-black'>벙주 넘기기</span>
+        <span className='text-base font-bold text-black-default'>벙주 넘기기</span>
       </header>
       <section className='flex flex-col gap-16 w-full h-full px-16'>
         <div className='w-full rounded-8 bg-white p-16'>

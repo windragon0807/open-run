@@ -1,5 +1,7 @@
-const FOCUSED_COLOR = '#222222'
-const UNFOCUSED_COLOR = '#89939D'
+import { colors } from '@styles/colors'
+
+const FOCUSED_COLOR = colors.black.darken
+const UNFOCUSED_COLOR = colors.gray.darkest
 
 export function FullSetIcon({ focused }: { focused: boolean }) {
   return (

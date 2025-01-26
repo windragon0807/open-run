@@ -32,7 +32,7 @@ export default function Invitation() {
   const renderSuggestionList = () => {
     if (suggestionList == null) return null
     if (suggestionList.data.length === 0)
-      return <div className='mt-20 text-14 text-gray text-center'>아직 함께했던 멤버가 없습니다.</div>
+      return <div className='mt-20 text-14 text-gray-default text-center'>아직 함께했던 멤버가 없습니다.</div>
     return suggestionList.data.map(({ userId, nickname }) => (
       <Member
         key={userId}
@@ -64,7 +64,7 @@ export default function Invitation() {
   const renderSearchedList = () => {
     if (searchedList == null) return null
     if (searchedList.data.length === 0)
-      return <div className='mt-20 text-14 text-gray text-center'>검색 결과가 없습니다.</div>
+      return <div className='mt-20 text-14 text-gray-default text-center'>검색 결과가 없습니다.</div>
     return searchedList.data.map(({ userId, nickname }) => (
       <Member
         key={userId}
@@ -140,7 +140,9 @@ function Member({
         <div className='flex gap-16 items-center'>
           <Image src={imageUrl} alt='' width={76} height={76} />
           <div className='flex flex-col gap-4'>
-            {isRecommend && <span className='bg-gray py-2 px-4 rounded-4 text-12 text-black-darken w-fit'>추천</span>}
+            {isRecommend && (
+              <span className='bg-gray-default py-2 px-4 rounded-4 text-12 text-black-darken w-fit'>추천</span>
+            )}
             <span className='text-14 font-bold text-black-darken'>{name}</span>
           </div>
         </div>
@@ -169,7 +171,7 @@ function Member({
 
 function SelectedMember({ nickname, onClose }: { nickname: string; onClose: () => void }) {
   return (
-    <div className='shrink-0 flex items-center gap-8 px-8 py-4 rounded-4 bg-gray w-fit'>
+    <div className='shrink-0 flex items-center gap-8 px-8 py-4 rounded-4 bg-gray-default w-fit'>
       <span className='text-sm font-bold'>{nickname}</span>
       <button onClick={onClose}>
         <CloseIcon size={16} />

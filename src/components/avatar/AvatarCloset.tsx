@@ -3,7 +3,7 @@ import { WearingAvatar } from '@/types/avatar'
 
 export default function AvatarCloset({ selectedAvatar }: { selectedAvatar: WearingAvatar }) {
   return (
-    <section className='w-full px-16 shadow-custom-white bg-white z-10'>
+    <section className='w-full px-16 shadow-floating-primary bg-white z-10'>
       <div className='relative w-full h-248 bg-black-darken rounded-16 mb-16 flex justify-center'>
         {selectedAvatar.background && (
           <Image

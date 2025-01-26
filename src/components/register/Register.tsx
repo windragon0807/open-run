@@ -16,6 +16,7 @@ import Nickname from './nickname'
 import Header from './Header'
 import Frequency from './frequency'
 import BottomButton from './BottomButton'
+import { colors } from '@styles/colors'
 
 export default function Register() {
   const route = useRouter()
@@ -68,7 +69,7 @@ export default function Register() {
         {step > 0 ? <Header step={step} onBackIconClick={handlePrevious} onSkipTextClick={() => setStep(4)} /> : null}
         {step === 0 ? (
           <button className='absolute top-0 left-0 z-[10] pl-16 h-60' onClick={handlePrevious}>
-            <BackIcon color='#ffffff' />
+            <BackIcon color={colors.white} />
           </button>
         ) : null}
 

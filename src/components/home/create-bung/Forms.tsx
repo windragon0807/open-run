@@ -19,6 +19,7 @@ import AddressSearchModal from './AddressSearchModal'
 import FormTitle from '@components/bung/components/FormTitle'
 import HashTagSearch from '@components/bung/components/HashTagSearch'
 import Button from '@components/bung/components/Button'
+import { colors } from '@styles/colors'
 
 type FormValues = {
   bungName: string
@@ -218,7 +219,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         <div className='w-full flex gap-8'>
           <div className='flex-1'>
             <Input
-              className='disabled:bg-gray'
+              className='disabled:bg-gray-default'
               name='location'
               type='text'
               placeholder='주소 검색'
@@ -246,31 +247,31 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         <FormTitle required>시작 일시</FormTitle>
         <div className='w-full flex gap-8'>
           <Button
-            className={`${시작날짜를선택했는가 ? 'border-primary bg-[var(--focusedBlue)]' : 'bg-white'} pl-16`}
+            className={`${시작날짜를선택했는가 ? 'border-primary bg-blue-transparent' : 'bg-white'} pl-16`}
             onClick={() => {
               setDatePickerOpen((prev) => !prev)
               if (isTimePickerOpen) setTimePickerOpen(false)
             }}>
-            <CalendarIcon color={시작날짜를선택했는가 ? 'var(--primary)' : 'var(--black)'} />
-            <p className={시작날짜를선택했는가 ? 'text-primary' : 'text-black'}>
+            <CalendarIcon color={시작날짜를선택했는가 ? colors.primary : colors.black.default} />
+            <p className={시작날짜를선택했는가 ? 'text-primary' : 'text-black-default'}>
               {시작날짜를선택했는가 ? format(formValues.startDate as Date, 'yyyy년 M월 d일') : '날짜 선택'}
             </p>
           </Button>
           <Button
-            className={`${시작시간을선택했는가 ? 'border-primary bg-[var(--focusedBlue)]' : 'bg-white'} pl-16`}
+            className={`${시작시간을선택했는가 ? 'border-primary bg-blue-transparent' : 'bg-white'} pl-16`}
             onClick={() => {
               setTimePickerOpen((prev) => !prev)
               if (isDatePickerOpen) setDatePickerOpen(false)
             }}>
-            <ClockIcon color={시작시간을선택했는가 ? 'var(--primary)' : 'var(--black)'} />
-            <p className={시작시간을선택했는가 ? 'text-primary' : 'text-black'}>
+            <ClockIcon color={시작시간을선택했는가 ? colors.primary : colors.black.default} />
+            <p className={시작시간을선택했는가 ? 'text-primary' : 'text-black-default'}>
               {시작시간을선택했는가 ? (formValues.startTime as string).replace(':', ' : ') : '시간 선택'}
             </p>
           </Button>
         </div>
 
         {isDatePickerOpen ? (
-          <div className='w-full flex justify-center bg-white p-16 rounded-8 border border-gray'>
+          <div className='w-full flex justify-center bg-white p-16 rounded-8 border border-gray-default'>
             <DatePicker
               defaultValue={formValues.startDate}
               onDateClick={(date) => {
@@ -291,7 +292,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           </div>
         ) : null}
         {isTimePickerOpen ? (
-          <div className='bg-white p-16 rounded-8 border border-gray'>
+          <div className='bg-white p-16 rounded-8 border border-gray-default'>
             <TimePicker
               value={formValues.startTime}
               onChange={(time) => {
@@ -314,7 +315,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           placeholder='예상되는 소요 시간을 알려주세요'
           value={formValues.runningTime}
           onChange={handleFormValues}
-          addon={<span className='absolute right-16 bottom-10 text-sm text-black dark:text-white'>분</span>}
+          addon={<span className='absolute right-16 bottom-10 text-sm text-black-default dark:text-white'>분</span>}
         />
       </div>
 
@@ -327,7 +328,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           placeholder='목표 거리를 입력하세요'
           value={formValues.distance}
           onChange={handleFormValues}
-          addon={<span className='absolute right-16 bottom-10 text-sm text-black dark:text-white'>km</span>}
+          addon={<span className='absolute right-16 bottom-10 text-sm text-black-default dark:text-white'>km</span>}
         />
       </div>
 
@@ -341,7 +342,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             value={formValues.paceMinute}
             onChange={handleFormValues}
             addon={
-              <span className='absolute right-16 bottom-10 text-sm text-black font-bold italic dark:text-white'>
+              <span className='absolute right-16 bottom-10 text-sm text-black-default font-bold italic dark:text-white'>
                 {"'"}
               </span>
             }
@@ -352,7 +353,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             value={formValues.paceSecond}
             onChange={handleFormValues}
             addon={
-              <span className='absolute right-16 bottom-10 text-sm text-black font-bold italic dark:text-white'>
+              <span className='absolute right-16 bottom-10 text-sm text-black-default font-bold italic dark:text-white'>
                 {'"'}
               </span>
             }
@@ -369,7 +370,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           placeholder='참가 인원을 입력하세요'
           value={formValues.memberNumber}
           onChange={handleFormValues}
-          addon={<span className='absolute left-16 bottom-10 text-sm text-black dark:text-white'>1 ~</span>}
+          addon={<span className='absolute left-16 bottom-10 text-sm text-black-default dark:text-white'>1 ~</span>}
         />
       </div>
 
@@ -378,7 +379,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         <FormTitle required>뒷풀이</FormTitle>
         <div className='flex gap-8'>
           <Button
-            className={`justify-center ${formValues.hasAfterRun === true ? 'bg-[var(--focusedBlue)] border-primary' : 'bg-white border-gray'}`}
+            className={`justify-center ${formValues.hasAfterRun === true ? 'bg-blue-transparent border-primary' : 'bg-white border-gray-default'}`}
             onClick={() => {
               setFormValues((prev) => ({
                 ...prev,
@@ -388,7 +389,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             유
           </Button>
           <Button
-            className={`justify-center ${formValues.hasAfterRun === false ? 'bg-[var(--focusedBlue)] border-primary' : 'bg-white border-gray'}`}
+            className={`justify-center ${formValues.hasAfterRun === false ? 'bg-blue-transparent border-primary' : 'bg-white border-gray-default'}`}
             onClick={() => {
               setFormValues((prev) => ({
                 ...prev,
@@ -438,7 +439,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
 
       {/** 벙 만들기 버튼 */}
       <PrimaryButton className='mb-40' onClick={handleSubmit}>
-        {isLoading ? <LoadingLogo color='var(--secondary)' className='mx-auto' /> : '벙 만들기'}
+        {isLoading ? <LoadingLogo color={colors.secondary} className='mx-auto' /> : '벙 만들기'}
       </PrimaryButton>
     </section>
   )

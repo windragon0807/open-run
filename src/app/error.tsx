@@ -4,6 +4,7 @@ import { HiHome } from 'react-icons/hi'
 import { IoWarning } from 'react-icons/io5'
 import { MdOutlineRefresh } from 'react-icons/md'
 import Link from 'next/link'
+import { colors } from '@styles/colors'
 
 type Props = {
   error: Error
@@ -13,7 +14,7 @@ type Props = {
 export default function ErrorPage({ error, reset }: Props) {
   return (
     <section className='w-dvw h-dvh flex flex-col justify-center items-center bg-primary'>
-      <IoWarning className='mb-20' size={80} color='var(--secondary)' />
+      <IoWarning className='mb-20' size={80} color={colors.secondary} />
       <h2 className='text-2xl font-bold text-white mb-10'>앗! 문제가 발생했어요</h2>
       <p className='text-lg text-white mb-40'>잠시 후 다시 시도해 주세요.</p>
       <button

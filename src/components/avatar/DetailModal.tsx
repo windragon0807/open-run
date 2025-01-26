@@ -27,7 +27,7 @@ export default function DetailModal({
   return (
     <section className='w-full h-full px-16 flex justify-center items-center'>
       <div
-        className='relative w-full max-w-[328px] h-480 rounded-8 flex flex-col items-center bg-white bg-nft-gradient'
+        className='relative w-full max-w-[328px] h-480 rounded-8 flex flex-col items-center bg-white bg-gradient-white-secondary-primary'
         onClick={(e) => e.stopPropagation()}>
         <header className='relative w-full h-60 flex items-center justify-center mb-16'>
           <span className='text-base font-bold'>NFT 아이템</span>
@@ -37,7 +37,7 @@ export default function DetailModal({
         </header>
 
         <div className='relative w-168 aspect-square mb-8'>
-          <span className='absolute left-1/2 -translate-x-1/2 bottom-0 font-jost text-[56px] font-[900] italic text-black-darken opacity-10'>
+          <span className='absolute left-1/2 -translate-x-1/2 bottom-0 font-jost text-[56px] font-[900] italic text-black-default opacity-10'>
             {serialNumber}
           </span>
           <Image src={imageSrc} alt='Avatar' fill className='object-contain' />
@@ -45,7 +45,7 @@ export default function DetailModal({
 
         <RarityBadge rarity={rarity} />
         <h4 className='text-base font-bold text-black-darken mb-4'>{name}</h4>
-        <span className='text-12 text-gray-darken'>{category}</span>
+        <span className='text-12 text-gray-darkest'>{category}</span>
 
         <Link href='' className='absolute bottom-40 w-[calc(100%-32px)]'>
           <PrimaryButton>스캐너 페이지로 이동</PrimaryButton>

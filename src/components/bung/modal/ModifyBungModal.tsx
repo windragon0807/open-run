@@ -140,13 +140,13 @@ export default function ModifyBungModal({ details }: { details: BungDetail }) {
           <div className='relative flex flex-col gap-8 mb-16'>
             <FormTitle>시작 일시</FormTitle>
             <div className='w-full flex gap-8'>
-              <Button className='pl-16 bg-gray cursor-default'>
-                <CalendarIcon color={colors.grayLittleDarken} />
-                <p className='text-gray-little-darken'>{format(details.startDateTime, 'yyyy년 M월 d일')}</p>
+              <Button className='pl-16 bg-gray-default cursor-default'>
+                <CalendarIcon color={colors.gray.darken} />
+                <p className='text-gray-darken'>{format(details.startDateTime, 'yyyy년 M월 d일')}</p>
               </Button>
-              <Button className='pl-16 bg-gray cursor-default'>
-                <ClockIcon color={colors.grayLittleDarken} />
-                <p className='text-gray-little-darken'>{format(details.startDateTime, 'hh : mm')}</p>
+              <Button className='pl-16 bg-gray-default cursor-default'>
+                <ClockIcon color={colors.gray.darken} />
+                <p className='text-gray-darken'>{format(details.startDateTime, 'hh : mm')}</p>
               </Button>
             </div>
           </div>
@@ -157,7 +157,7 @@ export default function ModifyBungModal({ details }: { details: BungDetail }) {
             <NumberInput
               className='pr-40'
               value={differenceInMinutes(new Date(details.endDateTime), new Date(details.startDateTime))}
-              addon={<span className='absolute right-16 bottom-10 text-sm text-gray-little-darken'>분</span>}
+              addon={<span className='absolute right-16 bottom-10 text-sm text-gray-darken'>분</span>}
               disabled
             />
           </div>
@@ -168,7 +168,7 @@ export default function ModifyBungModal({ details }: { details: BungDetail }) {
             <NumberInput
               className='pr-40'
               value={details.distance}
-              addon={<span className='absolute right-16 bottom-10 text-sm text-gray-little-darken'>km</span>}
+              addon={<span className='absolute right-16 bottom-10 text-sm text-gray-darken'>km</span>}
               disabled
             />
           </div>
@@ -180,18 +180,14 @@ export default function ModifyBungModal({ details }: { details: BungDetail }) {
               <NumberInput
                 value={details.pace.split("'")[0]}
                 addon={
-                  <span className='absolute right-16 bottom-10 text-sm text-gray-little-darken font-bold italic'>
-                    {"'"}
-                  </span>
+                  <span className='absolute right-16 bottom-10 text-sm text-gray-darken font-bold italic'>{"'"}</span>
                 }
                 disabled
               />
               <NumberInput
                 value={details.pace.split("'")[1]}
                 addon={
-                  <span className='absolute right-16 bottom-10 text-sm text-gray-little-darken font-bold italic'>
-                    {'"'}
-                  </span>
+                  <span className='absolute right-16 bottom-10 text-sm text-gray-darken font-bold italic'>{'"'}</span>
                 }
                 disabled
               />
@@ -207,7 +203,7 @@ export default function ModifyBungModal({ details }: { details: BungDetail }) {
               placeholder='참가 인원을 입력하세요'
               value={formValues.memberNumber}
               onChange={handleFormValues}
-              addon={<span className='absolute left-16 bottom-10 text-sm text-black dark:text-white'>1 ~</span>}
+              addon={<span className='absolute left-16 bottom-10 text-sm text-black-default dark:text-white'>1 ~</span>}
             />
           </div>
 
@@ -216,7 +212,7 @@ export default function ModifyBungModal({ details }: { details: BungDetail }) {
             <FormTitle required>뒷풀이</FormTitle>
             <div className='flex gap-8'>
               <Button
-                className={`justify-center ${formValues.hasAfterRun === true ? 'bg-[var(--focusedBlue)] border-primary' : 'bg-white border-gray'}`}
+                className={`justify-center ${formValues.hasAfterRun === true ? 'bg-blue-transparent border-primary' : 'bg-white border-gray-default'}`}
                 onClick={() => {
                   setFormValues((prev) => ({
                     ...prev,
@@ -226,7 +222,7 @@ export default function ModifyBungModal({ details }: { details: BungDetail }) {
                 유
               </Button>
               <Button
-                className={`justify-center ${formValues.hasAfterRun === false ? 'bg-[var(--focusedBlue)] border-primary' : 'bg-white border-gray'}`}
+                className={`justify-center ${formValues.hasAfterRun === false ? 'bg-blue-transparent border-primary' : 'bg-white border-gray-default'}`}
                 onClick={() => {
                   setFormValues((prev) => ({
                     ...prev,
@@ -276,7 +272,7 @@ export default function ModifyBungModal({ details }: { details: BungDetail }) {
 
           {/** 수정 완료 버튼 */}
           <PrimaryButton className='mb-40' onClick={handleSubmit}>
-            {isLoading ? <LoadingLogo color='var(--secondary)' className='mx-auto' /> : '수정 완료'}
+            {isLoading ? <LoadingLogo color={colors.secondary} className='mx-auto' /> : '수정 완료'}
           </PrimaryButton>
         </section>
       </section>

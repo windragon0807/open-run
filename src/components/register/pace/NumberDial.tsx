@@ -63,7 +63,7 @@ export default function NumberDial({
             key={index}
             className={`absolute w-80 flex items-center justify-center transition-all duration-200 text-4xl italic font-black leading-[56px] tracking-tight ${
               distance === 0
-                ? 'text-[#4A5CEF]'
+                ? 'text-primary'
                 : distance === 1
                   ? 'text-[rgba(74,92,239,0.18)]'
                   : 'text-[rgba(74,92,239,0.04)]'
