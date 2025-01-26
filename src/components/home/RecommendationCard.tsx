@@ -18,11 +18,13 @@ export default function RecommendationCard({
   title,
   location,
   time,
+  remainingCount,
   hashtags,
 }: {
   title: string
   location: string
   time: Date
+  remainingCount: number
   hashtags: string[]
 }) {
   // 남은 시간을 상태로 관리
@@ -49,7 +51,7 @@ export default function RecommendationCard({
           <Avatar key={src} className={index !== 0 ? '-ml-12' : ''} imageSrc={src} size={35} />
         ))}
         <Spacing direction='horizontal' size={8} />
-        <span>n 자리 남음</span>
+        <span>{remainingCount} 자리 남음</span>
       </div>
       <div className='absolute flex bottom-16 left-16 gap-4'>
         {hashtags.map((value) => (

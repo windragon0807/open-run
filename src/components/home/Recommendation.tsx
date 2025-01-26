@@ -14,17 +14,18 @@ export default async function Recommendation() {
 
   return (
     <section className='px-16 flex flex-col'>
-      <div className='flex justify-between items-center w-full max-w-[500px] mx-auto'>
+      <div className='flex justify-between items-center w-full max-w-[500px] mx-auto mb-8'>
         <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black-default'>추천</span>
       </div>
       <section className='flex flex-col gap-8'>
-        {recommendationList?.map((item) => (
-          <Link href={`/bung/${item.bungId}`} key={item.bungId}>
+        {recommendationList?.map((bung) => (
+          <Link href={`/bung/${bung.bungId}`} key={bung.bungId}>
             <RecommendationCard
-              title={item.name}
-              location={item.location}
-              time={convertStringTimeToDate(item.startDateTime)}
-              hashtags={item.hashtags}
+              title={bung.name}
+              location={bung.location}
+              time={convertStringTimeToDate(bung.startDateTime)}
+              remainingCount={bung.memberNumber}
+              hashtags={bung.hashtags}
             />
           </Link>
         ))}
