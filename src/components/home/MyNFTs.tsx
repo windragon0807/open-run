@@ -34,9 +34,7 @@ export default function MyNFTs() {
 
         {/* dark 모드일 때, bg-white 선언 시, dark 모드 색상 적용이 안 됨 */}
         <div className='w-full shadow-floating-primary flex flex-col py-16'>
-          <span className='text-[14px] leading-[20px] tracking-[-0.28px] font-bold pl-16 dark:text-white'>
-            최근 획득한 NFT
-          </span>
+          <span className='text-[14px] leading-[20px] tracking-[-0.28px] font-bold pl-16'>최근 획득한 NFT</span>
           <Spacing size={2} />
           <ul className='w-full flex overflow-x-auto gap-2 px-16 pb-12'>
             {nftImageList.map((src, index) => (
@@ -45,9 +43,7 @@ export default function MyNFTs() {
               </NFTBox>
             ))}
           </ul>
-          <span className='text-[14px] leading-[20px] tracking-[-0.28px] font-bold pl-16 dark:text-white'>
-            다음 NFT 획득까지
-          </span>
+          <span className='text-[14px] leading-[20px] tracking-[-0.28px] font-bold pl-16'>다음 NFT 획득까지</span>
           <Spacing size={2} />
           <div className='flex gap-8 px-16'>
             <NFTBox>
@@ -56,13 +52,11 @@ export default function MyNFTs() {
             <div className='w-[calc(100%-46px)] flex flex-col items-center justify-center gap-5'>
               <div className='w-full flex gap-4 items-center'>
                 <div className='relative overflow-hidden whitespace-nowrap w-[calc(100%-20px)]'>
-                  <span className='animate-marquee inline-block text-[12px] leading-[16px] tracking-[-0.24px] text-black-default dark:text-white'>
+                  <span className='animate-marquee inline-block text-[12px] leading-[16px] tracking-[-0.24px] text-black-default'>
                     벙 참여하여 완료하기
                   </span>
                 </div>
-                <span className='text-[12px] leading-[16px] tracking-[-0.24px] text-black-default dark:text-white'>
-                  4/10
-                </span>
+                <span className='text-[12px] leading-[16px] tracking-[-0.24px] text-black-default'>4/10</span>
               </div>
               <ProgressBar progress={40} />
             </div>
@@ -91,7 +85,7 @@ function SkewedLikeLabel({ like }: { like: number }) {
 function NFTBox({ children }: { children: ReactNode }) {
   return (
     <li className='inline-block'>
-      <div className='w-40 aspect-[1] rounded-4 border border-gray-default dark:border-[rgba(255,255,255,0.20)] bg-gray-lighten dark:bg-black-default flex justify-center items-center'>
+      <div className='w-40 aspect-[1] rounded-4 border border-gray-default bg-gray-lighten flex justify-center items-center'>
         {children}
       </div>
     </li>

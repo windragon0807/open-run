@@ -17,11 +17,9 @@ export default async function MyBungs() {
   return (
     <section className='px-16 flex flex-col'>
       <div className='flex justify-between w-full max-w-[500px] mx-auto'>
-        <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black-default dark:text-white'>
-          참여 예정
-        </span>
+        <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black-default'>참여 예정</span>
         {data == null || data?.length === 0 ? (
-          <span className='text-[12px] leading-[16px] tracking-[-0.24px] text-black-default dark:text-white place-content-center'>
+          <span className='text-[12px] leading-[16px] tracking-[-0.24px] text-black-default place-content-center'>
             아직 일정이 없어요
           </span>
         ) : null}

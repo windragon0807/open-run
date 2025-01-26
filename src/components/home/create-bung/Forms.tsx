@@ -315,7 +315,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           placeholder='예상되는 소요 시간을 알려주세요'
           value={formValues.runningTime}
           onChange={handleFormValues}
-          addon={<span className='absolute right-16 bottom-10 text-sm text-black-default dark:text-white'>분</span>}
+          addon={<span className='absolute right-16 bottom-10 text-sm text-black-default'>분</span>}
         />
       </div>
 
@@ -328,7 +328,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           placeholder='목표 거리를 입력하세요'
           value={formValues.distance}
           onChange={handleFormValues}
-          addon={<span className='absolute right-16 bottom-10 text-sm text-black-default dark:text-white'>km</span>}
+          addon={<span className='absolute right-16 bottom-10 text-sm text-black-default'>km</span>}
         />
       </div>
 
@@ -342,9 +342,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             value={formValues.paceMinute}
             onChange={handleFormValues}
             addon={
-              <span className='absolute right-16 bottom-10 text-sm text-black-default font-bold italic dark:text-white'>
-                {"'"}
-              </span>
+              <span className='absolute right-16 bottom-10 text-sm text-black-default font-bold italic'>{"'"}</span>
             }
           />
           <NumberInput
@@ -353,9 +351,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             value={formValues.paceSecond}
             onChange={handleFormValues}
             addon={
-              <span className='absolute right-16 bottom-10 text-sm text-black-default font-bold italic dark:text-white'>
-                {'"'}
-              </span>
+              <span className='absolute right-16 bottom-10 text-sm text-black-default font-bold italic'>{'"'}</span>
             }
           />
         </div>
@@ -370,7 +366,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           placeholder='참가 인원을 입력하세요'
           value={formValues.memberNumber}
           onChange={handleFormValues}
-          addon={<span className='absolute left-16 bottom-10 text-sm text-black-default dark:text-white'>1 ~</span>}
+          addon={<span className='absolute left-16 bottom-10 text-sm text-black-default'>1 ~</span>}
         />
       </div>
 

@@ -18,10 +18,10 @@ export default function CreateBung() {
       initial={{ y: '50%' }}
       animate={{ y: '7%' }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className='fixed bottom-0 left-0 w-full h-full bg-gray-lighten dark:bg-black-darken shadow-lg rounded-t-2xl'
+      className='fixed bottom-0 left-0 w-full h-full bg-gray-lighten shadow-lg rounded-t-2xl'
       onClick={(e) => e.stopPropagation()}>
       <header className='relative flex w-full h-60 justify-center items-center px-16'>
-        <span className='text-[16px] leading-[24px] tracking-[-0.32px] font-bold dark:text-white'>
+        <span className='text-[16px] leading-[24px] tracking-[-0.32px] font-bold'>
           {step === 'create' ? '벙 만들기' : '멤버 초대'}
         </span>
         <button className='absolute right-16' onClick={closeModal}>

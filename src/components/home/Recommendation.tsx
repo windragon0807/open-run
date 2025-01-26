@@ -15,9 +15,7 @@ export default async function Recommendation() {
   return (
     <section className='px-16 flex flex-col'>
       <div className='flex justify-between items-center w-full max-w-[500px] mx-auto'>
-        <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black-default dark:text-white'>
-          추천
-        </span>
+        <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black-default'>추천</span>
       </div>
       <section className='flex flex-col gap-8'>
         {recommendationList?.map((item) => (
