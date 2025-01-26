@@ -240,7 +240,7 @@ export default function BungDetails({
           {/* 위치 및 지도 */}
           <div className='flex items-center gap-4 pl-16 mt-40 mb-8'>
             <PlaceIcon color={colors.black.default} />
-            <span className='text-sm text-black-darken font-bold'>{details.location}</span>
+            <span className='text-sm text-black-darken font-bold whitespace-pre-wrap'>{details.location}</span>
           </div>
           <div className='px-16 mb-18'>
             <Map location={details.location} />
