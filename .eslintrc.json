@@ -1,8 +1,7 @@
 {
   "extends": [
     "next",
-    "prettier",
-    "plugin:storybook/recommended"
+    "prettier"
   ],
   "rules": {
     "import/no-unresolved": "off",
