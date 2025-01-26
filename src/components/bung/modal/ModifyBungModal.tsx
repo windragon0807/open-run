@@ -2,8 +2,8 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
-import { motion } from 'framer-motion'
 import { differenceInMinutes, format } from 'date-fns'
+import { BottomSheet } from '@shared/Modal'
 import CloseIcon from '@icons/CloseIcon'
 import { useModalContext } from '@contexts/ModalContext'
 import Input from '@shared/Input'
@@ -87,12 +87,7 @@ export default function ModifyBungModal({ details }: { details: BungDetail }) {
   }
 
   return (
-    <motion.div
-      initial={{ y: '50%' }}
-      animate={{ y: '7%' }}
-      transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className='fixed bottom-0 left-0 w-full h-full bg-gray-lighten shadow-lg rounded-t-2xl'
-      onClick={(e) => e.stopPropagation()}>
+    <BottomSheet>
       <header className='relative flex w-full h-60 justify-center items-center px-16'>
         <span className='text-[16px] leading-[24px] tracking-[-0.32px] font-bold'>벙 수정</span>
         <button className='absolute right-16' onClick={closeModal}>
@@ -276,6 +271,6 @@ export default function ModifyBungModal({ details }: { details: BungDetail }) {
           </PrimaryButton>
         </section>
       </section>
-    </motion.div>
+    </BottomSheet>
   )
 }

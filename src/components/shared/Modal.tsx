@@ -20,7 +20,7 @@ export default function Modal({
   )
 }
 
-export function ModalDimmed({ children, onClick }: { children: ReactNode; onClick?: () => void }) {
+function ModalDimmed({ children, onClick }: { children: ReactNode; onClick?: () => void }) {
   return (
     <section className={`fixed top-0 right-0 left-0 bottom-0 bg-[#000] bg-opacity-60 z-[1000]`} onClick={onClick}>
       <motion.section
@@ -31,5 +31,18 @@ export function ModalDimmed({ children, onClick }: { children: ReactNode; onClic
         {children}
       </motion.section>
     </section>
+  )
+}
+
+export function BottomSheet({ children }: { children: ReactNode }) {
+  return (
+    <motion.div
+      initial={{ y: '50%' }}
+      animate={{ y: '7%' }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
+      className='fixed bottom-0 left-0 w-full h-full bg-gray-lighten shadow-lg rounded-t-2xl'
+      onClick={(e) => e.stopPropagation()}>
+      {children}
+    </motion.div>
   )
 }

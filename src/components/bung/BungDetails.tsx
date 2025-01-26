@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { Fragment, useRef } from 'react'
 import { useMutation } from 'react-query'
 import { motion, useScroll, useTransform } from 'framer-motion'
@@ -25,6 +26,7 @@ import DeleteBungModal from './modal/DeleteBungModal'
 import { PageCategory } from './types'
 import { completeBung as _completeBung } from '@apis/bungs/completeBung/api'
 import ModifyBungModal from './modal/ModifyBungModal'
+import BungCompleteModal from './modal/BungCompleteModal'
 
 export default function BungDetails({
   details,
@@ -39,6 +41,7 @@ export default function BungDetails({
 }) {
   const 참여인원수 = details.memberList.length
 
+  const router = useRouter()
   const { openModal } = useModalContext()
   const { mutate: completeBung } = useMutation(_completeBung)
 
@@ -173,17 +176,41 @@ export default function BungDetails({
                   <>
                     <button
                       className='w-full h-56 rounded-8 bg-black-darken text-base font-bold text-white mt-16 disabled:bg-gray-default disabled:text-white'
-                      disabled={벙완료시각이지났는가 === false}
+                      // disabled={벙완료시각이지났는가 === false}
                       onClick={() => {
-                        completeBung(
-                          { bungId: details.bungId },
-                          {
-                            onSuccess: (data) => {
-                              console.log(data)
-                              // TODO 벙 완료 좋아요 모달 띄우기
-                            },
-                          },
-                        )
+                        // WARNING for test
+                        router.replace('/')
+                        openModal({
+                          contents: (
+                            <BungCompleteModal
+                              imageUrl='/temp/img_thumbnail_1.png'
+                              title={details.name}
+                              location={details.location}
+                              memberList={details.memberList}
+                            />
+                          ),
+                        })
+
+                        // completeBung(
+                        //   { bungId: details.bungId },
+                        //   {
+                        //     onSuccess: (data) => {
+                        //       router.refresh()
+                        //       router.replace('/')
+
+                        //       openModal({
+                        //         contents: (
+                        //           <BungCompleteModal
+                        //             imageUrl='/temp/img_thumbnail_1.png'
+                        //             title={details.name}
+                        //             location={details.location}
+                        //             memberList={details.memberList}
+                        //           />
+                        //         ),
+                        //       })
+                        //     },
+                        //   },
+                        // )
                       }}>
                       벙 완료
                     </button>
