@@ -32,11 +32,10 @@ export default function MyNFTs() {
       <div className='flex flex-col w-[calc(100%-184px)]'>
         <Spacing size={8} />
 
-        {/* dark 모드일 때, bg-white 선언 시, dark 모드 색상 적용이 안 됨 */}
         <div className='w-full shadow-floating-primary flex flex-col py-16'>
           <span className='text-[14px] leading-[20px] tracking-[-0.28px] font-bold pl-16'>최근 획득한 NFT</span>
           <Spacing size={2} />
-          <ul className='w-full flex overflow-x-auto gap-2 px-16 pb-12'>
+          <ul className='w-full flex overflow-x-auto scrollbar-hidden gap-2 px-16 pb-12'>
             {nftImageList.map((src, index) => (
               <NFTBox key={index}>
                 <Image src={src} alt={`NFT_${src}`} width={36} height={36} />
