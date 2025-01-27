@@ -21,7 +21,6 @@ export default function Invitation() {
       nickname: string
     }[]
   >([])
-  console.log(selectedMembers)
 
   /* 멤버 추천 관련 */
   const { data: suggestionList } = useQuery({

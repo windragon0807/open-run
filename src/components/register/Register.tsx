@@ -27,7 +27,6 @@ export default function Register() {
     runningFrequency: 0,
   })
   const [step, setStep] = useState<RegisterStep>(0)
-  console.log({ step, data })
 
   const handlePrevious = () => {
     if (step === 0) {

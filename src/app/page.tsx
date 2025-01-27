@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation'
 import Spacing from '@shared/Spacing'
 import Layout from '@shared/Layout'
 import FixedBottomMenuButton from '@shared/FixedBottomMenuButton'
@@ -6,7 +7,6 @@ import MyNFTs from '@components/home/MyNFTs'
 import MyBungs from '@components/home/MyBungs'
 import Header from '@components/home/Header'
 import { fetchUserInfo } from '@apis/users/fetchUserInfo/api'
-import { redirect } from 'next/navigation'
 
 export default async function HomePage() {
   const { data: userInfo } = await fetchUserInfo()
