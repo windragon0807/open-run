@@ -43,7 +43,7 @@ export default function BungCompleteModal({
   }
 
   return (
-    <BottomSheet>
+    <BottomSheet fullSize>
       <header className='relative flex w-full h-60 justify-center items-center px-16 mb-16'>
         <button className='absolute left-16' onClick={closeModal}>
           <CloseIcon />

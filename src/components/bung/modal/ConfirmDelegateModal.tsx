@@ -4,6 +4,7 @@ import { useMutation } from 'react-query'
 import { useModalContext } from '@contexts/ModalContext'
 import { BungDetailMember } from '@/types/bung'
 import { delegateOwner as _delegateOwner } from '@apis/bungs/delegateOwner/api'
+import { Popup } from '@shared/Modal'
 
 export default function ConfirmDelegateModal({
   member,
@@ -32,10 +33,8 @@ export default function ConfirmDelegateModal({
   }
 
   return (
-    <section
-      className='absolute w-[calc(100%-32px)] max-w-[328px] h-230 bg-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-16 p-16'
-      onClick={(e) => e.stopPropagation()}>
-      <div className='w-full h-full flex flex-col justify-between items-center'>
+    <Popup>
+      <div className='w-full h-230 flex flex-col justify-between items-center p-16'>
         <div className='flex flex-col gap-8 mt-24'>
           <div className='flex items-center self-center gap-8'>
             <Image
@@ -62,6 +61,6 @@ export default function ConfirmDelegateModal({
           </button>
         </div>
       </div>
-    </section>
+    </Popup>
   )
 }

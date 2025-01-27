@@ -13,7 +13,7 @@ export default function CreateBung() {
   const [step, setStep] = useState<'create' | 'invitation'>('create')
 
   return (
-    <BottomSheet>
+    <BottomSheet fullSize>
       <header className='relative flex w-full h-60 justify-center items-center px-16'>
         <span className='text-[16px] leading-[24px] tracking-[-0.32px] font-bold'>
           {step === 'create' ? '벙 만들기' : '멤버 초대'}

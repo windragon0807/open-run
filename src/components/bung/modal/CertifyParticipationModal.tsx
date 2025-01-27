@@ -8,6 +8,7 @@ import useGeolocation from '@hooks/useGeolocation'
 import CloseIcon from '@icons/CloseIcon'
 import PrimaryButton from '@shared/PrimaryButton'
 import LoadingLogo from '@shared/LoadingLogo'
+import { BottomSheet } from '@shared/Modal'
 import '../map.css'
 
 const 참여인증거리 = 500 // 500m
@@ -31,9 +32,7 @@ export default function CertifyParticipationModal({ destination }: { destination
   })
 
   return (
-    <section
-      className='fixed bottom-0 left-0 w-full bg-gray-lighten rounded-t-2xl px-16'
-      onClick={(e) => e.stopPropagation()}>
+    <BottomSheet className='px-16'>
       <header className='w-full h-60 flex items-center justify-center'>
         <button className='absolute left-16' onClick={closeModal}>
           <CloseIcon />
@@ -54,7 +53,7 @@ export default function CertifyParticipationModal({ destination }: { destination
         {distance != null && distance <= 참여인증거리 && '참여 인증 완료'}
         {distance != null && distance > 참여인증거리 && '목적지까지 500m 이내여야 합니다.'}
       </PrimaryButton>
-    </section>
+    </BottomSheet>
   )
 }
 

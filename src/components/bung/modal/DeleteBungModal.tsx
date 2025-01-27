@@ -2,6 +2,7 @@ import { useRouter } from 'next/navigation'
 import { useMutation } from 'react-query'
 import { deleteBung as _deleteBung } from '@apis/bungs/deleteBung/api'
 import { useModalContext } from '@contexts/ModalContext'
+import { Popup } from '@shared/Modal'
 
 export default function DeleteBungModal({ bungId }: { bungId: string }) {
   const router = useRouter()
@@ -22,10 +23,8 @@ export default function DeleteBungModal({ bungId }: { bungId: string }) {
   }
 
   return (
-    <section
-      className='absolute w-[calc(100%-32px)] max-w-[328px] h-230 bg-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-16 p-16'
-      onClick={(e) => e.stopPropagation()}>
-      <div className='w-full h-full flex flex-col justify-between items-center'>
+    <Popup>
+      <div className='w-full h-230 flex flex-col justify-between items-center p-16'>
         <div className='flex flex-col gap-8 mt-24'>
           <h5 className='text-20 leading-30 font-bold text-black-darken text-center'>벙 삭제하기</h5>
           <p className='text-black-darken text-sm text-center'>
@@ -39,13 +38,11 @@ export default function DeleteBungModal({ bungId }: { bungId: string }) {
             onClick={handleDeleteBung}>
             삭제
           </button>
-          <button
-            className='flex-1 h-56 bg-white text-black-darken text-base font-bold rounded-8'
-            onClick={() => closeModal()}>
+          <button className='flex-1 h-56 bg-white text-black-darken text-base font-bold rounded-8' onClick={closeModal}>
             취소
           </button>
         </div>
       </div>
-    </section>
+    </Popup>
   )
 }

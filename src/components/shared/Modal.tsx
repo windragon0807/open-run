@@ -34,13 +34,34 @@ function ModalDimmed({ children, onClick }: { children: ReactNode; onClick?: () 
   )
 }
 
-export function BottomSheet({ children }: { children: ReactNode }) {
+export function BottomSheet({
+  children,
+  fullSize,
+  className,
+}: {
+  children: ReactNode
+  fullSize?: boolean
+  className?: string
+}) {
   return (
     <motion.div
       initial={{ y: '50%' }}
-      animate={{ y: '7%' }}
+      animate={{ y: fullSize ? '7%' : '0%' }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className='fixed bottom-0 left-0 w-full h-full bg-gray-lighten shadow-lg rounded-t-2xl'
+      className={`fixed bottom-0 left-0 w-full bg-gray-lighten shadow-lg rounded-t-2xl ${fullSize ? 'h-full' : ''} ${className}`}
+      onClick={(e) => e.stopPropagation()}>
+      {children}
+    </motion.div>
+  )
+}
+
+export function Popup({ children, className }: { children: ReactNode; className?: string }) {
+  return (
+    <motion.div
+      initial={{ y: '-30%', x: '-50%' }}
+      animate={{ y: '-50%' }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
+      className={`fixed left-1/2 top-1/2 w-[calc(100%-32px)] max-w-[328px] bg-white rounded-16 ${className}`}
       onClick={(e) => e.stopPropagation()}>
       {children}
     </motion.div>
