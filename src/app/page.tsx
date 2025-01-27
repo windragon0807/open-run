@@ -1,3 +1,4 @@
+import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import Spacing from '@shared/Spacing'
 import Layout from '@shared/Layout'

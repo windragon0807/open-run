@@ -25,9 +25,9 @@ export default function ErrorPage({ error, reset }: Props) {
       </button>
       <Link
         className='px-20 py-10 bg-white text-primary rounded-4 flex justify-center items-center gap-8 font-[500]'
-        href='/'>
+        href='/signin'>
         <HiHome size={18} />
-        홈으로 돌아가기
+        로그인 화면으로 돌아가기
       </Link>
     </section>
   )

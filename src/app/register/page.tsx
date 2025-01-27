@@ -8,5 +8,4 @@ export default function RegisterPage() {
 
 export const metadata: Metadata = {
   title: '회원가입',
-  description: "OpenRun, Let's run together!",
 }

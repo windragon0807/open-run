@@ -1,3 +1,4 @@
+import { Metadata } from 'next'
 import Layout from '@shared/Layout'
 import AvatarPage from '@components/avatar/AvatarPage'
 import { fetchNftList } from '@apis/nfts/fetchNftList/api'
@@ -12,4 +13,8 @@ export default async function Page() {
       <AvatarPage avatarList={avatarList} wearingAvatar={wearingAvatar} />
     </Layout>
   )
+}
+
+export const metadata: Metadata = {
+  title: '아바타',
 }

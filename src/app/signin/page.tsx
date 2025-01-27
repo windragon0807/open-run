@@ -33,5 +33,4 @@ export default function SignInPage() {
 
 export const metadata: Metadata = {
   title: '로그인',
-  description: "OpenRun, Let's run together!",
 }
