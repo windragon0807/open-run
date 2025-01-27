@@ -35,6 +35,7 @@ export default function BungCompleteModal({
       { targetUserIds: checkedUserIdList },
       {
         onSuccess: () => {
+          /* 자기 자신에게 좋아요를 눌렀을 경우, 메인 페이지에서의 좋아요 갯수 업데이트 */
           router.refresh()
           closeModal()
         },

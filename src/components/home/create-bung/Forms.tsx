@@ -20,6 +20,7 @@ import HashTagSearch from '@components/bung/components/HashTagSearch'
 import Button from '@components/bung/components/Button'
 import { colors } from '@styles/colors'
 import { formatDate } from '@utils/time'
+import { useMyBungsClient } from '@apis/bungs/fetchMyBungs/query'
 
 type FormValues = {
   bungName: string
@@ -39,7 +40,7 @@ type FormValues = {
 }
 
 export default function Forms({ nextStep }: { nextStep: () => void }) {
-  const router = useRouter()
+  const { refetch: 메인페이지벙리스트업데이트 } = useMyBungsClient()
 
   const [formValues, setFormValues] = useState<FormValues>({
     bungName: '',
@@ -158,7 +159,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
 
     createBung(result, {
       onSuccess: () => {
-        router.refresh()
+        메인페이지벙리스트업데이트()
         nextStep()
       },
     })

@@ -24,6 +24,7 @@ export default function ConfirmDelegateModal({
       { bungId, newOwnerUserId: member.userId },
       {
         onSuccess: () => {
+          /* 벙 상세 페이지 서버 컴포넌트 API 호출 업데이트 */
           router.refresh()
           closeModal()
           onSuccess()
