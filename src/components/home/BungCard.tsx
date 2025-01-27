@@ -1,8 +1,5 @@
 'use client'
 
-import { ko } from 'date-fns/locale'
-import { format } from 'date-fns'
-
 import Spacing from '@shared/Spacing'
 import RunnerIcon from '@icons/RunnerIcon'
 import PlaceIcon from '@icons/PlaceIcon'
@@ -10,6 +7,7 @@ import CrownIcon from '@icons/CrownIcon'
 import CalendarIcon from '@icons/CalendarIcon'
 import useTimer from '@hooks/useTimer'
 import { padStart } from '@utils/string'
+import { formatDate } from '@utils/time'
 
 export default function BungCard({
   place,
@@ -28,7 +26,7 @@ export default function BungCard({
 }) {
   const { days, hours, minutes, seconds } = useTimer(time)
   const formattedTime = `${padStart(days)} : ${padStart(hours)} : ${padStart(minutes)} : ${padStart(seconds)}`
-  const formattedDate = format(time, 'M월 d일 (E) a h:mm', { locale: ko })
+  const formattedDate = formatDate(time, 'M월 d일 (E) a h:mm')
 
   return (
     <article

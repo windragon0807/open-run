@@ -1,12 +1,6 @@
-import { parseISO, format } from 'date-fns'
+import { format } from 'date-fns'
+import { ko } from 'date-fns/locale'
 
-/* 백엔드 Response Format : '2024-07-01 14:10:23' */
-export function formatDateString(dateString: string, formatString: string): string {
-  // 'YYYY-MM-DD HH:mm:ss'를 ISO 포맷으로 변환
-  const date = parseISO(dateString.replace(' ', 'T'))
-  return format(date, formatString)
-}
-
-export function convertStringTimeToDate(dateString: string) {
-  return parseISO(dateString.replace(' ', 'T'))
+export function formatDate(date: string | number | Date, formatStr: string) {
+  return format(date, formatStr, { locale: ko })
 }

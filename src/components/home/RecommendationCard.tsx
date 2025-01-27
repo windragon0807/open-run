@@ -1,10 +1,8 @@
-import { ko } from 'date-fns/locale'
-import { format } from 'date-fns'
-
 import Spacing from '@shared/Spacing'
 import PlaceIcon from '@icons/PlaceIcon'
 import CalendarIcon from '@icons/CalendarIcon'
 import Avatar from './Avatar'
+import { formatDate } from '@utils/time'
 
 const participantList = [
   '/temp/nft_participant_5.png',
@@ -28,7 +26,7 @@ export default function RecommendationCard({
   hashtags: string[]
 }) {
   // 남은 시간을 상태로 관리
-  const formattedDate = format(time, 'M월 d일 (E) a h:mm', { locale: ko })
+  const formattedDate = formatDate(time, 'M월 d일 (E) a h:mm')
 
   return (
     <article

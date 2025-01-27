@@ -4,8 +4,6 @@ import { useRouter } from 'next/navigation'
 import { Fragment, useRef } from 'react'
 import { useMutation } from 'react-query'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { ko } from 'date-fns/locale'
-import { format } from 'date-fns'
 import { useModalContext } from '@contexts/ModalContext'
 import BackIcon from '@icons/BackIcon'
 import PlaceIcon from '@icons/PlaceIcon'
@@ -15,7 +13,7 @@ import PersonIcon from '@icons/PersonIcon'
 import ArrowRight from '@icons/ArrowRight'
 import { BungDetail } from '@/types/bung'
 import useTimer from '@hooks/useTimer'
-import { convertStringTimeToDate } from '@utils/time'
+import { formatDate } from '@utils/time'
 import { padStart } from '@utils/string'
 import { colors } from '@styles/colors'
 import Map from './Map'
@@ -61,13 +59,13 @@ export default function BungDetails({
   const translateY = useTransform(scrollY, [0, 200], [-15, isParticipated ? -108 : -140])
 
   /* 시작까지 남은 시간을 타이머로 표시하기 위한 로직 */
-  const { days, hours, minutes, seconds } = useTimer(convertStringTimeToDate(details.startDateTime))
+  const { days, hours, minutes, seconds } = useTimer(new Date(details.startDateTime))
   const formattedTime = `${padStart(days)} : ${padStart(hours)} : ${padStart(minutes)} : ${padStart(seconds)}`
 
   const 벙에참여한벙주인가 = isParticipated && isOwner
   const 벙에참여한멤버인가 = isParticipated && !isOwner
   const 벙에참여한유저인가 = isParticipated
-  const 벙완료시각이지났는가 = new Date() >= convertStringTimeToDate(details.startDateTime)
+  const 벙완료시각이지났는가 = new Date() >= new Date(details.startDateTime)
 
   const { mutate: completeBung } = useMutation(_completeBung)
   const handleBungComplete = () => {
@@ -177,7 +175,7 @@ export default function BungDetails({
             <div className='flex gap-8 items-center mb-8'>
               <CalendarIcon color={colors.black.default} />
               <span className='text-sm text-black-default'>
-                {format(convertStringTimeToDate(details.startDateTime), 'M월 d일 (E) a h:mm', { locale: ko })}
+                {formatDate(details.startDateTime, 'M월 d일 (E) a h:mm')}
               </span>
             </div>
 
@@ -233,8 +231,7 @@ export default function BungDetails({
                     </button>
                     {벙완료시각이지났는가 === false && (
                       <p className='text-12 font-semibold text-gray-darken mt-4 text-center'>
-                        {format(convertStringTimeToDate(details.endDateTime), 'M/d a h:mm', { locale: ko })} 이후에
-                        버튼이 활성화됩니다
+                        {formatDate(details.endDateTime, 'M/d a h:mm')} 이후에 버튼이 활성화됩니다
                       </p>
                     )}
                   </>

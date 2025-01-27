@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { ChangeEvent, useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
-import { differenceInMinutes, format } from 'date-fns'
+import { differenceInMinutes } from 'date-fns'
 import { BottomSheet } from '@shared/Modal'
 import CloseIcon from '@icons/CloseIcon'
 import { useModalContext } from '@contexts/ModalContext'
@@ -20,6 +20,7 @@ import { colors } from '@styles/colors'
 import FormTitle from '../components/FormTitle'
 import HashTagSearch from '../components/HashTagSearch'
 import Button from '../components/Button'
+import { formatDate } from '@utils/time'
 
 type FormValues = {
   bungName: string
@@ -137,11 +138,11 @@ export default function ModifyBungModal({ details }: { details: BungDetail }) {
             <div className='w-full flex gap-8'>
               <Button className='pl-16 bg-gray-default cursor-default'>
                 <CalendarIcon color={colors.gray.darken} />
-                <p className='text-gray-darken'>{format(details.startDateTime, 'yyyy년 M월 d일')}</p>
+                <p className='text-gray-darken'>{formatDate(details.startDateTime, 'yyyy년 M월 d일')}</p>
               </Button>
               <Button className='pl-16 bg-gray-default cursor-default'>
                 <ClockIcon color={colors.gray.darken} />
-                <p className='text-gray-darken'>{format(details.startDateTime, 'hh : mm')}</p>
+                <p className='text-gray-darken'>{formatDate(details.startDateTime, 'hh : mm')}</p>
               </Button>
             </div>
           </div>

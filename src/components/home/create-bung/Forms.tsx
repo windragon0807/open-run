@@ -2,7 +2,6 @@ import { ChangeEvent, useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { format } from 'date-fns'
 
 import Input from '@shared/Input'
 import NumberInput from '@shared/NumberInput'
@@ -20,6 +19,7 @@ import FormTitle from '@components/bung/components/FormTitle'
 import HashTagSearch from '@components/bung/components/HashTagSearch'
 import Button from '@components/bung/components/Button'
 import { colors } from '@styles/colors'
+import { formatDate } from '@utils/time'
 
 type FormValues = {
   bungName: string
@@ -254,7 +254,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             }}>
             <CalendarIcon color={시작날짜를선택했는가 ? colors.primary : colors.black.default} />
             <p className={시작날짜를선택했는가 ? 'text-primary' : 'text-black-default'}>
-              {시작날짜를선택했는가 ? format(formValues.startDate as Date, 'yyyy년 M월 d일') : '날짜 선택'}
+              {시작날짜를선택했는가 ? formatDate(formValues.startDate as Date, 'yyyy년 M월 d일') : '날짜 선택'}
             </p>
           </Button>
           <Button

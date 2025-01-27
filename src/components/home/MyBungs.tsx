@@ -1,6 +1,5 @@
 import Link from 'next/link'
 
-import { convertStringTimeToDate } from '@utils/time'
 import Spacing from '@shared/Spacing'
 import { fetchMyBungs } from '@apis/bungs/fetchMyBungs/api'
 import CreateBungButton from './CreateBungButton'
@@ -30,7 +29,7 @@ export default async function MyBungs() {
           <Link key={index} href={`/bung/${item.bungId}`}>
             <BungCard
               place={item.location}
-              time={convertStringTimeToDate(item.startDateTime)}
+              time={new Date(item.startDateTime)}
               distance={item.distance}
               pace={item.pace}
               isBungOwner={item.hasOwnership}

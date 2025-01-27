@@ -1,6 +1,5 @@
 import Link from 'next/link'
 
-import { convertStringTimeToDate } from '@utils/time'
 import Spacing from '@shared/Spacing'
 import { fetchBungs } from '@apis/bungs/fetchBungs/api'
 import RecommendationCard from './RecommendationCard'
@@ -23,7 +22,7 @@ export default async function Recommendation() {
             <RecommendationCard
               title={bung.name}
               location={bung.location}
-              time={convertStringTimeToDate(bung.startDateTime)}
+              time={new Date(bung.startDateTime)}
               remainingCount={bung.memberNumber}
               hashtags={bung.hashtags}
             />
