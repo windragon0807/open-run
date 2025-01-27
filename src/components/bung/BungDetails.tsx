@@ -7,7 +7,6 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { ko } from 'date-fns/locale'
 import { format } from 'date-fns'
 import { useModalContext } from '@contexts/ModalContext'
-import ParticipateButton from '@components/bung/ParticipateButton'
 import BackIcon from '@icons/BackIcon'
 import PlaceIcon from '@icons/PlaceIcon'
 import CalendarIcon from '@icons/CalendarIcon'
@@ -27,6 +26,8 @@ import { PageCategory } from './types'
 import { completeBung as _completeBung } from '@apis/bungs/completeBung/api'
 import ModifyBungModal from './modal/ModifyBungModal'
 import BungCompleteModal from './modal/BungCompleteModal'
+import PrimaryButton from '@shared/PrimaryButton'
+import { joinBung as _joinBung } from '@apis/bungs/joinBung/api'
 
 export default function BungDetails({
   details,
@@ -43,7 +44,6 @@ export default function BungDetails({
 
   const router = useRouter()
   const { openModal } = useModalContext()
-  const { mutate: completeBung } = useMutation(_completeBung)
 
   /* 스크롤이 올라갈수록 컨텐츠 영역이 올라가는 효과를 주기 위한 로직 */
   const containerRef = useRef<HTMLDivElement>(null)
@@ -68,6 +68,57 @@ export default function BungDetails({
   const 벙에참여한멤버인가 = isParticipated && !isOwner
   const 벙에참여한유저인가 = isParticipated
   const 벙완료시각이지났는가 = new Date() >= convertStringTimeToDate(details.startDateTime)
+
+  const { mutate: completeBung } = useMutation(_completeBung)
+  const handleBungComplete = () => {
+    // WARNING for test
+    router.replace('/')
+    openModal({
+      contents: (
+        <BungCompleteModal
+          imageUrl='/temp/img_thumbnail_1.png'
+          title={details.name}
+          location={details.location}
+          memberList={details.memberList}
+        />
+      ),
+    })
+
+    // completeBung(
+    //   { bungId: details.bungId },
+    //   {
+    //     onSuccess: (data) => {
+    //       router.refresh()
+    //       router.replace('/')
+
+    //       openModal({
+    //         contents: (
+    //           <BungCompleteModal
+    //             imageUrl='/temp/img_thumbnail_1.png'
+    //             title={details.name}
+    //             location={details.location}
+    //             memberList={details.memberList}
+    //           />
+    //         ),
+    //       })
+    //     },
+    //   },
+    // )
+  }
+
+  const { mutate: joinBung } = useMutation(_joinBung)
+  const handleJoinBung = () => {
+    if (window.confirm('벙에 참여하시겠습니까?')) {
+      joinBung(
+        { bungId: details.bungId },
+        {
+          onSuccess: () => {
+            router.refresh()
+          },
+        },
+      )
+    }
+  }
 
   return (
     <section className='w-full h-full relative'>
@@ -176,42 +227,8 @@ export default function BungDetails({
                   <>
                     <button
                       className='w-full h-56 rounded-8 bg-black-darken text-base font-bold text-white mt-16 disabled:bg-gray-default disabled:text-white'
-                      // disabled={벙완료시각이지났는가 === false}
-                      onClick={() => {
-                        // WARNING for test
-                        router.replace('/')
-                        openModal({
-                          contents: (
-                            <BungCompleteModal
-                              imageUrl='/temp/img_thumbnail_1.png'
-                              title={details.name}
-                              location={details.location}
-                              memberList={details.memberList}
-                            />
-                          ),
-                        })
-
-                        // completeBung(
-                        //   { bungId: details.bungId },
-                        //   {
-                        //     onSuccess: (data) => {
-                        //       router.refresh()
-                        //       router.replace('/')
-
-                        //       openModal({
-                        //         contents: (
-                        //           <BungCompleteModal
-                        //             imageUrl='/temp/img_thumbnail_1.png'
-                        //             title={details.name}
-                        //             location={details.location}
-                        //             memberList={details.memberList}
-                        //           />
-                        //         ),
-                        //       })
-                        //     },
-                        //   },
-                        // )
-                      }}>
+                      disabled={벙완료시각이지났는가 === false}
+                      onClick={handleBungComplete}>
                       벙 완료
                     </button>
                     {벙완료시각이지났는가 === false && (
@@ -224,7 +241,9 @@ export default function BungDetails({
                 )}
               </Fragment>
             ) : (
-              <ParticipateButton />
+              <PrimaryButton disabled={details.memberNumber - 참여인원수 > 0} onClick={handleJoinBung}>
+                참여하기
+              </PrimaryButton>
             )}
           </div>
 
