@@ -35,7 +35,7 @@ export default function ConfirmDelegateModal({
 
   return (
     <Popup>
-      <div className='w-full h-230 flex flex-col justify-between items-center p-16'>
+      <div className='w-full h-214 flex flex-col justify-between items-center p-16'>
         <div className='flex flex-col gap-8 mt-24'>
           <div className='flex items-center self-center gap-8'>
             <Image
@@ -47,13 +47,13 @@ export default function ConfirmDelegateModal({
             />
             <span className='text-base font-bold text-black-darken'>{member.nickname}</span>
           </div>
-          <h5 className='text-20 leading-30 font-bold text-black-darken text-center'>멤버에게 벙주를 양도할까요?</h5>
+          <h5 className='text-20 leading-30 font-bold text-black-darken text-center'>멤버에게 벙주 넘기기</h5>
         </div>
         <div className='w-full flex gap-8'>
           <button
             className={`flex-1 h-56 bg-black-darkest text-white text-base font-bold rounded-8`}
             onClick={handleDelegate}>
-            양도하기
+            확인
           </button>
           <button
             className='flex-1 h-56 bg-white text-black-darken text-base font-bold rounded-8'
