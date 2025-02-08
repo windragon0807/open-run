@@ -4,14 +4,17 @@ import useLogout from '@hooks/useLogout'
 import BellIcon from '@icons/BellIcon'
 import MagnifierIcon from '@icons/MagnifierIcon'
 import { colors } from '@styles/colors'
+import { useUserStore } from '@store/user'
 import Avatar from './Avatar'
 
-export default function Header({ nickname }: { nickname: string }) {
+export default function Header() {
+  const { userInfo } = useUserStore()
   const { logout } = useLogout()
+
   return (
     <header className='fixed z-[100] bg-gray-lighten w-full max-w-tablet h-84 flex justify-between p-[16px_12px_16px_16px]'>
       <div className='flex flex-col'>
-        <span className='text-[28px] leading-[36px] tracking-[-0.56px] font-bold'>{nickname}</span>
+        <span className='text-[28px] leading-[36px] tracking-[-0.56px] font-bold'>{userInfo?.nickname}</span>
       </div>
       <div className='flex items-center gap-[15px]'>
         <BellIcon size={24} color={colors.black.darken} />

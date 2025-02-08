@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import AuthGuard from '@shared/AuthGuard'
 import Layout from '@shared/Layout'
 import AvatarPage from '@components/avatar/AvatarPage'
 import { fetchNftList } from '@apis/nfts/fetchNftList/api'
@@ -9,9 +10,11 @@ export default async function Page() {
   const { data: wearingAvatar } = await fetchWearingAvatar()
 
   return (
-    <Layout>
-      <AvatarPage avatarList={avatarList} wearingAvatar={wearingAvatar} />
-    </Layout>
+    <AuthGuard>
+      <Layout>
+        <AvatarPage avatarList={avatarList} wearingAvatar={wearingAvatar} />
+      </Layout>
+    </AuthGuard>
   )
 }
 

@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { COOKIE } from '@constants/cookie'
-import { checkTokenValid } from '@apis/middlewares/checkTokenValid/api'
 import { certifyAuth } from '@apis/middlewares/certifyAuth/api'
 
 export async function middleware(request: NextRequest) {
@@ -30,14 +29,6 @@ export async function middleware(request: NextRequest) {
   const token = request.cookies.get(COOKIE.ACCESSTOKEN)?.value
   if (!token) {
     return NextResponse.redirect(new URL('/signin', request.url))
-  }
-
-  /* 토큰 유효성 검사 */
-  const isTokenValid = await checkTokenValid({ token })
-  if (isTokenValid === false) {
-    return NextResponse.redirect(new URL('/signin', request.url))
-  } else {
-    return NextResponse.next()
   }
 }
 

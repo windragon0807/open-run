@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import AuthGuard from '@shared/AuthGuard'
 import { fetchUserInfo } from '@apis/users/fetchUserInfo/api'
 import { fetchBungDetail } from '@apis/bungs/fetchBungDetails/api'
 import PageCategory from '@components/bung/PageCategory'
@@ -17,7 +18,11 @@ export default async function Page({ params: { bungId } }: Props) {
   const isParticipated = bungDetail.memberList.some((participant) => participant.userId === userId)
   const isOwner = bungDetail.memberList.find((participant) => participant.userId === userId)?.owner ?? false
 
-  return <PageCategory details={bungDetail} isParticipated={isParticipated} isOwner={isOwner} />
+  return (
+    <AuthGuard>
+      <PageCategory details={bungDetail} isParticipated={isParticipated} isOwner={isOwner} />
+    </AuthGuard>
+  )
 }
 
 export async function generateMetadata({ params: { bungId } }: Props): Promise<Metadata> {

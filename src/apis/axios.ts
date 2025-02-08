@@ -67,9 +67,8 @@ http.interceptors.response.use(
       /* LOGGING */
       const { message } = error
       const { method, url } = error.config as AxiosRequestConfig
-      if (process.env.NODE_ENV === 'development') {
-        console.log(`🚨 [API] ${method?.toUpperCase()} ${url} | Error ${message}`)
-      }
+
+      console.log(`🚨 [API] ${method?.toUpperCase()} ${url} | Error ${message}`)
     }
 
     return error

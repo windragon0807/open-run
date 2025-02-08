@@ -22,6 +22,9 @@ import PrimaryButton from '@shared/PrimaryButton'
 import PencilIcon from '@icons/PencilIcon'
 import ChangeOwnerIcon from '@icons/ChangeOwnerIcon'
 import WastebasketIcon from '@icons/WastebasketIcon'
+import { useUserStore } from '@store/user'
+import { dropoutMember as _dropoutMember } from '@apis/bungs/dropoutMember/api'
+import { useRefetch } from '@hooks/useRefetch'
 import Map from './Map'
 import WhyCertificationModal from './modal/WhyCertificationModal'
 import CertifyParticipationModal from './modal/CertifyParticipationModal'
@@ -45,6 +48,8 @@ export default function BungDetails({
 
   const router = useRouter()
   const { openModal } = useModalContext()
+  const { userInfo } = useUserStore()
+  const clearAllCache = useRefetch()
 
   /* 스크롤이 올라갈수록 컨텐츠 영역이 올라가는 효과를 주기 위한 로직 */
   const containerRef = useRef<HTMLDivElement>(null)
@@ -108,6 +113,19 @@ export default function BungDetails({
     }
   }
 
+  const { mutate: dropoutMember } = useMutation(_dropoutMember)
+  const handleExit = () => {
+    dropoutMember(
+      { userId: userInfo!.userId, bungId: details.bungId },
+      {
+        onSuccess: () => {
+          clearAllCache()
+          router.replace('/')
+        },
+      },
+    )
+  }
+
   return (
     <section className='w-full h-full relative'>
       <header className='absolute w-full h-60 px-16 flex justify-between items-center' onClick={handleScrollToTop}>
@@ -115,7 +133,11 @@ export default function BungDetails({
           <ArrowLeftIcon size={24} color={colors.white} />
         </Link>
         <div className='flex gap-12 items-center'>
-          {벙에참여한멤버인가 && <button className='text-white text-14'>참여 취소</button>}
+          {벙에참여한멤버인가 && (
+            <button className='text-white text-14' onClick={handleExit}>
+              참여 취소
+            </button>
+          )}
           {벙에참여한벙주인가 && (
             <>
               {/** 벙 수정 */}
