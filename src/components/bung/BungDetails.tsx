@@ -69,39 +69,26 @@ export default function BungDetails({
 
   const { mutate: completeBung } = useMutation(_completeBung)
   const handleBungComplete = () => {
-    // WARNING for test
-    router.replace('/')
-    openModal({
-      contents: (
-        <BungCompleteModal
-          imageUrl='/temp/img_thumbnail_1.png'
-          title={details.name}
-          location={details.location}
-          memberList={details.memberList}
-        />
-      ),
-    })
+    completeBung(
+      { bungId: details.bungId },
+      {
+        onSuccess: () => {
+          router.refresh()
+          router.replace('/')
 
-    // completeBung(
-    //   { bungId: details.bungId },
-    //   {
-    //     onSuccess: (data) => {
-    //       router.refresh()
-    //       router.replace('/')
-
-    //       openModal({
-    //         contents: (
-    //           <BungCompleteModal
-    //             imageUrl='/temp/img_thumbnail_1.png'
-    //             title={details.name}
-    //             location={details.location}
-    //             memberList={details.memberList}
-    //           />
-    //         ),
-    //       })
-    //     },
-    //   },
-    // )
+          openModal({
+            contents: (
+              <BungCompleteModal
+                imageUrl='/temp/img_thumbnail_1.png'
+                title={details.name}
+                location={details.location}
+                memberList={details.memberList}
+              />
+            ),
+          })
+        },
+      },
+    )
   }
 
   const { mutate: joinBung } = useMutation(_joinBung)
