@@ -3,6 +3,7 @@
 import useLogout from '@hooks/useLogout'
 import BellIcon from '@icons/BellIcon'
 import MagnifierIcon from '@icons/MagnifierIcon'
+import { colors } from '@styles/colors'
 import Avatar from './Avatar'
 
 export default function Header({ nickname }: { nickname: string }) {
@@ -13,8 +14,8 @@ export default function Header({ nickname }: { nickname: string }) {
         <span className='text-[28px] leading-[36px] tracking-[-0.56px] font-bold'>{nickname}</span>
       </div>
       <div className='flex items-center gap-[15px]'>
-        <BellIcon />
-        <MagnifierIcon size={24} />
+        <BellIcon size={24} color={colors.black.darken} />
+        <MagnifierIcon size={24} color={colors.black.darken} />
         <button
           onClick={() => {
             if (window.confirm('정말로 로그아웃하시겠습니까?')) {

@@ -5,9 +5,9 @@ import { useMutation } from 'react-query'
 import { useRouter } from 'next/navigation'
 
 import Layout from '@shared/Layout'
-import { RegisterStep, UserRegister } from '@/types/register'
+import { RegisterStep, UserRegister } from '@type/register'
 import { register as _register } from '@apis/users/register/api'
-import BackIcon from '../icons/BackIcon'
+import ArrowLeftIcon from '@icons/ArrowLeftIcon'
 import Welcome from './welcome'
 import Pace from './pace'
 import Onboarding from './onboarding'
@@ -68,7 +68,7 @@ export default function Register() {
         {step > 0 ? <Header step={step} onBackIconClick={handlePrevious} onSkipTextClick={() => setStep(4)} /> : null}
         {step === 0 ? (
           <button className='absolute top-0 left-0 z-[10] pl-16 h-60' onClick={handlePrevious}>
-            <BackIcon color={colors.white} />
+            <ArrowLeftIcon size={40} color={colors.white} />
           </button>
         ) : null}
 

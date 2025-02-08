@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Rarity } from '@/types/avatar'
+import { Rarity } from '@type/avatar'
 
 export default function RarityIcon({ rarity, size, className }: { rarity: Rarity; size?: number; className?: string }) {
   switch (rarity) {

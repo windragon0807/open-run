@@ -2,8 +2,9 @@
 
 import { useState } from 'react'
 import { BottomSheet } from '@shared/Modal'
-import CloseIcon from '@icons/CloseIcon'
+import BrokenXIcon from '@icons/BrokenXIcon'
 import { useModalContext } from '@contexts/ModalContext'
+import { colors } from '@styles/colors'
 import Forms from './Forms'
 import Invitation from './Invitation'
 
@@ -20,7 +21,7 @@ export default function CreateBung() {
         </span>
         <button className='absolute right-16' onClick={closeModal}>
           {step === 'create' ? (
-            <CloseIcon />
+            <BrokenXIcon size={24} color={colors.black.default} />
           ) : (
             <span className='text-14 tracking-[-0.28px] text-black-darken'>건너뛰기</span>
           )}

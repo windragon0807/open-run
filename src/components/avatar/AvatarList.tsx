@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 import { useModalContext } from '@contexts/ModalContext'
 import DetailModal from './DetailModal'
-import { Avatar, SubCategory, WearingAvatar } from '@/types/avatar'
+import { Avatar, SubCategory, WearingAvatar } from '@type/avatar'
 import RarityIcon from './shared/RarityIcon'
 import { colors } from '@styles/colors'
 

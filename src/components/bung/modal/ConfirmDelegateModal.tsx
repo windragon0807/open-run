@@ -2,7 +2,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { useMutation } from 'react-query'
 import { useModalContext } from '@contexts/ModalContext'
-import { BungDetailMember } from '@/types/bung'
+import { BungDetailMember } from '@type/bung'
 import { delegateOwner as _delegateOwner } from '@apis/bungs/delegateOwner/api'
 import { Popup } from '@shared/Modal'
 

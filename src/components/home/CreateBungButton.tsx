@@ -4,6 +4,7 @@ import { ReactNode } from 'react'
 
 import { useModalContext } from '@contexts/ModalContext'
 import PlusIcon from '@icons/PlusIcon'
+import { colors } from '@styles/colors'
 import CreateBung from './create-bung/CreateBung'
 
 export default function CreateBungButton({ children }: { children?: ReactNode }) {
@@ -15,7 +16,7 @@ export default function CreateBungButton({ children }: { children?: ReactNode })
         openModal({ contents: <CreateBung /> })
       }}>
       <span className='text-black-default'>{children}</span>
-      <PlusIcon />
+      <PlusIcon size={16} color={colors.black.darken} />
     </button>
   )
 }

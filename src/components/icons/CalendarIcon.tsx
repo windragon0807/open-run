@@ -1,14 +1,8 @@
-export default function CalendarIcon({
-  color = 'white',
-  size = 16,
-  className,
-}: {
-  color?: string
-  size?: number
-  className?: string
-}) {
+import { IconProps } from '@type/icon'
+
+export default function CalendarIcon({ size, color, className }: IconProps) {
   return (
-    <svg width={size} height={size} viewBox='0 0 16 16' fill='none' className={className}>
+    <svg className={className} width={size} height={size} viewBox='0 0 16 16' fill='none'>
       <path
         fillRule='evenodd'
         clipRule='evenodd'

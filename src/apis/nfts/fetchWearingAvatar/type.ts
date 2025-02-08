@@ -1,5 +1,5 @@
 import { ApiResponse } from '@apis/axios'
-import { WearingAvatar } from '@/types/avatar'
+import { WearingAvatar } from '@type/avatar'
 
 export type RequestType = {}
 

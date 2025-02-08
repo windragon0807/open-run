@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Avatar, SelectedCategory, WearingAvatar } from '@/types/avatar'
+import { Avatar, SelectedCategory, WearingAvatar } from '@type/avatar'
 import Header from './Header'
 import Category from './Category'
 import AvatarList from './AvatarList'

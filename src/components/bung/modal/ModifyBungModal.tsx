@@ -4,7 +4,7 @@ import { ChangeEvent, useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
 import { differenceInMinutes } from 'date-fns'
 import { BottomSheet } from '@shared/Modal'
-import CloseIcon from '@icons/CloseIcon'
+import BrokenXIcon from '@icons/BrokenXIcon'
 import { useModalContext } from '@contexts/ModalContext'
 import Input from '@shared/Input'
 import NumberInput from '@shared/NumberInput'
@@ -15,7 +15,7 @@ import LoadingLogo from '@shared/LoadingLogo'
 import ClockIcon from '@icons/ClockIcon'
 import CalendarIcon from '@icons/CalendarIcon'
 import { createBung as _createBung } from '@apis/bungs/createBung/api'
-import { BungDetail } from '@/types/bung'
+import { BungDetail } from '@type/bung'
 import { colors } from '@styles/colors'
 import FormTitle from '../components/FormTitle'
 import HashTagSearch from '../components/HashTagSearch'
@@ -93,7 +93,7 @@ export default function ModifyBungModal({ details }: { details: BungDetail }) {
       <header className='relative flex w-full h-60 justify-center items-center px-16'>
         <span className='text-[16px] leading-[24px] tracking-[-0.32px] font-bold'>벙 수정</span>
         <button className='absolute right-16' onClick={closeModal}>
-          <CloseIcon />
+          <BrokenXIcon size={24} color={colors.black.default} />
         </button>
       </header>
 
@@ -138,11 +138,11 @@ export default function ModifyBungModal({ details }: { details: BungDetail }) {
             <FormTitle>시작 일시</FormTitle>
             <div className='w-full flex gap-8'>
               <Button className='pl-16 bg-gray-default cursor-default'>
-                <CalendarIcon color={colors.gray.darken} />
+                <CalendarIcon size={16} color={colors.gray.darken} />
                 <p className='text-gray-darken'>{formatDate(details.startDateTime, 'yyyy년 M월 d일')}</p>
               </Button>
               <Button className='pl-16 bg-gray-default cursor-default'>
-                <ClockIcon color={colors.gray.darken} />
+                <ClockIcon size={16} color={colors.gray.darken} />
                 <p className='text-gray-darken'>{formatDate(details.startDateTime, 'hh : mm')}</p>
               </Button>
             </div>

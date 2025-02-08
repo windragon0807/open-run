@@ -1,6 +1,8 @@
-export default function RunnerIcon({ color = 'white', size = 16 }: { color?: string; size?: number }) {
+import { IconProps } from '@type/icon'
+
+export default function RunnerIcon({ size, color, className }: IconProps) {
   return (
-    <svg width={size} height={size} viewBox='0 0 16 16' fill='none'>
+    <svg className={className} width={size} height={size} viewBox='0 0 16 16' fill='none'>
       <path
         d='M11.3044 4.05973C10.757 3.51236 10.757 2.62489 11.3044 2.07752C11.8518 1.53015 12.7392 1.53015 13.2866 2.07752C13.834 2.62489 13.834 3.51236 13.2866 4.05973C12.7392 4.6071 11.8518 4.6071 11.3044 4.05973Z'
         fill={color}

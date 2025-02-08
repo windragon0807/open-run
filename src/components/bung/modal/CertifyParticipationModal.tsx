@@ -5,10 +5,11 @@ import { useGeocode } from '@apis/maps/fetchGeocode/query'
 import { fetchDistance } from '@apis/maps/fetchDistance/api'
 import { useModalContext } from '@contexts/ModalContext'
 import useGeolocation from '@hooks/useGeolocation'
-import CloseIcon from '@icons/CloseIcon'
+import BrokenXIcon from '@icons/BrokenXIcon'
 import PrimaryButton from '@shared/PrimaryButton'
 import LoadingLogo from '@shared/LoadingLogo'
 import { BottomSheet } from '@shared/Modal'
+import { colors } from '@styles/colors'
 import '../map.css'
 
 const 참여인증거리 = 500 // 500m
@@ -35,7 +36,7 @@ export default function CertifyParticipationModal({ destination }: { destination
     <BottomSheet className='px-16'>
       <header className='w-full h-60 flex items-center justify-center'>
         <button className='absolute left-16' onClick={closeModal}>
-          <CloseIcon />
+          <BrokenXIcon size={24} color={colors.black.default} />
         </button>
         <span className='text-black-darken text-base font-bold'>참여 인증</span>
       </header>

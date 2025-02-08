@@ -6,8 +6,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 
-import Profile from '@icons/Profile'
-import Openrun from '@icons/Openrun'
+import PersonIcon from '@icons/PersonIcon'
+import OpenrunIcon from '@icons/OpenrunIcon'
 import FilledBellIcon from '@icons/FilledBellIcon'
 import { colors } from '@styles/colors'
 
@@ -74,13 +74,13 @@ function MenuBar() {
       className={`w-full h-full flex items-center rounded-[32px] bg-[#fff] bg-opacity-20`}
       style={{ backdropFilter: 'blur(3px)' }}>
       <Link href='/' className='w-[36%] h-full rounded-[32px] bg-white flex items-center justify-center gap-20'>
-        <Openrun />
+        <OpenrunIcon size={24} color={colors.black.darken} />
         <span className='text-[14px] leading-[20px] font-semibold'>홈</span>
       </Link>
       <div className='flex-1 flex justify-around'>
         <Image src='/images/icon_explorer.png' alt='' width={24} height={24} />
-        <FilledBellIcon />
-        <Profile />
+        <FilledBellIcon size={24} color={colors.white} />
+        <PersonIcon size={24} color={colors.white} />
       </div>
     </div>
   )

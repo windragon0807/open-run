@@ -1,5 +1,5 @@
 import Spacing from '@shared/Spacing'
-import { WeekCount } from '@/types/register'
+import { WeekCount } from '@type/register'
 import NumberDial from '../pace/NumberDial'
 import { useNumberDial } from '../pace/hooks/useNumberDial'
 

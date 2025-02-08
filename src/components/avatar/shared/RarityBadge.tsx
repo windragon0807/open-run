@@ -1,4 +1,4 @@
-import { Rarity } from '@/types/avatar'
+import { Rarity } from '@type/avatar'
 import RarityIcon from './RarityIcon'
 
 export default function RarityBadge({ rarity }: { rarity: Rarity }) {

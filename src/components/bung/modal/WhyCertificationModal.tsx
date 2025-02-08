@@ -1,5 +1,6 @@
 import { useModalContext } from '@contexts/ModalContext'
-import CloseIcon from '@icons/CloseIcon'
+import BrokenXIcon from '@icons/BrokenXIcon'
+import { colors } from '@styles/colors'
 
 export default function WhyCertificationModal() {
   const { closeModal } = useModalContext()
@@ -11,7 +12,7 @@ export default function WhyCertificationModal() {
         <header className='relative w-full h-60 flex items-center justify-center'>
           <h3 className='text-16 font-bold text-black-darken'>참여 인증을 왜 해야 하나요?</h3>
           <button className='absolute right-16' onClick={closeModal}>
-            <CloseIcon size={24} />
+            <BrokenXIcon size={24} color={colors.black.default} />
           </button>
         </header>
       </div>

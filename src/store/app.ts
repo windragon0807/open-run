@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import { Message } from '@/types/app'
+import { Message } from '@type/app'
 
 type Theme = {
   isApp: boolean

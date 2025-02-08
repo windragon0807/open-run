@@ -3,7 +3,6 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
-
 import Input from '@shared/Input'
 import Spacing from '@shared/Spacing'
 import MagnifierIcon from '@icons/MagnifierIcon'
@@ -12,7 +11,8 @@ import useDebounce from '@hooks/useDebounce'
 import { searchByNickname as _searchByNickname } from '@apis/users/searchByNickname/api'
 import { fetchSuggestion } from '@apis/users/fetchSuggestion/api'
 import PrimaryButton from '@shared/PrimaryButton'
-import CloseIcon from '@icons/CloseIcon'
+import BrokenXIcon from '@icons/BrokenXIcon'
+import { colors } from '@styles/colors'
 
 export default function Invitation() {
   const [selectedMembers, setSelectedMembers] = useState<
@@ -92,7 +92,13 @@ export default function Invitation() {
         placeholder='닉네임을 검색하세요'
         value={search}
         setValue={setSearch}
-        addon={<MagnifierIcon className='absolute right-16 bottom-1/2 translate-y-1/2' />}
+        addon={
+          <MagnifierIcon
+            className='absolute right-16 bottom-1/2 translate-y-1/2'
+            size={16}
+            color={colors.black.darken}
+          />
+        }
       />
       <Spacing size={16} />
       <div className='w-full'>
@@ -160,7 +166,7 @@ function Member({
               onInvite?.(false)
             }}>
             선택
-            <CheckIcon />
+            <CheckIcon size={16} color={colors.white} />
           </button>
         )}
       </div>
@@ -173,7 +179,7 @@ function SelectedMember({ nickname, onClose }: { nickname: string; onClose: () =
     <div className='shrink-0 flex items-center gap-8 px-8 py-4 rounded-4 bg-gray-default w-fit'>
       <span className='text-sm font-bold'>{nickname}</span>
       <button onClick={onClose}>
-        <CloseIcon size={16} />
+        <BrokenXIcon size={16} color={colors.black.default} />
       </button>
     </div>
   )

@@ -11,7 +11,7 @@ import {
   AccessoriesIcon,
   BackgroundIcon,
 } from './icons'
-import { MainCategory, SelectedCategory, SubCategory } from '@/types/avatar'
+import { MainCategory, SelectedCategory, SubCategory } from '@type/avatar'
 
 const categoryList: {
   mainCategory: MainCategory

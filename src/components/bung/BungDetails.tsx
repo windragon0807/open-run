@@ -5,13 +5,13 @@ import { Fragment, useRef } from 'react'
 import { useMutation } from 'react-query'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useModalContext } from '@contexts/ModalContext'
-import BackIcon from '@icons/BackIcon'
+import ArrowLeftIcon from '@icons/ArrowLeftIcon'
 import PlaceIcon from '@icons/PlaceIcon'
 import CalendarIcon from '@icons/CalendarIcon'
 import RunnerIcon from '@icons/RunnerIcon'
 import PersonIcon from '@icons/PersonIcon'
-import ArrowRight from '@icons/ArrowRight'
-import { BungDetail } from '@/types/bung'
+import ArrowRightIcon from '@icons/ArrowRightIcon'
+import { BungDetail } from '@type/bung'
 import useTimer from '@hooks/useTimer'
 import { formatDate } from '@utils/time'
 import { padStart } from '@utils/string'
@@ -109,7 +109,7 @@ export default function BungDetails({
     <section className='w-full h-full relative'>
       <header className='absolute w-full h-60 px-16 flex justify-between items-center' onClick={handleScrollToTop}>
         <Link href='/' onClick={(e) => e.stopPropagation()}>
-          <BackIcon size={24} color='white' />
+          <ArrowLeftIcon size={24} color={colors.white} />
         </Link>
         <div className='flex gap-12 items-center'>
           {벙에참여한멤버인가 && <button className='text-white text-14'>참여 취소</button>}
@@ -154,13 +154,13 @@ export default function BungDetails({
 
             {/* 벙 위치 */}
             <div className='flex gap-8 items-center mb-8'>
-              <PlaceIcon color={colors.black.default} />
+              <PlaceIcon size={16} color={colors.black.default} />
               <span className='text-sm text-black-default'>{details.location}</span>
             </div>
 
             {/* 벙 시작 날짜 및 시간 */}
             <div className='flex gap-8 items-center mb-8'>
-              <CalendarIcon color={colors.black.default} />
+              <CalendarIcon size={16} color={colors.black.default} />
               <span className='text-sm text-black-default'>
                 {formatDate(details.startDateTime, 'M월 d일 (E) a h:mm')}
               </span>
@@ -168,13 +168,13 @@ export default function BungDetails({
 
             {/* 벙 거리 및 페이스 */}
             <div className='flex gap-8 items-center mb-8'>
-              <RunnerIcon color={colors.black.default} />
+              <RunnerIcon size={16} color={colors.black.default} />
               <span className='text-sm text-black-default'>{`${details.distance} km ${details.pace}`}</span>
             </div>
 
             {/* 벙 참여 인원 및 남은 자리 */}
             <div className='flex gap-8 items-center mb-24'>
-              <PersonIcon color={colors.black.default} />
+              <PersonIcon size={16} color={colors.black.default} />
               <div className='flex gap-4 items-center'>
                 <span className='text-sm text-black-default'>{`${참여인원수} / ${details.memberNumber}`}</span>
                 <span className='px-4 py-2 bg-pink-transparent rounded-4 text-12 font-bold text-pink-default'>{`${details.memberNumber - 참여인원수}자리 남았어요`}</span>
@@ -206,7 +206,7 @@ export default function BungDetails({
                     })
                   }}>
                   <p className='text-12 text-black-darken font-bold'>참여 인증을 왜 해야 하나요?</p>
-                  <ArrowRight size={16} color={colors.black.darken} />
+                  <ArrowRightIcon size={16} color={colors.black.darken} />
                 </button>
                 {벙에참여한벙주인가 && (
                   <>
@@ -269,7 +269,7 @@ export default function BungDetails({
 
           {/* 위치 및 지도 */}
           <div className='flex items-center gap-4 pl-16 mt-40 mb-8'>
-            <PlaceIcon color={colors.black.default} />
+            <PlaceIcon size={16} color={colors.black.default} />
             <span className='text-sm text-black-darken font-bold whitespace-pre-wrap'>{details.location}</span>
           </div>
           <div className='px-16 mb-18'>

@@ -1,8 +1,9 @@
 import Spacing from '@shared/Spacing'
 import PlaceIcon from '@icons/PlaceIcon'
 import CalendarIcon from '@icons/CalendarIcon'
-import Avatar from './Avatar'
 import { formatDate } from '@utils/time'
+import { colors } from '@styles/colors'
+import Avatar from './Avatar'
 
 const participantList = [
   '/temp/nft_participant_5.png',
@@ -35,12 +36,12 @@ export default function RecommendationCard({
       <span className='text-[16px] font-bold leading-[24px] tracking-[-0.32px]'>{title}</span>
       <Spacing size={8} />
       <div className='flex gap-6 items-center'>
-        <PlaceIcon />
+        <PlaceIcon size={16} color={colors.white} />
         <span className='text-[14px] leading-[20px] tracking-[-0.28px]'>{location}</span>
       </div>
       <Spacing size={2} />
       <div className='flex gap-6 items-center'>
-        <CalendarIcon />
+        <CalendarIcon size={16} color={colors.white} />
         <span className='text-[14px] leading-[20px] tracking-[-0.28px]'>{formattedDate}</span>
       </div>
       <Spacing size={12} />

@@ -1,4 +1,4 @@
-import { UserRegister } from '@/types/register'
+import { UserRegister } from '@type/register'
 import { ApiResponse } from '@apis/axios'
 
 export type RequestType = UserRegister

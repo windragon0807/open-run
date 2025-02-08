@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { WearingAvatar } from '@/types/avatar'
+import { WearingAvatar } from '@type/avatar'
 
 export default function AvatarCloset({ selectedAvatar }: { selectedAvatar: WearingAvatar }) {
   return (

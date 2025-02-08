@@ -2,9 +2,9 @@ import Image from 'next/image'
 import { Metadata } from 'next'
 
 import Layout from '@shared/Layout'
+import Spacing from '@shared/Spacing'
+import Logo from '@shared/Logo'
 import SignIn from '@components/signin/Signin'
-import Spacing from '@components/shared/Spacing'
-import Logo from '@icons/Logo'
 
 export default function SignInPage() {
   return (

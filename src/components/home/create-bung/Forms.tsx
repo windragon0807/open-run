@@ -253,7 +253,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
               setDatePickerOpen((prev) => !prev)
               if (isTimePickerOpen) setTimePickerOpen(false)
             }}>
-            <CalendarIcon color={시작날짜를선택했는가 ? colors.primary : colors.black.default} />
+            <CalendarIcon size={16} color={시작날짜를선택했는가 ? colors.primary : colors.black.default} />
             <p className={시작날짜를선택했는가 ? 'text-primary' : 'text-black-default'}>
               {시작날짜를선택했는가 ? formatDate(formValues.startDate as Date, 'yyyy년 M월 d일') : '날짜 선택'}
             </p>
@@ -264,7 +264,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
               setTimePickerOpen((prev) => !prev)
               if (isDatePickerOpen) setDatePickerOpen(false)
             }}>
-            <ClockIcon color={시작시간을선택했는가 ? colors.primary : colors.black.default} />
+            <ClockIcon size={16} color={시작시간을선택했는가 ? colors.primary : colors.black.default} />
             <p className={시작시간을선택했는가 ? 'text-primary' : 'text-black-default'}>
               {시작시간을선택했는가 ? (formValues.startTime as string).replace(':', ' : ') : '시간 선택'}
             </p>

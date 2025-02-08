@@ -3,7 +3,7 @@
 import { ReactNode, useEffect } from 'react'
 
 import { useAppMessage } from '@store/app'
-import { Message } from '@/types/app'
+import { Message } from '@type/app'
 import { MESSAGE } from '@constants/app'
 
 declare global {

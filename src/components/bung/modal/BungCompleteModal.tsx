@@ -3,10 +3,10 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useMutation } from 'react-query'
 import { BottomSheet } from '@shared/Modal'
-import CloseIcon from '@icons/CloseIcon'
+import BrokenXIcon from '@icons/BrokenXIcon'
 import { useModalContext } from '@contexts/ModalContext'
 import { colors } from '@styles/colors'
-import { BungDetailMember } from '@/types/bung'
+import { BungDetailMember } from '@type/bung'
 import { sendMemberLike as _sendMemberLike } from '@apis/bungs/sendMemberLike/api'
 
 export default function BungCompleteModal({
@@ -47,7 +47,7 @@ export default function BungCompleteModal({
     <BottomSheet fullSize>
       <header className='relative flex w-full h-60 justify-center items-center px-16 mb-16'>
         <button className='absolute left-16' onClick={closeModal}>
-          <CloseIcon />
+          <BrokenXIcon size={24} color={colors.black.default} />
         </button>
         <span className='text-base font-bold'>벙 완료!</span>
         <button className='absolute right-16' onClick={handleSaveButton}>

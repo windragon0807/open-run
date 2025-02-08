@@ -4,10 +4,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 import { useModalContext } from '@contexts/ModalContext'
-import CloseIcon from '@icons/CloseIcon'
+import BrokenXIcon from '@icons/BrokenXIcon'
 import PrimaryButton from '@shared/PrimaryButton'
 import RarityBadge from './shared/RarityBadge'
-import { Rarity } from '@/types/avatar'
+import { Rarity } from '@type/avatar'
+import { colors } from '@styles/colors'
 
 export default function DetailModal({
   serialNumber,
@@ -32,7 +33,7 @@ export default function DetailModal({
         <header className='relative w-full h-60 flex items-center justify-center mb-16'>
           <span className='text-base font-bold'>NFT 아이템</span>
           <button className='absolute right-18' onClick={closeModal}>
-            <CloseIcon />
+            <BrokenXIcon size={24} color={colors.black.default} />
           </button>
         </header>
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Layout from '@shared/Layout'
-import { BungDetail } from '@/types/bung'
+import { BungDetail } from '@type/bung'
 import BungDetails from './BungDetails'
 import { PageCategory } from './types'
 import ManageMembers from './ManageMembers'

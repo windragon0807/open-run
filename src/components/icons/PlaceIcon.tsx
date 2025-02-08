@@ -1,6 +1,8 @@
-export default function PlaceIcon({ color = 'white', size = 16 }: { color?: string; size?: number }) {
+import { IconProps } from '@type/icon'
+
+export default function PlaceIcon({ size, color, className }: IconProps) {
   return (
-    <svg width={size} height={size} viewBox='0 0 16 16' fill='none'>
+    <svg className={className} width={size} height={size} viewBox='0 0 16 16' fill='none'>
       <path
         fillRule='evenodd'
         clipRule='evenodd'

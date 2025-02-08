@@ -1,7 +1,7 @@
 import DaumPostcodeEmbed, { Address } from 'react-daum-postcode'
 
 import Spacing from '@shared/Spacing'
-import CloseIcon from '@icons/CloseIcon'
+import BrokenXIcon from '@icons/BrokenXIcon'
 import { colors } from '@styles/colors'
 
 export default function AddressSearchModal({
@@ -18,7 +18,7 @@ export default function AddressSearchModal({
           <header className='relative w-full h-60 flex items-center'>
             <h2 className='w-full font-bold text-center'>주소검색</h2>
             <button className='absolute right-12' onClick={onClose}>
-              <CloseIcon />
+              <BrokenXIcon size={24} color={colors.black.default} />
             </button>
           </header>
           <div className='h-[calc(100%-80px)]'>

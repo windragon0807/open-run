@@ -1,6 +1,6 @@
 import { forwardRef, useState } from 'react'
 
-import { SingleNumber } from '@/types/register'
+import { SingleNumber } from '@type/register'
 
 type Props = {
   value: SingleNumber

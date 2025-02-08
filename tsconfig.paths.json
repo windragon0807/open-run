@@ -15,7 +15,8 @@
       "@apis/*": ["src/apis/*"],
       "@utils/*": ["src/utils/*"],
       "@constants/*": ["src/constants/*"],
-      "@store/*": ["src/store/*"]
+      "@store/*": ["src/store/*"],
+      "@type/*": ["src/types/*"]
     }
   }
 }

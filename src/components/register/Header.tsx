@@ -1,5 +1,5 @@
-import { RegisterStep } from '@/types/register'
-import BackIcon from '@icons/BackIcon'
+import { RegisterStep } from '@type/register'
+import ArrowLeftIcon from '@icons/ArrowLeftIcon'
 import { colors } from '@styles/colors'
 
 export default function Header({
@@ -17,7 +17,7 @@ export default function Header({
     <header className='absolute w-full px-16 h-60 flex items-center bg-gray-lighten'>
       <div className='w-full flex justify-between items-center'>
         <button onClick={onBackIconClick}>
-          <BackIcon color={colors.black.darkest} />
+          <ArrowLeftIcon size={40} color={colors.black.darkest} />
         </button>
         {건너뛰기버튼이보이는단계인가 ? (
           <button onClick={onSkipTextClick}>

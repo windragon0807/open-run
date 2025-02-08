@@ -1,6 +1,8 @@
-export default function BackIcon({ size = 40, color }: { size?: number; color: string }) {
+import { IconProps } from '@type/icon'
+
+export default function ArrowLeftIcon({ size, color, className }: IconProps) {
   return (
-    <svg width={size} height={size} viewBox='0 0 40 40' fill='none'>
+    <svg className={className} width={size} height={size} viewBox='0 0 40 40' fill='none'>
       <path
         fillRule='evenodd'
         clipRule='evenodd'

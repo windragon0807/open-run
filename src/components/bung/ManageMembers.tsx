@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import { useModalContext } from '@contexts/ModalContext'
 import Input from '@shared/Input'
-import BackIcon from '@icons/BackIcon'
+import ArrowLeftIcon from '@icons/ArrowLeftIcon'
 import MagnifierIcon from '@icons/MagnifierIcon'
-import { BungDetailMember } from '@/types/bung'
+import { BungDetailMember } from '@type/bung'
 import { colors } from '@styles/colors'
 import useFushSearch from '@hooks/useFuseSearch'
 import ConfirmDropoutModal from './modal/ConfirmDropoutModal'
@@ -23,7 +23,7 @@ export default function ManageMembers({
     <section className='w-full h-full bg-gray-lighten'>
       <header className='relative w-full h-60 flex justify-center items-center'>
         <button className='absolute left-16' onClick={() => setPageCategory('벙 상세')}>
-          <BackIcon size={24} color={colors.black.darken} />
+          <ArrowLeftIcon size={24} color={colors.black.darken} />
         </button>
         <span className='text-base font-bold text-black-default'>멤버 관리</span>
       </header>
@@ -34,7 +34,13 @@ export default function ManageMembers({
           placeholder='닉네임을 검색하세요'
           value={search}
           setValue={setSearch}
-          addon={<MagnifierIcon className='absolute right-16 bottom-1/2 translate-y-1/2' />}
+          addon={
+            <MagnifierIcon
+              className='absolute right-16 bottom-1/2 translate-y-1/2'
+              size={16}
+              color={colors.black.darken}
+            />
+          }
         />
 
         <ul className='flex flex-col gap-16 h-[calc(100%-230px)] overflow-y-auto pb-40'>
