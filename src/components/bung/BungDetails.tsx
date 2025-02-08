@@ -16,16 +16,19 @@ import useTimer from '@hooks/useTimer'
 import { formatDate } from '@utils/time'
 import { padStart } from '@utils/string'
 import { colors } from '@styles/colors'
+import { completeBung as _completeBung } from '@apis/bungs/completeBung/api'
+import { joinBung as _joinBung } from '@apis/bungs/joinBung/api'
+import PrimaryButton from '@shared/PrimaryButton'
+import PencilIcon from '@icons/PencilIcon'
+import ChangeOwnerIcon from '@icons/ChangeOwnerIcon'
+import WastebasketIcon from '@icons/WastebasketIcon'
 import Map from './Map'
 import WhyCertificationModal from './modal/WhyCertificationModal'
 import CertifyParticipationModal from './modal/CertifyParticipationModal'
 import DeleteBungModal from './modal/DeleteBungModal'
 import { PageCategory } from './types'
-import { completeBung as _completeBung } from '@apis/bungs/completeBung/api'
 import ModifyBungModal from './modal/ModifyBungModal'
 import BungCompleteModal from './modal/BungCompleteModal'
-import PrimaryButton from '@shared/PrimaryButton'
-import { joinBung as _joinBung } from '@apis/bungs/joinBung/api'
 
 export default function BungDetails({
   details,
@@ -117,15 +120,15 @@ export default function BungDetails({
             <>
               {/** 벙 수정 */}
               <button onClick={() => openModal({ contents: <ModifyBungModal details={details} /> })}>
-                <PencilIcon />
+                <PencilIcon size={24} color={colors.white} />
               </button>
               {/** 벙주 넘기기 */}
               <button onClick={() => setPageCategory('벙주 넘기기')}>
-                <EscapeIcon />
+                <ChangeOwnerIcon size={24} color={colors.white} />
               </button>
               {/** 벙 삭제 */}
               <button onClick={() => openModal({ contents: <DeleteBungModal bungId={details.bungId} /> })}>
-                <TrashIcon />
+                <WastebasketIcon size={24} color={colors.white} />
               </button>
             </>
           )}
@@ -293,47 +296,5 @@ function HashTag({ label }: { label: string }) {
     <div className='flex w-fit items-center gap-8 px-8 py-4 bg-black-darken rounded-4'>
       <span className='text-white text-14'>{label}</span>
     </div>
-  )
-}
-
-function PencilIcon() {
-  return (
-    <svg width='24' height='24' viewBox='0 0 24 24' fill='none'>
-      <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M14.3333 5.66667L18.3333 9.66667L7 21H3V17L14.3333 5.66667ZM15.6667 9.66667L14.3333 8.33333L4.88562 17.781V19.1144H6.21895L15.6667 9.66667Z'
-        fill='white'
-      />
-      <path d='M19.6667 8.33333L15.6667 4.33333L17 3L21 7L19.6667 8.33333Z' fill='white' />
-    </svg>
-  )
-}
-
-function EscapeIcon() {
-  return (
-    <svg width='24' height='24' viewBox='0 0 24 24' fill='none'>
-      <path
-        className='fill-white'
-        d='M12.8484 8.04449C12.3456 7.50816 12.3456 6.63859 12.8484 6.10225C13.3513 5.56592 14.1667 5.56592 14.6696 6.10225C15.1725 6.63859 15.1725 7.50816 14.6696 8.04449C14.1667 8.58083 13.3513 8.58083 12.8484 8.04449Z'
-      />
-      <path
-        className='fill-white'
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M5 3H19V21H5V3ZM6.75 4.8H17.25V19.2H6.75V15.5195L8.7508 13.3857L10.1165 14.8422L8.52296 16.5416C8.14578 16.9439 8.14578 17.5961 8.52296 17.9983C8.90013 18.4006 9.51165 18.4006 9.88882 17.9983L12.1653 15.5705C12.5424 15.1683 12.5424 14.5161 12.1653 14.1138L10.1167 11.929L11.3144 10.6517L12.049 12.0088C12.0878 12.0803 12.1333 12.1451 12.1844 12.2026C12.3459 12.5307 12.6685 12.7545 13.0401 12.7545H14.9717C15.5051 12.7545 15.9375 12.2934 15.9375 11.7245C15.9375 11.1556 15.5051 10.6945 14.9717 10.6945H13.568L12.3877 8.51432C12.3242 8.39701 12.2424 8.29807 12.1482 8.21924C12.0353 8.10483 11.8947 8.01799 11.7336 7.97197L8.62393 7.08333C8.40355 7.02035 8.18053 7.04398 7.98666 7.13464C7.86721 7.18489 7.75526 7.26152 7.65867 7.36453L6.75 8.33362V4.8ZM6.75 10.5512V12.6062L8.05109 11.2186C8.05653 11.2125 8.06206 11.2065 8.06767 11.2005C8.07328 11.1945 8.07894 11.1886 8.08465 11.1828L9.65302 9.51014L8.64789 9.22291L7.65867 10.2779C7.41225 10.5407 7.06578 10.6318 6.75 10.5512Z'
-      />
-    </svg>
-  )
-}
-
-function TrashIcon() {
-  return (
-    <svg className='fill-white' width='24' height='24' viewBox='0 0 24 24' fill='none'>
-      <path d='M14.5714 3V3.9H18V5.7H6V3.9H9.42857V3H14.5714Z' />
-      <path d='M9.42857 17.4H11.1429V10.2H9.42857V17.4Z' />
-      <path d='M14.5714 17.4H12.8571V10.2H14.5714V17.4Z' />
-      <path fillRule='evenodd' clipRule='evenodd' d='M6 21V6.6H18V21H6ZM16.2857 19.2H7.71429V8.4H16.2857V19.2Z' />
-    </svg>
   )
 }
