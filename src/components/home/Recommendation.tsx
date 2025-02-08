@@ -1,15 +1,34 @@
-import Link from 'next/link'
+'use client'
 
+import { useRouter } from 'next/navigation'
 import Spacing from '@shared/Spacing'
-import { fetchBungs } from '@apis/bungs/fetchBungs/api'
+import { useModalContext } from '@contexts/ModalContext'
+import { usePermissionStore } from '@store/permission'
+import { useBungs } from '@apis/bungs/fetchBungs/query'
 import RecommendationCard from './RecommendationCard'
+import PermissionAlertModal from './modals/PermissionAlertModal'
 
-export default async function Recommendation() {
-  const { data: recommendationList } = await fetchBungs({
+export default function Recommendation() {
+  const router = useRouter()
+  const { geolocation } = usePermissionStore()
+  const { openModal } = useModalContext()
+
+  const { data: recommendationList } = useBungs({
     isAvailableOnly: true,
     page: 0,
     limit: 10,
   })
+
+  const handleClick = (bungId: string) => {
+    if (geolocation === false) {
+      openModal({
+        contents: <PermissionAlertModal />,
+      })
+      return
+    }
+
+    router.push(`/bung/${bungId}`)
+  }
 
   return (
     <section className='px-16 flex flex-col'>
@@ -18,7 +37,7 @@ export default async function Recommendation() {
       </div>
       <section className='flex flex-col gap-8'>
         {recommendationList?.map((bung) => (
-          <Link href={`/bung/${bung.bungId}`} key={bung.bungId}>
+          <button key={bung.bungId} className='text-start' onClick={() => handleClick(bung.bungId)}>
             <RecommendationCard
               title={bung.name}
               location={bung.location}
@@ -26,7 +45,7 @@ export default async function Recommendation() {
               remainingCount={bung.memberNumber}
               hashtags={bung.hashtags}
             />
-          </Link>
+          </button>
         ))}
       </section>
       <Spacing size={60} />

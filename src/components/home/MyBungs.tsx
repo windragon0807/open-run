@@ -1,13 +1,20 @@
 'use client'
 
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { Fragment } from 'react'
 import Spacing from '@shared/Spacing'
 import { useMyBungs } from '@apis/bungs/fetchMyBungs/query'
+import { usePermissionStore } from '@store/permission'
+import { useModalContext } from '@contexts/ModalContext'
 import CreateBungButton from './CreateBungButton'
 import BungCard from './BungCard'
+import PermissionAlertModal from './modals/PermissionAlertModal'
 
 export default function MyBungs() {
+  const router = useRouter()
+  const { geolocation } = usePermissionStore()
+  const { openModal } = useModalContext()
+
   /* 실시간 타이머를 포함하고 있는 컴포넌트는 클라이언트 컴포넌트로 렌더링해야 합니다. */
   const {
     data: myBungs,
@@ -20,6 +27,17 @@ export default function MyBungs() {
     page: 0,
     limit: 10,
   })
+
+  const handleClick = (bungId: string) => {
+    if (geolocation === false) {
+      openModal({
+        contents: <PermissionAlertModal />,
+      })
+      return
+    }
+
+    router.push(`/bung/${bungId}`)
+  }
 
   return (
     <section className='px-16 flex flex-col'>
@@ -41,7 +59,7 @@ export default function MyBungs() {
       {isSuccess &&
         myBungs.map((item, index) => (
           <Fragment key={index}>
-            <Link key={index} href={`/bung/${item.bungId}`}>
+            <button className='text-start' onClick={() => handleClick(item.bungId)}>
               <BungCard
                 place={item.location}
                 time={new Date(item.startDateTime)}
@@ -50,7 +68,7 @@ export default function MyBungs() {
                 isBungOwner={item.hasOwnership}
                 title={item.name}
               />
-            </Link>
+            </button>
             <Spacing size={8} />
           </Fragment>
         ))}
