@@ -2,6 +2,7 @@
 
 import useLogout from '@hooks/useLogout'
 import BellIcon from '@icons/BellIcon'
+import MagnifierIcon from '@icons/MagnifierIcon'
 import Avatar from './Avatar'
 
 export default function Header({ nickname }: { nickname: string }) {
@@ -9,11 +10,11 @@ export default function Header({ nickname }: { nickname: string }) {
   return (
     <header className='fixed z-[100] bg-gray-lighten w-full max-w-tablet h-84 flex justify-between p-[16px_12px_16px_16px]'>
       <div className='flex flex-col'>
-        {/* <span className='text-[12px] leading-[16px] tracking-[-0.24px]'>칭호가 들어갑니다</span> */}
         <span className='text-[28px] leading-[36px] tracking-[-0.56px] font-bold'>{nickname}</span>
       </div>
-      <div className='flex items-center gap-[13px]'>
+      <div className='flex items-center gap-[15px]'>
         <BellIcon />
+        <MagnifierIcon size={24} />
         <button
           onClick={() => {
             if (window.confirm('정말로 로그아웃하시겠습니까?')) {
