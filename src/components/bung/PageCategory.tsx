@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Layout from '@shared/Layout'
-import { BungDetail } from '@type/bung'
+import { BungInfo } from '@type/bung'
 import BungDetails from './BungDetails'
 import { PageCategory } from './types'
 import ManageMembers from './ManageMembers'
@@ -13,7 +13,7 @@ export default function PageCategory({
   isParticipated,
   isOwner,
 }: {
-  details: BungDetail
+  details: BungInfo
   isParticipated: boolean
   isOwner: boolean
 }) {

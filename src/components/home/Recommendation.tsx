@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import Spacing from '@shared/Spacing'
 import { useModalContext } from '@contexts/ModalContext'
 import { usePermissionStore } from '@store/permission'
-import { useBungs } from '@apis/bungs/fetchBungs/query'
+import { useBungsQuery } from '@apis/bungs/fetchBungs/query'
 import RecommendationCard from './RecommendationCard'
 import PermissionAlertModal from './modals/PermissionAlertModal'
 
@@ -13,7 +13,7 @@ export default function Recommendation() {
   const { geolocation } = usePermissionStore()
   const { openModal } = useModalContext()
 
-  const { data: recommendationList } = useBungs({
+  const { data: recommendationList } = useBungsQuery({
     isAvailableOnly: true,
     page: 0,
     limit: 10,
@@ -36,7 +36,7 @@ export default function Recommendation() {
         <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black-default'>추천</span>
       </div>
       <section className='flex flex-col gap-8'>
-        {recommendationList?.map((bung) => (
+        {recommendationList?.list.map((bung) => (
           <button key={bung.bungId} className='text-start' onClick={() => handleClick(bung.bungId)}>
             <RecommendationCard
               title={bung.name}

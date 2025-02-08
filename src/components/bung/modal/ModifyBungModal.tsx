@@ -15,12 +15,12 @@ import LoadingLogo from '@shared/LoadingLogo'
 import ClockIcon from '@icons/ClockIcon'
 import CalendarIcon from '@icons/CalendarIcon'
 import { createBung as _createBung } from '@apis/bungs/createBung/api'
-import { BungDetail } from '@type/bung'
+import { BungInfo } from '@type/bung'
 import { colors } from '@styles/colors'
+import { formatDate } from '@utils/time'
 import FormTitle from '../components/FormTitle'
 import HashTagSearch from '../components/HashTagSearch'
 import Button from '../components/Button'
-import { formatDate } from '@utils/time'
 
 type FormValues = {
   bungName: string
@@ -31,7 +31,7 @@ type FormValues = {
   hashTags: string[]
 }
 
-export default function ModifyBungModal({ details }: { details: BungDetail }) {
+export default function ModifyBungModal({ details }: { details: BungInfo }) {
   const router = useRouter()
   const { closeModal } = useModalContext()
 
@@ -69,8 +69,8 @@ export default function ModifyBungModal({ details }: { details: BungDetail }) {
       name: bungName,
       description,
       location: details.location,
-      startDateTime: details.startDateTime,
-      endDateTime: details.endDateTime,
+      startDateTime: details.startDateTime.toISOString(),
+      endDateTime: details.endDateTime.toISOString(),
       distance: details.distance,
       pace: details.pace,
       memberNumber: Number(memberNumber),
@@ -153,7 +153,7 @@ export default function ModifyBungModal({ details }: { details: BungDetail }) {
             <FormTitle>예상 시간</FormTitle>
             <NumberInput
               className='pr-40'
-              value={differenceInMinutes(new Date(details.endDateTime), new Date(details.startDateTime))}
+              value={differenceInMinutes(details.endDateTime, details.startDateTime)}
               addon={<span className='absolute right-16 bottom-10 text-sm text-gray-darken'>분</span>}
               disabled
             />

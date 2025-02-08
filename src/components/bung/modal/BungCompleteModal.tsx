@@ -6,7 +6,7 @@ import { BottomSheet } from '@shared/Modal'
 import BrokenXIcon from '@icons/BrokenXIcon'
 import { useModalContext } from '@contexts/ModalContext'
 import { colors } from '@styles/colors'
-import { BungDetailMember } from '@type/bung'
+import { BungMember } from '@type/bung'
 import { sendMemberLike as _sendMemberLike } from '@apis/bungs/sendMemberLike/api'
 
 export default function BungCompleteModal({
@@ -18,7 +18,7 @@ export default function BungCompleteModal({
   imageUrl: string
   title: string
   location: string
-  memberList: BungDetailMember[]
+  memberList: BungMember[]
 }) {
   const router = useRouter()
   const { closeModal } = useModalContext()

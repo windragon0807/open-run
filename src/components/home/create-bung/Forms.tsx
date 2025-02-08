@@ -1,7 +1,6 @@
 import { ChangeEvent, useCallback, useState } from 'react'
 import { useMutation } from 'react-query'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 
 import Input from '@shared/Input'
 import NumberInput from '@shared/NumberInput'
@@ -19,8 +18,9 @@ import FormTitle from '@components/bung/components/FormTitle'
 import HashTagSearch from '@components/bung/components/HashTagSearch'
 import Button from '@components/bung/components/Button'
 import { colors } from '@styles/colors'
-import { formatDate } from '@utils/time'
-import { useMyBungsClient } from '@apis/bungs/fetchMyBungs/query'
+import { currentDate, formatDate } from '@utils/time'
+import { useRefetchQuery } from '@hooks/useRefetchQuery'
+import { queryKey } from '@apis/bungs/fetchMyBungs/query'
 
 type FormValues = {
   bungName: string
@@ -40,7 +40,7 @@ type FormValues = {
 }
 
 export default function Forms({ nextStep }: { nextStep: () => void }) {
-  const { refetch: 메인페이지벙리스트업데이트 } = useMyBungsClient()
+  const 메인페이지벙리스트업데이트 = useRefetchQuery(queryKey)
 
   const [formValues, setFormValues] = useState<FormValues>({
     bungName: '',
@@ -137,7 +137,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
     const endDate = new Date(startDate)
     endDate.setMinutes(endDate.getMinutes() + Number(runningTime))
 
-    const now = new Date()
+    const now = currentDate()
     if (startDate < now) {
       alert('시작 시간은 현재 시점 이후여야 합니다.')
       return
@@ -281,10 +281,10 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
                   startDate: date,
                 }))
               }}
-              startMonth={new Date()}
+              startMonth={currentDate()}
               disabled={(date) => {
                 // 오늘 이전 날짜는 비활성화
-                const today = new Date()
+                const today = currentDate()
                 today.setHours(0, 0, 0, 0)
                 date.setHours(0, 0, 0, 0)
                 return date < today

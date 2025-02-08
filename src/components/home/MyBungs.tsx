@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { Fragment } from 'react'
 import Spacing from '@shared/Spacing'
-import { useMyBungs } from '@apis/bungs/fetchMyBungs/query'
+import { useMyBungsQuery } from '@apis/bungs/fetchMyBungs/query'
 import { usePermissionStore } from '@store/permission'
 import { useModalContext } from '@contexts/ModalContext'
 import CreateBungButton from './CreateBungButton'
@@ -21,7 +21,7 @@ export default function MyBungs() {
     isSuccess,
     isLoading,
     isEmpty,
-  } = useMyBungs({
+  } = useMyBungsQuery({
     isOwned: null,
     status: null,
     page: 0,
@@ -57,12 +57,12 @@ export default function MyBungs() {
             <div key={index} className='w-full h-184 bg-gray-default rounded-16 mb-8 animate-pulse' />
           ))}
       {isSuccess &&
-        myBungs.map((item, index) => (
+        myBungs?.map((item, index) => (
           <Fragment key={index}>
             <button className='text-start' onClick={() => handleClick(item.bungId)}>
               <BungCard
                 place={item.location}
-                time={new Date(item.startDateTime)}
+                time={item.startDateTime}
                 distance={item.distance}
                 pace={item.pace}
                 isBungOwner={item.hasOwnership}

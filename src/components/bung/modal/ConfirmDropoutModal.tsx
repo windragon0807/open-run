@@ -4,12 +4,12 @@ import { useState } from 'react'
 import { useMutation } from 'react-query'
 import { deleteBung as _deleteBung } from '@apis/bungs/deleteBung/api'
 import { useModalContext } from '@contexts/ModalContext'
-import { BungDetailMember } from '@type/bung'
+import { BungMember } from '@type/bung'
 import Checkbox from '@shared/Checkbox'
 import { dropoutMember as _dropoutMember } from '@apis/bungs/dropoutMember/api'
 import { Popup } from '@shared/Modal'
 
-export default function ConfirmDropoutModal({ member }: { member: BungDetailMember }) {
+export default function ConfirmDropoutModal({ member }: { member: BungMember }) {
   const router = useRouter()
   const { bungId } = useParams<{ bungId: string }>()
 

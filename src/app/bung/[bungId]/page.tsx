@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import AuthGuard from '@shared/AuthGuard'
 import { fetchUserInfo } from '@apis/users/fetchUserInfo/api'
-import { fetchBungDetail } from '@apis/bungs/fetchBungDetails/api'
+import { fetchBungDetail } from '@apis/bungs/fetchBungDetails/query'
 import PageCategory from '@components/bung/PageCategory'
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 
 export default async function Page({ params: { bungId } }: Props) {
   const { data: userInfo } = await fetchUserInfo()
-  const { data: bungDetail } = await fetchBungDetail({ bungId })
+  const bungDetail = await fetchBungDetail({ bungId })
 
   const userId = userInfo.userId
   const isParticipated = bungDetail.memberList.some((participant) => participant.userId === userId)
@@ -26,7 +26,7 @@ export default async function Page({ params: { bungId } }: Props) {
 }
 
 export async function generateMetadata({ params: { bungId } }: Props): Promise<Metadata> {
-  const { data: bungDetail } = await fetchBungDetail({ bungId })
+  const bungDetail = await fetchBungDetail({ bungId })
   return {
     title: bungDetail.name,
   }

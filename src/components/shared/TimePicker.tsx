@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, TouchEvent, MouseEvent } from 'react'
 import { padStart } from '@utils/string'
 import { colors } from '@styles/colors'
+import { currentDate } from '@utils/time'
 
 // [00, 01, 02, ..., 23]
 const hours = Array.from({ length: 24 }, (_, i) => padStart(i))
@@ -44,7 +45,7 @@ export default function TimePicker({
 }
 
 const getNarrowTime = () => {
-  const now = new Date()
+  const now = currentDate()
   const hour = padStart(now.getHours())
   const minute = Math.floor(now.getMinutes() / 5 + 1) * 5
 

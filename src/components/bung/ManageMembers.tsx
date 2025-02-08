@@ -3,7 +3,7 @@ import { useModalContext } from '@contexts/ModalContext'
 import Input from '@shared/Input'
 import ArrowLeftIcon from '@icons/ArrowLeftIcon'
 import MagnifierIcon from '@icons/MagnifierIcon'
-import { BungDetailMember } from '@type/bung'
+import { BungMember } from '@type/bung'
 import { colors } from '@styles/colors'
 import useFushSearch from '@hooks/useFuseSearch'
 import ConfirmDropoutModal from './modal/ConfirmDropoutModal'
@@ -13,7 +13,7 @@ export default function ManageMembers({
   memberList,
   setPageCategory,
 }: {
-  memberList: BungDetailMember[]
+  memberList: BungMember[]
   setPageCategory: (category: PageCategory) => void
 }) {
   const { openModal } = useModalContext()

@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
 import { differenceInSeconds } from 'date-fns'
+import { currentDate } from '@utils/time'
 
-export default function useTimer(targetTime: Date) {
+export default function useTimer(targetTime: number | string | Date) {
   // 남은 시간을 상태로 관리
-  const [remainingTime, setRemainingTime] = useState(differenceInSeconds(targetTime, new Date()))
+  const [remainingTime, setRemainingTime] = useState(differenceInSeconds(targetTime, currentDate()))
 
   useEffect(() => {
     // 타이머를 1초마다 업데이트
     const timerId = setInterval(() => {
-      const secondsLeft = differenceInSeconds(targetTime, new Date())
+      const secondsLeft = differenceInSeconds(targetTime, currentDate())
       if (secondsLeft <= 0) {
         clearInterval(timerId)
       }

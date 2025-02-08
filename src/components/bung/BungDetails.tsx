@@ -11,9 +11,9 @@ import CalendarIcon from '@icons/CalendarIcon'
 import RunnerIcon from '@icons/RunnerIcon'
 import PersonIcon from '@icons/PersonIcon'
 import ArrowRightIcon from '@icons/ArrowRightIcon'
-import { BungDetail } from '@type/bung'
+import { BungInfo } from '@type/bung'
 import useTimer from '@hooks/useTimer'
-import { formatDate } from '@utils/time'
+import { currentDate, formatDate } from '@utils/time'
 import { padStart } from '@utils/string'
 import { colors } from '@styles/colors'
 import { completeBung as _completeBung } from '@apis/bungs/completeBung/api'
@@ -39,7 +39,7 @@ export default function BungDetails({
   isOwner,
   setPageCategory,
 }: {
-  details: BungDetail
+  details: BungInfo
   isParticipated: boolean
   isOwner: boolean
   setPageCategory: (category: PageCategory) => void
@@ -67,13 +67,13 @@ export default function BungDetails({
   const translateY = useTransform(scrollY, [0, 200], [-15, isParticipated ? -108 : -140])
 
   /* 시작까지 남은 시간을 타이머로 표시하기 위한 로직 */
-  const { days, hours, minutes, seconds } = useTimer(new Date(details.startDateTime))
+  const { days, hours, minutes, seconds } = useTimer(details.startDateTime)
   const formattedTime = `${padStart(days)} : ${padStart(hours)} : ${padStart(minutes)} : ${padStart(seconds)}`
 
   const 벙에참여한벙주인가 = isParticipated && isOwner
   const 벙에참여한멤버인가 = isParticipated && !isOwner
   const 벙에참여한유저인가 = isParticipated
-  const 벙완료시각이지났는가 = new Date() >= new Date(details.startDateTime)
+  const 벙완료시각이지났는가 = currentDate() >= details.startDateTime
 
   const { mutate: completeBung } = useMutation(_completeBung)
   const handleBungComplete = () => {

@@ -1,20 +1,20 @@
-export type BungDetail = {
+export type BungInfo = {
   bungId: string
   name: string
   description: string
   location: string
-  startDateTime: string
-  endDateTime: string
+  startDateTime: Date
+  endDateTime: Date
   distance: number
   pace: string
   memberNumber: number
   hasAfterRun: boolean
   afterRunDescription: string
   hashtags: string[]
-  memberList: BungDetailMember[]
+  memberList: BungMember[]
 }
 
-export type BungDetailMember = {
+export type BungMember = {
   userId: string
   nickname: string
   email: string

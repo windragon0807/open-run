@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Input from '@shared/Input'
 import ArrowLeftIcon from '@icons/ArrowLeftIcon'
 import MagnifierIcon from '@icons/MagnifierIcon'
-import { BungDetailMember } from '@type/bung'
+import { BungMember } from '@type/bung'
 import { colors } from '@styles/colors'
 import useFushSearch from '@hooks/useFuseSearch'
 import { useModalContext } from '@contexts/ModalContext'
@@ -13,7 +13,7 @@ export default function DelegateOwner({
   memberList,
   setPageCategory,
 }: {
-  memberList: BungDetailMember[]
+  memberList: BungMember[]
   setPageCategory: (category: PageCategory) => void
 }) {
   const { openModal } = useModalContext()
