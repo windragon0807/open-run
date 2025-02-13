@@ -18,6 +18,7 @@ import { createBung as _createBung } from '@apis/bungs/createBung/api'
 import { BungInfo } from '@type/bung'
 import { colors } from '@styles/colors'
 import { formatDate } from '@utils/time'
+import { useModifyBung } from '@apis/bungs/modifyBung/mutation'
 import FormTitle from '../components/FormTitle'
 import HashTagSearch from '../components/HashTagSearch'
 import Button from '../components/Button'
@@ -51,7 +52,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
     }))
   }, [])
 
-  const { mutate: createBung, isLoading } = useMutation(_createBung)
+  const { mutate: modifyBung, isLoading } = useModifyBung()
   const handleSubmit = () => {
     const { bungName, description, memberNumber, hasAfterRun, afterRunDescription } = formValues
 
@@ -66,20 +67,16 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
     }
 
     const result = {
+      bungId: details.bungId,
       name: bungName,
       description,
-      location: details.location,
-      startDateTime: details.startDateTime.toISOString(),
-      endDateTime: details.endDateTime.toISOString(),
-      distance: details.distance,
-      pace: details.pace,
       memberNumber: Number(memberNumber),
       hasAfterRun,
       afterRunDescription: hasAfterRun ? afterRunDescription : '',
       hashtags: formValues.hashTags,
     }
 
-    createBung(result, {
+    modifyBung(result, {
       onSuccess: () => {
         /* 벙 상세 페이지 서버 컴포넌트 API 호출 업데이트 */
         router.refresh()
