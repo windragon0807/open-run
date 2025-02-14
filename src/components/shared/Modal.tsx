@@ -22,7 +22,7 @@ export default function Modal({
 
 function ModalDimmed({ children, onClick }: { children: ReactNode; onClick?: () => void }) {
   return (
-    <section className={`fixed top-0 right-0 left-0 bottom-0 bg-[#000] bg-opacity-60 z-[1000]`} onClick={onClick}>
+    <section className={`fixed top-0 right-0 left-0 bottom-0 bg-black-darkest/60 z-[1000]`} onClick={onClick}>
       <motion.section
         className='w-full h-full'
         initial={{ opacity: 0 }}

@@ -248,7 +248,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         <FormTitle required>시작 일시</FormTitle>
         <div className='w-full flex gap-8'>
           <Button
-            className={`${시작날짜를선택했는가 ? 'border-primary bg-blue-transparent' : 'bg-white'} pl-16`}
+            className={`${시작날짜를선택했는가 ? 'border-primary bg-primary/10' : 'bg-white'} pl-16`}
             onClick={() => {
               setDatePickerOpen((prev) => !prev)
               if (isTimePickerOpen) setTimePickerOpen(false)
@@ -259,7 +259,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             </p>
           </Button>
           <Button
-            className={`${시작시간을선택했는가 ? 'border-primary bg-blue-transparent' : 'bg-white'} pl-16`}
+            className={`${시작시간을선택했는가 ? 'border-primary bg-primary/10' : 'bg-white'} pl-16`}
             onClick={() => {
               setTimePickerOpen((prev) => !prev)
               if (isDatePickerOpen) setDatePickerOpen(false)
@@ -376,7 +376,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         <FormTitle required>뒷풀이</FormTitle>
         <div className='flex gap-8'>
           <Button
-            className={`justify-center ${formValues.hasAfterRun === true ? 'bg-blue-transparent border-primary' : 'bg-white border-gray-default'}`}
+            className={`justify-center ${formValues.hasAfterRun === true ? 'bg-primary/10 border-primary' : 'bg-white border-gray-default'}`}
             onClick={() => {
               setFormValues((prev) => ({
                 ...prev,
@@ -386,7 +386,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             유
           </Button>
           <Button
-            className={`justify-center ${formValues.hasAfterRun === false ? 'bg-blue-transparent border-primary' : 'bg-white border-gray-default'}`}
+            className={`justify-center ${formValues.hasAfterRun === false ? 'bg-primary/10 border-primary' : 'bg-white border-gray-default'}`}
             onClick={() => {
               setFormValues((prev) => ({
                 ...prev,

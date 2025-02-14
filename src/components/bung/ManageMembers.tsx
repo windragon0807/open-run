@@ -61,7 +61,7 @@ export default function ManageMembers({
               </div>
               {member.owner === false && (
                 <button
-                  className='bg-pink-default rounded-12 px-13 py-4 text-12 text-white -tracking-[0.28px]'
+                  className='bg-pink rounded-12 px-13 py-4 text-12 text-white -tracking-[0.28px]'
                   onClick={() => {
                     openModal({ contents: <ConfirmDropoutModal member={member} /> })
                   }}>

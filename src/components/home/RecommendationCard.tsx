@@ -54,7 +54,7 @@ export default function RecommendationCard({
       </div>
       <div className='absolute flex bottom-16 left-16 gap-4'>
         {hashtags.map((value) => (
-          <div key={`tag-${value}`} className='bg-black-transparent px-6 text-white rounded-4'>
+          <div key={`tag-${value}`} className='bg-black-darken/60 px-6 text-white rounded-4'>
             <span className='text-[12px] leading-[16px] tracking-[-0.24px]'>{value}</span>
           </div>
         ))}

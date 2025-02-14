@@ -1,5 +1,5 @@
 import type { Config } from 'tailwindcss'
-import { colors, palette } from './src/styles/colors'
+import { colors } from './src/styles/colors'
 
 const createPxRange = (max: number) => Object.fromEntries(Array.from(Array(max + 1)).map((_, i) => [i, `${i}px`]))
 
@@ -18,18 +18,18 @@ const config: Config = {
       '4xl': '1920px',
     },
     fontSize: {
-      xs: ['0.8125rem', { lineHeight: '1.538' }], // 13px / 20px
-      sm: ['0.875rem', { lineHeight: '1.5' }], // 14px / 21px
-      base: ['1rem', { lineHeight: '1.5' }], // 16px / 24px
-      lg: ['1.125rem', { lineHeight: '1.5' }], // 18px / 27px
-      xl: ['1.375rem', { lineHeight: '1.545' }], // 22px / 34px
-      '2xl': ['1.5rem', { lineHeight: '1.5' }], // 24px / 36px
-      '3xl': ['1.625rem', { lineHeight: '1.385' }], // 26px / 36px
-      '4xl': ['1.75rem', { lineHeight: '1.5' }], // 28px / 42px
-      '5xl': ['2rem', { lineHeight: '1.5' }], // 32px / 48px
-      '6xl': ['2.625rem', { lineHeight: '1.571' }], // 42px / 66px
-      '7xl': ['3.5rem', { lineHeight: '1.428' }], // 56px / 80px
-      '8xl': ['4rem', { lineHeight: '1.5' }], // 64px / 96px
+      xs: ['0.8125rem', { lineHeight: '1.538' }], // 13px
+      sm: ['0.875rem', { lineHeight: '1.5' }], // 14px
+      base: ['1rem', { lineHeight: '1.5' }], // 16px
+      lg: ['1.125rem', { lineHeight: '1.5' }], // 18px
+      xl: ['1.375rem', { lineHeight: '1.545' }], // 22px
+      '2xl': ['1.5rem', { lineHeight: '1.5' }], // 24px
+      '3xl': ['1.625rem', { lineHeight: '1.385' }], // 26px
+      '4xl': ['1.75rem', { lineHeight: '1.5' }], // 28px
+      '5xl': ['2rem', { lineHeight: '1.5' }], // 32px
+      '6xl': ['2.625rem', { lineHeight: '1.571' }], // 42px
+      '7xl': ['3.5rem', { lineHeight: '1.428' }], // 56px
+      '8xl': ['4rem', { lineHeight: '1.5' }], // 64px
     },
     colors: ({ colors: defaults }) => ({
       inherit: defaults.inherit,

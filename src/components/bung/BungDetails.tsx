@@ -163,7 +163,7 @@ export default function BungDetails({
         className='relative w-full h-full bg-gray-lighten bg-cover rounded-[8px_8px_0_0]'>
         {벙에참여한유저인가 && (
           <div
-            className={`absolute -top-32 -z-[1] w-full h-40 px-16 flex justify-between bg-[#F06595] bg-opacity-60 rounded-[8px_8px_0_0]`}>
+            className={`absolute -top-32 -z-[1] w-full h-40 px-16 flex justify-between bg-pink/60 rounded-[8px_8px_0_0]`}>
             <span className='relative italic text-14 font-bold text-white top-6'>{formattedTime}</span>
             <span className='relative text-14 text-white top-6'>시작까지 남은 시간</span>
           </div>
@@ -202,7 +202,7 @@ export default function BungDetails({
               <PersonIcon size={16} color={colors.black.default} />
               <div className='flex gap-4 items-center'>
                 <span className='text-sm text-black-default'>{`${참여인원수} / ${details.memberNumber}`}</span>
-                <span className='px-4 py-2 bg-pink-transparent rounded-4 text-12 font-bold text-pink-default'>{`${details.memberNumber - 참여인원수}자리 남았어요`}</span>
+                <span className='px-4 py-2 bg-pink/10 rounded-4 text-12 font-bold text-pink'>{`${details.memberNumber - 참여인원수}자리 남았어요`}</span>
               </div>
             </div>
             {벙에참여한유저인가 ? (

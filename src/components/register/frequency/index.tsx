@@ -51,9 +51,6 @@ export default function Frequency({
           />
         </div>
       </div>
-
-      <Spacing size={40} />
-      <button className='w-full bg-blue-500 text-white py-4 rounded-lg'>다음</button>
     </section>
   )
 }

@@ -22,7 +22,7 @@ export default function Checkbox({
       />
       <label htmlFor='checkbox' className='flex items-center gap-8 cursor-pointer'>
         <div
-          className={`flex items-center justify-center w-24 h-24 rounded-8 ${checked ? 'bg-pink-default' : 'border border-gray-default'}`}>
+          className={`flex items-center justify-center w-24 h-24 rounded-8 ${checked ? 'bg-pink' : 'border border-gray-default'}`}>
           <motion.svg
             initial={{ y: 0 }}
             animate={{ y: checked ? [10, 0] : 0 }}

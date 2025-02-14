@@ -206,7 +206,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
             <FormTitle required>뒷풀이</FormTitle>
             <div className='flex gap-8'>
               <Button
-                className={`justify-center ${formValues.hasAfterRun === true ? 'bg-blue-transparent border-primary' : 'bg-white border-gray-default'}`}
+                className={`justify-center ${formValues.hasAfterRun === true ? 'bg-primary/10 border-primary' : 'bg-white border-gray-default'}`}
                 onClick={() => {
                   setFormValues((prev) => ({
                     ...prev,
@@ -216,7 +216,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
                 유
               </Button>
               <Button
-                className={`justify-center ${formValues.hasAfterRun === false ? 'bg-blue-transparent border-primary' : 'bg-white border-gray-default'}`}
+                className={`justify-center ${formValues.hasAfterRun === false ? 'bg-primary/10 border-primary' : 'bg-white border-gray-default'}`}
                 onClick={() => {
                   setFormValues((prev) => ({
                     ...prev,

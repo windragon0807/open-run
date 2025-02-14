@@ -1,37 +1,23 @@
 export const colors = {
-  primary: '#4A5CEF',
-  secondary: '#E0FB60',
+  primary: 'hsl(233, 84%, 61%)', // #4A5CEF
+  secondary: 'hsl(70, 95%, 68%)', // #E0FB60
 
-  white: '#fff',
+  white: 'hsl(0, 0%, 100%)', // #fff
   black: {
-    default: '#333',
-    transparent: 'rgba(34, 34, 34, 0.60)',
-    darken: '#222',
-    darkest: '#000',
+    default: 'hsl(0, 0%, 20%)', // #333
+    darken: 'hsl(0, 0%, 13%)', // #222
+    darkest: 'hsl(0, 0%, 0%)', // #000
   },
   gray: {
-    lighten: '#F8F9FA',
-    default: '#DEE2E6',
-    darken: '#ADB5BD',
-    darkest: '#868E96',
+    lighten: 'hsl(210, 17%, 98%)', // #F8F9FA
+    default: 'hsl(210, 14%, 89%)', // #DEE2E6
+    darken: 'hsl(210, 11%, 71%)', // #ADB5BD
+    darkest: 'hsl(210, 7%, 56%)', // #868E96
   },
-  blue: {
-    default: '#4A5CEF',
-    transparent: 'rgba(74, 92, 239, 0.10)',
-  },
-  pink: {
-    default: '#F06595',
-    transparent: 'rgba(240, 101, 149, 0.10)',
-  },
-  fluorescent: '#E0FB60',
-  red: '#FF0000',
+  pink: 'hsl(339, 82%, 67%)', // #F06595
+  fluorescent: 'hsl(70, 95%, 68%)', // #E0FB60
+  red: 'hsl(0, 100%, 50%)', // #FF0000
 
-  kakao: '#FEE500',
-  naver: '#06C755',
+  kakao: 'hsl(54, 100%, 50%)', // #FEE500
+  naver: 'hsl(145, 94%, 40%)', // #06C755
 } as const
-
-export const palette = {
-  ...colors,
-
-  focusedBlue: 'rgba(74, 92, 239, 0.10)',
-}

@@ -33,7 +33,7 @@ export default function FixedBottomMenuButton() {
       <AnimatePresence>
         {isDimmed && (
           <motion.div
-            className={`fixed inset-0 bg-[#000] bg-opacity-60 z-[999]`}
+            className={`fixed inset-0 bg-black-darkest/60 z-[999]`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -71,7 +71,7 @@ export default function FixedBottomMenuButton() {
 function MenuBar() {
   return (
     <div
-      className={`w-full h-full flex items-center rounded-[32px] bg-[#fff] bg-opacity-20`}
+      className={`w-full h-full flex items-center rounded-[32px] bg-white/20`}
       style={{ backdropFilter: 'blur(3px)' }}>
       <Link href='/' className='w-[36%] h-full rounded-[32px] bg-white flex items-center justify-center gap-20'>
         <OpenrunIcon size={24} color={colors.black.darken} />

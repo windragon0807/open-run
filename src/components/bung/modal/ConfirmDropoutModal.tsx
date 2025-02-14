@@ -54,7 +54,7 @@ export default function ConfirmDropoutModal({ member }: { member: BungMember }) 
           />
           <div className='w-full flex gap-8'>
             <button
-              className={`flex-1 h-56 bg-[#F06595] bg-opacity-20 text-pink-default text-base font-bold rounded-8`}
+              className={`flex-1 h-56 bg-pink/20 text-pink text-base font-bold rounded-8`}
               onClick={handleDropout}>
               내보내기
             </button>
