@@ -15,8 +15,8 @@ export default function Error({ type }: { type: 'small' | 'medium' | 'large' }) 
   if (type === 'medium') {
     return (
       <div className='size-full flex flex-col items-center justify-center gap-10'>
-        <WarningIcon size={60} />
-        <p className='text-xl font-bold text-[#D7D6DE]'>정보를 불러오지 못했어요</p>
+        <WarningIcon size={50} />
+        <p className='text-lg font-bold text-[#D7D6DE]'>정보를 불러오지 못했어요</p>
       </div>
     )
   }

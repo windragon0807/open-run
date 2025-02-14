@@ -1328,6 +1328,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"clsx@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "clsx@npm:2.1.1"
+  checksum: c4c8eb865f8c82baab07e71bfa8897c73454881c4f99d6bc81585aecd7c441746c1399d08363dc096c550cceaf97bd4ce1e8854e1771e9998d9f94c4fe075839
+  languageName: node
+  linkType: hard
+
 "color-convert@npm:^2.0.1":
   version: 2.0.1
   resolution: "color-convert@npm:2.0.1"
@@ -3832,6 +3839,7 @@ __metadata:
     "@types/react-dom": "npm:^18"
     autoprefixer: "npm:^10.4.17"
     axios: "npm:^1.6.7"
+    clsx: "npm:^2.1.1"
     concurrently: "npm:^8.2.2"
     date-fns: "npm:^3.6.0"
     eslint: "npm:^8"

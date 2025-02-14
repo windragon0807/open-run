@@ -4,7 +4,7 @@ import Layout from '@shared/Layout'
 import FixedBottomMenuButton from '@shared/FixedBottomMenuButton'
 import Recommendation from '@components/home/Recommendation'
 import MyNFTs from '@components/home/MyNFTs'
-import MyBungs from '@components/home/MyBungs'
+import ScheduledBungs from '@components/home/ScheduledBungs'
 import Header from '@components/home/Header'
 import Permission from '@components/home/Permission'
 
@@ -19,7 +19,7 @@ export default async function HomePage() {
           <MyNFTs />
           <Spacing size={40} />
           {/* 참여 예정 */}
-          <MyBungs />
+          <ScheduledBungs />
           <Spacing size={40} />
           {/* 추천 */}
           <Recommendation />

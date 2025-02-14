@@ -46,6 +46,8 @@ export function useBungsQuery(request: RequestType, options?: UseQueryOptions<Da
   return useQuery({
     queryKey: [queryKey, request],
     queryFn: () => fetchBungs(request),
+    suspense: true,
+    useErrorBoundary: true,
     ...options,
   })
 }

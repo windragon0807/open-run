@@ -49,16 +49,11 @@ export async function fetchMyBungs(request: RequestType): Promise<DataType> {
 export const queryKey = 'fetchMyBungs'
 
 export function useMyBungsQuery(request: RequestType, options?: UseQueryOptions<DataType>) {
-  const { data, isLoading } = useQuery({
+  return useQuery({
     queryKey: [queryKey, request],
     queryFn: () => fetchMyBungs(request),
+    suspense: true,
+    useErrorBoundary: true,
     ...options,
   })
-
-  return {
-    data: data?.list,
-    isLoading,
-    isSuccess: data != null && data.list.length > 0,
-    isEmpty: data != null && data.list.length === 0,
-  }
 }
