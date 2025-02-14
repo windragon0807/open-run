@@ -14,13 +14,9 @@ export async function middleware(request: NextRequest) {
       state: request.nextUrl.searchParams.get('state'),
     })
 
-    if (response.data.nickname == null) {
-      return NextResponse.redirect(new URL('/register', request.url))
-    }
-
     const jwtToken = response.data.jwtToken
 
-    const next = NextResponse.redirect(new URL('/', request.url))
+    const next = NextResponse.redirect(new URL(response.data.nickname == null ? '/register' : '/', request.url))
     next.cookies.set(COOKIE.ACCESSTOKEN, jwtToken)
     return next
   }
