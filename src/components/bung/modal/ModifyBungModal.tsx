@@ -97,7 +97,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
       <section className='h-[calc(100%-110px)] overflow-y-auto'>
         <section className='w-full flex flex-col overflow-y-auto px-16'>
           <section className='relative w-full mx-auto h-184 mb-32'>
-            <Image className='rounded-8' src='/temp/img_thumbnail_1.png' alt='Thumbnail Image' fill />
+            <Image className='rounded-8' src='/images/bung/img_thumbnail_1.png' alt='Thumbnail Image' fill />
           </section>
 
           {/** 벙 이름 */}

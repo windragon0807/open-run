@@ -21,6 +21,8 @@ import { colors } from '@styles/colors'
 import { currentDate, formatDate } from '@utils/time'
 import { useRefetchQuery } from '@hooks/useRefetchQuery'
 import { queryKey } from '@apis/bungs/fetchMyBungs/query'
+import { getRandomNumber } from '@utils/number'
+import RandomIcon from '@icons/RandomIcon'
 
 type FormValues = {
   bungName: string
@@ -39,9 +41,17 @@ type FormValues = {
   hashTags: string[]
 }
 
+const imageList = [
+  '/images/bung/img_thumbnail_1.png',
+  '/images/bung/img_thumbnail_2.png',
+  '/images/bung/img_thumbnail_3.png',
+  '/images/bung/img_thumbnail_4.png',
+]
+
 export default function Forms({ nextStep }: { nextStep: () => void }) {
   const 메인페이지벙리스트업데이트 = useRefetchQuery(queryKey)
 
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string>(imageList[0])
   const [formValues, setFormValues] = useState<FormValues>({
     bungName: '',
     description: '',
@@ -187,7 +197,12 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
       ) : null}
 
       <section className='relative w-full mx-auto h-184 mb-32'>
-        <Image className='rounded-8' src='/temp/img_thumbnail_1.png' alt='Thumbnail Image' fill />
+        <Image className='rounded-8' src={selectedImageUrl} alt='Random Thumbnail Image' fill />
+        <button
+          className='absolute bottom-16 right-16 p-8 rounded-4 bg-primary'
+          onClick={() => setSelectedImageUrl(imageList[getRandomNumber(0, imageList.length - 1)])}>
+          <RandomIcon size={24} color={colors.white} />
+        </button>
       </section>
 
       {/** 벙 이름 */}
