@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Jost } from 'next/font/google'
 
 import ReactQuery from '@contexts/ReactQuery'
@@ -16,7 +16,7 @@ const jost = Jost({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='ko'>
-      <body className={`font-pretendard ${jost.variable}`}>
+      <body className={`font-pretendard ${jost.variable} touch-none`}>
         <DarkMode />
         <ReactQuery>
           <ModalContext>
@@ -43,4 +43,11 @@ export const metadata: Metadata = {
     /* Allow web app to be run in full-screen mode - Android. */
     'mobile-web-app-capable': 'yes',
   },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  userScalable: false,
+  initialScale: 1,
+  maximumScale: 1,
 }

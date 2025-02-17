@@ -10,6 +10,13 @@ html {
   -moz-text-size-adjust: none;
   -webkit-text-size-adjust: none;
   text-size-adjust: none;
+
+  /* 터치하고 홀드할 때 나타나는 기본 콜아웃을 비활성화합니다. // iOS Safari */
+  -webkit-touch-callout: none;
+  /* 요소의 콘텐츠를 사용자가 선택할 수 있는지 여부를 결정합니다. */
+  user-select: none;
+  /* iOS Safari에서 링크나 JavaScript 클릭 가능한 요소를 탭할 때 나타나는 하이라이트 색상을 재정의합니다. */
+  -webkit-tap-highlight-color: hsl(0 0% 0% / 0);
 }
 
 /* 기본 여백을 제거하여 작성된 CSS를 더 잘 제어할 수 있습니다. */
