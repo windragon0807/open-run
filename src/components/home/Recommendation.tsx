@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { useModalContext } from '@contexts/ModalContext'
 import { usePermissionStore } from '@store/permission'
 import { useBungsQuery } from '@apis/bungs/fetchBungs/query'
@@ -56,6 +57,15 @@ function RecommendationBungs() {
           />
         </button>
       ))}
+      {recommendationList?.list.length === 0 && (
+        <div className='flex flex-col gap-8 justify-center items-center w-full h-full'>
+          <Image src='/images/home/skewed_x_button.png' alt='기울어진 X 버튼 이미지' width={56} height={56} />
+          <p className='text-center text-gray-darken text-sm'>
+            현재 열림 벙이 없어요 <br />
+            새로운 벙을 만들어 멤버를 모집해 보세요!
+          </p>
+        </div>
+      )}
     </section>
   )
 }
