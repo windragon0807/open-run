@@ -23,7 +23,7 @@ export default function Register() {
 
   const [data, setData] = useState<UserRegister>({
     nickname: '',
-    runningPace: "0'0",
+    runningPace: `0'0"`,
     runningFrequency: 0,
   })
   const [step, setStep] = useState<RegisterStep>(0)

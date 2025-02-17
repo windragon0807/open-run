@@ -32,7 +32,7 @@ export default function FaceNumberPicker({
     initialValue: parseInt(defaultValue.split("'")[0]),
     min: minMinutes,
     max: maxMinutes,
-    onChange: (newMinutes) => onChange(`${newMinutes}'${padStart(seconds)}`),
+    onChange: (newMinutes) => onChange(`${newMinutes}'${padStart(seconds)}\"`),
   })
 
   const {
@@ -48,7 +48,7 @@ export default function FaceNumberPicker({
     initialValue: parseInt(defaultValue.split("'")[1]),
     min: minSeconds,
     max: maxSeconds,
-    onChange: (newSeconds) => onChange(`${padStart(minutes)}'${padStart(newSeconds)}`),
+    onChange: (newSeconds) => onChange(`${padStart(minutes)}'${padStart(newSeconds)}\"`),
   })
 
   return (
@@ -60,7 +60,7 @@ export default function FaceNumberPicker({
           value={minutes}
           min={minMinutes}
           max={maxMinutes}
-          onChange={(newMinutes) => onChange(`${newMinutes}'${padStart(seconds)}`)}
+          onChange={(newMinutes) => onChange(`${newMinutes}'${padStart(seconds)}\"`)}
           handleTouchStart={handleMinutesTouchStart}
           handleTouchMove={handleMinutesTouchMove}
           handleTouchEnd={handleMinutesTouchEnd}
@@ -79,7 +79,7 @@ export default function FaceNumberPicker({
           value={seconds}
           min={minSeconds}
           max={maxSeconds}
-          onChange={(newSeconds) => onChange(`${padStart(minutes)}'${padStart(newSeconds)}`)}
+          onChange={(newSeconds) => onChange(`${padStart(minutes)}'${padStart(newSeconds)}\"`)}
           handleTouchStart={handleSecondsTouchStart}
           handleTouchMove={handleSecondsTouchMove}
           handleTouchEnd={handleSecondsTouchEnd}
