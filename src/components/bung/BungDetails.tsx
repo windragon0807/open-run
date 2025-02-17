@@ -13,8 +13,7 @@ import PersonIcon from '@icons/PersonIcon'
 import ArrowRightIcon from '@icons/ArrowRightIcon'
 import { BungInfo } from '@type/bung'
 import useTimer from '@hooks/useTimer'
-import { currentDate, formatDate } from '@utils/time'
-import { padStart } from '@utils/string'
+import { currentDate, formatDate, timerFormat } from '@utils/time'
 import { colors } from '@styles/colors'
 import { completeBung as _completeBung } from '@apis/bungs/completeBung/api'
 import { joinBung as _joinBung } from '@apis/bungs/joinBung/api'
@@ -68,7 +67,7 @@ export default function BungDetails({
 
   /* 시작까지 남은 시간을 타이머로 표시하기 위한 로직 */
   const { days, hours, minutes, seconds } = useTimer(details.startDateTime)
-  const formattedTime = `${padStart(days)} : ${padStart(hours)} : ${padStart(minutes)} : ${padStart(seconds)}`
+  const formattedTime = timerFormat({ days, hours, minutes, seconds })
 
   const 벙에참여한벙주인가 = isParticipated && isOwner
   const 벙에참여한멤버인가 = isParticipated && !isOwner
