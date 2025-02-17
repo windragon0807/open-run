@@ -377,12 +377,10 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
       <div className='relative flex flex-col gap-8 mb-16'>
         <FormTitle required>참가 인원</FormTitle>
         <NumberInput
-          className='pl-40'
           name='memberNumber'
-          placeholder='참가 인원을 입력하세요'
+          placeholder='3명 이상 입력하세요'
           value={formValues.memberNumber}
           onChange={handleFormValues}
-          addon={<span className='absolute left-16 bottom-10 text-sm text-black-default'>1 ~</span>}
         />
       </div>
 
