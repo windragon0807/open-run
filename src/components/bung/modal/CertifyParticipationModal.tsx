@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useQuery } from 'react-query'
 import { Container, NaverMap, Marker, useNavermaps } from 'react-naver-maps'
 import { useGeocode } from '@apis/maps/fetchGeocode/query'
@@ -10,12 +11,15 @@ import PrimaryButton from '@shared/PrimaryButton'
 import LoadingLogo from '@shared/LoadingLogo'
 import { BottomSheet } from '@shared/Modal'
 import { colors } from '@styles/colors'
+import { useCertifyParticipation } from '@apis/bungs/certifyParticipation/mutation'
 import '../map.css'
 
 const 참여인증거리 = 500 // 500m
 
-export default function CertifyParticipationModal({ destination }: { destination: string }) {
+export default function CertifyParticipationModal({ destination, bungId }: { destination: string; bungId: string }) {
+  const router = useRouter()
   const { closeModal } = useModalContext()
+  const { mutate: certifyParticipation } = useCertifyParticipation()
   const { latitude, longitude } = useGeolocation()
   const { data: coordinates } = useGeocode(destination)
   const 모든좌표가유효한가 = latitude != null && longitude != null && coordinates != null
@@ -31,6 +35,18 @@ export default function CertifyParticipationModal({ destination }: { destination
       }),
     enabled: 모든좌표가유효한가 === true,
   })
+
+  const handleClick = () => {
+    certifyParticipation(
+      { bungId },
+      {
+        onSuccess: () => {
+          router.refresh()
+          closeModal()
+        },
+      },
+    )
+  }
 
   return (
     <BottomSheet className='px-16'>
@@ -49,7 +65,10 @@ export default function CertifyParticipationModal({ destination }: { destination
           </div>
         )}
       </section>
-      <PrimaryButton className='mt-20 mb-40' disabled={distance == null || distance > 참여인증거리}>
+      <PrimaryButton
+        className='mt-20 mb-40'
+        disabled={distance == null || distance > 참여인증거리}
+        onClick={handleClick}>
         {distance == null && <LoadingLogo />}
         {distance != null && distance <= 참여인증거리 && '참여 인증 완료'}
         {distance != null && distance > 참여인증거리 && '목적지까지 500m 이내여야 합니다.'}

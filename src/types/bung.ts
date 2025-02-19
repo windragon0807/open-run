@@ -19,6 +19,7 @@ export type BungMember = {
   userId: string
   nickname: string
   email: string
+  runningPage: string
   userBungId: number
   participationStatus: boolean
   owner: boolean

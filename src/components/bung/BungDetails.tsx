@@ -69,11 +69,6 @@ export default function BungDetails({
   const { days, hours, minutes, seconds } = useTimer(details.startDateTime)
   const formattedTime = timerFormat({ days, hours, minutes, seconds })
 
-  const 벙에참여한벙주인가 = isParticipated && isOwner
-  const 벙에참여한멤버인가 = isParticipated && !isOwner
-  const 벙에참여한유저인가 = isParticipated
-  const 벙완료시각이지났는가 = currentDate() >= details.startDateTime
-
   const { mutate: completeBung } = useMutation(_completeBung)
   const handleBungComplete = () => {
     completeBung(
@@ -124,6 +119,12 @@ export default function BungDetails({
       },
     )
   }
+
+  const 벙에참여한벙주인가 = isParticipated && isOwner
+  const 벙에참여한멤버인가 = isParticipated && !isOwner
+  const 벙에참여한유저인가 = isParticipated
+  const 벙완료시각이지났는가 = currentDate() >= details.startDateTime
+  const 현재유저의벙참여정보 = details.memberList.find((member) => member.userId === userInfo!.userId)
 
   return (
     <section className='w-full h-full relative'>
@@ -214,9 +215,10 @@ export default function BungDetails({
                   </p>
                   <button
                     className='bg-black-darken px-14 py-10 rounded-8 text-sm text-white font-bold disabled:bg-gray-default disabled:text-white'
+                    disabled={현재유저의벙참여정보?.participationStatus === true}
                     onClick={() => {
                       openModal({
-                        contents: <CertifyParticipationModal destination={details.location} />,
+                        contents: <CertifyParticipationModal destination={details.location} bungId={details.bungId} />,
                       })
                     }}>
                     참여 인증

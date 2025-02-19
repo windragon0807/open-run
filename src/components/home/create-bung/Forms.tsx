@@ -145,6 +145,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         <section className='relative w-full mx-auto h-184 mb-32'>
           <Image className='rounded-8' src={watch('imageUrl')} alt='Random Thumbnail Image' fill />
           <button
+            type='button'
             className='absolute bottom-16 right-16 p-8 rounded-4 bg-primary'
             onClick={() => setValue('imageUrl', imageList[getRandomNumber(0, imageList.length - 1)])}>
             <RandomIcon size={24} color={colors.white} />
