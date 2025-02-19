@@ -1,8 +1,7 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { ChangeEvent, useCallback, useState } from 'react'
-import { useMutation } from 'react-query'
 import { differenceInMinutes } from 'date-fns'
+import { useForm } from 'react-hook-form'
 import { BottomSheet } from '@shared/Modal'
 import BrokenXIcon from '@icons/BrokenXIcon'
 import { useModalContext } from '@contexts/ModalContext'
@@ -14,7 +13,6 @@ import HashTag from '@shared/HashTag'
 import LoadingLogo from '@shared/LoadingLogo'
 import ClockIcon from '@icons/ClockIcon'
 import CalendarIcon from '@icons/CalendarIcon'
-import { createBung as _createBung } from '@apis/bungs/createBung/api'
 import { BungInfo } from '@type/bung'
 import { colors } from '@styles/colors'
 import { formatDate } from '@utils/time'
@@ -35,45 +33,34 @@ type FormValues = {
 export default function ModifyBungModal({ details }: { details: BungInfo }) {
   const router = useRouter()
   const { closeModal } = useModalContext()
+  const { mutate: modifyBung, isLoading } = useModifyBung()
 
-  const [formValues, setFormValues] = useState<FormValues>({
-    bungName: details.name,
-    description: details.description,
-    memberNumber: String(details.memberNumber),
-    hasAfterRun: details.hasAfterRun,
-    afterRunDescription: details.afterRunDescription || '',
-    hashTags: details.hashtags,
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<FormValues>({
+    defaultValues: {
+      bungName: details.name,
+      description: details.description,
+      memberNumber: String(details.memberNumber),
+      hasAfterRun: details.hasAfterRun,
+      afterRunDescription: details.afterRunDescription,
+      hashTags: details.hashtags,
+    },
   })
 
-  const handleFormValues = useCallback((e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormValues((prevFormValues) => ({
-      ...prevFormValues,
-      [e.target.name]: e.target.value,
-    }))
-  }, [])
-
-  const { mutate: modifyBung, isLoading } = useModifyBung()
-  const handleSubmit = () => {
-    const { bungName, description, memberNumber, hasAfterRun, afterRunDescription } = formValues
-
-    if (bungName === '') {
-      alert('벙 이름을 입력해주세요')
-      return
-    }
-
-    if (memberNumber == null || Number(memberNumber) < 1) {
-      alert('참가 인원을 확인해주세요')
-      return
-    }
-
+  const onSubmit = (formData: FormValues) => {
     const result = {
       bungId: details.bungId,
-      name: bungName,
-      description,
-      memberNumber: Number(memberNumber),
-      hasAfterRun,
-      afterRunDescription: hasAfterRun ? afterRunDescription : '',
-      hashtags: formValues.hashTags,
+      name: formData.bungName,
+      description: formData.description,
+      memberNumber: Number(formData.memberNumber),
+      hasAfterRun: formData.hasAfterRun,
+      afterRunDescription: formData.hasAfterRun ? formData.afterRunDescription : '',
+      hashtags: formData.hashTags,
     }
 
     modifyBung(result, {
@@ -95,7 +82,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
       </header>
 
       <section className='h-[calc(100%-110px)] overflow-y-auto'>
-        <section className='w-full flex flex-col overflow-y-auto px-16'>
+        <form className='w-full flex flex-col overflow-y-auto px-16' onSubmit={handleSubmit(onSubmit)}>
           <section className='relative w-full mx-auto h-184 mb-32'>
             <Image className='rounded-8' src='/images/bung/img_thumbnail_1.png' alt='Thumbnail Image' fill />
           </section>
@@ -104,24 +91,18 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
           <div className='flex flex-col gap-8 mb-16'>
             <FormTitle required>벙 이름</FormTitle>
             <Input
-              name='bungName'
-              type='text'
               placeholder='벙 이름을 입력하세요'
-              value={formValues.bungName}
-              onChange={handleFormValues}
+              error={errors.bungName?.message}
+              {...register('bungName', {
+                required: '필수 항목입니다',
+              })}
             />
           </div>
 
           {/** 설명 */}
           <div className='flex flex-col gap-8 mb-16'>
             <FormTitle>설명</FormTitle>
-            <TextArea
-              className='h-80 pt-10'
-              name='description'
-              placeholder='벙 설명을 입력하세요'
-              value={formValues.description}
-              onChange={handleFormValues}
-            />
+            <TextArea className='h-80 pt-10' placeholder='벙 설명을 입력하세요' {...register('description')} />
           </div>
 
           {/** 장소 */}
@@ -172,18 +153,18 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
             <FormTitle>페이스</FormTitle>
             <div className='flex gap-8'>
               <NumberInput
-                value={details.pace.split("'")[0]}
+                value={details.pace.match(/\d+/g)?.[0]}
+                disabled
                 addon={
                   <span className='absolute right-16 bottom-10 text-sm text-gray-darken font-bold italic'>{"'"}</span>
                 }
-                disabled
               />
               <NumberInput
-                value={details.pace.split("'")[1]}
+                value={details.pace.match(/\d+/g)?.[1]}
+                disabled
                 addon={
                   <span className='absolute right-16 bottom-10 text-sm text-gray-darken font-bold italic'>{'"'}</span>
                 }
-                disabled
               />
             </div>
           </div>
@@ -192,12 +173,13 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
           <div className='relative flex flex-col gap-8 mb-16'>
             <FormTitle required>참가 인원</FormTitle>
             <NumberInput
-              className='pl-40'
-              name='memberNumber'
-              placeholder='참가 인원을 입력하세요'
-              value={formValues.memberNumber}
-              onChange={handleFormValues}
-              addon={<span className='absolute left-16 bottom-10 text-sm text-black-default'>1 ~</span>}
+              placeholder='3명 이상 입력하세요'
+              error={errors.memberNumber?.message}
+              {...register('memberNumber', {
+                required: '필수 항목입니다',
+                min: { value: 3, message: '3명 이상으로 입력하세요' },
+                max: { value: 300, message: '300명 이하로 입력하세요' },
+              })}
             />
           </div>
 
@@ -206,33 +188,25 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
             <FormTitle required>뒷풀이</FormTitle>
             <div className='flex gap-8'>
               <Button
-                className={`justify-center ${formValues.hasAfterRun === true ? 'bg-primary/10 border-primary' : 'bg-white border-gray-default'}`}
+                className={`justify-center ${watch('hasAfterRun') === true ? 'bg-primary/10 border-primary' : 'bg-white border-gray-default'}`}
                 onClick={() => {
-                  setFormValues((prev) => ({
-                    ...prev,
-                    hasAfterRun: true,
-                  }))
+                  setValue('hasAfterRun', true)
                 }}>
                 유
               </Button>
               <Button
-                className={`justify-center ${formValues.hasAfterRun === false ? 'bg-primary/10 border-primary' : 'bg-white border-gray-default'}`}
+                className={`justify-center ${watch('hasAfterRun') === false ? 'bg-primary/10 border-primary' : 'bg-white border-gray-default'}`}
                 onClick={() => {
-                  setFormValues((prev) => ({
-                    ...prev,
-                    hasAfterRun: false,
-                  }))
+                  setValue('hasAfterRun', false)
                 }}>
                 무
               </Button>
             </div>
-            {formValues.hasAfterRun ? (
+            {watch('hasAfterRun') ? (
               <TextArea
-                name='afterRunDescription'
-                placeholder='뒷풀이에 대한 내용을 입력하세요'
                 className='h-80 pt-10'
-                value={formValues.afterRunDescription}
-                onChange={handleFormValues}
+                placeholder='뒷풀이에 대한 내용을 입력하세요'
+                {...register('afterRunDescription')}
               />
             ) : null}
           </div>
@@ -241,34 +215,31 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
           <div className='relative flex flex-col gap-8 mb-80'>
             <FormTitle>해시태그</FormTitle>
             <div className='flex flex-wrap gap-8'>
-              {formValues.hashTags.map((label) => (
+              {watch('hashTags').map((label) => (
                 <HashTag
                   key={`HashTag-${label}`}
                   label={label}
                   onCloseButtonClick={() => {
-                    setFormValues((prev) => ({
-                      ...prev,
-                      hashTags: prev.hashTags.filter((tag) => tag !== label),
-                    }))
+                    setValue(
+                      'hashTags',
+                      watch('hashTags').filter((tag) => tag !== label),
+                    )
                   }}
                 />
               ))}
             </div>
             <HashTagSearch
               onTagClick={(newTag) => {
-                setFormValues((prev) => ({
-                  ...prev,
-                  hashTags: [...prev.hashTags, newTag],
-                }))
+                setValue('hashTags', watch('hashTags').concat(newTag))
               }}
             />
           </div>
 
           {/** 수정 완료 버튼 */}
-          <PrimaryButton className='mb-40' onClick={handleSubmit}>
+          <PrimaryButton type='submit' className='mb-40'>
             {isLoading ? <LoadingLogo color={colors.secondary} className='mx-auto' /> : '수정 완료'}
           </PrimaryButton>
-        </section>
+        </form>
       </section>
     </BottomSheet>
   )

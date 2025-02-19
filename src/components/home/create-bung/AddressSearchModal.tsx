@@ -12,7 +12,7 @@ export default function AddressSearchModal({
   onComplete: (address: Address) => void
 }) {
   return (
-    <section className={`fixed top-0 right-0 left-0 bottom-0 bg-[${colors.black.darkest}] bg-opacity-60 z-[1000]`}>
+    <section className={`fixed top-0 right-0 left-0 bottom-0 bg-black-darkest/60 z-[1000]`}>
       <section className='absolute top-[10%] left-[50%] -translate-x-1/2 w-[90%] bg-white rounded-10'>
         <div className='w-full h-full'>
           <header className='relative w-full h-60 flex items-center'>

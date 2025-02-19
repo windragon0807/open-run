@@ -1,5 +1,5 @@
-import http from '@apis/axios'
 import { useMutation } from 'react-query'
+import http from '@apis/axios'
 
 type RequestType = {
   bungId: string
@@ -11,7 +11,7 @@ type RequestType = {
   hashtags: string[]
 }
 
-export function modifyBung({ bungId, ...rest }: RequestType) {
+function modifyBung({ bungId, ...rest }: RequestType) {
   return http.patch(`/v1/bungs/${bungId}`, rest)
 }
 

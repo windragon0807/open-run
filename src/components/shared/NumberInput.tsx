@@ -1,28 +1,38 @@
-import { InputHTMLAttributes, ReactNode } from 'react'
+import { forwardRef, InputHTMLAttributes, ReactNode } from 'react'
+import clsx from 'clsx'
 
-export default function NumberInput({
-  className,
-  setValue,
-  onChange,
-  addon,
-  ...rest
-}: Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'inputMode'> & {
-  setValue?: (value: string) => void
-  addon?: ReactNode
-}) {
+const NumberInput = forwardRef<
+  HTMLInputElement,
+  Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'inputMode'> & {
+    error?: string
+    addon?: ReactNode
+    setValue?: (value: string) => void
+  }
+>(({ className, setValue, onChange, addon, error, value, ...rest }, ref) => {
   return (
     <div className='w-full relative'>
       <input
+        ref={ref}
+        className={clsx(
+          'w-full h-40 text-sm px-16 rounded-8 focus:outline-none disabled:bg-gray-default disabled:text-gray-darken',
+          error ? 'border-2 border-pink caret-pink' : 'border border-gray-default caret-primary focus:border-primary',
+          className,
+        )}
         type='number'
         inputMode='numeric'
-        className={`w-full h-40 text-14 border border-gray-default px-16 rounded-8 caret-primary focus:outline-none focus:border-primary disabled:bg-gray-default disabled:text-gray-darken ${className}`}
+        pattern='[0-9]*'
+        value={value}
         onChange={(event) => {
-          setValue?.(event.target.value)
-          onChange?.(event)
+          const inputValue = event.target.value
+          if (/^[0-9]*$/.test(inputValue)) {
+            setValue?.(inputValue)
+            onChange?.(event)
+          }
         }}
         {...rest}
       />
       {addon}
+      <span className='text-2xs text-pink font-bold ml-8'>{error}</span>
       <style jsx>{`
         /* 숫자 입력 필드의 화살표 제거 */
         input[type='number']::-webkit-outer-spin-button,
@@ -37,4 +47,8 @@ export default function NumberInput({
       `}</style>
     </div>
   )
-}
+})
+
+NumberInput.displayName = 'NumberInput'
+
+export default NumberInput

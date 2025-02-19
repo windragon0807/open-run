@@ -18,6 +18,8 @@ const config: Config = {
       '4xl': '1920px',
     },
     fontSize: {
+      '3xs': ['0.625rem', { lineHeight: '1.538' }], // 10px
+      '2xs': ['0.75rem', { lineHeight: '1.538' }], // 12px
       xs: ['0.8125rem', { lineHeight: '1.538' }], // 13px
       sm: ['0.875rem', { lineHeight: '1.5' }], // 14px
       base: ['1rem', { lineHeight: '1.5' }], // 16px

@@ -1,4 +1,5 @@
-import { ApiResponse } from '@apis/axios'
+import { useMutation } from 'react-query'
+import http from '@apis/axios'
 
 export type RequestType = {
   name: string
@@ -12,6 +13,13 @@ export type RequestType = {
   hasAfterRun: boolean
   afterRunDescription: string
   hashtags: string[]
+  mainImage: string
 }
 
-export type ResponseType = ApiResponse<{}>
+function createBung(params: RequestType) {
+  return http.post('/v1/bungs', params)
+}
+
+export function useCreateBung() {
+  return useMutation(createBung)
+}
