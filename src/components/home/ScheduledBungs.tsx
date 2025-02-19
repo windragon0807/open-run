@@ -1,7 +1,6 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { Fragment } from 'react'
 import Spacing from '@shared/Spacing'
 import { useMyBungsQuery } from '@apis/bungs/fetchMyBungs/query'
 import { usePermissionStore } from '@store/permission'
@@ -56,21 +55,24 @@ function BungList() {
           </span>
         )}
       </div>
-      {myBungs!.list.map((item, index) => (
-        <Fragment key={index}>
-          <button className='text-start' onClick={() => handleClick(item.bungId)}>
-            <BungCard
-              place={item.location}
-              time={item.startDateTime}
-              distance={item.distance}
-              pace={item.pace}
-              isBungOwner={item.hasOwnership}
-              title={item.name}
-            />
-          </button>
-          <Spacing size={8} />
-        </Fragment>
-      ))}
+      <ul>
+        {myBungs!.list.map((item) => (
+          <li key={`myBungs-${item.bungId}`}>
+            <button className='text-start w-full' onClick={() => handleClick(item.bungId)}>
+              <BungCard
+                backgroundImageUrl={item.mainImage as string}
+                time={item.startDateTime}
+                title={item.name}
+                place={item.location}
+                distance={item.distance}
+                pace={item.pace}
+                isBungOwner={item.hasOwnership}
+              />
+            </button>
+            <Spacing size={8} />
+          </li>
+        ))}
+      </ul>
     </>
   )
 }
@@ -84,7 +86,7 @@ function BungListLoadingFallback() {
       {Array(3)
         .fill(null)
         .map((_, index) => (
-          <Skeleton key={index} className='w-full h-184 bg-gray-default rounded-16 mb-8' />
+          <Skeleton key={index} className='w-full h-184 bg-gray-default rounded-16' />
         ))}
     </>
   )

@@ -1,5 +1,6 @@
 export type BungInfo = {
   bungId: string
+  mainImage: string | null
   name: string
   description: string
   location: string

@@ -49,9 +49,10 @@ function RecommendationBungs() {
       {recommendationList?.list.map((bung) => (
         <button key={bung.bungId} className='text-start' onClick={() => handleClick(bung.bungId)}>
           <RecommendationCard
+            backgroundImageUrl={bung.mainImage as string}
             title={bung.name}
             location={bung.location}
-            time={new Date(bung.startDateTime)}
+            time={bung.startDateTime}
             remainingCount={bung.memberNumber}
             hashtags={bung.hashtags}
           />

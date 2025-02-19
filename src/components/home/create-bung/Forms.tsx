@@ -23,6 +23,7 @@ import { queryKey } from '@apis/bungs/fetchMyBungs/query'
 import { getRandomNumber } from '@utils/number'
 import RandomIcon from '@icons/RandomIcon'
 import { useCreateBung } from '@apis/bungs/createBung/mutation'
+import { imageList } from '@store/image'
 
 type FormValues = {
   imageUrl: string
@@ -41,13 +42,6 @@ type FormValues = {
   afterRunDescription: string
   hashTags: string[]
 }
-
-const imageList = [
-  '/images/bung/img_thumbnail_1.png',
-  '/images/bung/img_thumbnail_2.png',
-  '/images/bung/img_thumbnail_3.png',
-  '/images/bung/img_thumbnail_4.png',
-]
 
 export default function Forms({ nextStep }: { nextStep: () => void }) {
   const [isAddressSearchModalOpen, setAddressSearchModalOpen] = useState(false)

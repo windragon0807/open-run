@@ -86,7 +86,7 @@ export default function BungDetails({
           openModal({
             contents: (
               <BungCompleteModal
-                imageUrl='/images/bung/img_thumbnail_1.png'
+                imageUrl={details.mainImage as string}
                 title={details.name}
                 location={details.location}
                 memberList={details.memberList}
@@ -155,7 +155,7 @@ export default function BungDetails({
           )}
         </div>
       </header>
-      <div className='w-full h-200 bg-[url("/images/bung/img_thumbnail_1.png")] bg-cover cursor-pointer' />
+      <div className='w-full h-200 bg-cover cursor-pointer' style={{ backgroundImage: `url(${details.mainImage})` }} />
 
       <motion.section
         style={{ y: translateY }}

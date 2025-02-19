@@ -14,12 +14,14 @@ const participantList = [
 ]
 
 export default function RecommendationCard({
+  backgroundImageUrl,
   title,
   location,
   time,
   remainingCount,
   hashtags,
 }: {
+  backgroundImageUrl: string
   title: string
   location: string
   time: Date
@@ -32,7 +34,7 @@ export default function RecommendationCard({
   return (
     <article
       className='relative w-full max-w-[500px] mx-auto bg-black-default h-200 rounded-8 p-16 text-white bg-cover bg-center'
-      style={{ backgroundImage: "url('/images/bung/img_thumbnail_2.png')" }}>
+      style={{ backgroundImage: `url(${backgroundImageUrl})` }}>
       <span className='text-[16px] font-bold leading-[24px] tracking-[-0.32px]'>{title}</span>
       <Spacing size={8} />
       <div className='flex gap-6 items-center'>

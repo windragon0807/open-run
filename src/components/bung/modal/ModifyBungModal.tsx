@@ -53,7 +53,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
   })
 
   const onSubmit = (formData: FormValues) => {
-    const result = {
+    const request = {
       bungId: details.bungId,
       name: formData.bungName,
       description: formData.description,
@@ -63,7 +63,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
       hashtags: formData.hashTags,
     }
 
-    modifyBung(result, {
+    modifyBung(request, {
       onSuccess: () => {
         /* 벙 상세 페이지 서버 컴포넌트 API 호출 업데이트 */
         router.refresh()
@@ -84,7 +84,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
       <section className='h-[calc(100%-110px)] overflow-y-auto'>
         <form className='w-full flex flex-col overflow-y-auto px-16' onSubmit={handleSubmit(onSubmit)}>
           <section className='relative w-full mx-auto h-184 mb-32'>
-            <Image className='rounded-8' src='/images/bung/img_thumbnail_1.png' alt='Thumbnail Image' fill />
+            <Image className='rounded-8' src={details.mainImage as string} alt='Thumbnail Image' fill />
           </section>
 
           {/** 벙 이름 */}
