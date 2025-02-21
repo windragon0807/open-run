@@ -48,7 +48,7 @@ function BungList() {
   return (
     <>
       <div className='flex justify-between w-full max-w-[500px] mx-auto mb-8'>
-        <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black-default'>참여 예정</span>
+        <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black-default'>나의 벙</span>
         {myBungs!.list.length === 0 && (
           <span className='text-[12px] leading-[16px] tracking-[-0.24px] text-black-default place-content-center'>
             아직 일정이 없어요

@@ -31,6 +31,7 @@ import DeleteBungModal from './modal/DeleteBungModal'
 import { PageCategory } from './types'
 import ModifyBungModal from './modal/ModifyBungModal'
 import BungCompleteModal from './modal/BungCompleteModal'
+import clsx from 'clsx'
 
 export default function BungDetails({
   details,
@@ -123,8 +124,8 @@ export default function BungDetails({
   const 벙에참여한벙주인가 = isParticipated && isOwner
   const 벙에참여한멤버인가 = isParticipated && !isOwner
   const 벙에참여한유저인가 = isParticipated
-  const 벙완료시각이지났는가 = currentDate() >= details.startDateTime
   const 현재유저의벙참여정보 = details.memberList.find((member) => member.userId === userInfo!.userId)
+  const 벙이진행중인가 = details.startDateTime < currentDate()
 
   return (
     <section className='w-full h-full relative'>
@@ -163,9 +164,14 @@ export default function BungDetails({
         className='relative w-full h-full bg-gray-lighten bg-cover rounded-[8px_8px_0_0]'>
         {벙에참여한유저인가 && (
           <div
-            className={`absolute -top-32 -z-[1] w-full h-40 px-16 flex justify-between bg-pink/60 rounded-[8px_8px_0_0]`}>
-            <span className='relative italic text-14 font-bold text-white top-6'>{formattedTime}</span>
-            <span className='relative text-14 text-white top-6'>시작까지 남은 시간</span>
+            className={clsx(
+              'absolute -top-32 -z-[1] w-full h-40 px-16 flex justify-between rounded-[8px_8px_0_0]',
+              벙이진행중인가 ? 'bg-gradient-transparent-secondary' : 'bg-pink/60',
+            )}>
+            <span className='relative italic text-14 font-bold text-white top-6'>
+              {벙이진행중인가 ? 'Run Started!' : formattedTime}
+            </span>
+            {!벙이진행중인가 && <span className='relative text-14 text-white top-6'>시작까지 남은 시간</span>}
           </div>
         )}
 
@@ -238,11 +244,11 @@ export default function BungDetails({
                   <>
                     <button
                       className='w-full h-56 rounded-8 bg-black-darken text-base font-bold text-white mt-16 disabled:bg-gray-default disabled:text-white'
-                      disabled={벙완료시각이지났는가 === false}
+                      disabled={벙이진행중인가 === false}
                       onClick={handleBungComplete}>
                       벙 완료
                     </button>
-                    {벙완료시각이지났는가 === false && (
+                    {벙이진행중인가 === false && (
                       <p className='text-12 font-semibold text-gray-darken mt-4 text-center'>
                         {formatDate(details.endDateTime, 'M/d a h:mm')} 이후에 버튼이 활성화됩니다
                       </p>

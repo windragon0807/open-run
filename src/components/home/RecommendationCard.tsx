@@ -33,7 +33,7 @@ export default function RecommendationCard({
 
   return (
     <article
-      className='relative w-full max-w-[500px] mx-auto bg-black-default h-200 rounded-8 p-16 text-white bg-cover bg-center'
+      className='relative w-full max-w-[500px] mx-auto h-200 rounded-8 p-16 text-white bg-cover bg-center shadow-lg'
       style={{ backgroundImage: `url(${backgroundImageUrl})` }}>
       <span className='text-[16px] font-bold leading-[24px] tracking-[-0.32px]'>{title}</span>
       <Spacing size={8} />

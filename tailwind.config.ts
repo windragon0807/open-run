@@ -60,6 +60,8 @@ const config: Config = {
         'gradient-primary-white': 'linear-gradient(to bottom, #4A5CEF 50%, #FFF)',
         'gradient-white-secondary-primary':
           'linear-gradient(146deg, rgba(255, 255, 255, 0.20) 41.23%, rgba(224, 251, 96, 0.20) 65.21%, rgba(74, 92, 239, 0.20) 81.2%)',
+        'gradient-transparent-secondary':
+          'linear-gradient(90deg, rgba(0, 0, 0, 0.00) 0%, rgba(224, 251, 96, 0.80) 100%)',
       },
       boxShadow: {
         'floating-primary': '0px 0px 16px 0px rgba(74, 92, 239, 0.20)',
