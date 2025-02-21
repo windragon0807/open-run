@@ -20,7 +20,6 @@ import { colors } from '@styles/colors'
 import { currentDate, formatDate } from '@utils/time'
 import { useRefetchQuery } from '@hooks/useRefetchQuery'
 import { queryKey } from '@apis/bungs/fetchMyBungs/query'
-import { getRandomNumber } from '@utils/number'
 import RandomIcon from '@icons/RandomIcon'
 import { useCreateBung } from '@apis/bungs/createBung/mutation'
 import { imageList } from '@store/image'
@@ -48,6 +47,13 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
   const [isDatePickerOpen, setDatePickerOpen] = useState(false)
   const [isTimePickerOpen, setTimePickerOpen] = useState(false)
   const dateElementRef = useRef<HTMLDivElement>(null)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+
+  const handleImageChange = () => {
+    console.log('ryong', currentImageIndex)
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % 13) // 0-12까지 순환
+    setValue('imageUrl', imageList[currentImageIndex])
+  }
 
   const { mutate: createBung, isLoading } = useCreateBung()
   const 메인페이지벙리스트업데이트 = useRefetchQuery(queryKey)
@@ -147,7 +153,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           <button
             type='button'
             className='absolute bottom-16 right-16 p-8 rounded-4 bg-primary'
-            onClick={() => setValue('imageUrl', imageList[getRandomNumber(0, imageList.length - 1)])}>
+            onClick={handleImageChange}>
             <RandomIcon size={24} color={colors.white} />
           </button>
         </section>
