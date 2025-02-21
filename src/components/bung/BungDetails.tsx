@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { Fragment, useRef } from 'react'
 import { useMutation } from 'react-query'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import clsx from 'clsx'
 import { useModalContext } from '@contexts/ModalContext'
 import ArrowLeftIcon from '@icons/ArrowLeftIcon'
 import PlaceIcon from '@icons/PlaceIcon'
@@ -31,7 +32,6 @@ import DeleteBungModal from './modal/DeleteBungModal'
 import { PageCategory } from './types'
 import ModifyBungModal from './modal/ModifyBungModal'
 import BungCompleteModal from './modal/BungCompleteModal'
-import clsx from 'clsx'
 
 export default function BungDetails({
   details,
@@ -125,7 +125,7 @@ export default function BungDetails({
   const 벙에참여한멤버인가 = isParticipated && !isOwner
   const 벙에참여한유저인가 = isParticipated
   const 현재유저의벙참여정보 = details.memberList.find((member) => member.userId === userInfo!.userId)
-  const 벙이진행중인가 = details.startDateTime < currentDate()
+  const 벙이진행중인가 = details.startDateTime > currentDate()
 
   return (
     <section className='w-full h-full relative'>
@@ -168,7 +168,11 @@ export default function BungDetails({
               'absolute -top-32 -z-[1] w-full h-40 px-16 flex justify-between rounded-[8px_8px_0_0]',
               벙이진행중인가 ? 'bg-gradient-transparent-secondary' : 'bg-pink/60',
             )}>
-            <span className='relative italic text-14 font-bold text-white top-6'>
+            <span
+              className={clsx(
+                'relative italic text-14 font-bold top-6',
+                벙이진행중인가 ? 'font-jost text-secondary font-black' : 'text-white',
+              )}>
               {벙이진행중인가 ? 'Run Started!' : formattedTime}
             </span>
             {!벙이진행중인가 && <span className='relative text-14 text-white top-6'>시작까지 남은 시간</span>}
