@@ -6,7 +6,7 @@ export type RequestType = {
 }
 
 function certifyParticipation({ bungId }: RequestType) {
-  return http.post(`/v1/bungs/${bungId}/participated`)
+  return http.patch(`/v1/bungs/${bungId}/participated`)
 }
 
 export function useCertifyParticipation() {

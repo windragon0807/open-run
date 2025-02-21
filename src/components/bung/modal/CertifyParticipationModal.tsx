@@ -14,7 +14,7 @@ import { colors } from '@styles/colors'
 import { useCertifyParticipation } from '@apis/bungs/certifyParticipation/mutation'
 import '../map.css'
 
-const 참여인증거리 = 500 // 500m
+const 참여인증거리 = 1_500 // 500m ?
 
 export default function CertifyParticipationModal({ destination, bungId }: { destination: string; bungId: string }) {
   const router = useRouter()
@@ -35,6 +35,7 @@ export default function CertifyParticipationModal({ destination, bungId }: { des
       }),
     enabled: 모든좌표가유효한가 === true,
   })
+  console.log('ryong', distance)
 
   const handleClick = () => {
     certifyParticipation(
