@@ -1,4 +1,5 @@
-import { ApiResponse } from '@apis/axios'
+import { useMutation } from 'react-query'
+import http, { ApiResponse } from '@apis/axios'
 
 export type RequestType = {
   nickname: string
@@ -19,3 +20,14 @@ export type ResponseType = ApiResponse<
     runningFrequency: number
   }>
 >
+
+/**
+ * 닉네임으로 사용자 검색
+ */
+function searchByNickname(params: RequestType): Promise<ResponseType> {
+  return http.get('/v1/users/nickname', { params })
+}
+
+export function useSearchByNicknameMutation() {
+  return useMutation(searchByNickname)
+}

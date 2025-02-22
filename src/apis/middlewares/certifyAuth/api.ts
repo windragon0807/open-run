@@ -1,5 +1,17 @@
 import qs from 'qs'
-import { RequestType, ResponseType } from './type'
+import { ApiResponse } from '@apis/axios'
+
+export type RequestType = {
+  authServer: 'kakao' | 'naver'
+  code: string
+  state: string | null
+}
+
+export type ResponseType = ApiResponse<{
+  email: string
+  nickname: string | null
+  jwtToken: string
+}>
 
 /**
  * 유저 로그인 성공 시 정보 반환

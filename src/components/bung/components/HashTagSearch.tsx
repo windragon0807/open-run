@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react'
-import { useMutation } from 'react-query'
 import useDebounce from '@hooks/useDebounce'
-import { fetchHashtags as _fetchHashtags } from '@apis/bungs/fetchHashtags/api'
 import Input from '@shared/Input'
+import { useHashtagsMutation } from '@apis/bungs/fetchHashtags/query'
 
 export default function HashTagSearch({ onTagClick }: { onTagClick?: (tag: string) => void }) {
   const [inputValue, setInputValue] = useState('')
   const debouncedTag = useDebounce(inputValue, 300)
   const [recommendHashTags, setRecommendHashTags] = useState<string[]>([])
 
-  const { mutate: fetchHashtags } = useMutation(_fetchHashtags)
+  const { mutate: fetchHashtags } = useHashtagsMutation()
 
   // 지연 적용 하기
   useEffect(() => {

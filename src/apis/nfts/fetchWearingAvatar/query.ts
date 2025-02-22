@@ -1,4 +1,7 @@
-import { ResponseType } from './type'
+import { ApiResponse } from '@apis/axios'
+import { WearingAvatar } from '@type/avatar'
+
+type ResponseType = ApiResponse<WearingAvatar>
 
 export function fetchWearingAvatar(): Promise<ResponseType> {
   return new Promise((resolve) => {

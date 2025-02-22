@@ -1,4 +1,7 @@
-import { ResponseType } from './type'
+import { ApiResponse } from '@apis/axios'
+import { Avatar } from '@type/avatar'
+
+type ResponseType = ApiResponse<Avatar[]>
 
 export function fetchNftList(): Promise<ResponseType> {
   return new Promise((resolve) => {

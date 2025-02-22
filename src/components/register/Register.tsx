@@ -1,13 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import { useMutation } from 'react-query'
 import { useRouter } from 'next/navigation'
-
 import Layout from '@shared/Layout'
 import { RegisterStep, UserRegister } from '@type/register'
-import { register as _register } from '@apis/users/register/api'
 import ArrowLeftIcon from '@icons/ArrowLeftIcon'
+import { colors } from '@styles/colors'
+import { useRegister } from '@apis/users/register/mutation'
 import Welcome from './welcome'
 import Pace from './pace'
 import Onboarding from './onboarding'
@@ -16,10 +15,10 @@ import Nickname from './nickname'
 import Header from './Header'
 import Frequency from './frequency'
 import BottomButton from './BottomButton'
-import { colors } from '@styles/colors'
 
 export default function Register() {
   const route = useRouter()
+  const { mutate: register } = useRegister()
 
   const [data, setData] = useState<UserRegister>({
     nickname: '',
@@ -50,16 +49,14 @@ export default function Register() {
   const [isValid, setIsValid] = useState<NicknameValidState>('default')
   const 닉네임스텝에서버튼이비활성화상태인가 = step === 1 && isValid !== 'pass'
 
-  const { mutate: register } = useMutation(_register, {
-    onSuccess: () => {
-      route.replace('/')
-    },
-  })
-
   const handleSubmit = () => {
     if (step !== 4) return
 
-    register(data)
+    register(data, {
+      onSuccess: () => {
+        route.replace('/')
+      },
+    })
   }
 
   return (

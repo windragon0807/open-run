@@ -16,15 +16,15 @@ import { BungInfo } from '@type/bung'
 import useTimer from '@hooks/useTimer'
 import { currentDate, formatDate, timerFormat } from '@utils/time'
 import { colors } from '@styles/colors'
-import { completeBung as _completeBung } from '@apis/bungs/completeBung/api'
-import { joinBung as _joinBung } from '@apis/bungs/joinBung/api'
 import PrimaryButton from '@shared/PrimaryButton'
 import PencilIcon from '@icons/PencilIcon'
 import ChangeOwnerIcon from '@icons/ChangeOwnerIcon'
 import WastebasketIcon from '@icons/WastebasketIcon'
 import { useUserStore } from '@store/user'
-import { dropoutMember as _dropoutMember } from '@apis/bungs/dropoutMember/api'
 import { useRefetch } from '@hooks/useRefetch'
+import { useCompleteBung } from '@apis/bungs/completeBung/mutation'
+import { useDropoutMember } from '@apis/bungs/dropoutMember/mutation'
+import { useJoinBung } from '@apis/bungs/joinBung/mutation'
 import Map from './Map'
 import WhyCertificationModal from './modal/WhyCertificationModal'
 import CertifyParticipationModal from './modal/CertifyParticipationModal'
@@ -50,6 +50,9 @@ export default function BungDetails({
   const { openModal } = useModalContext()
   const { userInfo } = useUserStore()
   const clearAllCache = useRefetch()
+  const { mutate: completeBung } = useCompleteBung()
+  const { mutate: dropoutMember } = useDropoutMember()
+  const { mutate: joinBung } = useJoinBung()
 
   /* 스크롤이 올라갈수록 컨텐츠 영역이 올라가는 효과를 주기 위한 로직 */
   const containerRef = useRef<HTMLDivElement>(null)
@@ -70,7 +73,6 @@ export default function BungDetails({
   const { days, hours, minutes, seconds } = useTimer(details.startDateTime)
   const formattedTime = timerFormat({ days, hours, minutes, seconds })
 
-  const { mutate: completeBung } = useMutation(_completeBung)
   const handleBungComplete = () => {
     completeBung(
       { bungId: details.bungId },
@@ -94,7 +96,6 @@ export default function BungDetails({
     )
   }
 
-  const { mutate: joinBung } = useMutation(_joinBung)
   const handleJoinBung = () => {
     if (window.confirm('벙에 참여하시겠습니까?')) {
       joinBung(
@@ -108,7 +109,6 @@ export default function BungDetails({
     }
   }
 
-  const { mutate: dropoutMember } = useMutation(_dropoutMember)
   const handleExit = () => {
     dropoutMember(
       { userId: userInfo!.userId, bungId: details.bungId },

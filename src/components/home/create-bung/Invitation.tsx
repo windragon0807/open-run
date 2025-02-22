@@ -2,19 +2,20 @@
 
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { useMutation, useQuery } from 'react-query'
+import { useQuery } from 'react-query'
 import Input from '@shared/Input'
 import Spacing from '@shared/Spacing'
 import MagnifierIcon from '@icons/MagnifierIcon'
 import CheckIcon from '@icons/CheckIcon'
 import useDebounce from '@hooks/useDebounce'
-import { searchByNickname as _searchByNickname } from '@apis/users/searchByNickname/api'
-import { fetchSuggestion } from '@apis/users/fetchSuggestion/api'
 import PrimaryButton from '@shared/PrimaryButton'
 import BrokenXIcon from '@icons/BrokenXIcon'
 import { colors } from '@styles/colors'
+import { fetchSuggestion } from '@apis/users/fetchSuggestion/query'
+import { useSearchByNicknameMutation } from '@apis/users/searchByNickname/query'
 
 export default function Invitation() {
+  const { mutate: searchByNickname, data: searchedList } = useSearchByNicknameMutation()
   const [selectedMembers, setSelectedMembers] = useState<
     {
       userId: string
@@ -53,7 +54,6 @@ export default function Invitation() {
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 300)
 
-  const { mutate: searchByNickname, data: searchedList } = useMutation(_searchByNickname)
   useEffect(() => {
     if (debouncedSearch) {
       searchByNickname({ nickname: debouncedSearch })

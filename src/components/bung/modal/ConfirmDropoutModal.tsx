@@ -1,13 +1,11 @@
 import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { useState } from 'react'
-import { useMutation } from 'react-query'
-import { deleteBung as _deleteBung } from '@apis/bungs/deleteBung/api'
 import { useModalContext } from '@contexts/ModalContext'
 import { BungMember } from '@type/bung'
 import Checkbox from '@shared/Checkbox'
-import { dropoutMember as _dropoutMember } from '@apis/bungs/dropoutMember/api'
 import { Popup } from '@shared/Modal'
+import { useDropoutMember } from '@apis/bungs/dropoutMember/mutation'
 
 export default function ConfirmDropoutModal({ member }: { member: BungMember }) {
   const router = useRouter()
@@ -15,8 +13,8 @@ export default function ConfirmDropoutModal({ member }: { member: BungMember }) 
 
   const { closeModal } = useModalContext()
   const [isChecked, setIsChecked] = useState(false)
+  const { mutate: dropoutMember } = useDropoutMember()
 
-  const { mutate: dropoutMember } = useMutation(_dropoutMember)
   const handleDropout = () => {
     dropoutMember(
       { bungId, userId: member.userId },

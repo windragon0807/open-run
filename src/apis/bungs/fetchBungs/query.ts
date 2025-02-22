@@ -4,7 +4,7 @@ import http from '@apis/axios'
 import { toKSTDate } from '@utils/time'
 import { BungInfo } from '@type/bung'
 
-export type RequestType = {
+type RequestType = {
   /**
    * true : 참가할 수 있는 벙만 보여집니다.
    * false : 이미 참가한 벙도 보여집니다.
@@ -14,7 +14,7 @@ export type RequestType = {
   limit: number
 }
 
-export type ResponseType = PaginationResponse<
+type ResponseType = PaginationResponse<
   Array<
     Omit<BungInfo, 'startDateTime' | 'endDateTime' | 'memberList'> & {
       startDateTime: string

@@ -1,13 +1,12 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useMutation } from 'react-query'
 import { BottomSheet } from '@shared/Modal'
 import BrokenXIcon from '@icons/BrokenXIcon'
 import { useModalContext } from '@contexts/ModalContext'
 import { colors } from '@styles/colors'
 import { BungMember } from '@type/bung'
-import { sendMemberLike as _sendMemberLike } from '@apis/bungs/sendMemberLike/api'
+import { useSendMemberLike } from '@apis/bungs/sendMemberLike/mutation'
 
 export default function BungCompleteModal({
   imageUrl,
@@ -22,10 +21,10 @@ export default function BungCompleteModal({
 }) {
   const router = useRouter()
   const { closeModal } = useModalContext()
+  const { mutate: sendMemberLike } = useSendMemberLike()
 
   const [checkedUserIdList, setCheckedUserIdList] = useState<string[]>([])
 
-  const { mutate: sendMemberLike } = useMutation(_sendMemberLike)
   const handleSaveButton = () => {
     if (checkedUserIdList.length === 0) {
       closeModal()

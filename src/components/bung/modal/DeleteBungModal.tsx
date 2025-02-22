@@ -1,17 +1,16 @@
 import { useRouter } from 'next/navigation'
-import { useMutation } from 'react-query'
-import { deleteBung as _deleteBung } from '@apis/bungs/deleteBung/api'
 import { useModalContext } from '@contexts/ModalContext'
 import { Popup } from '@shared/Modal'
 import { useRefetchQuery } from '@hooks/useRefetchQuery'
 import { queryKey } from '@apis/bungs/fetchMyBungs/query'
+import { useDeleteBung } from '@apis/bungs/deleteBung/mutation'
 
 export default function DeleteBungModal({ bungId }: { bungId: string }) {
   const router = useRouter()
   const { closeModal } = useModalContext()
   const 메인페이지벙리스트업데이트 = useRefetchQuery(queryKey)
+  const { mutate: deleteBung } = useDeleteBung()
 
-  const { mutate: deleteBung } = useMutation(_deleteBung)
   const handleDeleteBung = () => {
     deleteBung(
       { bungId },

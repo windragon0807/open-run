@@ -1,18 +1,17 @@
 import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { useMutation } from 'react-query'
 import { useModalContext } from '@contexts/ModalContext'
 import { BungMember } from '@type/bung'
-import { delegateOwner as _delegateOwner } from '@apis/bungs/delegateOwner/api'
 import { Popup } from '@shared/Modal'
+import { useDelegateOwner } from '@apis/bungs/delegateOwner/mutation'
 
 export default function ConfirmDelegateModal({ member, onSuccess }: { member: BungMember; onSuccess: () => void }) {
   const router = useRouter()
   const { bungId } = useParams<{ bungId: string }>()
 
   const { closeModal } = useModalContext()
+  const { mutate: delegateOwner } = useDelegateOwner()
 
-  const { mutate: delegateOwner } = useMutation(_delegateOwner)
   const handleDelegate = () => {
     delegateOwner(
       { bungId, newOwnerUserId: member.userId },
