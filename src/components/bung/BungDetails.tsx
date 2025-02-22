@@ -125,7 +125,7 @@ export default function BungDetails({
   const 벙에참여한멤버인가 = isParticipated && !isOwner
   const 벙에참여한유저인가 = isParticipated
   const 현재유저의벙참여정보 = details.memberList.find((member) => member.userId === userInfo!.userId)
-  const 벙이진행중인가 = details.startDateTime > currentDate()
+  const 벙이진행중인가 = details.startDateTime < currentDate()
 
   return (
     <section className='w-full h-full relative'>

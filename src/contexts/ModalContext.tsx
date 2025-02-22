@@ -2,8 +2,8 @@
 
 import { ComponentProps, createContext, ReactNode, useCallback, useContext, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
-
 import Modal from '@shared/Modal'
+import { ROOT_PORTAL_ID } from '@constants/layout'
 
 type ModalProps = ComponentProps<typeof Modal>
 type ModalOptions = Pick<ModalProps, 'contents'>
@@ -24,7 +24,7 @@ const defaultValues: ModalProps = {
 export function ModalContext({ children }: { children: ReactNode }) {
   const [modalProps, setModalProps] = useState(defaultValues)
 
-  const $portal_root = typeof window === 'undefined' ? null : document.getElementById('root-portal')
+  const $portal_root = typeof window === 'undefined' ? null : document.getElementById(ROOT_PORTAL_ID)
 
   const close = useCallback(() => {
     setModalProps(defaultValues)

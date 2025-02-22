@@ -2,14 +2,13 @@
 
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { useModalContext } from '@contexts/ModalContext'
 import { usePermissionStore } from '@store/permission'
 import { useBungsQuery } from '@apis/bungs/fetchBungs/query'
 import Skeleton from '@shared/Skeleton'
 import ErrorFallback from '@shared/Error'
 import withBoundary from '@shared/withBoundary'
 import RecommendationCard from './RecommendationCard'
-import PermissionAlertModal from './modals/PermissionAlertModal'
+import { useAlertStore } from '@store/alert'
 
 export default function Recommendation() {
   return (
@@ -25,7 +24,7 @@ export default function Recommendation() {
 function RecommendationBungs() {
   const router = useRouter()
   const { geolocation } = usePermissionStore()
-  const { openModal } = useModalContext()
+  const { openAlert } = useAlertStore()
 
   const { data: recommendationList } = useBungsQuery({
     isAvailableOnly: true,
@@ -35,8 +34,9 @@ function RecommendationBungs() {
 
   const handleClick = (bungId: string) => {
     if (geolocation === false) {
-      openModal({
-        contents: <PermissionAlertModal />,
+      openAlert({
+        title: '서비스 접근 권한 안내',
+        description: `위치 권한 사용을 거부하였습니다. 기능 사용을 원하실 경우 휴대폰설정 > 애플리케이션 관리자에서 해당 앱의 권한을 허용해주세요.`,
       })
       return
     }

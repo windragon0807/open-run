@@ -17,6 +17,7 @@ import { BungInfo } from '@type/bung'
 import { colors } from '@styles/colors'
 import { formatDate } from '@utils/time'
 import { useModifyBung } from '@apis/bungs/modifyBung/mutation'
+import { useAlertStore } from '@store/alert'
 import FormTitle from '../components/FormTitle'
 import HashTagSearch from '../components/HashTagSearch'
 import Button from '../components/Button'
@@ -34,6 +35,8 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
   const router = useRouter()
   const { closeModal } = useModalContext()
   const { mutate: modifyBung, isLoading } = useModifyBung()
+  const 참여중인멤버수 = details.memberList.length
+  const openAlert = useAlertStore((state) => state.openAlert)
 
   const {
     register,
@@ -53,6 +56,14 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
   })
 
   const onSubmit = (formData: FormValues) => {
+    if (Number(formData.memberNumber) < 참여중인멤버수) {
+      openAlert({
+        title: '참가 인원 초과',
+        description: '참가 인원은 참여 중인 멤버 수보다 적어야 합니다.',
+      })
+      return
+    }
+
     const request = {
       bungId: details.bungId,
       name: formData.bungName,

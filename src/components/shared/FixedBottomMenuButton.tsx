@@ -5,18 +5,18 @@ import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-
 import PersonIcon from '@icons/PersonIcon'
 import OpenrunIcon from '@icons/OpenrunIcon'
 import FilledBellIcon from '@icons/FilledBellIcon'
 import { colors } from '@styles/colors'
+import { ROOT_PORTAL_ID } from '@constants/layout'
 
 export default function FixedBottomMenuButton() {
   const [isDimmed, setDimmed] = useState(false)
   const [portalRoot, setPortalRoot] = useState<HTMLElement | null>(null)
 
   useEffect(() => {
-    setPortalRoot(document.getElementById('root-portal'))
+    setPortalRoot(document.getElementById(ROOT_PORTAL_ID))
   }, [])
 
   if (portalRoot == null) {

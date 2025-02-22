@@ -6,6 +6,8 @@ import NaverMapContext from '@contexts/NaverMapContext'
 import { ModalContext } from '@contexts/ModalContext'
 import DarkMode from '@shared/DarkMode'
 import AppBridge from '@shared/AppBridge'
+import AlertPortal from '@shared/Alert'
+import { ROOT_PORTAL_ID } from '@constants/layout'
 import '@styles/globals.css'
 
 const jost = Jost({
@@ -25,7 +27,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </NaverMapContext>
           </ModalContext>
         </ReactQuery>
-        <div id='root-portal' />
+        <div id={ROOT_PORTAL_ID} />
+        <AlertPortal />
       </body>
     </html>
   )
