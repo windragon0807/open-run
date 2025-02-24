@@ -14,5 +14,20 @@
   "insertPragma": false,
   "proseWrap": "preserve",
   "semi": false,
-  "plugins": ["prettier-plugin-tailwindcss"]
+  "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
+  "importOrder": [
+    "^@contexts/(.*)$",
+    "^@store/(.*)$",
+    "^@type/(.*)$",
+    "^@components/(.*)$",
+    "^@shared/(.*)$",
+    "^@icons/(.*)$",
+    "^@hooks/(.*)$",
+    "^@apis/(.*)$",
+    "^@utils/(.*)$",
+    "^@constants/(.*)$",
+    "^@styles/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSortSpecifiers": true
 }
