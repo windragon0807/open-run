@@ -1,17 +1,17 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { Container, Marker, NaverMap, useNavermaps } from 'react-naver-maps'
 import { useQuery } from 'react-query'
-import { Container, NaverMap, Marker, useNavermaps } from 'react-naver-maps'
-import { useGeocode } from '@apis/maps/fetchGeocode/query'
 import { useModalContext } from '@contexts/ModalContext'
-import useGeolocation from '@hooks/useGeolocation'
-import BrokenXIcon from '@icons/BrokenXIcon'
-import PrimaryButton from '@shared/PrimaryButton'
 import LoadingLogo from '@shared/LoadingLogo'
 import { BottomSheet } from '@shared/Modal'
-import { colors } from '@styles/colors'
+import PrimaryButton from '@shared/PrimaryButton'
+import BrokenXIcon from '@icons/BrokenXIcon'
+import useGeolocation from '@hooks/useGeolocation'
 import { useCertifyParticipation } from '@apis/bungs/certifyParticipation/mutation'
 import { fetchDistance } from '@apis/maps/fetchDistance/query'
+import { useGeocode } from '@apis/maps/fetchGeocode/query'
+import { colors } from '@styles/colors'
 import '../map.css'
 
 const 참여인증거리 = 1_500 // 500m ?
@@ -55,7 +55,7 @@ export default function CertifyParticipationModal({ destination, bungId }: { des
         <button className='absolute left-16' onClick={closeModal}>
           <BrokenXIcon size={24} color={colors.black.default} />
         </button>
-        <span className='text-base font-bold text-black-darken'>참여 인증</span>
+        <span className='text-16 font-bold text-black-darken'>참여 인증</span>
       </header>
       <section className='w-full'>
         {모든좌표가유효한가 === true ? (

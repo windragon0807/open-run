@@ -1,17 +1,17 @@
+import { AnimatePresence, motion } from 'framer-motion'
 import { ElementType, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { MainCategory, SelectedCategory, SubCategory } from '@type/avatar'
 import {
-  FullSetIcon,
-  UpperClothingIcon,
-  LowerClothingIcon,
-  FootwearIcon,
-  FaceIcon,
-  SkinIcon,
-  HairIcon,
   AccessoriesIcon,
   BackgroundIcon,
+  FaceIcon,
+  FootwearIcon,
+  FullSetIcon,
+  HairIcon,
+  LowerClothingIcon,
+  SkinIcon,
+  UpperClothingIcon,
 } from './icons'
-import { MainCategory, SelectedCategory, SubCategory } from '@type/avatar'
 
 const categoryList: {
   mainCategory: MainCategory
@@ -73,7 +73,7 @@ export default function Category({
             <div className='flex items-center gap-4 overflow-x-auto px-16'>
               <motion.button
                 whileTap={{ scale: 0.95 }}
-                className={`flex-shrink-0 rounded-4 px-8 py-2 text-sm ${
+                className={`flex-shrink-0 rounded-4 px-8 py-2 text-14 ${
                   selectedCategory.subCategory === null ? 'bg-gray-default font-bold' : ''
                 }`}
                 onClick={() => setSelectedCategory({ ...selectedCategory, subCategory: null })}>
@@ -84,7 +84,7 @@ export default function Category({
                 <motion.button
                   key={subItem.subCategory}
                   whileTap={{ scale: 0.95 }}
-                  className={`flex-shrink-0 rounded-4 px-8 py-2 text-sm ${
+                  className={`flex-shrink-0 rounded-4 px-8 py-2 text-14 ${
                     selectedCategory.subCategory === subItem.subCategory ? 'bg-gray-default font-bold' : ''
                   }`}
                   onClick={() => setSelectedCategory({ ...selectedCategory, subCategory: subItem.subCategory })}>

@@ -1,28 +1,28 @@
-import { useRef, useState } from 'react'
-import Image from 'next/image'
-import { useForm } from 'react-hook-form'
 import clsx from 'clsx'
-import Input from '@shared/Input'
-import NumberInput from '@shared/NumberInput'
-import TextArea from '@shared/TextArea'
-import DatePicker from '@shared/DatePicker'
-import TimePicker from '@shared/TimePicker'
-import PrimaryButton from '@shared/PrimaryButton'
-import HashTag from '@shared/HashTag'
-import LoadingLogo from '@shared/LoadingLogo'
-import ClockIcon from '@icons/ClockIcon'
-import CalendarIcon from '@icons/CalendarIcon'
-import AddressSearchModal from './AddressSearchModal'
+import Image from 'next/image'
+import { useRef, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { imageList } from '@store/image'
+import Button from '@components/bung/components/Button'
 import FormTitle from '@components/bung/components/FormTitle'
 import HashTagSearch from '@components/bung/components/HashTagSearch'
-import Button from '@components/bung/components/Button'
-import { colors } from '@styles/colors'
-import { currentDate, formatDate } from '@utils/time'
-import { useRefetchQuery } from '@hooks/useRefetchQuery'
-import { queryKey } from '@apis/bungs/fetchMyBungs/query'
+import DatePicker from '@shared/DatePicker'
+import HashTag from '@shared/HashTag'
+import Input from '@shared/Input'
+import LoadingLogo from '@shared/LoadingLogo'
+import NumberInput from '@shared/NumberInput'
+import PrimaryButton from '@shared/PrimaryButton'
+import TextArea from '@shared/TextArea'
+import TimePicker from '@shared/TimePicker'
+import CalendarIcon from '@icons/CalendarIcon'
+import ClockIcon from '@icons/ClockIcon'
 import RandomIcon from '@icons/RandomIcon'
+import { useRefetchQuery } from '@hooks/useRefetchQuery'
 import { useCreateBung } from '@apis/bungs/createBung/mutation'
-import { imageList } from '@store/image'
+import { queryKey } from '@apis/bungs/fetchMyBungs/query'
+import { currentDate, formatDate } from '@utils/time'
+import { colors } from '@styles/colors'
+import AddressSearchModal from './AddressSearchModal'
 
 type FormValues = {
   imageUrl: string
@@ -185,7 +185,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             </div>
             <button
               type='button'
-              className='h-40 w-80 place-items-center rounded-8 bg-primary text-sm font-semibold text-white'
+              className='h-40 w-80 place-items-center rounded-8 bg-primary text-14 font-semibold text-white'
               onClick={() => setAddressSearchModalOpen(true)}>
               주소 검색
             </button>
@@ -262,7 +262,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             </div>
           ) : null}
           {errors.startTime || errors.startDate ? (
-            <span className='ml-8 text-2xs font-bold text-pink'>
+            <span className='ml-8 text-12 font-bold text-pink'>
               {errors.startTime?.message || errors.startDate?.message}
             </span>
           ) : null}
@@ -274,7 +274,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           <NumberInput
             className='pr-40'
             placeholder='예상되는 소요 시간을 알려주세요'
-            addon={<span className='absolute right-16 top-10 text-sm text-black-default'>분</span>}
+            addon={<span className='absolute right-16 top-10 text-14 text-black-default'>분</span>}
             error={errors.runningTime?.message}
             {...register('runningTime', {
               required: '필수 항목입니다',
@@ -288,7 +288,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           <NumberInput
             className='pr-40'
             placeholder='목표 거리를 입력하세요'
-            addon={<span className='absolute right-16 top-10 text-sm text-black-default'>km</span>}
+            addon={<span className='absolute right-16 top-10 text-14 text-black-default'>km</span>}
             error={errors.distance?.message}
             {...register('distance', {
               required: '필수 항목입니다',
@@ -303,7 +303,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             <NumberInput
               placeholder='분'
               addon={
-                <span className='absolute right-16 top-10 text-sm font-bold italic text-black-default'>{"'"}</span>
+                <span className='absolute right-16 top-10 text-14 font-bold italic text-black-default'>{"'"}</span>
               }
               {...register('paceMinute', {
                 required: '필수 항목입니다',
@@ -313,7 +313,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             <NumberInput
               placeholder='초'
               addon={
-                <span className='absolute right-16 top-10 text-sm font-bold italic text-black-default'>{'"'}</span>
+                <span className='absolute right-16 top-10 text-14 font-bold italic text-black-default'>{'"'}</span>
               }
               {...register('paceSecond', {
                 required: '필수 항목입니다',

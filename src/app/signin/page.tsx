@@ -1,10 +1,9 @@
-import Image from 'next/image'
 import { Metadata } from 'next'
-
-import Layout from '@shared/Layout'
-import Spacing from '@shared/Spacing'
-import Logo from '@shared/Logo'
+import Image from 'next/image'
 import SignIn from '@components/signin/Signin'
+import Layout from '@shared/Layout'
+import Logo from '@shared/Logo'
+import Spacing from '@shared/Spacing'
 
 export default function SignInPage() {
   return (
@@ -20,8 +19,8 @@ export default function SignInPage() {
         />
         <div className='h-[20dvh]' />
         <div className='z-10 flex flex-col items-center text-center'>
-          <p className='text-4xl text-white'>당신만의 캐릭터</p>
-          <p className='text-4xl font-bold text-white'>함께 달리는 즐거움!</p>
+          <p className='text-28 text-white'>당신만의 캐릭터</p>
+          <p className='text-28 font-bold text-white'>함께 달리는 즐거움!</p>
           <Spacing size={32} />
           <Logo />
         </div>

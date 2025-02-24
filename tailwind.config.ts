@@ -18,20 +18,15 @@ const config: Config = {
       '4xl': '1920px',
     },
     fontSize: {
-      '3xs': ['0.625rem', { lineHeight: '1.538' }], // 10px
-      '2xs': ['0.75rem', { lineHeight: '1.538' }], // 12px
-      xs: ['0.8125rem', { lineHeight: '1.538' }], // 13px
-      sm: ['0.875rem', { lineHeight: '1.5' }], // 14px
-      base: ['1rem', { lineHeight: '1.5' }], // 16px
-      lg: ['1.125rem', { lineHeight: '1.5' }], // 18px
-      xl: ['1.375rem', { lineHeight: '1.545' }], // 22px
-      '2xl': ['1.5rem', { lineHeight: '1.5' }], // 24px
-      '3xl': ['1.625rem', { lineHeight: '1.385' }], // 26px
-      '4xl': ['1.75rem', { lineHeight: '1.5' }], // 28px
-      '5xl': ['2rem', { lineHeight: '1.5' }], // 32px
-      '6xl': ['2.625rem', { lineHeight: '1.571' }], // 42px
-      '7xl': ['3.5rem', { lineHeight: '1.428' }], // 56px
-      '8xl': ['4rem', { lineHeight: '1.5' }], // 64px
+      12: ['0.75rem', { lineHeight: '1.333', letterSpacing: '-0.015rem' }], // [12px, 16px, -0.24px]
+      14: ['0.875rem', { lineHeight: '1.428', letterSpacing: '-0.018rem' }], // [14px, 20px, -0.28px]
+      16: ['1rem', { lineHeight: '1.5', letterSpacing: '-0.02rem' }], // [16px, 24px, -0.32px]
+      18: ['1.125rem', { lineHeight: '1.444', letterSpacing: '-0.023rem' }], // [18px, 26px, -0.36px]
+      20: ['1.25rem', { lineHeight: '1.5', letterSpacing: '-0.025rem' }], // [20px, 30px, -0.4px]
+      22: ['1.375rem', { lineHeight: '1.545', letterSpacing: '-0.035rem' }], // [22px, 36px, -0.56px]
+      28: ['1.75rem', { lineHeight: '1.285', letterSpacing: '-0.035rem' }], // [28px, 36px, -0.56px]
+      40: ['2.5rem', { lineHeight: '1.4', letterSpacing: '-0.05rem' }], // [40px, 56px, -0.8px]
+      56: ['3.5rem', { lineHeight: '1.142', letterSpacing: '-0.07rem' }], // [56px, 64px, -1.12px]
     },
     colors: ({ colors: defaults }) => ({
       inherit: defaults.inherit,
@@ -44,15 +39,11 @@ const config: Config = {
         pretendard: ['Pretendard', 'sans-serif'],
         jost: ['var(--font-jost)'],
       },
-      borderWidth: createPxRange(10),
+      spacing: createPxRange(200),
       width: createPxRange(500),
       height: createPxRange(500),
-      padding: createPxRange(100),
-      margin: createPxRange(100),
-      spacing: createPxRange(200),
+      borderWidth: createPxRange(10),
       borderRadius: createPxRange(30),
-      fontSize: createPxRange(30),
-      lineHeight: createPxRange(50),
       maxWidth: {
         tablet: '768px',
       },

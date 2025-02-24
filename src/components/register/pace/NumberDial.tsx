@@ -61,7 +61,7 @@ export default function NumberDial({
         return (
           <div
             key={index}
-            className={`absolute flex w-80 items-center justify-center text-4xl font-black italic leading-[56px] tracking-tight transition-all duration-200 ${
+            className={`absolute flex w-80 items-center justify-center text-28 font-black italic tracking-tight transition-all duration-200 ${
               distance === 0
                 ? 'text-primary'
                 : distance === 1

@@ -1,5 +1,5 @@
-import { forwardRef, InputHTMLAttributes, ReactNode } from 'react'
 import clsx from 'clsx'
+import { InputHTMLAttributes, ReactNode, forwardRef } from 'react'
 
 const NumberInput = forwardRef<
   HTMLInputElement,
@@ -14,7 +14,7 @@ const NumberInput = forwardRef<
       <input
         ref={ref}
         className={clsx(
-          'h-40 w-full rounded-8 px-16 text-sm focus:outline-none disabled:bg-gray-default disabled:text-gray-darken',
+          'h-40 w-full rounded-8 px-16 text-14 focus:outline-none disabled:bg-gray-default disabled:text-gray-darken',
           error ? 'border-2 border-pink caret-pink' : 'border border-gray-default caret-primary focus:border-primary',
           className,
         )}
@@ -32,7 +32,7 @@ const NumberInput = forwardRef<
         {...rest}
       />
       {addon}
-      <span className='ml-8 text-2xs font-bold text-pink'>{error}</span>
+      <span className='ml-8 text-12 font-bold text-pink'>{error}</span>
       <style jsx>{`
         /* 숫자 입력 필드의 화살표 제거 */
         input[type='number']::-webkit-outer-spin-button,

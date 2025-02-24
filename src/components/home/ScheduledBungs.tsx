@@ -1,15 +1,15 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import Spacing from '@shared/Spacing'
-import { useMyBungsQuery } from '@apis/bungs/fetchMyBungs/query'
+import { useAlertStore } from '@store/alert'
 import { usePermissionStore } from '@store/permission'
-import withBoundary from '@shared/withBoundary'
 import ErrorFallback from '@shared/Error'
 import Skeleton from '@shared/Skeleton'
-import { useAlertStore } from '@store/alert'
-import CreateBungButton from './CreateBungButton'
+import Spacing from '@shared/Spacing'
+import withBoundary from '@shared/withBoundary'
+import { useMyBungsQuery } from '@apis/bungs/fetchMyBungs/query'
 import BungCard from './BungCard'
+import CreateBungButton from './CreateBungButton'
 
 export default function ScheduledBungs() {
   return (
@@ -48,11 +48,9 @@ function BungList() {
   return (
     <>
       <div className='mx-auto mb-8 flex w-full max-w-[500px] justify-between'>
-        <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black-default'>나의 벙</span>
+        <span className='text-20 font-bold text-black-default'>나의 벙</span>
         {myBungs!.list.length === 0 && (
-          <span className='place-content-center text-[12px] leading-[16px] tracking-[-0.24px] text-black-default'>
-            아직 일정이 없어요
-          </span>
+          <span className='place-content-center text-12 text-black-default'>아직 일정이 없어요</span>
         )}
       </div>
       <ul>
@@ -81,7 +79,7 @@ function BungListLoadingFallback() {
   return (
     <>
       <div className='mx-auto mb-8 flex w-full max-w-[500px] justify-between'>
-        <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black-default'>참여 예정</span>
+        <span className='text-20 font-bold text-black-default'>참여 예정</span>
       </div>
       {Array(3)
         .fill(null)
@@ -96,7 +94,7 @@ function BungListErrorFallback() {
   return (
     <>
       <div className='mx-auto mb-8 flex w-full max-w-[500px] justify-between'>
-        <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black-default'>참여 예정</span>
+        <span className='text-20 font-bold text-black-default'>참여 예정</span>
       </div>
       <div className='mb-20'>
         <ErrorFallback type='medium' />

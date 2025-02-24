@@ -1,5 +1,4 @@
 import { forwardRef, useState } from 'react'
-
 import { SingleNumber } from '@type/register'
 
 type Props = {
@@ -29,7 +28,7 @@ const InputNumber = forwardRef<HTMLInputElement, Props>(function InputNumber({ v
         onBlur={() => setIsFocused(false)}
         autoFocus={autoFocus}
       />
-      <span className={`text-4xl font-bold ${isFocused ? 'text-secondary' : 'text-primary'}`}>{value}</span>
+      <span className={`text-28 font-bold ${isFocused ? 'text-secondary' : 'text-primary'}`}>{value}</span>
     </div>
   )
 })

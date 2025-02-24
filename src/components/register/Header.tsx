@@ -21,7 +21,7 @@ export default function Header({
         </button>
         {건너뛰기버튼이보이는단계인가 ? (
           <button onClick={onSkipTextClick}>
-            <span className='mr-8 text-sm'>건너뛰기</span>
+            <span className='mr-8 text-14'>건너뛰기</span>
           </button>
         ) : null}
       </div>

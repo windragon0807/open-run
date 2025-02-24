@@ -1,26 +1,26 @@
+import { differenceInMinutes } from 'date-fns'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { differenceInMinutes } from 'date-fns'
 import { useForm } from 'react-hook-form'
-import { BottomSheet } from '@shared/Modal'
-import BrokenXIcon from '@icons/BrokenXIcon'
 import { useModalContext } from '@contexts/ModalContext'
-import Input from '@shared/Input'
-import NumberInput from '@shared/NumberInput'
-import TextArea from '@shared/TextArea'
-import PrimaryButton from '@shared/PrimaryButton'
-import HashTag from '@shared/HashTag'
-import LoadingLogo from '@shared/LoadingLogo'
-import ClockIcon from '@icons/ClockIcon'
-import CalendarIcon from '@icons/CalendarIcon'
-import { BungInfo } from '@type/bung'
-import { colors } from '@styles/colors'
-import { formatDate } from '@utils/time'
-import { useModifyBung } from '@apis/bungs/modifyBung/mutation'
 import { useAlertStore } from '@store/alert'
+import { BungInfo } from '@type/bung'
+import HashTag from '@shared/HashTag'
+import Input from '@shared/Input'
+import LoadingLogo from '@shared/LoadingLogo'
+import { BottomSheet } from '@shared/Modal'
+import NumberInput from '@shared/NumberInput'
+import PrimaryButton from '@shared/PrimaryButton'
+import TextArea from '@shared/TextArea'
+import BrokenXIcon from '@icons/BrokenXIcon'
+import CalendarIcon from '@icons/CalendarIcon'
+import ClockIcon from '@icons/ClockIcon'
+import { useModifyBung } from '@apis/bungs/modifyBung/mutation'
+import { formatDate } from '@utils/time'
+import { colors } from '@styles/colors'
+import Button from '../components/Button'
 import FormTitle from '../components/FormTitle'
 import HashTagSearch from '../components/HashTagSearch'
-import Button from '../components/Button'
 
 type FormValues = {
   bungName: string
@@ -86,7 +86,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
   return (
     <BottomSheet fullSize>
       <header className='relative flex h-60 w-full items-center justify-center px-16'>
-        <span className='text-[16px] font-bold leading-[24px] tracking-[-0.32px]'>벙 수정</span>
+        <span className='text-16 font-bold'>벙 수정</span>
         <button className='absolute right-16' onClick={closeModal}>
           <BrokenXIcon size={24} color={colors.black.default} />
         </button>
@@ -143,7 +143,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
             <NumberInput
               className='pr-40'
               value={differenceInMinutes(details.endDateTime, details.startDateTime)}
-              addon={<span className='absolute bottom-10 right-16 text-sm text-gray-darken'>분</span>}
+              addon={<span className='absolute bottom-10 right-16 text-14 text-gray-darken'>분</span>}
               disabled
             />
           </div>
@@ -154,7 +154,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
             <NumberInput
               className='pr-40'
               value={details.distance}
-              addon={<span className='absolute bottom-10 right-16 text-sm text-gray-darken'>km</span>}
+              addon={<span className='absolute bottom-10 right-16 text-14 text-gray-darken'>km</span>}
               disabled
             />
           </div>
@@ -167,14 +167,14 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
                 value={details.pace.match(/\d+/g)?.[0]}
                 disabled
                 addon={
-                  <span className='absolute bottom-10 right-16 text-sm font-bold italic text-gray-darken'>{"'"}</span>
+                  <span className='absolute bottom-10 right-16 text-14 font-bold italic text-gray-darken'>{"'"}</span>
                 }
               />
               <NumberInput
                 value={details.pace.match(/\d+/g)?.[1]}
                 disabled
                 addon={
-                  <span className='absolute bottom-10 right-16 text-sm font-bold italic text-gray-darken'>{'"'}</span>
+                  <span className='absolute bottom-10 right-16 text-14 font-bold italic text-gray-darken'>{'"'}</span>
                 }
               />
             </div>

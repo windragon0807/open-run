@@ -1,10 +1,9 @@
 import Image from 'next/image'
-
 import { useModalContext } from '@contexts/ModalContext'
-import DetailModal from './DetailModal'
 import { Avatar, SubCategory, WearingAvatar } from '@type/avatar'
-import RarityIcon from './shared/RarityIcon'
 import { colors } from '@styles/colors'
+import DetailModal from './DetailModal'
+import RarityIcon from './shared/RarityIcon'
 
 export default function AvatarList({
   avatarList,
@@ -110,7 +109,7 @@ export default function AvatarList({
           ))}
         </div>
       ) : (
-        <section className='w-full pt-80 text-center leading-[24px] text-gray-darkest'>
+        <section className='w-full pt-80 text-center text-16 text-gray-darkest'>
           <p>아이템이 없어요.</p>
           <p>도전과제를 달성하고 NFT를 획득하세요!</p>
         </section>

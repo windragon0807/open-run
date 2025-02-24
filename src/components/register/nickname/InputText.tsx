@@ -37,9 +37,9 @@ export default function InputText({
         </span>
       </div>
       <Spacing size={10} />
-      {isValid === 'pass' ? <span className='ml-10 text-sm text-primary'>사용 가능한 닉네임이에요</span> : null}
-      {isValid === 'overlap' ? <span className='ml-10 text-sm text-red'>이미 사용 중인 닉네임이에요</span> : null}
-      {isValid === 'consonant' ? <span className='ml-10 text-sm text-red'>올바르지 않은 형식이에요</span> : null}
+      {isValid === 'pass' ? <span className='ml-10 text-14 text-primary'>사용 가능한 닉네임이에요</span> : null}
+      {isValid === 'overlap' ? <span className='ml-10 text-14 text-red'>이미 사용 중인 닉네임이에요</span> : null}
+      {isValid === 'consonant' ? <span className='ml-10 text-14 text-red'>올바르지 않은 형식이에요</span> : null}
     </article>
   )
 }

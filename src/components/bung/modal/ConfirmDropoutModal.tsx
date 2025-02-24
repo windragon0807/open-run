@@ -1,5 +1,5 @@
-import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { useParams, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useModalContext } from '@contexts/ModalContext'
 import { BungMember } from '@type/bung'
@@ -40,24 +40,22 @@ export default function ConfirmDropoutModal({ member }: { member: BungMember }) 
               width={24}
               height={24}
             />
-            <span className='text-base font-bold text-black-darken'>{member.nickname}</span>
+            <span className='text-16 font-bold text-black-darken'>{member.nickname}</span>
           </div>
-          <h5 className='text-center text-20 font-bold leading-30 text-black-darken'>멤버를 내보낼까요?</h5>
+          <h5 className='text-center text-20 font-bold text-black-darken'>멤버를 내보낼까요?</h5>
         </div>
         <div className='flex w-full flex-col items-center gap-18'>
           <Checkbox
             checked={isChecked}
             onChange={setIsChecked}
-            text={<p className='text-sm font-bold text-black-darken'>이 멤버를 영구적으로 차단할게요</p>}
+            text={<p className='text-14 font-bold text-black-darken'>이 멤버를 영구적으로 차단할게요</p>}
           />
           <div className='flex w-full gap-8'>
-            <button
-              className={`h-56 flex-1 rounded-8 bg-pink/20 text-base font-bold text-pink`}
-              onClick={handleDropout}>
+            <button className={`h-56 flex-1 rounded-8 bg-pink/20 text-16 font-bold text-pink`} onClick={handleDropout}>
               내보내기
             </button>
             <button
-              className='h-56 flex-1 rounded-8 bg-white text-base font-bold text-black-darken'
+              className='h-56 flex-1 rounded-8 bg-white text-16 font-bold text-black-darken'
               onClick={() => closeModal()}>
               취소
             </button>

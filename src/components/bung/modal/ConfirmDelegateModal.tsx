@@ -1,5 +1,5 @@
-import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
+import { useParams, useRouter } from 'next/navigation'
 import { useModalContext } from '@contexts/ModalContext'
 import { BungMember } from '@type/bung'
 import { Popup } from '@shared/Modal'
@@ -38,18 +38,18 @@ export default function ConfirmDelegateModal({ member, onSuccess }: { member: Bu
               width={24}
               height={24}
             />
-            <span className='text-base font-bold text-black-darken'>{member.nickname}</span>
+            <span className='text-16 font-bold text-black-darken'>{member.nickname}</span>
           </div>
-          <h5 className='text-center text-20 font-bold leading-30 text-black-darken'>멤버에게 벙주 넘기기</h5>
+          <h5 className='text-center text-20 font-bold text-black-darken'>멤버에게 벙주 넘기기</h5>
         </div>
         <div className='flex w-full gap-8'>
           <button
-            className={`h-56 flex-1 rounded-8 bg-black-darkest text-base font-bold text-white`}
+            className={`h-56 flex-1 rounded-8 bg-black-darkest text-16 font-bold text-white`}
             onClick={handleDelegate}>
             확인
           </button>
           <button
-            className='h-56 flex-1 rounded-8 bg-white text-base font-bold text-black-darken'
+            className='h-56 flex-1 rounded-8 bg-white text-16 font-bold text-black-darken'
             onClick={() => closeModal()}>
             취소
           </button>

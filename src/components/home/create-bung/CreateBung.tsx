@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import { useModalContext } from '@contexts/ModalContext'
 import { BottomSheet } from '@shared/Modal'
 import BrokenXIcon from '@icons/BrokenXIcon'
-import { useModalContext } from '@contexts/ModalContext'
 import { colors } from '@styles/colors'
 import Forms from './Forms'
 import Invitation from './Invitation'
@@ -16,14 +16,12 @@ export default function CreateBung() {
   return (
     <BottomSheet fullSize>
       <header className='relative flex h-60 w-full items-center justify-center px-16'>
-        <span className='text-[16px] font-bold leading-[24px] tracking-[-0.32px]'>
-          {step === 'create' ? '벙 만들기' : '멤버 초대'}
-        </span>
+        <span className='text-16 font-bold'>{step === 'create' ? '벙 만들기' : '멤버 초대'}</span>
         <button className='absolute right-16' onClick={closeModal}>
           {step === 'create' ? (
             <BrokenXIcon size={24} color={colors.black.default} />
           ) : (
-            <span className='text-14 tracking-[-0.28px] text-black-darken'>건너뛰기</span>
+            <span className='text-14 text-black-darken'>건너뛰기</span>
           )}
         </button>
       </header>

@@ -4,15 +4,15 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import Input from '@shared/Input'
-import Spacing from '@shared/Spacing'
-import MagnifierIcon from '@icons/MagnifierIcon'
-import CheckIcon from '@icons/CheckIcon'
-import useDebounce from '@hooks/useDebounce'
 import PrimaryButton from '@shared/PrimaryButton'
+import Spacing from '@shared/Spacing'
 import BrokenXIcon from '@icons/BrokenXIcon'
-import { colors } from '@styles/colors'
+import CheckIcon from '@icons/CheckIcon'
+import MagnifierIcon from '@icons/MagnifierIcon'
+import useDebounce from '@hooks/useDebounce'
 import { fetchSuggestion } from '@apis/users/fetchSuggestion/query'
 import { useSearchByNicknameMutation } from '@apis/users/searchByNickname/query'
+import { colors } from '@styles/colors'
 
 export default function Invitation() {
   const { mutate: searchByNickname, data: searchedList } = useSearchByNicknameMutation()
@@ -177,7 +177,7 @@ function Member({
 function SelectedMember({ nickname, onClose }: { nickname: string; onClose: () => void }) {
   return (
     <div className='flex w-fit shrink-0 items-center gap-8 rounded-4 bg-gray-default px-8 py-4'>
-      <span className='text-sm font-bold'>{nickname}</span>
+      <span className='text-14 font-bold'>{nickname}</span>
       <button onClick={onClose}>
         <BrokenXIcon size={16} color={colors.black.default} />
       </button>

@@ -1,8 +1,8 @@
-import { ReactNode } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
-import addDelimiter from '@utils/addDelimiter'
+import Link from 'next/link'
+import { ReactNode } from 'react'
 import Spacing from '@shared/Spacing'
+import addDelimiter from '@utils/addDelimiter'
 
 const nftImageList = [
   '/temp/nft_phone.png',
@@ -33,7 +33,7 @@ export default function MyNFTs() {
         <Spacing size={8} />
 
         <div className='flex w-full flex-col py-16 shadow-floating-primary'>
-          <span className='pl-16 text-[14px] font-bold leading-[20px] tracking-[-0.28px]'>최근 획득한 NFT</span>
+          <span className='pl-16 text-14 font-bold'>최근 획득한 NFT</span>
           <Spacing size={2} />
           <ul className='scrollbar-hidden flex w-full gap-2 overflow-x-auto px-16 pb-12'>
             {nftImageList.map((src, index) => (
@@ -42,7 +42,7 @@ export default function MyNFTs() {
               </NFTBox>
             ))}
           </ul>
-          <span className='pl-16 text-[14px] font-bold leading-[20px] tracking-[-0.28px]'>다음 NFT 획득까지</span>
+          <span className='pl-16 text-14 font-bold'>다음 NFT 획득까지</span>
           <Spacing size={2} />
           <div className='flex gap-8 px-16'>
             <NFTBox>
@@ -51,11 +51,9 @@ export default function MyNFTs() {
             <div className='flex w-[calc(100%-46px)] flex-col items-center justify-center gap-5'>
               <div className='flex w-full items-center gap-4'>
                 <div className='relative w-[calc(100%-20px)] overflow-hidden whitespace-nowrap'>
-                  <span className='inline-block animate-marquee text-[12px] leading-[16px] tracking-[-0.24px] text-black-default'>
-                    벙 참여하여 완료하기
-                  </span>
+                  <span className='inline-block animate-marquee text-12 text-black-default'>벙 참여하여 완료하기</span>
                 </div>
-                <span className='text-[12px] leading-[16px] tracking-[-0.24px] text-black-default'>4/10</span>
+                <span className='text-12 text-black-default'>4/10</span>
               </div>
               <ProgressBar progress={40} />
             </div>
@@ -65,7 +63,7 @@ export default function MyNFTs() {
         <Spacing size={16} />
 
         <Link href='/avatar' className='self-center rounded-20 bg-white px-20 py-4 shadow-floating-primary'>
-          <span className='tracing-[-0.24px] text-[12px] leading-[16px] text-black-default'>아바타 변경</span>
+          <span className='tracing-[-0.24px] text-12 text-black-default'>아바타 변경</span>
         </Link>
       </div>
     </section>
@@ -76,7 +74,7 @@ function SkewedLikeLabel({ like }: { like: number }) {
   return (
     <div className='absolute bottom-8 left-8 flex h-28 skew-x-[-10deg] transform items-center justify-center gap-4 rounded-lg border-2 border-black-default bg-secondary px-8'>
       <Image className='' src='/images/icon_thumbup.png' alt='Thumb Up Icon' width={16} height={16} />
-      <span className='font-jost text-base font-[900]'>{addDelimiter(like)}</span>
+      <span className='font-jost text-16 font-[900]'>{addDelimiter(like)}</span>
     </div>
   )
 }

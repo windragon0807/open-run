@@ -1,13 +1,13 @@
 import Image from 'next/image'
+import { useModalContext } from '@contexts/ModalContext'
+import { BungMember } from '@type/bung'
 import Input from '@shared/Input'
 import ArrowLeftIcon from '@icons/ArrowLeftIcon'
 import MagnifierIcon from '@icons/MagnifierIcon'
-import { BungMember } from '@type/bung'
-import { colors } from '@styles/colors'
 import useFushSearch from '@hooks/useFuseSearch'
-import { useModalContext } from '@contexts/ModalContext'
-import { PageCategory } from './types'
+import { colors } from '@styles/colors'
 import ConfirmDelegateModal from './modal/ConfirmDelegateModal'
+import { PageCategory } from './types'
 
 export default function DelegateOwner({
   memberList,
@@ -25,16 +25,16 @@ export default function DelegateOwner({
         <button className='absolute left-16' onClick={() => setPageCategory('벙 상세')}>
           <ArrowLeftIcon size={24} color={colors.black.darken} />
         </button>
-        <span className='text-base font-bold text-black-default'>벙주 넘기기</span>
+        <span className='text-16 font-bold text-black-default'>벙주 넘기기</span>
       </header>
       <section className='flex h-full w-full flex-col gap-16 px-16'>
         <div className='w-full rounded-8 bg-white p-16'>
-          <h5 className='mb-4 text-center text-sm font-bold text-black-darken'>
+          <h5 className='mb-4 text-center text-14 font-bold text-black-darken'>
             개설한 벙을 다른 멤버에게 양도할 수 있어요
           </h5>
           <ul className='space-y-2 px-16'>
-            <li className='list-disc text-sm text-black-darken'>양도 요청은 벙 시작 1시간 전까지 가능합니다.</li>
-            <li className='list-disc text-sm text-black-darken'>
+            <li className='list-disc text-14 text-black-darken'>양도 요청은 벙 시작 1시간 전까지 가능합니다.</li>
+            <li className='list-disc text-14 text-black-darken'>
               지정한 멤버가 30분 이내에 요청을 수락하면 완료됩니다.
             </li>
           </ul>
@@ -66,10 +66,10 @@ export default function DelegateOwner({
                   width={76}
                   height={76}
                 />
-                <span className='text-sm font-bold text-black-darken'>{member.nickname}</span>
+                <span className='text-14 font-bold text-black-darken'>{member.nickname}</span>
               </div>
               <button
-                className='rounded-12 bg-black-darken px-13 py-4 text-12 -tracking-[0.28px] text-white'
+                className='rounded-12 bg-black-darken px-13 py-4 text-12 text-white'
                 onClick={() =>
                   openModal({
                     contents: <ConfirmDelegateModal member={member} onSuccess={() => setPageCategory('벙 상세')} />,

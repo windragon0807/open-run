@@ -1,15 +1,15 @@
 'use client'
 
+import { AnimatePresence, motion } from 'framer-motion'
+import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
-import Link from 'next/link'
-import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
-import PersonIcon from '@icons/PersonIcon'
-import OpenrunIcon from '@icons/OpenrunIcon'
 import FilledBellIcon from '@icons/FilledBellIcon'
-import { colors } from '@styles/colors'
+import OpenrunIcon from '@icons/OpenrunIcon'
+import PersonIcon from '@icons/PersonIcon'
 import { ROOT_PORTAL_ID } from '@constants/layout'
+import { colors } from '@styles/colors'
 
 export default function FixedBottomMenuButton() {
   const [isDimmed, setDimmed] = useState(false)
@@ -75,7 +75,7 @@ function MenuBar() {
       style={{ backdropFilter: 'blur(3px)' }}>
       <Link href='/' className='flex h-full w-[36%] items-center justify-center gap-20 rounded-[32px] bg-white'>
         <OpenrunIcon size={24} color={colors.black.darken} />
-        <span className='text-[14px] font-semibold leading-[20px]'>홈</span>
+        <span className='text-14 font-semibold'>홈</span>
       </Link>
       <div className='flex flex-1 justify-around'>
         <Image src='/images/icon_explorer.png' alt='' width={24} height={24} />

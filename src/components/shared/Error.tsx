@@ -6,7 +6,7 @@ export default function Error({ type }: { type: 'small' | 'medium' | 'large' }) 
   if (type === 'small') {
     return (
       <div className='flex size-full items-center gap-4'>
-        <p className='text-lg font-semibold text-[#D7D6DE]'>정보를 불러오지 못했어요</p>
+        <p className='text-18 font-semibold text-[#D7D6DE]'>정보를 불러오지 못했어요</p>
         <WarningIcon className='-translate-y-2' size={24} />
       </div>
     )
@@ -16,7 +16,7 @@ export default function Error({ type }: { type: 'small' | 'medium' | 'large' }) 
     return (
       <div className='flex size-full flex-col items-center justify-center gap-10'>
         <WarningIcon size={50} />
-        <p className='text-lg font-bold text-[#D7D6DE]'>정보를 불러오지 못했어요</p>
+        <p className='text-18 font-bold text-[#D7D6DE]'>정보를 불러오지 못했어요</p>
       </div>
     )
   }
@@ -25,9 +25,9 @@ export default function Error({ type }: { type: 'small' | 'medium' | 'large' }) 
     return (
       <div className='flex size-full flex-col items-center justify-center'>
         <WarningIcon className='mb-10' size={60} />
-        <p className='mb-25 text-xl font-bold text-[#D7D6DE]'>정보를 불러오지 못했어요</p>
+        <p className='mb-25 text-22 font-bold text-[#D7D6DE]'>정보를 불러오지 못했어요</p>
         <button
-          className='rounded-20 border border-[#D7D6DE] px-28 py-6 text-base font-semibold'
+          className='rounded-20 border border-[#D7D6DE] px-28 py-6 text-16 font-semibold'
           onClick={() => window.location.reload()}>
           재시도
         </button>

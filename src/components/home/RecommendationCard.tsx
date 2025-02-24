@@ -1,6 +1,6 @@
 import Spacing from '@shared/Spacing'
-import PlaceIcon from '@icons/PlaceIcon'
 import CalendarIcon from '@icons/CalendarIcon'
+import PlaceIcon from '@icons/PlaceIcon'
 import { formatDate } from '@utils/time'
 import { colors } from '@styles/colors'
 import Avatar from './Avatar'
@@ -35,16 +35,16 @@ export default function RecommendationCard({
     <article
       className='relative mx-auto h-200 w-full max-w-[500px] rounded-8 bg-cover bg-center p-16 text-white shadow-lg'
       style={{ backgroundImage: `url(${backgroundImageUrl})` }}>
-      <span className='text-[16px] font-bold leading-[24px] tracking-[-0.32px]'>{title}</span>
+      <span className='text-16 font-bold'>{title}</span>
       <Spacing size={8} />
       <div className='flex items-center gap-6'>
         <PlaceIcon size={16} color={colors.white} />
-        <span className='text-[14px] leading-[20px] tracking-[-0.28px]'>{location}</span>
+        <span className='text-14'>{location}</span>
       </div>
       <Spacing size={2} />
       <div className='flex items-center gap-6'>
         <CalendarIcon size={16} color={colors.white} />
-        <span className='text-[14px] leading-[20px] tracking-[-0.28px]'>{formattedDate}</span>
+        <span className='text-14'>{formattedDate}</span>
       </div>
       <Spacing size={12} />
       <div className='flex items-center'>
@@ -57,7 +57,7 @@ export default function RecommendationCard({
       <div className='absolute bottom-16 left-16 flex gap-4'>
         {hashtags.map((value) => (
           <div key={`tag-${value}`} className='rounded-4 bg-black-darken/60 px-6 text-white'>
-            <span className='text-[12px] leading-[16px] tracking-[-0.24px]'>{value}</span>
+            <span className='text-12'>{value}</span>
           </div>
         ))}
       </div>

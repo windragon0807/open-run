@@ -1,12 +1,12 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { useModalContext } from '@contexts/ModalContext'
+import { BungMember } from '@type/bung'
 import { BottomSheet } from '@shared/Modal'
 import BrokenXIcon from '@icons/BrokenXIcon'
-import { useModalContext } from '@contexts/ModalContext'
-import { colors } from '@styles/colors'
-import { BungMember } from '@type/bung'
 import { useSendMemberLike } from '@apis/bungs/sendMemberLike/mutation'
+import { colors } from '@styles/colors'
 
 export default function BungCompleteModal({
   imageUrl,
@@ -48,20 +48,20 @@ export default function BungCompleteModal({
         <button className='absolute left-16' onClick={closeModal}>
           <BrokenXIcon size={24} color={colors.black.default} />
         </button>
-        <span className='text-base font-bold'>벙 완료!</span>
+        <span className='text-16 font-bold'>벙 완료!</span>
         <button className='absolute right-16' onClick={handleSaveButton}>
-          <span className='text-sm text-black-darken'>저장</span>
+          <span className='text-14 text-black-darken'>저장</span>
         </button>
       </header>
 
       <section className='h-[calc(100%-110px)] overflow-y-auto px-16'>
         <div className='mb-40 flex flex-col items-center gap-8 text-center'>
-          <h1 className='text-20 font-bold leading-normal'>
+          <h1 className='text-20 font-bold'>
             함께 달렸던 멤버들에게
             <br />
             <ThumbUpIcon status='default' /> 를 남겨보세요
           </h1>
-          <p className='text-sm text-black-darken'>좋아요를 남긴 멤버의 인기도가 올라갑니다</p>
+          <p className='text-14 text-black-darken'>좋아요를 남긴 멤버의 인기도가 올라갑니다</p>
         </div>
 
         <div className='mb-40 flex w-full items-center gap-16 rounded-8 p-16 shadow-floating-primary'>
@@ -73,10 +73,10 @@ export default function BungCompleteModal({
             height={56}
           />
           <div className='flex flex-col gap-4'>
-            <p className='whitespace-wrap text-base font-bold text-black-darken'>{title}</p>
+            <p className='whitespace-wrap text-16 font-bold text-black-darken'>{title}</p>
             <div className='flex items-center gap-4'>
               <LocationIcon />
-              <span className='whitespace-wrap text-sm text-black-darken'>{location}</span>
+              <span className='whitespace-wrap text-14 text-black-darken'>{location}</span>
             </div>
           </div>
         </div>
@@ -93,7 +93,7 @@ export default function BungCompleteModal({
                   height={76}
                 />
                 <div className='flex items-center gap-4'>
-                  <span className='text-sm font-bold text-black-darken'>{member.nickname}</span>
+                  <span className='text-14 font-bold text-black-darken'>{member.nickname}</span>
                   {member.owner && <Image src='/images/icon_crown.png' alt='Crown Icon' width={16} height={18} />}
                 </div>
               </div>

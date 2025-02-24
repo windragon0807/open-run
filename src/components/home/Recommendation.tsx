@@ -1,20 +1,20 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { usePermissionStore } from '@store/permission'
-import { useBungsQuery } from '@apis/bungs/fetchBungs/query'
-import Skeleton from '@shared/Skeleton'
-import ErrorFallback from '@shared/Error'
-import withBoundary from '@shared/withBoundary'
-import RecommendationCard from './RecommendationCard'
+import { useRouter } from 'next/navigation'
 import { useAlertStore } from '@store/alert'
+import { usePermissionStore } from '@store/permission'
+import ErrorFallback from '@shared/Error'
+import Skeleton from '@shared/Skeleton'
+import withBoundary from '@shared/withBoundary'
+import { useBungsQuery } from '@apis/bungs/fetchBungs/query'
+import RecommendationCard from './RecommendationCard'
 
 export default function Recommendation() {
   return (
     <section className='flex flex-col px-16 pb-60'>
       <div className='mx-auto mb-8 flex w-full max-w-[500px] items-center justify-between'>
-        <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black-default'>추천</span>
+        <span className='text-20 font-bold text-black-default'>추천</span>
       </div>
       <WrappedRecommendationBungs />
     </section>
@@ -61,7 +61,7 @@ function RecommendationBungs() {
       {recommendationList?.list.length === 0 && (
         <div className='flex h-full w-full flex-col items-center justify-center gap-8'>
           <Image src='/images/home/skewed_x_button.png' alt='기울어진 X 버튼 이미지' width={56} height={56} />
-          <p className='text-center text-sm text-gray-darken'>
+          <p className='text-center text-14 text-gray-darken'>
             현재 열림 벙이 없어요 <br />
             새로운 벙을 만들어 멤버를 모집해 보세요!
           </p>

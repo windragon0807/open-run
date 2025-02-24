@@ -1,5 +1,5 @@
-import { forwardRef, InputHTMLAttributes, ReactNode } from 'react'
 import clsx from 'clsx'
+import { InputHTMLAttributes, ReactNode, forwardRef } from 'react'
 
 const Input = forwardRef<
   HTMLInputElement,
@@ -25,7 +25,7 @@ const Input = forwardRef<
         {...rest}
       />
       {addon}
-      <span className='ml-8 text-2xs font-bold text-pink'>{error}</span>
+      <span className='ml-8 text-12 font-bold text-pink'>{error}</span>
     </div>
   )
 })

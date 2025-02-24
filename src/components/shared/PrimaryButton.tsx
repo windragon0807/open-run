@@ -19,7 +19,7 @@ export default function PrimaryButton({
       className={`flex h-56 w-full items-center justify-center rounded-8 bg-primary disabled:bg-gray-default disabled:text-gray-lighten ${className}`}
       disabled={disabled}
       onClick={onClick}>
-      <span className='text-base font-bold leading-[24px] tracking-[-0.32px] text-white'>{children}</span>
+      <span className='text-16 font-bold text-white'>{children}</span>
     </button>
   )
 }

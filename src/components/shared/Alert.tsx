@@ -1,8 +1,8 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { createPortal } from 'react-dom'
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useAlertStore } from '@store/alert'
 import { Popup } from './Modal'
 
@@ -28,11 +28,11 @@ export default function AlertPortal() {
             <Popup>
               <div className='relative flex w-full flex-col items-center justify-between p-16 pt-40'>
                 <div className='mb-20 flex flex-col gap-8'>
-                  <h5 className='text-center text-20 font-bold leading-30 text-black-darken'>{title}</h5>
-                  <p className='text-center text-sm text-black-darken'>{description}</p>
+                  <h5 className='text-center text-20 font-bold text-black-darken'>{title}</h5>
+                  <p className='text-center text-14 text-black-darken'>{description}</p>
                 </div>
                 <button
-                  className='h-56 w-full rounded-8 bg-white text-base font-bold text-black-darken'
+                  className='h-56 w-full rounded-8 bg-white text-16 font-bold text-black-darken'
                   onClick={closeAlert}>
                   확인
                 </button>
