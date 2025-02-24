@@ -4021,7 +4021,6 @@ __metadata:
     react-day-picker: "npm:^9.1.3"
     react-dom: "npm:^18"
     react-hook-form: "npm:^7.54.2"
-    react-mobile-picker: "npm:^1.0.1"
     react-naver-maps: "npm:^0.1.3"
     react-query: "npm:^3.39.3"
     server-only: "npm:^0.0.1"
@@ -4444,16 +4443,6 @@ __metadata:
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: 33977da7a5f1a287936a0c85639fec6ca74f4f15ef1e59a6bc20338fc73dc69555381e211f7a3529b8150a1f71e4225525b41b60b52965bda53ce7d47377ada1
-  languageName: node
-  linkType: hard
-
-"react-mobile-picker@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "react-mobile-picker@npm:1.0.1"
-  peerDependencies:
-    react: ^16 || ^17 || ^18
-    react-dom: ^16 || ^17 || ^18
-  checksum: 11602fdc0a483954f60ea321621fb43ce891794f8003873a793f31088ccfa648ddbf09e0299c6af45aa4430fbfad82e3e05bce29a65a5d1161c6f2284cca05ba
   languageName: node
   linkType: hard
 
