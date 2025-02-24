@@ -57,7 +57,7 @@ export default function FixedBottomMenuButton() {
           {isDimmed ? (
             <MenuBar />
           ) : (
-            <div className='flex h-full w-full items-center justify-center rounded-[32px] bg-white shadow-floating-primary'>
+            <div className='rounded-32 flex h-full w-full items-center justify-center bg-white shadow-floating-primary'>
               <Dots />
             </div>
           )}
@@ -70,10 +70,8 @@ export default function FixedBottomMenuButton() {
 
 function MenuBar() {
   return (
-    <div
-      className={`flex h-full w-full items-center rounded-[32px] bg-white/20`}
-      style={{ backdropFilter: 'blur(3px)' }}>
-      <Link href='/' className='flex h-full w-[36%] items-center justify-center gap-20 rounded-[32px] bg-white'>
+    <div className={`rounded-32 flex h-full w-full items-center bg-white/20`} style={{ backdropFilter: 'blur(3px)' }}>
+      <Link href='/' className='rounded-32 flex h-full w-[36%] items-center justify-center gap-20 bg-white'>
         <OpenrunIcon size={24} color={colors.black.darken} />
         <span className='text-14 font-semibold'>홈</span>
       </Link>

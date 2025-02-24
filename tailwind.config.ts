@@ -43,7 +43,7 @@ const config: Config = {
       width: createPxRange(500),
       height: createPxRange(500),
       borderWidth: createPxRange(10),
-      borderRadius: createPxRange(30),
+      borderRadius: createPxRange(50),
       maxWidth: {
         tablet: '768px',
       },

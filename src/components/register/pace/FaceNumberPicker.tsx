@@ -71,7 +71,7 @@ export default function FaceNumberPicker({
           digits={2}
         />
       </div>
-      <div className='text-40 mb-18 ml-[-2px] mr-4 touch-none text-center font-pretendard font-bold italic tracking-tight text-primary'>
+      <div className='text-40 -ml-2 mb-18 mr-4 touch-none text-center font-pretendard font-bold italic tracking-tight text-primary'>
         {`'`}
       </div>
       <div className='relative h-[320px] w-86 touch-none overflow-hidden'>
@@ -90,7 +90,7 @@ export default function FaceNumberPicker({
           digits={2}
         />
       </div>
-      <div className='text-40 mb-18 ml-[-4px] touch-none text-center font-pretendard font-bold italic tracking-tight text-primary'>
+      <div className='text-40 -ml-4 mb-18 touch-none text-center font-pretendard font-bold italic tracking-tight text-primary'>
         {`"`}
       </div>
     </div>

@@ -1,8 +1,8 @@
+import { fetchUserInfo } from '@/apis/users/fetchUserInfo/api'
 import { Metadata } from 'next'
-import AuthGuard from '@shared/AuthGuard'
-import { fetchBungDetail } from '@apis/bungs/fetchBungDetails/query'
 import PageCategory from '@components/bung/PageCategory'
-import { fetchUserInfo } from '@apis/users/fetchUserInfo/query'
+import AuthGuard from '@shared/AuthGuard'
+import { fetchBungDetail } from '@apis/bungs/fetchBungDetails/api'
 
 type Props = {
   params: {

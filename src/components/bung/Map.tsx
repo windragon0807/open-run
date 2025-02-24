@@ -2,9 +2,8 @@
 
 import Image from 'next/image'
 import { memo } from 'react'
-import { Container, NaverMap, Marker, useNavermaps } from 'react-naver-maps'
+import { Container, Marker, NaverMap, useNavermaps } from 'react-naver-maps'
 import { useGeocode } from '@apis/maps/fetchGeocode/query'
-import './map.css'
 
 function Map({ location }: { location: string }) {
   const navermaps = useNavermaps()
@@ -18,7 +17,7 @@ function Map({ location }: { location: string }) {
     )
 
   return (
-    <Container className='maps' style={{ height: 200 }}>
+    <Container className='[&>div]:rounded-lg' style={{ height: 200 }}>
       <NaverMap defaultCenter={new navermaps.LatLng(Number(coordinates.lat), Number(coordinates.lng))} defaultZoom={15}>
         <Marker
           defaultPosition={new navermaps.LatLng(Number(coordinates.lat), Number(coordinates.lng))}

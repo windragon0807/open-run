@@ -1,8 +1,8 @@
 'use client'
 
+import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
-import axios from 'axios'
 import { useUserStore } from '@store/user'
 import { useUserInfo } from '@apis/users/fetchUserInfo/query'
 

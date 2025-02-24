@@ -1,20 +1,20 @@
 'use client'
 
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Layout from '@shared/Layout'
+import { useState } from 'react'
 import { RegisterStep, UserRegister } from '@type/register'
+import Layout from '@shared/Layout'
 import ArrowLeftIcon from '@icons/ArrowLeftIcon'
-import { colors } from '@styles/colors'
 import { useRegister } from '@apis/users/register/mutation'
-import Welcome from './welcome'
-import Pace from './pace'
-import Onboarding from './onboarding'
-import { NicknameValidState } from './nickname/types'
-import Nickname from './nickname'
+import { colors } from '@styles/colors'
+import BottomButton from './BottomButton'
 import Header from './Header'
 import Frequency from './frequency'
-import BottomButton from './BottomButton'
+import Nickname from './nickname'
+import { NicknameValidState } from './nickname/types'
+import Onboarding from './onboarding'
+import Pace from './pace'
+import Welcome from './welcome'
 
 export default function Register() {
   const route = useRouter()
@@ -98,7 +98,7 @@ export default function Register() {
 
         {step === 4 ? <Onboarding nickname={data.nickname} /> : null}
 
-        <section className='absolute bottom-40 left-[50%] w-full max-w-tablet -translate-x-1/2 px-16'>
+        <section className='absolute bottom-40 left-1/2 w-full max-w-tablet -translate-x-1/2 px-16'>
           <BottomButton
             onClick={step === 4 ? handleSubmit : handleNext}
             disabled={닉네임스텝에서버튼이비활성화상태인가}>

@@ -32,7 +32,7 @@ export default function InputText({
             }
           }}
         />
-        <span className='absolute right-10 top-[50%] -translate-y-1/2 text-gray-default'>
+        <span className='absolute right-10 top-1/2 -translate-y-1/2 text-gray-default'>
           {value.length}/{maxLength}
         </span>
       </div>

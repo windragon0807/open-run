@@ -12,7 +12,6 @@ import { useCertifyParticipation } from '@apis/bungs/certifyParticipation/mutati
 import { fetchDistance } from '@apis/maps/fetchDistance/query'
 import { useGeocode } from '@apis/maps/fetchGeocode/query'
 import { colors } from '@styles/colors'
-import '../map.css'
 
 const 참여인증거리 = 1_500 // 500m ?
 
@@ -84,7 +83,7 @@ function Map({ curLat, curLng, desLat, desLng }: { curLat: number; curLng: numbe
   const destinationPosition = new navermaps.LatLng(desLat, desLng)
 
   return (
-    <Container className='maps' style={{ aspectRatio: 1 }}>
+    <Container className='[&>div]:rounded-lg' style={{ aspectRatio: 1 }}>
       <NaverMap defaultCenter={currentPosition} defaultZoom={15}>
         <Marker
           defaultPosition={currentPosition}

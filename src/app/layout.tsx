@@ -1,12 +1,11 @@
 import type { Metadata, Viewport } from 'next'
 import { Jost } from 'next/font/google'
-
-import ReactQuery from '@contexts/ReactQuery'
-import NaverMapContext from '@contexts/NaverMapContext'
 import { ModalContext } from '@contexts/ModalContext'
-import DarkMode from '@shared/DarkMode'
-import AppBridge from '@shared/AppBridge'
+import NaverMapContext from '@contexts/NaverMapContext'
+import ReactQuery from '@contexts/ReactQuery'
 import AlertPortal from '@shared/Alert'
+import AppBridge from '@shared/AppBridge'
+import DarkMode from '@shared/DarkMode'
 import { ROOT_PORTAL_ID } from '@constants/layout'
 import '@styles/globals.css'
 
