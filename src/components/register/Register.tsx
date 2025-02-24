@@ -61,10 +61,10 @@ export default function Register() {
 
   return (
     <Layout className={step === 0 ? 'bg-gradient-primary-white' : 'bg-gray-lighten'}>
-      <section className='relative w-full h-full flex flex-col max-w-tablet items-center'>
+      <section className='relative flex h-full w-full max-w-tablet flex-col items-center'>
         {step > 0 ? <Header step={step} onBackIconClick={handlePrevious} onSkipTextClick={() => setStep(4)} /> : null}
         {step === 0 ? (
-          <button className='absolute top-0 left-0 z-[10] pl-16 h-60' onClick={handlePrevious}>
+          <button className='absolute left-0 top-0 z-[10] h-60 pl-16' onClick={handlePrevious}>
             <ArrowLeftIcon size={40} color={colors.white} />
           </button>
         ) : null}
@@ -98,7 +98,7 @@ export default function Register() {
 
         {step === 4 ? <Onboarding nickname={data.nickname} /> : null}
 
-        <section className='absolute bottom-40 w-full max-w-tablet left-[50%] -translate-x-1/2 px-16'>
+        <section className='absolute bottom-40 left-[50%] w-full max-w-tablet -translate-x-1/2 px-16'>
           <BottomButton
             onClick={step === 4 ? handleSubmit : handleNext}
             disabled={닉네임스텝에서버튼이비활성화상태인가}>

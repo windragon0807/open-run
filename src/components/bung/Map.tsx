@@ -12,7 +12,7 @@ function Map({ location }: { location: string }) {
 
   if (coordinates == null)
     return (
-      <div className='relative w-full h-200 animate-pulse'>
+      <div className='relative h-200 w-full animate-pulse'>
         <Image className='object-cover' src='/images/maps/map_placeholder.png' alt='map' fill />
       </div>
     )

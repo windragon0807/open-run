@@ -11,7 +11,7 @@ export default function CreateBungButton({ children }: { children?: ReactNode })
   const { openModal } = useModalContext()
   return (
     <button
-      className='w-full max-w-[500px] mx-auto rounded-8 border border-dashed border-black-default py-12 flex gap-8 justify-center items-center'
+      className='mx-auto flex w-full max-w-[500px] items-center justify-center gap-8 rounded-8 border border-dashed border-black-default py-12'
       onClick={() => {
         openModal({ contents: <CreateBung /> })
       }}>

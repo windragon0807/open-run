@@ -19,26 +19,26 @@ export default function RarityBadge({ rarity }: { rarity: Rarity }) {
 
 function CommonBadge() {
   return (
-    <div className='bg-white px-8 py-2 rounded-4 mb-8 shadow-floating-primary'>
-      <span className='font-jost text-12 leading-16 font-black italic uppercase rarity-common pr-2'>common</span>
+    <div className='mb-8 rounded-4 bg-white px-8 py-2 shadow-floating-primary'>
+      <span className='rarity-common pr-2 font-jost text-12 font-black uppercase italic leading-16'>common</span>
     </div>
   )
 }
 
 function RareBadge() {
   return (
-    <div className='relative bg-white pr-8 pl-10 py-0 rounded-4 mb-8 shadow-floating-primary'>
-      <RarityIcon className='absolute -top-2 -left-14' rarity='rare' size={28} />
-      <span className='font-jost text-12 leading-16 font-black italic uppercase rarity-rare pr-2'>rare</span>
+    <div className='relative mb-8 rounded-4 bg-white py-0 pl-10 pr-8 shadow-floating-primary'>
+      <RarityIcon className='absolute -left-14 -top-2' rarity='rare' size={28} />
+      <span className='rarity-rare pr-2 font-jost text-12 font-black uppercase italic leading-16'>rare</span>
     </div>
   )
 }
 
 function EpicBadge() {
   return (
-    <div className='relative bg-white pl-10 pr-8 py-0 rounded-4 mb-8 shadow-floating-primary'>
-      <RarityIcon className='absolute -top-2 -left-14' rarity='epic' size={28} />
-      <span className='font-jost text-12 leading-16 font-black italic uppercase rarity-epic pr-2'>epic</span>
+    <div className='relative mb-8 rounded-4 bg-white py-0 pl-10 pr-8 shadow-floating-primary'>
+      <RarityIcon className='absolute -left-14 -top-2' rarity='epic' size={28} />
+      <span className='rarity-epic pr-2 font-jost text-12 font-black uppercase italic leading-16'>epic</span>
     </div>
   )
 }

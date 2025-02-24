@@ -33,7 +33,7 @@ export default function FixedBottomMenuButton() {
       <AnimatePresence>
         {isDimmed && (
           <motion.div
-            className={`fixed inset-0 bg-black-darkest/60 z-[999]`}
+            className={`fixed inset-0 z-[999] bg-black-darkest/60`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -45,7 +45,7 @@ export default function FixedBottomMenuButton() {
 
       {/* Button and expanding menu */}
       <motion.div
-        className='fixed left-0 right-0 bottom-26 z-[1000]'
+        className='fixed bottom-26 left-0 right-0 z-[1000]'
         initial={{ width: 96, marginLeft: 'auto', marginRight: 'auto' }}
         animate={
           isDimmed
@@ -53,11 +53,11 @@ export default function FixedBottomMenuButton() {
             : { width: 96, marginLeft: 'auto', marginRight: 'auto' }
         }
         transition={{ duration: 0.2, ease: 'easeInOut' }}>
-        <div className='w-full h-56 cursor-pointer' onClick={toggleMenu}>
+        <div className='h-56 w-full cursor-pointer' onClick={toggleMenu}>
           {isDimmed ? (
             <MenuBar />
           ) : (
-            <div className='w-full h-full bg-white rounded-[32px] shadow-floating-primary flex items-center justify-center'>
+            <div className='flex h-full w-full items-center justify-center rounded-[32px] bg-white shadow-floating-primary'>
               <Dots />
             </div>
           )}
@@ -71,13 +71,13 @@ export default function FixedBottomMenuButton() {
 function MenuBar() {
   return (
     <div
-      className={`w-full h-full flex items-center rounded-[32px] bg-white/20`}
+      className={`flex h-full w-full items-center rounded-[32px] bg-white/20`}
       style={{ backdropFilter: 'blur(3px)' }}>
-      <Link href='/' className='w-[36%] h-full rounded-[32px] bg-white flex items-center justify-center gap-20'>
+      <Link href='/' className='flex h-full w-[36%] items-center justify-center gap-20 rounded-[32px] bg-white'>
         <OpenrunIcon size={24} color={colors.black.darken} />
-        <span className='text-[14px] leading-[20px] font-semibold'>홈</span>
+        <span className='text-[14px] font-semibold leading-[20px]'>홈</span>
       </Link>
-      <div className='flex-1 flex justify-around'>
+      <div className='flex flex-1 justify-around'>
         <Image src='/images/icon_explorer.png' alt='' width={24} height={24} />
         <FilledBellIcon size={24} color={colors.white} />
         <PersonIcon size={24} color={colors.white} />

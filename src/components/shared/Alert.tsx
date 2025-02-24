@@ -19,20 +19,20 @@ export default function AlertPortal() {
   return createPortal(
     <>
       {isOpen && (
-        <section className={`fixed top-0 right-0 left-0 bottom-0 bg-black-darkest/60 z-[2000]`} onClick={closeAlert}>
+        <section className={`fixed bottom-0 left-0 right-0 top-0 z-[2000] bg-black-darkest/60`} onClick={closeAlert}>
           <motion.section
-            className='w-full h-full'
+            className='h-full w-full'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}>
             <Popup>
-              <div className='relative w-full flex flex-col justify-between items-center p-16 pt-40'>
-                <div className='flex flex-col gap-8 mb-20'>
-                  <h5 className='text-20 leading-30 font-bold text-black-darken text-center'>{title}</h5>
-                  <p className='text-black-darken text-sm text-center'>{description}</p>
+              <div className='relative flex w-full flex-col items-center justify-between p-16 pt-40'>
+                <div className='mb-20 flex flex-col gap-8'>
+                  <h5 className='text-center text-20 font-bold leading-30 text-black-darken'>{title}</h5>
+                  <p className='text-center text-sm text-black-darken'>{description}</p>
                 </div>
                 <button
-                  className='w-full h-56 bg-white text-black-darken text-base font-bold rounded-8'
+                  className='h-56 w-full rounded-8 bg-white text-base font-bold text-black-darken'
                   onClick={closeAlert}>
                   확인
                 </button>

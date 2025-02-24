@@ -85,21 +85,21 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
 
   return (
     <BottomSheet fullSize>
-      <header className='relative flex w-full h-60 justify-center items-center px-16'>
-        <span className='text-[16px] leading-[24px] tracking-[-0.32px] font-bold'>벙 수정</span>
+      <header className='relative flex h-60 w-full items-center justify-center px-16'>
+        <span className='text-[16px] font-bold leading-[24px] tracking-[-0.32px]'>벙 수정</span>
         <button className='absolute right-16' onClick={closeModal}>
           <BrokenXIcon size={24} color={colors.black.default} />
         </button>
       </header>
 
       <section className='h-[calc(100%-110px)] overflow-y-auto'>
-        <form className='w-full flex flex-col overflow-y-auto px-16' onSubmit={handleSubmit(onSubmit)}>
-          <section className='relative w-full mx-auto h-184 mb-32'>
+        <form className='flex w-full flex-col overflow-y-auto px-16' onSubmit={handleSubmit(onSubmit)}>
+          <section className='relative mx-auto mb-32 h-184 w-full'>
             <Image className='rounded-8' src={details.mainImage as string} alt='Thumbnail Image' fill />
           </section>
 
           {/** 벙 이름 */}
-          <div className='flex flex-col gap-8 mb-16'>
+          <div className='mb-16 flex flex-col gap-8'>
             <FormTitle required>벙 이름</FormTitle>
             <Input
               placeholder='벙 이름을 입력하세요'
@@ -111,26 +111,26 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
           </div>
 
           {/** 설명 */}
-          <div className='flex flex-col gap-8 mb-16'>
+          <div className='mb-16 flex flex-col gap-8'>
             <FormTitle>설명</FormTitle>
             <TextArea className='h-80 pt-10' placeholder='벙 설명을 입력하세요' {...register('description')} />
           </div>
 
           {/** 장소 */}
-          <div className='flex flex-col gap-8 mb-16'>
+          <div className='mb-16 flex flex-col gap-8'>
             <FormTitle>장소</FormTitle>
             <Input type='text' placeholder='정확한 위치를 입력하세요' value={details.location} disabled />
           </div>
 
           {/** 시작 일시 (날짜 선택 + 시간 선택) */}
-          <div className='relative flex flex-col gap-8 mb-16'>
+          <div className='relative mb-16 flex flex-col gap-8'>
             <FormTitle>시작 일시</FormTitle>
-            <div className='w-full flex gap-8'>
-              <Button className='pl-16 bg-gray-default cursor-default'>
+            <div className='flex w-full gap-8'>
+              <Button className='cursor-default bg-gray-default pl-16'>
                 <CalendarIcon size={16} color={colors.gray.darken} />
                 <p className='text-gray-darken'>{formatDate(details.startDateTime, 'yyyy년 M월 d일')}</p>
               </Button>
-              <Button className='pl-16 bg-gray-default cursor-default'>
+              <Button className='cursor-default bg-gray-default pl-16'>
                 <ClockIcon size={16} color={colors.gray.darken} />
                 <p className='text-gray-darken'>{formatDate(details.startDateTime, 'hh : mm')}</p>
               </Button>
@@ -138,50 +138,50 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
           </div>
 
           {/** 예상 시간 (분) */}
-          <div className='relative flex flex-col gap-8 mb-16'>
+          <div className='relative mb-16 flex flex-col gap-8'>
             <FormTitle>예상 시간</FormTitle>
             <NumberInput
               className='pr-40'
               value={differenceInMinutes(details.endDateTime, details.startDateTime)}
-              addon={<span className='absolute right-16 bottom-10 text-sm text-gray-darken'>분</span>}
+              addon={<span className='absolute bottom-10 right-16 text-sm text-gray-darken'>분</span>}
               disabled
             />
           </div>
 
           {/** 거리 (km) */}
-          <div className='relative flex flex-col gap-8 mb-16'>
+          <div className='relative mb-16 flex flex-col gap-8'>
             <FormTitle>거리</FormTitle>
             <NumberInput
               className='pr-40'
               value={details.distance}
-              addon={<span className='absolute right-16 bottom-10 text-sm text-gray-darken'>km</span>}
+              addon={<span className='absolute bottom-10 right-16 text-sm text-gray-darken'>km</span>}
               disabled
             />
           </div>
 
           {/** 페이스 (n'mm") */}
-          <div className='flex flex-col gap-8 mb-16'>
+          <div className='mb-16 flex flex-col gap-8'>
             <FormTitle>페이스</FormTitle>
             <div className='flex gap-8'>
               <NumberInput
                 value={details.pace.match(/\d+/g)?.[0]}
                 disabled
                 addon={
-                  <span className='absolute right-16 bottom-10 text-sm text-gray-darken font-bold italic'>{"'"}</span>
+                  <span className='absolute bottom-10 right-16 text-sm font-bold italic text-gray-darken'>{"'"}</span>
                 }
               />
               <NumberInput
                 value={details.pace.match(/\d+/g)?.[1]}
                 disabled
                 addon={
-                  <span className='absolute right-16 bottom-10 text-sm text-gray-darken font-bold italic'>{'"'}</span>
+                  <span className='absolute bottom-10 right-16 text-sm font-bold italic text-gray-darken'>{'"'}</span>
                 }
               />
             </div>
           </div>
 
           {/** 참가 인원 */}
-          <div className='relative flex flex-col gap-8 mb-16'>
+          <div className='relative mb-16 flex flex-col gap-8'>
             <FormTitle required>참가 인원</FormTitle>
             <NumberInput
               placeholder='3명 이상 입력하세요'
@@ -195,18 +195,18 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
           </div>
 
           {/** 뒷풀이 */}
-          <div className='relative flex flex-col gap-8 mb-16'>
+          <div className='relative mb-16 flex flex-col gap-8'>
             <FormTitle required>뒷풀이</FormTitle>
             <div className='flex gap-8'>
               <Button
-                className={`justify-center ${watch('hasAfterRun') === true ? 'bg-primary/10 border-primary' : 'bg-white border-gray-default'}`}
+                className={`justify-center ${watch('hasAfterRun') === true ? 'border-primary bg-primary/10' : 'border-gray-default bg-white'}`}
                 onClick={() => {
                   setValue('hasAfterRun', true)
                 }}>
                 유
               </Button>
               <Button
-                className={`justify-center ${watch('hasAfterRun') === false ? 'bg-primary/10 border-primary' : 'bg-white border-gray-default'}`}
+                className={`justify-center ${watch('hasAfterRun') === false ? 'border-primary bg-primary/10' : 'border-gray-default bg-white'}`}
                 onClick={() => {
                   setValue('hasAfterRun', false)
                 }}>
@@ -223,7 +223,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
           </div>
 
           {/** 해시태그 */}
-          <div className='relative flex flex-col gap-8 mb-80'>
+          <div className='relative mb-80 flex flex-col gap-8'>
             <FormTitle>해시태그</FormTitle>
             <div className='flex flex-wrap gap-8'>
               {watch('hashTags').map((label) => (

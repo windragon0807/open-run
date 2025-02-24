@@ -29,12 +29,12 @@ export default function Frequency({
   return (
     <section className='flex flex-col items-center'>
       <Spacing size={60 + 64} />
-      <p className='text-2xl text-center'>얼마나 자주 뛰시나요?</p>
-      <p className='text-2xl text-primary font-bold text-center'>나의 일주일 러닝 횟수는</p>
+      <p className='text-center text-2xl'>얼마나 자주 뛰시나요?</p>
+      <p className='text-center text-2xl font-bold text-primary'>나의 일주일 러닝 횟수는</p>
       <Spacing size={40} />
 
       <div className='flex items-center justify-center'>
-        <div className='relative w-86 h-[320px] overflow-hidden touch-none'>
+        <div className='relative h-[320px] w-86 touch-none overflow-hidden'>
           <NumberDial
             value={value}
             min={1}

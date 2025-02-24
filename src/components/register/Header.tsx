@@ -14,21 +14,21 @@ export default function Header({
   const 건너뛰기버튼이보이는단계인가 = step === 2 || step === 3
 
   return (
-    <header className='absolute w-full px-16 h-60 flex items-center bg-gray-lighten'>
-      <div className='w-full flex justify-between items-center'>
+    <header className='absolute flex h-60 w-full items-center bg-gray-lighten px-16'>
+      <div className='flex w-full items-center justify-between'>
         <button onClick={onBackIconClick}>
           <ArrowLeftIcon size={40} color={colors.black.darkest} />
         </button>
         {건너뛰기버튼이보이는단계인가 ? (
           <button onClick={onSkipTextClick}>
-            <span className='text-sm mr-8'>건너뛰기</span>
+            <span className='mr-8 text-sm'>건너뛰기</span>
           </button>
         ) : null}
       </div>
 
-      <section className='absolute left-16 right-16 bottom-0 h-3'>
+      <section className='absolute bottom-0 left-16 right-16 h-3'>
         <div
-          className='bg-primary w-full h-full'
+          className='h-full w-full bg-primary'
           style={{
             transform: `scaleX(${step / 4})`,
             transformOrigin: 'left',

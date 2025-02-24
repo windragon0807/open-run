@@ -20,14 +20,14 @@ export default function ManageMembers({
   const { search, setSearch, filteredList } = useFushSearch(memberList, 'nickname')
 
   return (
-    <section className='w-full h-full bg-gray-lighten'>
-      <header className='relative w-full h-60 flex justify-center items-center'>
+    <section className='h-full w-full bg-gray-lighten'>
+      <header className='relative flex h-60 w-full items-center justify-center'>
         <button className='absolute left-16' onClick={() => setPageCategory('벙 상세')}>
           <ArrowLeftIcon size={24} color={colors.black.darken} />
         </button>
         <span className='text-base font-bold text-black-default'>멤버 관리</span>
       </header>
-      <section className='flex flex-col gap-16 w-full h-full px-16'>
+      <section className='flex h-full w-full flex-col gap-16 px-16'>
         <Input
           className='pr-40'
           type='text'
@@ -36,19 +36,19 @@ export default function ManageMembers({
           setValue={setSearch}
           addon={
             <MagnifierIcon
-              className='absolute right-16 bottom-1/2 translate-y-1/2'
+              className='absolute bottom-1/2 right-16 translate-y-1/2'
               size={16}
               color={colors.black.darken}
             />
           }
         />
 
-        <ul className='flex flex-col gap-16 h-[calc(100%-230px)] overflow-y-auto pb-40'>
+        <ul className='flex h-[calc(100%-230px)] flex-col gap-16 overflow-y-auto pb-40'>
           {filteredList.map((member) => (
-            <li key={member.userId} className='flex justify-between items-center gap-8'>
+            <li key={member.userId} className='flex items-center justify-between gap-8'>
               <div className='flex items-center gap-16'>
                 <Image
-                  className='bg-black-darken rounded-8'
+                  className='rounded-8 bg-black-darken'
                   src='/temp/nft_detail_2.png'
                   alt={`${member.nickname}의 아바타`}
                   width={76}
@@ -61,7 +61,7 @@ export default function ManageMembers({
               </div>
               {member.owner === false && (
                 <button
-                  className='bg-pink rounded-12 px-13 py-4 text-12 text-white -tracking-[0.28px]'
+                  className='rounded-12 bg-pink px-13 py-4 text-12 -tracking-[0.28px] text-white'
                   onClick={() => {
                     openModal({ contents: <ConfirmDropoutModal member={member} /> })
                   }}>

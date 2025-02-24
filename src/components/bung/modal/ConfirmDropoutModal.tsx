@@ -30,11 +30,11 @@ export default function ConfirmDropoutModal({ member }: { member: BungMember }) 
 
   return (
     <Popup>
-      <div className='w-full h-254 flex flex-col justify-between items-center p-16'>
-        <div className='flex flex-col gap-8 mt-24'>
-          <div className='flex items-center self-center gap-8'>
+      <div className='flex h-254 w-full flex-col items-center justify-between p-16'>
+        <div className='mt-24 flex flex-col gap-8'>
+          <div className='flex items-center gap-8 self-center'>
             <Image
-              className='bg-black-darken rounded-4'
+              className='rounded-4 bg-black-darken'
               src='/temp/nft_detail_2.png'
               alt={`${member.nickname}의 아바타`}
               width={24}
@@ -42,22 +42,22 @@ export default function ConfirmDropoutModal({ member }: { member: BungMember }) 
             />
             <span className='text-base font-bold text-black-darken'>{member.nickname}</span>
           </div>
-          <h5 className='text-20 leading-30 font-bold text-black-darken text-center'>멤버를 내보낼까요?</h5>
+          <h5 className='text-center text-20 font-bold leading-30 text-black-darken'>멤버를 내보낼까요?</h5>
         </div>
-        <div className='w-full flex flex-col gap-18 items-center'>
+        <div className='flex w-full flex-col items-center gap-18'>
           <Checkbox
             checked={isChecked}
             onChange={setIsChecked}
             text={<p className='text-sm font-bold text-black-darken'>이 멤버를 영구적으로 차단할게요</p>}
           />
-          <div className='w-full flex gap-8'>
+          <div className='flex w-full gap-8'>
             <button
-              className={`flex-1 h-56 bg-pink/20 text-pink text-base font-bold rounded-8`}
+              className={`h-56 flex-1 rounded-8 bg-pink/20 text-base font-bold text-pink`}
               onClick={handleDropout}>
               내보내기
             </button>
             <button
-              className='flex-1 h-56 bg-white text-black-darken text-base font-bold rounded-8'
+              className='h-56 flex-1 rounded-8 bg-white text-base font-bold text-black-darken'
               onClick={() => closeModal()}>
               취소
             </button>

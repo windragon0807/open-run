@@ -136,7 +136,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
   const 시작시간을선택했는가 = watch('startTime') != null
 
   return (
-    <section className='w-full flex flex-col overflow-y-auto px-16'>
+    <section className='flex w-full flex-col overflow-y-auto px-16'>
       {isAddressSearchModalOpen ? (
         <AddressSearchModal
           onClose={() => setAddressSearchModalOpen(false)}
@@ -148,18 +148,18 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         {/** 랜덤 이미지 선택 */}
-        <section className='relative w-full mx-auto h-184 mb-32'>
+        <section className='relative mx-auto mb-32 h-184 w-full'>
           <Image className='rounded-8' src={watch('imageUrl')} alt='Random Thumbnail Image' fill />
           <button
             type='button'
-            className='absolute bottom-16 right-16 p-8 rounded-4 bg-primary'
+            className='absolute bottom-16 right-16 rounded-4 bg-primary p-8'
             onClick={handleImageChange}>
             <RandomIcon size={24} color={colors.white} />
           </button>
         </section>
 
         {/** 벙 이름 */}
-        <div className='flex flex-col gap-8 mb-16'>
+        <div className='mb-16 flex flex-col gap-8'>
           <FormTitle required>벙 이름</FormTitle>
           <Input
             placeholder='벙 이름을 입력하세요'
@@ -171,21 +171,21 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         </div>
 
         {/** 설명 */}
-        <div className='flex flex-col gap-8 mb-16'>
+        <div className='mb-16 flex flex-col gap-8'>
           <FormTitle>설명</FormTitle>
           <TextArea className='h-80 pt-10' placeholder='간단한 소개를 입력하세요' {...register('description')} />
         </div>
 
         {/** 장소 (주소검색 + 상세정보) */}
-        <div className='flex flex-col gap-8 mb-16'>
+        <div className='mb-16 flex flex-col gap-8'>
           <FormTitle required>장소</FormTitle>
-          <div className='w-full flex gap-8'>
+          <div className='flex w-full gap-8'>
             <div className='flex-1'>
               <Input className='disabled:bg-gray-default' placeholder='주소 검색' value={watch('location')} disabled />
             </div>
             <button
               type='button'
-              className='w-80 h-40 bg-primary rounded-8 text-white font-semibold place-items-center text-sm'
+              className='h-40 w-80 place-items-center rounded-8 bg-primary text-sm font-semibold text-white'
               onClick={() => setAddressSearchModalOpen(true)}>
               주소 검색
             </button>
@@ -194,9 +194,9 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         </div>
 
         {/** 시작일시 (날짜선택 + 시간선택) */}
-        <div ref={dateElementRef} className='relative flex flex-col gap-8 mb-16'>
+        <div ref={dateElementRef} className='relative mb-16 flex flex-col gap-8'>
           <FormTitle required>시작 일시</FormTitle>
-          <div className='w-full flex gap-8'>
+          <div className='flex w-full gap-8'>
             <Button
               className={clsx('pl-16', 시작날짜를선택했는가 ? 'border-primary bg-primary/10' : 'bg-white')}
               onClick={() => {
@@ -222,7 +222,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           </div>
 
           {isDatePickerOpen ? (
-            <div className='w-full flex justify-center bg-white p-16 rounded-8 border border-gray-default'>
+            <div className='flex w-full justify-center rounded-8 border border-gray-default bg-white p-16'>
               <DatePicker
                 defaultValue={watch('startDate')}
                 onDateClick={(date) => {
@@ -241,7 +241,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             </div>
           ) : null}
           {isTimePickerOpen ? (
-            <div className='bg-white p-16 rounded-8 border border-gray-default'>
+            <div className='rounded-8 border border-gray-default bg-white p-16'>
               <TimePicker
                 value={watch('startTime')}
                 onChange={(time) => {
@@ -262,14 +262,14 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             </div>
           ) : null}
           {errors.startTime || errors.startDate ? (
-            <span className='text-2xs text-pink font-bold ml-8'>
+            <span className='ml-8 text-2xs font-bold text-pink'>
               {errors.startTime?.message || errors.startDate?.message}
             </span>
           ) : null}
         </div>
 
         {/** 예상 시간 (분) */}
-        <div className='relative flex flex-col gap-8 mb-16'>
+        <div className='relative mb-16 flex flex-col gap-8'>
           <FormTitle required>예상 시간</FormTitle>
           <NumberInput
             className='pr-40'
@@ -283,7 +283,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         </div>
 
         {/** 거리 (km) */}
-        <div className='relative flex flex-col gap-8 mb-16'>
+        <div className='relative mb-16 flex flex-col gap-8'>
           <FormTitle required>거리</FormTitle>
           <NumberInput
             className='pr-40'
@@ -297,13 +297,13 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         </div>
 
         {/** 페이스 (n'mm") */}
-        <div className='flex flex-col gap-8 mb-16'>
+        <div className='mb-16 flex flex-col gap-8'>
           <FormTitle required>페이스</FormTitle>
           <div className='flex gap-8'>
             <NumberInput
               placeholder='분'
               addon={
-                <span className='absolute right-16 top-10 text-sm text-black-default font-bold italic'>{"'"}</span>
+                <span className='absolute right-16 top-10 text-sm font-bold italic text-black-default'>{"'"}</span>
               }
               {...register('paceMinute', {
                 required: '필수 항목입니다',
@@ -313,7 +313,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             <NumberInput
               placeholder='초'
               addon={
-                <span className='absolute right-16 top-10 text-sm text-black-default font-bold italic'>{'"'}</span>
+                <span className='absolute right-16 top-10 text-sm font-bold italic text-black-default'>{'"'}</span>
               }
               {...register('paceSecond', {
                 required: '필수 항목입니다',
@@ -324,7 +324,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         </div>
 
         {/** 참가 인원 */}
-        <div className='relative flex flex-col gap-8 mb-16'>
+        <div className='relative mb-16 flex flex-col gap-8'>
           <FormTitle required>참가 인원</FormTitle>
           <NumberInput
             placeholder='3명 이상 입력하세요'
@@ -338,13 +338,13 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         </div>
 
         {/** 뒷풀이 */}
-        <div className='relative flex flex-col gap-8 mb-16'>
+        <div className='relative mb-16 flex flex-col gap-8'>
           <FormTitle required>뒷풀이</FormTitle>
           <div className='flex gap-8'>
             <Button
               className={clsx(
                 'justify-center',
-                watch('hasAfterRun') === true ? 'bg-primary/10 border-primary' : 'bg-white border-gray-default',
+                watch('hasAfterRun') === true ? 'border-primary bg-primary/10' : 'border-gray-default bg-white',
               )}
               onClick={() => setValue('hasAfterRun', true)}>
               유
@@ -352,7 +352,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             <Button
               className={clsx(
                 'justify-center',
-                watch('hasAfterRun') === false ? 'bg-primary/10 border-primary' : 'bg-white border-gray-default',
+                watch('hasAfterRun') === false ? 'border-primary bg-primary/10' : 'border-gray-default bg-white',
               )}
               onClick={() => setValue('hasAfterRun', false)}>
               무
@@ -368,7 +368,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         </div>
 
         {/** 해시태그 */}
-        <div className='relative flex flex-col gap-8 mb-80'>
+        <div className='relative mb-80 flex flex-col gap-8'>
           <FormTitle>해시태그</FormTitle>
           <div className='flex flex-wrap gap-8'>
             {watch('hashTags').map((label) => (

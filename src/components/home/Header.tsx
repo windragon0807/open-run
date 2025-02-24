@@ -12,8 +12,8 @@ export default function Header() {
   const { logout } = useLogout()
 
   return (
-    <header className='fixed z-[100] bg-gray-lighten w-full max-w-tablet h-84 flex items-center justify-between p-[16px_12px_16px_16px]'>
-      <span className='text-[28px] leading-[36px] tracking-[-0.56px] font-bold'>{userInfo?.nickname}</span>
+    <header className='fixed z-[100] flex h-84 w-full max-w-tablet items-center justify-between bg-gray-lighten p-[16px_12px_16px_16px]'>
+      <span className='text-[28px] font-bold leading-[36px] tracking-[-0.56px]'>{userInfo?.nickname}</span>
       <div className='flex items-center gap-[15px]'>
         <BellIcon size={24} color={colors.black.darken} />
         <MagnifierIcon size={24} color={colors.black.darken} />

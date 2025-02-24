@@ -22,9 +22,9 @@ export default function Modal({
 
 function ModalDimmed({ children, onClick }: { children: ReactNode; onClick?: () => void }) {
   return (
-    <section className={`fixed top-0 right-0 left-0 bottom-0 bg-black-darkest/60 z-[1000]`} onClick={onClick}>
+    <section className={`fixed bottom-0 left-0 right-0 top-0 z-[1000] bg-black-darkest/60`} onClick={onClick}>
       <motion.section
-        className='w-full h-full'
+        className='h-full w-full'
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}>
@@ -48,7 +48,7 @@ export function BottomSheet({
       initial={{ y: '50%' }}
       animate={{ y: fullSize ? '7%' : '0%' }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className={`fixed bottom-0 left-0 w-full bg-gray-lighten shadow-lg rounded-t-2xl ${fullSize ? 'h-full' : ''} ${className}`}
+      className={`fixed bottom-0 left-0 w-full rounded-t-2xl bg-gray-lighten shadow-lg ${fullSize ? 'h-full' : ''} ${className}`}
       onClick={(e) => e.stopPropagation()}>
       {children}
     </motion.div>
@@ -61,7 +61,7 @@ export function Popup({ children, className }: { children: ReactNode; className?
       initial={{ y: '-30%', x: '-50%' }}
       animate={{ y: '-50%' }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className={`fixed left-1/2 top-1/2 w-[calc(100%-32px)] max-w-[328px] bg-white rounded-16 ${className}`}
+      className={`fixed left-1/2 top-1/2 w-[calc(100%-32px)] max-w-[328px] rounded-16 bg-white ${className}`}
       onClick={(e) => e.stopPropagation()}>
       {children}
     </motion.div>

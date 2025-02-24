@@ -33,16 +33,16 @@ export default function RecommendationCard({
 
   return (
     <article
-      className='relative w-full max-w-[500px] mx-auto h-200 rounded-8 p-16 text-white bg-cover bg-center shadow-lg'
+      className='relative mx-auto h-200 w-full max-w-[500px] rounded-8 bg-cover bg-center p-16 text-white shadow-lg'
       style={{ backgroundImage: `url(${backgroundImageUrl})` }}>
       <span className='text-[16px] font-bold leading-[24px] tracking-[-0.32px]'>{title}</span>
       <Spacing size={8} />
-      <div className='flex gap-6 items-center'>
+      <div className='flex items-center gap-6'>
         <PlaceIcon size={16} color={colors.white} />
         <span className='text-[14px] leading-[20px] tracking-[-0.28px]'>{location}</span>
       </div>
       <Spacing size={2} />
-      <div className='flex gap-6 items-center'>
+      <div className='flex items-center gap-6'>
         <CalendarIcon size={16} color={colors.white} />
         <span className='text-[14px] leading-[20px] tracking-[-0.28px]'>{formattedDate}</span>
       </div>
@@ -54,9 +54,9 @@ export default function RecommendationCard({
         <Spacing direction='horizontal' size={8} />
         <span>{remainingCount} 자리 남음</span>
       </div>
-      <div className='absolute flex bottom-16 left-16 gap-4'>
+      <div className='absolute bottom-16 left-16 flex gap-4'>
         {hashtags.map((value) => (
-          <div key={`tag-${value}`} className='bg-black-darken/60 px-6 text-white rounded-4'>
+          <div key={`tag-${value}`} className='rounded-4 bg-black-darken/60 px-6 text-white'>
             <span className='text-[12px] leading-[16px] tracking-[-0.24px]'>{value}</span>
           </div>
         ))}

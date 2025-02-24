@@ -44,7 +44,7 @@ export default function BungCompleteModal({
 
   return (
     <BottomSheet fullSize>
-      <header className='relative flex w-full h-60 justify-center items-center px-16 mb-16'>
+      <header className='relative mb-16 flex h-60 w-full items-center justify-center px-16'>
         <button className='absolute left-16' onClick={closeModal}>
           <BrokenXIcon size={24} color={colors.black.default} />
         </button>
@@ -55,7 +55,7 @@ export default function BungCompleteModal({
       </header>
 
       <section className='h-[calc(100%-110px)] overflow-y-auto px-16'>
-        <div className='flex flex-col items-center gap-8 text-center mb-40'>
+        <div className='mb-40 flex flex-col items-center gap-8 text-center'>
           <h1 className='text-20 font-bold leading-normal'>
             함께 달렸던 멤버들에게
             <br />
@@ -64,29 +64,29 @@ export default function BungCompleteModal({
           <p className='text-sm text-black-darken'>좋아요를 남긴 멤버의 인기도가 올라갑니다</p>
         </div>
 
-        <div className='w-full flex items-center gap-16 p-16 shadow-floating-primary rounded-8 mb-40'>
+        <div className='mb-40 flex w-full items-center gap-16 rounded-8 p-16 shadow-floating-primary'>
           <Image
-            className='object-cover rounded-8 aspect-[76/56]'
+            className='aspect-[76/56] rounded-8 object-cover'
             src={imageUrl}
             alt='bung-image'
             width={76}
             height={56}
           />
           <div className='flex flex-col gap-4'>
-            <p className='text-base text-black-darken font-bold whitespace-wrap'>{title}</p>
+            <p className='whitespace-wrap text-base font-bold text-black-darken'>{title}</p>
             <div className='flex items-center gap-4'>
               <LocationIcon />
-              <span className='text-sm text-black-darken whitespace-wrap'>{location}</span>
+              <span className='whitespace-wrap text-sm text-black-darken'>{location}</span>
             </div>
           </div>
         </div>
 
-        <ul className='flex flex-col gap-16 h-[calc(100%-230px)] overflow-y-auto pb-40'>
+        <ul className='flex h-[calc(100%-230px)] flex-col gap-16 overflow-y-auto pb-40'>
           {memberList.map((member) => (
-            <li key={member.userId} className='flex justify-between items-center gap-8'>
+            <li key={member.userId} className='flex items-center justify-between gap-8'>
               <div className='flex items-center gap-16'>
                 <Image
-                  className='bg-black-darken rounded-8'
+                  className='rounded-8 bg-black-darken'
                   src='/temp/nft_detail_2.png'
                   alt={`${member.nickname}의 아바타`}
                   width={76}
@@ -156,7 +156,7 @@ function ThumbUpIcon({ status }: { status: 'default' | 'unchecked' | 'checked' }
 function LocationIcon() {
   return (
     <svg
-      className='fill-black-darken shrink-0 self-start translate-y-[2px]'
+      className='shrink-0 translate-y-[2px] self-start fill-black-darken'
       width='16'
       height='16'
       viewBox='0 0 16 16'

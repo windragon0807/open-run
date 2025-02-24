@@ -12,8 +12,8 @@ import { useAlertStore } from '@store/alert'
 
 export default function Recommendation() {
   return (
-    <section className='px-16 flex flex-col pb-60'>
-      <div className='flex justify-between items-center w-full max-w-[500px] mx-auto mb-8'>
+    <section className='flex flex-col px-16 pb-60'>
+      <div className='mx-auto mb-8 flex w-full max-w-[500px] items-center justify-between'>
         <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black-default'>추천</span>
       </div>
       <WrappedRecommendationBungs />
@@ -59,9 +59,9 @@ function RecommendationBungs() {
         </button>
       ))}
       {recommendationList?.list.length === 0 && (
-        <div className='flex flex-col gap-8 justify-center items-center w-full h-full'>
+        <div className='flex h-full w-full flex-col items-center justify-center gap-8'>
           <Image src='/images/home/skewed_x_button.png' alt='기울어진 X 버튼 이미지' width={56} height={56} />
-          <p className='text-center text-gray-darken text-sm'>
+          <p className='text-center text-sm text-gray-darken'>
             현재 열림 벙이 없어요 <br />
             새로운 벙을 만들어 멤버를 모집해 보세요!
           </p>
@@ -77,7 +77,7 @@ function RecommendationLoadingFallback() {
       {Array(2)
         .fill(null)
         .map((_, index) => (
-          <Skeleton key={index} className='w-full h-184 bg-gray-default rounded-16 mb-8' />
+          <Skeleton key={index} className='mb-8 h-184 w-full rounded-16 bg-gray-default' />
         ))}
     </section>
   )
@@ -85,7 +85,7 @@ function RecommendationLoadingFallback() {
 
 function RecommendationErrorFallback() {
   return (
-    <section className='w-full h-200'>
+    <section className='h-200 w-full'>
       <ErrorFallback type='medium' />
     </section>
   )

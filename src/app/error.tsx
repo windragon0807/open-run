@@ -4,7 +4,7 @@ import Error from '@shared/Error'
 
 export default function ErrorPage() {
   return (
-    <section className='w-screen h-screen'>
+    <section className='h-screen w-screen'>
       <Error type='large' />
     </section>
   )

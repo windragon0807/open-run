@@ -20,9 +20,9 @@ export default function Checkbox({
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
       />
-      <label htmlFor='checkbox' className='flex items-center gap-8 cursor-pointer'>
+      <label htmlFor='checkbox' className='flex cursor-pointer items-center gap-8'>
         <div
-          className={`flex items-center justify-center w-24 h-24 rounded-8 ${checked ? 'bg-pink' : 'border border-gray-default'}`}>
+          className={`flex h-24 w-24 items-center justify-center rounded-8 ${checked ? 'bg-pink' : 'border border-gray-default'}`}>
           <motion.svg
             initial={{ y: 0 }}
             animate={{ y: checked ? [10, 0] : 0 }}

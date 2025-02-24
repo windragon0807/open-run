@@ -10,11 +10,11 @@ const Input = forwardRef<
   }
 >(({ className, setValue, onChange, addon, error, ...rest }, ref) => {
   return (
-    <div className='w-full relative'>
+    <div className='relative w-full'>
       <input
         ref={ref}
         className={clsx(
-          'w-full h-40 text-14 px-16 rounded-8 focus:outline-none disabled:bg-gray-default disabled:text-gray-darken',
+          'h-40 w-full rounded-8 px-16 text-14 focus:outline-none disabled:bg-gray-default disabled:text-gray-darken',
           error ? 'border-2 border-pink caret-pink' : 'border border-gray-default caret-primary focus:border-primary',
           className,
         )}
@@ -25,7 +25,7 @@ const Input = forwardRef<
         {...rest}
       />
       {addon}
-      <span className='text-2xs text-pink font-bold ml-8'>{error}</span>
+      <span className='ml-8 text-2xs font-bold text-pink'>{error}</span>
     </div>
   )
 })

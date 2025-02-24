@@ -52,13 +52,13 @@ export default function AvatarList({
   }
 
   return (
-    <section className='w-full h-full overflow-y-auto px-16 pt-24 pb-30'>
+    <section className='h-full w-full overflow-y-auto px-16 pb-30 pt-24'>
       {avatarList.length !== 0 ? (
         <div className='grid grid-cols-3 gap-8'>
           {avatarList.map((avatar) => (
             <button
               key={avatar.id}
-              className={`relative w-full p-12 flex flex-col items-center gap-10 bg-[rgba(255,255,255,0.20)] rounded-8 hover:bg-white hover:shadow-floating-primary ${
+              className={`relative flex w-full flex-col items-center gap-10 rounded-8 bg-[rgba(255,255,255,0.20)] p-12 hover:bg-white hover:shadow-floating-primary ${
                 avatar.mainCategory === 'accessories'
                   ? selectedAvatar.accessories[avatar.subCategory as SubCategory]?.id === avatar.id
                     ? 'bg-white shadow-floating-primary'
@@ -68,7 +68,7 @@ export default function AvatarList({
                     : ''
               }`}
               onClick={() => handleAvatarSelect(avatar)}>
-              <div className='relative w-full max-w-80 aspect-square'>
+              <div className='relative aspect-square w-full max-w-80'>
                 <Image
                   alt='아바타 파츠'
                   src={Array.isArray(avatar.imageUrl) ? avatar.imageUrl[0] : avatar.imageUrl}
@@ -78,18 +78,18 @@ export default function AvatarList({
                   className='object-contain'
                 />
                 {/* Skewed New Label */}
-                <div className='absolute left-[50%] -translate-x-[50%] bottom-0 h-20 bg-secondary rounded-lg transform -skew-x-[10deg] border-2 border-black-default flex items-center justify-center gap-4 px-8'>
+                <div className='absolute bottom-0 left-[50%] flex h-20 -translate-x-[50%] -skew-x-[10deg] transform items-center justify-center gap-4 rounded-lg border-2 border-black-default bg-secondary px-8'>
                   <span className='text-12 font-[900]'>NEW</span>
                 </div>
               </div>
-              <div className='flex gap-2 items-center'>
+              <div className='flex items-center gap-2'>
                 <RarityIcon rarity={avatar.rarity} size={16} />
-                <span className='text-12 text-black-darken truncate'>{avatar.name}</span>
+                <span className='truncate text-12 text-black-darken'>{avatar.name}</span>
               </div>
 
               {/* Info Modal */}
               <div
-                className='absolute top-6 right-6'
+                className='absolute right-6 top-6'
                 onClick={(e) => {
                   e.stopPropagation()
                   openModal({
@@ -110,7 +110,7 @@ export default function AvatarList({
           ))}
         </div>
       ) : (
-        <section className='w-full pt-80 text-center text-gray-darkest leading-[24px]'>
+        <section className='w-full pt-80 text-center leading-[24px] text-gray-darkest'>
           <p>아이템이 없어요.</p>
           <p>도전과제를 달성하고 NFT를 획득하세요!</p>
         </section>

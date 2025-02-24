@@ -13,7 +13,7 @@ import BungCard from './BungCard'
 
 export default function ScheduledBungs() {
   return (
-    <section className='px-16 flex flex-col gap-8'>
+    <section className='flex flex-col gap-8 px-16'>
       <WrappedBungList />
       <CreateBungButton>벙 만들기</CreateBungButton>
     </section>
@@ -47,10 +47,10 @@ function BungList() {
 
   return (
     <>
-      <div className='flex justify-between w-full max-w-[500px] mx-auto mb-8'>
+      <div className='mx-auto mb-8 flex w-full max-w-[500px] justify-between'>
         <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black-default'>나의 벙</span>
         {myBungs!.list.length === 0 && (
-          <span className='text-[12px] leading-[16px] tracking-[-0.24px] text-black-default place-content-center'>
+          <span className='place-content-center text-[12px] leading-[16px] tracking-[-0.24px] text-black-default'>
             아직 일정이 없어요
           </span>
         )}
@@ -58,7 +58,7 @@ function BungList() {
       <ul>
         {myBungs!.list.map((item) => (
           <li key={`myBungs-${item.bungId}`}>
-            <button className='text-start w-full' onClick={() => handleClick(item.bungId)}>
+            <button className='w-full text-start' onClick={() => handleClick(item.bungId)}>
               <BungCard
                 backgroundImageUrl={item.mainImage as string}
                 time={item.startDateTime}
@@ -80,13 +80,13 @@ function BungList() {
 function BungListLoadingFallback() {
   return (
     <>
-      <div className='flex justify-between w-full max-w-[500px] mx-auto mb-8'>
+      <div className='mx-auto mb-8 flex w-full max-w-[500px] justify-between'>
         <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black-default'>참여 예정</span>
       </div>
       {Array(3)
         .fill(null)
         .map((_, index) => (
-          <Skeleton key={index} className='w-full h-184 bg-gray-default rounded-16' />
+          <Skeleton key={index} className='h-184 w-full rounded-16 bg-gray-default' />
         ))}
     </>
   )
@@ -95,7 +95,7 @@ function BungListLoadingFallback() {
 function BungListErrorFallback() {
   return (
     <>
-      <div className='flex justify-between w-full max-w-[500px] mx-auto mb-8'>
+      <div className='mx-auto mb-8 flex w-full max-w-[500px] justify-between'>
         <span className='text-[20px] font-bold leading-[30px] tracking-[-0.4px] text-black-default'>참여 예정</span>
       </div>
       <div className='mb-20'>

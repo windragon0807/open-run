@@ -51,23 +51,23 @@ export default function CertifyParticipationModal({ destination, bungId }: { des
 
   return (
     <BottomSheet className='px-16'>
-      <header className='w-full h-60 flex items-center justify-center'>
+      <header className='flex h-60 w-full items-center justify-center'>
         <button className='absolute left-16' onClick={closeModal}>
           <BrokenXIcon size={24} color={colors.black.default} />
         </button>
-        <span className='text-black-darken text-base font-bold'>참여 인증</span>
+        <span className='text-base font-bold text-black-darken'>참여 인증</span>
       </header>
       <section className='w-full'>
         {모든좌표가유효한가 === true ? (
           <Map curLat={latitude} curLng={longitude} desLat={Number(coordinates.lat)} desLng={Number(coordinates.lng)} />
         ) : (
-          <div className='relative w-full aspect-square animate-pulse'>
+          <div className='relative aspect-square w-full animate-pulse'>
             <Image className='object-cover' src='/images/maps/map_placeholder.png' alt='map' fill />
           </div>
         )}
       </section>
       <PrimaryButton
-        className='mt-20 mb-40'
+        className='mb-40 mt-20'
         disabled={distance == null || distance > 참여인증거리}
         onClick={handleClick}>
         {distance == null && <LoadingLogo />}

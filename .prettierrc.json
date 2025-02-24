@@ -13,5 +13,8 @@
   "requirePragma": false,
   "insertPragma": false,
   "proseWrap": "preserve",
-  "semi": false
+  "semi": false,
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindFunctions": ["clsx"],
+  "tailwindConfig": "./tailwind.config.ts"
 }

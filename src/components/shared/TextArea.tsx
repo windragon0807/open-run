@@ -9,11 +9,11 @@ const TextArea = forwardRef<
   }
 >(({ className, error, setValue, onChange, ...rest }, ref) => {
   return (
-    <div className='w-full relative'>
+    <div className='relative w-full'>
       <textarea
         ref={ref}
         className={clsx(
-          'w-full h-40 text-14 border border-gray-default px-16 rounded-8 caret-primary focus:outline-none resize-none focus:border-primary',
+          'h-40 w-full resize-none rounded-8 border border-gray-default px-16 text-14 caret-primary focus:border-primary focus:outline-none',
           error ? 'border-2 border-pink caret-pink' : 'border border-gray-default caret-primary focus:border-primary',
           className,
         )}

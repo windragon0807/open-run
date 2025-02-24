@@ -28,11 +28,11 @@ export default function ConfirmDelegateModal({ member, onSuccess }: { member: Bu
 
   return (
     <Popup>
-      <div className='w-full h-214 flex flex-col justify-between items-center p-16'>
-        <div className='flex flex-col gap-8 mt-24'>
-          <div className='flex items-center self-center gap-8'>
+      <div className='flex h-214 w-full flex-col items-center justify-between p-16'>
+        <div className='mt-24 flex flex-col gap-8'>
+          <div className='flex items-center gap-8 self-center'>
             <Image
-              className='bg-black-darken rounded-4'
+              className='rounded-4 bg-black-darken'
               src='/temp/nft_detail_2.png'
               alt={`${member.nickname}의 아바타`}
               width={24}
@@ -40,16 +40,16 @@ export default function ConfirmDelegateModal({ member, onSuccess }: { member: Bu
             />
             <span className='text-base font-bold text-black-darken'>{member.nickname}</span>
           </div>
-          <h5 className='text-20 leading-30 font-bold text-black-darken text-center'>멤버에게 벙주 넘기기</h5>
+          <h5 className='text-center text-20 font-bold leading-30 text-black-darken'>멤버에게 벙주 넘기기</h5>
         </div>
-        <div className='w-full flex gap-8'>
+        <div className='flex w-full gap-8'>
           <button
-            className={`flex-1 h-56 bg-black-darkest text-white text-base font-bold rounded-8`}
+            className={`h-56 flex-1 rounded-8 bg-black-darkest text-base font-bold text-white`}
             onClick={handleDelegate}>
             확인
           </button>
           <button
-            className='flex-1 h-56 bg-white text-black-darken text-base font-bold rounded-8'
+            className='h-56 flex-1 rounded-8 bg-white text-base font-bold text-black-darken'
             onClick={() => closeModal()}>
             취소
           </button>

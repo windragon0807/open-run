@@ -3,8 +3,8 @@ import { WearingAvatar } from '@type/avatar'
 
 export default function AvatarCloset({ selectedAvatar }: { selectedAvatar: WearingAvatar }) {
   return (
-    <section className='w-full px-16 shadow-floating-primary bg-white z-10'>
-      <div className='relative w-full h-248 bg-black-darken rounded-16 mb-16 flex justify-center'>
+    <section className='z-10 w-full bg-white px-16 shadow-floating-primary'>
+      <div className='relative mb-16 flex h-248 w-full justify-center rounded-16 bg-black-darken'>
         {selectedAvatar.background && (
           <Image
             className='absolute top-16'
@@ -14,7 +14,7 @@ export default function AvatarCloset({ selectedAvatar }: { selectedAvatar: Weari
             height={216}
           />
         )}
-        <div className='absolute top-16 w-216 h-270 flex-shrink-0'>
+        <div className='absolute top-16 h-270 w-216 flex-shrink-0'>
           {selectedAvatar.hair && <Parts src={selectedAvatar.hair.imageUrl[1]} alt='뒷머리' />}
           {selectedAvatar.skin && <Parts src={selectedAvatar.skin.imageUrl as string} alt='피부' />}
           <Parts src='/temp/avatar/nft_body.png' alt='아바타' />

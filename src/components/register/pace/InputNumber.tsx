@@ -12,9 +12,9 @@ const InputNumber = forwardRef<HTMLInputElement, Props>(function InputNumber({ v
   const [isFocused, setIsFocused] = useState(false)
 
   return (
-    <div className='relative w-52 h-69 flex justify-center items-center rounded-5 bg-white'>
+    <div className='relative flex h-69 w-52 items-center justify-center rounded-5 bg-white'>
       <input
-        className='appearance-none opacity-0 absolute top-0 left-0 bottom-0 right-0'
+        className='absolute bottom-0 left-0 right-0 top-0 appearance-none opacity-0'
         ref={ref}
         type='number'
         value={value}

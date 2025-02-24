@@ -12,11 +12,11 @@ export default function AddressSearchModal({
   onComplete: (address: Address) => void
 }) {
   return (
-    <section className={`fixed top-0 right-0 left-0 bottom-0 bg-black-darkest/60 z-[1000]`}>
-      <section className='absolute top-[10%] left-[50%] -translate-x-1/2 w-[90%] bg-white rounded-10'>
-        <div className='w-full h-full'>
-          <header className='relative w-full h-60 flex items-center'>
-            <h2 className='w-full font-bold text-center'>주소검색</h2>
+    <section className={`fixed bottom-0 left-0 right-0 top-0 z-[1000] bg-black-darkest/60`}>
+      <section className='absolute left-[50%] top-[10%] w-[90%] -translate-x-1/2 rounded-10 bg-white'>
+        <div className='h-full w-full'>
+          <header className='relative flex h-60 w-full items-center'>
+            <h2 className='w-full text-center font-bold'>주소검색</h2>
             <button className='absolute right-12' onClick={onClose}>
               <BrokenXIcon size={24} color={colors.black.default} />
             </button>

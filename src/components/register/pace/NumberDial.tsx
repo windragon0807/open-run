@@ -48,7 +48,7 @@ export default function NumberDial({
 
   return (
     <div
-      className='relative w-86 h-full overflow-hidden touch-none select-none'
+      className='relative h-full w-86 touch-none select-none overflow-hidden'
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -61,7 +61,7 @@ export default function NumberDial({
         return (
           <div
             key={index}
-            className={`absolute w-80 flex items-center justify-center transition-all duration-200 text-4xl italic font-black leading-[56px] tracking-tight ${
+            className={`absolute flex w-80 items-center justify-center text-4xl font-black italic leading-[56px] tracking-tight transition-all duration-200 ${
               distance === 0
                 ? 'text-primary'
                 : distance === 1

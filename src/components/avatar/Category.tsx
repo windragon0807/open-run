@@ -49,12 +49,12 @@ export default function Category({
   setSelectedCategory: (category: SelectedCategory) => void
 }) {
   return (
-    <section className='w-full flex flex-col gap-16 pt-16'>
-      <div className='w-full px-16 overflow-x-auto flex items-center gap-6'>
+    <section className='flex w-full flex-col gap-16 pt-16'>
+      <div className='flex w-full items-center gap-6 overflow-x-auto px-16'>
         {categoryList.map((item) => (
           <button
             key={item.mainCategory}
-            className={`flex-shrink-0 w-40 h-40 rounded-4 flex items-center justify-center ${
+            className={`flex h-40 w-40 flex-shrink-0 items-center justify-center rounded-4 ${
               selectedCategory.mainCategory === item.mainCategory ? 'bg-gray-default' : ''
             }`}
             onClick={() => setSelectedCategory({ mainCategory: item.mainCategory, subCategory: null })}>
@@ -70,21 +70,21 @@ export default function Category({
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
             className='overflow-hidden'>
-            <div className='flex gap-4 items-center px-16 overflow-x-auto'>
+            <div className='flex items-center gap-4 overflow-x-auto px-16'>
               <motion.button
                 whileTap={{ scale: 0.95 }}
-                className={`flex-shrink-0 px-8 py-2 rounded-4 text-sm ${
+                className={`flex-shrink-0 rounded-4 px-8 py-2 text-sm ${
                   selectedCategory.subCategory === null ? 'bg-gray-default font-bold' : ''
                 }`}
                 onClick={() => setSelectedCategory({ ...selectedCategory, subCategory: null })}>
                 전체
               </motion.button>
-              <div className='border-l border-gray-default w-1 h-16 ml-4 mr-4' />
+              <div className='ml-4 mr-4 h-16 w-1 border-l border-gray-default' />
               {subCategoryList.map((subItem) => (
                 <motion.button
                   key={subItem.subCategory}
                   whileTap={{ scale: 0.95 }}
-                  className={`flex-shrink-0 px-8 py-2 rounded-4 text-sm ${
+                  className={`flex-shrink-0 rounded-4 px-8 py-2 text-sm ${
                     selectedCategory.subCategory === subItem.subCategory ? 'bg-gray-default font-bold' : ''
                   }`}
                   onClick={() => setSelectedCategory({ ...selectedCategory, subCategory: subItem.subCategory })}>

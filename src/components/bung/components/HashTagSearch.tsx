@@ -34,7 +34,7 @@ export default function HashTagSearch({ onTagClick }: { onTagClick?: (tag: strin
         {recommendHashTags.map((tag) => (
           <li
             key={tag}
-            className='text-sm text-black-default block py-10 pl-16 hover:text-primary cursor-pointer'
+            className='block cursor-pointer py-10 pl-16 text-sm text-black-default hover:text-primary'
             onClick={() => {
               onTagClick?.(tag.replace(' (직접 입력)', ''))
               setInputValue('')

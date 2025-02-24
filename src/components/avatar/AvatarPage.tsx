@@ -29,10 +29,10 @@ export default function AvatarPage({
   })
 
   return (
-    <article className='w-full h-full'>
+    <article className='h-full w-full'>
       <Header onSaveButtonClick={() => {}} />
 
-      <section className='w-full h-[calc(100%-60px)] bg-gray-lighten flex flex-col items-center'>
+      <section className='flex h-[calc(100%-60px)] w-full flex-col items-center bg-gray-lighten'>
         <AvatarCloset selectedAvatar={selectedAvatar} />
         <Category selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
         <AvatarList

@@ -28,7 +28,7 @@ export default function TimePicker({
           onChange(`${hour}:${minute}`)
         }}
       />
-      <span className='text-black-darken font-bold'>:</span>
+      <span className='font-bold text-black-darken'>:</span>
       <Picker
         options={minutes5Term}
         initialValue={minute}
@@ -38,8 +38,8 @@ export default function TimePicker({
         }}
       />
 
-      <div className='absolute top-40 w-133 h-1 bg-gray-default'></div>
-      <div className='absolute bottom-40 w-133 h-1 bg-gray-default'></div>
+      <div className='absolute top-40 h-1 w-133 bg-gray-default'></div>
+      <div className='absolute bottom-40 h-1 w-133 bg-gray-default'></div>
     </article>
   )
 }
@@ -161,7 +161,7 @@ function Picker({
 
   return (
     <div
-      className='relative flex flex-col overflow-hidden touch-none select-none cursor-move'
+      className='relative flex cursor-move touch-none select-none flex-col overflow-hidden'
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleEnd}
@@ -172,7 +172,7 @@ function Picker({
       {getDisplayOptions(value, options).map((option, index) => (
         <div
           key={index}
-          className='flex items-center justify-center font-bold text-14'
+          className='flex items-center justify-center text-14 font-bold'
           style={{
             height: itemHeight,
             color: Math.abs(index - 1) === 0 ? colors.black.darken : colors.gray.default,

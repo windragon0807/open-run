@@ -16,10 +16,10 @@ export default function PrimaryButton({
   return (
     <button
       type={type}
-      className={`w-full h-56 rounded-8 bg-primary flex items-center justify-center disabled:bg-gray-default disabled:text-gray-lighten ${className}`}
+      className={`flex h-56 w-full items-center justify-center rounded-8 bg-primary disabled:bg-gray-default disabled:text-gray-lighten ${className}`}
       disabled={disabled}
       onClick={onClick}>
-      <span className='text-base font-bold text-white leading-[24px] tracking-[-0.32px]'>{children}</span>
+      <span className='text-base font-bold leading-[24px] tracking-[-0.32px] text-white'>{children}</span>
     </button>
   )
 }

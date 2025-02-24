@@ -55,7 +55,7 @@ export default function FaceNumberPicker({
     <div className='flex items-center justify-center'>
       {' '}
       {/* 구분자 간격 조정 */}
-      <div className='relative w-86 h-[320px] overflow-hidden touch-none'>
+      <div className='relative h-[320px] w-86 touch-none overflow-hidden'>
         <NumberDial
           value={minutes}
           min={minMinutes}
@@ -71,10 +71,10 @@ export default function FaceNumberPicker({
           digits={2}
         />
       </div>
-      <div className='text-primary text-center font-pretendard text-[40px] font-bold leading-[56px] tracking-tight italic touch-none mb-18 ml-[-2px] mr-4'>
+      <div className='mb-18 ml-[-2px] mr-4 touch-none text-center font-pretendard text-[40px] font-bold italic leading-[56px] tracking-tight text-primary'>
         {`'`}
       </div>
-      <div className='relative w-86 h-[320px] overflow-hidden touch-none'>
+      <div className='relative h-[320px] w-86 touch-none overflow-hidden'>
         <NumberDial
           value={seconds}
           min={minSeconds}
@@ -90,7 +90,7 @@ export default function FaceNumberPicker({
           digits={2}
         />
       </div>
-      <div className='text-primary text-center font-pretendard text-[40px] font-bold leading-[56px] tracking-tight italic touch-none mb-18 ml-[-4px]'>
+      <div className='mb-18 ml-[-4px] touch-none text-center font-pretendard text-[40px] font-bold italic leading-[56px] tracking-tight text-primary'>
         {`"`}
       </div>
     </div>
