@@ -1,6 +1,6 @@
+import { BungInfo } from '@type/bung'
 import http from '@apis/axios'
 import { ApiResponse } from '@apis/type'
-import { BungInfo } from '@type/bung'
 import { toKSTDate } from '@utils/time'
 
 type RequestType = {
