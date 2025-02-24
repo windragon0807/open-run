@@ -1,10 +1,10 @@
-import { fetchUserInfo } from '@/apis/users/fetchUserInfo/api'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
 import PageCategory from '@components/bung/PageCategory'
 import AuthGuard from '@shared/AuthGuard'
 import Skeleton from '@shared/Skeleton'
 import { fetchBungDetail } from '@apis/bungs/fetchBungDetails/api'
+import { fetchUserInfo } from '@apis/users/fetchUserInfo/api'
 
 type Props = {
   params: {
