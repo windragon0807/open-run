@@ -21,8 +21,7 @@ export default async function Page({ params: { bungId } }: Props) {
 }
 
 async function BungDetailPage({ bungId }: { bungId: string }) {
-  const { data: userInfo } = await fetchUserInfo()
-  const bungDetail = await fetchBungDetail({ bungId })
+  const [{ data: userInfo }, bungDetail] = await Promise.all([fetchUserInfo(), fetchBungDetail({ bungId })])
 
   const userId = userInfo.userId
   const isParticipated = bungDetail.memberList.some((participant) => participant.userId === userId)
