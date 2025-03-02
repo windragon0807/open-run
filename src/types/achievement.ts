@@ -65,6 +65,8 @@ export interface EventAchievementType extends BaseAchievementType {
   startDate: string
   /** 이벤트 종료 날짜 */
   endDate: string
+  /** 이벤트 이미지 URL */
+  imageUrl?: string
 }
 
 /**

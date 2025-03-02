@@ -8,6 +8,7 @@ import {
 import { EventAchievementsSlider } from './EventAchievementsSlider'
 import { RegularAchievementsClient } from './RegularAchievementsClient'
 import { RepeatAchievementsClient } from './RepeatAchievementsClient'
+import EventBanner from '../EventBanner'
 
 /**
  * 전체 도전과제 컴포넌트 Props
@@ -30,8 +31,11 @@ export function AllAchievementsClient({
 }: AllAchievementsClientProps) {
   return (
     <div>
+      {/* 이벤트 배너 */}
+      <EventBanner eventAchievements={eventAchievements} />
+      
       {/* 이벤트 도전과제 (스와이프 영역) */}
-      <div className="mb-6">
+      <div className="mb-6 mt-6">
         <EventAchievementsSlider achievements={eventAchievements} />
       </div>
       

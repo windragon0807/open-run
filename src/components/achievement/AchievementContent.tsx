@@ -3,11 +3,11 @@ import {
   RepeatAchievementType, 
   EventAchievementType 
 } from '@/types/achievement'
-import { AchievementTabType } from './AchievementTabs'
 import { AllAchievementsClient } from './content/AllAchievementsClient'
 import { RegularAchievementsClient } from './content/RegularAchievementsClient'
 import { RepeatAchievementsClient } from './content/RepeatAchievementsClient'
 import { EventAchievementsClient } from './content/EventAchievementsClient'
+import { AchievementTabType } from './AchievementModal'
 
 /**
  * 도전과제 콘텐츠 컴포넌트 Props
@@ -35,7 +35,7 @@ export default function AchievementContent({
   eventAchievements 
 }: AchievementContentProps) {
   return (
-    <div className="p-4 overflow-y-auto max-h-[calc(100vh-200px)]">
+    <div className="p-4 overflow-y-auto max-h-[calc(100vh-200px)] bg-[#FFFFFF] rounded-t-[10px]">
       {activeTab === '전체' && (
         <AllAchievementsClient 
           regularAchievements={regularAchievements} 
