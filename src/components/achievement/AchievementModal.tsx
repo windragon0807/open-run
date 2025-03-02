@@ -26,16 +26,11 @@ export default function AchievementModal() {
     fetchAchievements()
   }, [fetchAchievements])
 
-  // 페이지 닫기 핸들러
-  const handleClose = () => {
-    window.location.href = '/'
-  }
-
   return (
     <article className="flex flex-col h-full w-full">
       {/* 헤더 - 배경색 #F8F9FA */}
       <div className="bg-[#F8F9FA]">
-        <AchievementHeader onClose={handleClose} />
+        <AchievementHeader />
       </div>
       
       {/* 탭 - 배경색 #F8F9FA */}
