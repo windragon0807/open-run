@@ -1,7 +1,8 @@
 'use client'
 
 import { EventAchievementType } from '@/types/achievement'
-import { AchievementButton, AchievementButtonType, ProgressBar } from '../buttons'
+import { AchievementButton, AchievementButtonType } from '../buttons'
+import { ProgressBar } from '../buttons'
 
 /**
  * 이벤트 배너 아이템 Props
@@ -9,9 +10,9 @@ import { AchievementButton, AchievementButtonType, ProgressBar } from '../button
 export interface EventBannerItemProps {
   /** 이벤트 도전과제 */
   event: EventAchievementType
-  /** 클릭 핸들러 (선택 사항) */
+  /** 클릭 이벤트 핸들러 */
   onClick?: (event: EventAchievementType) => void
-  /** 추가 클래스명 */
+  /** 추가 CSS 클래스 */
   className?: string
 }
 
@@ -43,21 +44,28 @@ export function EventBannerItem({
   const handleClick = () => {
     if (onClick) onClick(event);
   };
-
+  
   return (
     <div 
-      className={`bg-[#ADB5BD] rounded-[10px] w-full h-[134px] flex relative shadow-floating-primary ${isCompleted ? 'opacity-60' : ''} ${className}`}
+      className={`bg-[#ADB5BD] rounded-[10px] w-full h-[134px] flex relative shadow-floating-primary transition-all duration-300 ${isCompleted ? 'opacity-60' : ''} ${className}`}
       onClick={handleClick}
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}
+      style={{ 
+        willChange: 'transform, opacity',
+        transform: 'translateZ(0)',
+        backfaceVisibility: 'hidden'
+      }}
     >
       {/* 이벤트 이미지 */}
       <div 
-        className="w-[60px] h-[60px] rounded-[10px] bg-[#DEE2E6] my-[30px] ml-[16px]"
+        className="w-[60px] h-[60px] rounded-[10px] bg-[#DEE2E6] my-[30px] ml-[16px] transition-transform duration-300"
         style={{ 
           backgroundSize: 'cover',
           backgroundImage: event.imageUrl ? `url(${event.imageUrl})` : 'none',
-          backgroundPosition: 'center'
+          backgroundPosition: 'center',
+          willChange: 'transform',
+          transform: 'translateZ(0)',
         }}
       ></div>
       
@@ -65,11 +73,11 @@ export function EventBannerItem({
       <div className="flex-1 ml-[8px] relative">
         {/* 이벤트 제목과 설명 */}
         <div className="mt-[22px]">
-          <h3 className="text-[#222222] font-bold text-[14px] leading-[20px] tracking-[-0.02em] truncate max-w-[160px]">
+          <h3 className="text-[#222222] font-bold text-[14px] leading-[20px] tracking-[-0.02em] truncate max-w-[160px] transition-opacity duration-300">
             {event.title}
           </h3>
           
-          <p className="text-[#222222] font-normal text-[12px] leading-[16px] tracking-[-0.02em] truncate max-w-[160px]">
+          <p className="text-[#222222] font-normal text-[12px] leading-[16px] tracking-[-0.02em] truncate max-w-[160px] transition-opacity duration-300">
             {event.description}
           </p>
         </div>
@@ -85,7 +93,7 @@ export function EventBannerItem({
             />
             
             {/* 이벤트 기간 (종료일만 표시) */}
-            <p className="mt-[12px] text-[#222222] font-normal text-[12px] leading-[16px] tracking-[-0.02em]">
+            <p className="mt-[12px] text-[#222222] font-normal text-[12px] leading-[16px] tracking-[-0.02em] transition-opacity duration-300">
               ~ {event.endDate}
             </p>
           </div>

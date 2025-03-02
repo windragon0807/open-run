@@ -19,6 +19,8 @@ export interface UseEventBannerSliderReturn {
   prevSlideIndex: number;
   /** 다음 슬라이드 인덱스 */
   nextSlideIndex: number;
+  /** 타겟 슬라이드 인덱스 (인디케이터 클릭용) */
+  targetSlideIndex: number | null;
   /** 슬라이드 컨테이너의 ref */
   sliderRef: React.RefObject<HTMLDivElement>;
   /** 드래그 중인지 여부 */
@@ -28,7 +30,7 @@ export interface UseEventBannerSliderReturn {
   /** 드래그 오프셋 */
   dragOffset: number;
   /** 이동 방향 */
-  direction: 'next' | 'prev' | null;
+  direction: 'next' | 'prev' | 'direct' | null;
   /** 슬라이더 변환 위치 계산 함수 */
   getSliderTransform: () => number;
   /** 터치 시작 핸들러 */
@@ -59,10 +61,11 @@ export function useEventBannerSlider(
   eventAchievements: EventAchievementType[]
 ): UseEventBannerSliderReturn {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [direction, setDirection] = useState<'next' | 'prev' | null>(null);
+  const [direction, setDirection] = useState<'next' | 'prev' | 'direct' | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isSwiping, setIsSwiping] = useState(false);
   const [dragOffset, setDragOffset] = useState(0);
+  const [targetSlideIndex, setTargetSlideIndex] = useState<number | null>(null);
   
   // 슬라이더 컨테이너 요소 참조
   const sliderRef = useRef<HTMLDivElement | null>(null);
@@ -100,8 +103,15 @@ export function useEventBannerSlider(
     const handleTransitionEnd = () => {
       if (!isAnimating) return;
       
-      // 현재 애니메이션 완료 후 다음/이전 슬라이드를 현재 슬라이드로 변경
-      if (direction === 'next') {
+      // 애니메이션이 완료되면 즉시 transition을 비활성화하고 위치 재설정
+      slider.style.transition = 'none';
+      
+      // 현재 슬라이드 인덱스 업데이트
+      if (direction === 'direct' && targetSlideIndex !== null) {
+        // 직접 이동의 경우 targetSlideIndex로 설정
+        setCurrentSlide(targetSlideIndex);
+        setTargetSlideIndex(null);
+      } else if (direction === 'next') {
         setCurrentSlide((prev) => (prev + 1) % eventAchievements.length);
       } else if (direction === 'prev') {
         setCurrentSlide((prev) => 
@@ -109,25 +119,24 @@ export function useEventBannerSlider(
         );
       }
       
-      // 드래그 오프셋 초기화 및 애니메이션 상태 종료
+      // 드래그 오프셋 초기화
       setDragOffset(0);
       
-      // transitionend 이벤트에서 애니메이션 상태와 방향을 즉시 초기화
-      setIsAnimating(false);
-      setDirection(null);
+      // 슬라이더 위치 즉시 재설정 (깜빡임 방지를 위해 DOM 요소 업데이트 전에 실행)
+      slider.style.transform = `translateX(-33.33%)`;
       
-      // transform을 즉시 재설정하여 "튕김" 현상 방지
-      if (slider) {
-        slider.style.transition = 'none';
-        slider.style.transform = `translateX(-33.33%)`;
+      // 애니메이션 상태 및 방향 초기화 후에 transition 속성 복원
+      requestAnimationFrame(() => {
+        setIsAnimating(false);
+        setDirection(null);
         
-        // 다음 프레임에서 트랜지션 다시 활성화
-        requestAnimationFrame(() => {
+        // transition 속성 복원 (약간 지연시켜 깜빡임 방지)
+        setTimeout(() => {
           if (slider) {
             slider.style.transition = '';
           }
-        });
-      }
+        }, 50);
+      });
     };
     
     slider.addEventListener('transitionend', handleTransitionEnd);
@@ -135,7 +144,7 @@ export function useEventBannerSlider(
     return () => {
       slider.removeEventListener('transitionend', handleTransitionEnd);
     };
-  }, [direction, eventAchievements.length, isAnimating]);
+  }, [direction, eventAchievements.length, isAnimating, targetSlideIndex]);
   
   // 다음 슬라이드로 이동
   const goToNextSlide = useCallback(() => {
@@ -301,12 +310,28 @@ export function useEventBannerSlider(
   const handleIndicatorClick = useCallback((index: number) => {
     if (isAnimating || index === currentSlide) return;
     
-    const newDirection = index > currentSlide ? 'next' : 'prev';
-    setDirection(newDirection);
-    setIsAnimating(true);
-    
-    // 애니메이션 트랜지션은 이벤트 리스너에서 처리하고, 
-    // 인디케이터 클릭 시에는 transitionend 이벤트를 통해 슬라이드 인덱스가 변경되게 함
+    // 슬라이더 요소가 있는 경우에만 처리
+    if (sliderRef.current) {
+      // 여러 칸 이동 시 처리 방법
+      const distance = Math.abs(index - currentSlide);
+      const isDirectJump = distance > 1;
+      
+      // 이동 방향 설정
+      const newDirection = isDirectJump ? 'direct' : (index > currentSlide ? 'next' : 'prev');
+      setDirection(newDirection);
+      setIsAnimating(true);
+      
+      // 직접 이동할 경우 타겟 인덱스 저장
+      if (isDirectJump) {
+        setTargetSlideIndex(index);
+      }
+      
+      // 트랜지션 다시 활성화하고 방향에 따라 슬라이더 이동
+      sliderRef.current.style.transition = 'transform 300ms cubic-bezier(0.25, 1, 0.5, 1)';
+      sliderRef.current.style.transform = index > currentSlide 
+        ? 'translateX(-66.67%)' 
+        : 'translateX(0%)';
+    }
   }, [currentSlide, isAnimating]);
   
   // 자동 슬라이드 효과
@@ -350,6 +375,7 @@ export function useEventBannerSlider(
     currentSlide,
     prevSlideIndex,
     nextSlideIndex,
+    targetSlideIndex,
     sliderRef,
     isSwiping,
     isAnimating,
