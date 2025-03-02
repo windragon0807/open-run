@@ -97,9 +97,13 @@ export const useAchievementStore = create<AchievementState>((set) => ({
           title: '사랑의 러닝핑',
           description: '발렌타인 데이 특별 이벤트',
           category: '이벤트',
-          status: '진행중',
+          status: '완료',
           startDate: '2023-02-01',
           endDate: '2023-02-14',
+          progress: {
+            current: 5,
+            total: 5
+          },
           reward: {
             type: '아이템',
             amount: 1
@@ -113,6 +117,10 @@ export const useAchievementStore = create<AchievementState>((set) => ({
           status: '진행중',
           startDate: '2023-01-01',
           endDate: '2023-03-01',
+          progress: {
+            current: 3,
+            total: 10
+          },
           reward: {
             type: '포인트',
             amount: 300
@@ -126,6 +134,10 @@ export const useAchievementStore = create<AchievementState>((set) => ({
           status: '대기중',
           startDate: '2023-03-01',
           endDate: '2023-03-31',
+          progress: {
+            current: 0,
+            total: 8
+          },
           reward: {
             type: '포인트',
             amount: 150

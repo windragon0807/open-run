@@ -18,7 +18,7 @@ interface EventAchievementsClientProps {
 export function EventAchievementsClient({ achievements }: EventAchievementsClientProps) {
   return (
     <div className="space-y-4">
-      <EventBanner eventAchievements={achievements} />
+      <EventBanner eventAchievements={achievements} mode="list" />
     </div>
   )
 } 

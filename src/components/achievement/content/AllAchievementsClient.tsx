@@ -31,7 +31,7 @@ export function AllAchievementsClient({
   return (
     <div>
       {/* 이벤트 배너 */}
-      <EventBanner eventAchievements={eventAchievements} />
+      <EventBanner eventAchievements={eventAchievements} mode="slider" />
       
       {/* 일반 도전과제 (아코디언) */}
       <div className="mb-6 mt-6">

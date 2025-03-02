@@ -67,6 +67,13 @@ export interface EventAchievementType extends BaseAchievementType {
   endDate: string
   /** 이벤트 이미지 URL */
   imageUrl?: string
+  /** 달성 진행도 */
+  progress?: {
+    /** 현재 달성 횟수 */
+    current: number
+    /** 목표 달성 횟수 */
+    total: number
+  }
 }
 
 /**
