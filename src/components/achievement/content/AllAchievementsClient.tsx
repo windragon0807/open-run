@@ -5,7 +5,6 @@ import {
   RepeatAchievementType, 
   EventAchievementType 
 } from '@/types/achievement'
-import { EventAchievementsSlider } from './EventAchievementsSlider'
 import { RegularAchievementsClient } from './RegularAchievementsClient'
 import { RepeatAchievementsClient } from './RepeatAchievementsClient'
 import EventBanner from '../EventBanner'
@@ -34,13 +33,8 @@ export function AllAchievementsClient({
       {/* 이벤트 배너 */}
       <EventBanner eventAchievements={eventAchievements} />
       
-      {/* 이벤트 도전과제 (스와이프 영역) */}
-      <div className="mb-6 mt-6">
-        <EventAchievementsSlider achievements={eventAchievements} />
-      </div>
-      
       {/* 일반 도전과제 (아코디언) */}
-      <div className="mb-6">
+      <div className="mb-6 mt-6">
         <RegularAchievementsClient achievements={regularAchievements} />
       </div>
       
