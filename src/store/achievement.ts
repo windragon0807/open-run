@@ -94,12 +94,12 @@ export const useAchievementStore = create<AchievementState>((set) => ({
       const eventAchievements: EventAchievementType[] = [
         {
           id: 'event-1',
-          title: '사랑의 러닝핑',
-          description: '발렌타인 데이 특별 이벤트',
+          title: '[2024 크리스마스] 루돌프 선물배달 작전',
+          description: '이벤트 NFT 장착하고 성당 근처에서 달리기',
           category: '이벤트',
           status: '완료',
-          startDate: '2023-02-01',
-          endDate: '2023-02-14',
+          startDate: '2024-12-24',
+          endDate: '2024-12-25',
           progress: {
             current: 5,
             total: 5
@@ -111,12 +111,12 @@ export const useAchievementStore = create<AchievementState>((set) => ({
         },
         {
           id: 'event-2',
-          title: '오픈런하자. 죽을 때까지 러닝하고 지치지...',
-          description: '오픈 기념 이벤트',
+          title: '[2024 크리스마스] 이벤트 NFT 컬렉터',
+          description: '모든 NFT를 모아보자!',
           category: '이벤트',
           status: '진행중',
-          startDate: '2023-01-01',
-          endDate: '2023-03-01',
+          startDate: '2024-12-24',
+          endDate: '2024-12-25',
           progress: {
             current: 3,
             total: 10
@@ -132,8 +132,8 @@ export const useAchievementStore = create<AchievementState>((set) => ({
           description: '아침 러닝 챌린지',
           category: '이벤트',
           status: '대기중',
-          startDate: '2023-03-01',
-          endDate: '2023-03-31',
+          startDate: '2025-12-01',
+          endDate: '2025-12-31',
           progress: {
             current: 0,
             total: 8
@@ -142,6 +142,19 @@ export const useAchievementStore = create<AchievementState>((set) => ({
             type: '포인트',
             amount: 150
           }
+        },
+        {
+            id: 'event-4',
+            title: '사랑의 러닝핑',
+            description: '발렌타인 데이 특별 이벤트',
+          category: '이벤트',
+          status: '진행중',
+          startDate: '2025-02-01',
+          endDate: '2025-02-28',
+          progress: {
+            current: 0,
+            total: 8
+          },
         }
       ]
 
