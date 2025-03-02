@@ -1,5 +1,7 @@
+'use client'
+
 import { useEffect } from 'react'
-import { AchievementTabType } from './AchievementTabs'
+import { AchievementTabType } from './AchievementModal'
 
 /**
  * 탭 이벤트 핸들러 Props
@@ -10,22 +12,18 @@ interface TabEventHandlerProps {
 
 /**
  * 탭 이벤트 핸들러 컴포넌트
- * 커스텀 이벤트를 리스닝하여 탭 변경 이벤트를 처리합니다.
+ * 커스텀 이벤트와 URL 해시를 통해 탭 변경을 처리합니다.
  * 
  * @param props - 컴포넌트 Props
  */
 export function TabEventHandler({ onTabChange }: TabEventHandlerProps) {
   useEffect(() => {
-    // 탭 변경 이벤트 리스너 등록
-    const handleTabChange = (e: Event) => {
-      const customEvent = e as CustomEvent;
-      if (customEvent.detail && customEvent.detail.tab) {
-        onTabChange(customEvent.detail.tab);
+    // 탭 변경 이벤트 리스너
+    const handleTabChange = (e: CustomEvent) => {
+      if (e.detail?.tab) {
+        onTabChange(e.detail.tab);
       }
     };
-
-    // 이벤트 리스너 등록
-    window.addEventListener('achievementTabChange', handleTabChange);
 
     // URL 해시 변경 감지
     const handleHashChange = () => {
@@ -38,21 +36,21 @@ export function TabEventHandler({ onTabChange }: TabEventHandlerProps) {
       }
     };
 
-    // 페이지 로드 시 초기 해시 확인
+    // 초기 해시 확인
     if (window.location.hash.startsWith('#tab=')) {
       handleHashChange();
     }
 
-    // 해시 변경 이벤트 리스너 등록
+    // 이벤트 리스너 등록
+    window.addEventListener('achievementTabChange', handleTabChange as EventListener);
     window.addEventListener('hashchange', handleHashChange);
 
-    // 컴포넌트 언마운트 시 이벤트 리스너 제거
+    // 클린업
     return () => {
-      window.removeEventListener('achievementTabChange', handleTabChange);
+      window.removeEventListener('achievementTabChange', handleTabChange as EventListener);
       window.removeEventListener('hashchange', handleHashChange);
     };
   }, [onTabChange]);
 
-  // 이 컴포넌트는 UI를 렌더링하지 않고 이벤트 처리만 담당
   return null;
 } 

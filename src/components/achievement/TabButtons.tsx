@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback } from 'react'
-import { AchievementTabType } from './AchievementTabs'
+import { AchievementTabType } from './AchievementModal'
 
 /**
  * 탭 버튼 컴포넌트 Props
@@ -9,23 +9,22 @@ import { AchievementTabType } from './AchievementTabs'
 interface TabButtonsProps {
   /** 현재 선택된 탭 */
   activeTab: AchievementTabType
-  /** 선택된 탭 ID (직렬화 가능한 값) */
+  /** 선택된 탭 ID */
   selectedTabId: string
 }
 
 /**
  * 탭 버튼 컴포넌트
- * 클라이언트에서 탭 클릭 이벤트를 처리하고 URL 해시를 사용해 상태를 전달합니다.
  * 
  * @param props - 컴포넌트 Props
  */
 export function TabButtons({ activeTab, selectedTabId }: TabButtonsProps) {
-  // 직렬화 가능한 URL을 통해 상태 전달
+  // 탭 변경 처리
   const handleTabChange = useCallback((tab: AchievementTabType) => {
-    // URL 해시 변경을 통해 탭 변경 알림
+    // URL 해시 변경
     window.location.hash = `tab=${tab}`;
     
-    // 커스텀 이벤트 발생 (대안적 방법)
+    // 커스텀 이벤트 발생
     const event = new CustomEvent('achievementTabChange', { 
       detail: { tab } 
     });
@@ -33,7 +32,7 @@ export function TabButtons({ activeTab, selectedTabId }: TabButtonsProps) {
   }, []);
 
   return (
-    <div className="flex h-[36px] w-[328px] mx-auto">
+    <div className="flex w-[328px] h-[36px] mx-auto">
       <button 
         className={`w-[82px] h-[36px] text-center ${
           activeTab === '전체' 

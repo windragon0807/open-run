@@ -1,10 +1,6 @@
 import { TabButtons } from './TabButtons'
-import { TabEventHandlerWrapper } from './TabEventHandlerWrapper'
-
-/**
- * 도전과제 탭 타입
- */
-export type AchievementTabType = '전체' | '일반' | '반복' | '이벤트'
+import { TabEventHandler } from './TabEventHandler'
+import { AchievementTabType } from './AchievementModal'
 
 /**
  * 도전과제 탭 컴포넌트 Props
@@ -24,10 +20,10 @@ interface AchievementTabsProps {
 export default function AchievementTabs({ activeTab, onTabChange }: AchievementTabsProps) {
   return (
     <div className="flex justify-center w-full border-b relative">
-      {/* 이벤트 핸들러 래퍼 컴포넌트 */}
-      <TabEventHandlerWrapper onTabChange={onTabChange} />
+      {/* 이벤트 핸들러 */}
+      <TabEventHandler onTabChange={onTabChange} />
       
-      {/* 탭 버튼 컴포넌트 */}
+      {/* 탭 버튼 */}
       <TabButtons 
         activeTab={activeTab} 
         selectedTabId={activeTab}
