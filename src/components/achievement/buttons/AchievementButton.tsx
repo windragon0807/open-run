@@ -12,7 +12,7 @@ export type AchievementButtonType = 'reward' | 'progress' | 'completed'
  */
 interface AchievementButtonProps {
   /** 버튼 타입 */
-  type: AchievementButtonType
+  type?: AchievementButtonType
   /** 도전과제 상태 */
   status: AchievementStatus
   /** 현재 진행도 (진행 중인 경우에만 사용) */
@@ -23,6 +23,8 @@ interface AchievementButtonProps {
   onClick?: () => void
   /** 버튼 텍스트 (기본값은 타입에 따라 결정) */
   text?: string
+  /** 추가 클래스명 */
+  className?: string
 }
 
 /**
@@ -36,16 +38,23 @@ export function AchievementButton({
   current = 0, 
   total = 1, 
   onClick, 
-  text 
+  text,
+  className = ''
 }: AchievementButtonProps) {
+  // 상태에 따라 자동으로 버튼 타입 결정
+  const buttonType = type || (
+    status === '완료' ? 'completed' : 
+    status === '진행중' ? 'progress' : 'reward'
+  )
+
   /**
    * 버튼 텍스트 결정 함수
    */
   const getButtonText = (): string => {
     if (text) return text;
     
-    if (type === 'completed') return '완료';
-    if (type === 'progress') return `${current}/${total}`;
+    if (buttonType === 'completed') return '완료';
+    if (buttonType === 'progress') return `${current}/${total}`;
     return '보상 받기';
   };
   
@@ -53,14 +62,14 @@ export function AchievementButton({
    * 버튼 스타일 클래스 결정 함수
    */
   const getButtonClass = (): string => {
-    const baseStyle = "absolute bottom-[16px] right-[16px] w-[60px] h-[40px] rounded-[8px] font-bold text-[12px] leading-[16px] tracking-[-0.02em] text-center";
+    const baseStyle = "w-[60px] h-[30px] rounded-[8px] font-bold text-[12px] leading-[16px] tracking-[-0.02em] text-center";
     
-    if (type === 'completed') {
-      return `${baseStyle} bg-[#DEE2E6] text-[#89939D]`;
-    } else if (type === 'progress') {
-      return `${baseStyle} bg-[#89939D] text-[#F8F9FA]`;
+    if (buttonType === 'completed') {
+      return `${baseStyle} bg-[#DEE2E6] text-[#89939D] ${className}`;
+    } else if (buttonType === 'progress') {
+      return `${baseStyle} bg-[#89939D] text-[#F8F9FA] ${className}`;
     } else { // 'reward'
-      return `${baseStyle} bg-[#4A5CEF] text-white`;
+      return `${baseStyle} bg-[#4A5CEF] text-white ${className}`;
     }
   };
 
@@ -68,7 +77,8 @@ export function AchievementButton({
     <button 
       className={getButtonClass()}
       onClick={onClick}
-      disabled={type === 'completed'}
+      disabled={buttonType === 'completed'}
+      type="button"
     >
       {getButtonText()}
     </button>

@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useAchievementStore } from '@store/achievement'
+import { useState } from 'react'
 import AchievementHeader from './AchievementHeader'
 import AchievementTabs from './AchievementTabs'
 import AchievementContent from './AchievementContent'
@@ -14,18 +13,7 @@ export type AchievementTabType = '전체' | '일반' | '반복' | '이벤트'
  */
 export default function AchievementModal() {
   const [activeTab, setActiveTab] = useState<AchievementTabType>('전체')
-  const { 
-    fetchAchievements, 
-    isLoading, 
-    regularAchievements, 
-    repeatAchievements, 
-    eventAchievements 
-  } = useAchievementStore()
-
-  useEffect(() => {
-    fetchAchievements()
-  }, [fetchAchievements])
-
+  
   return (
     <article className="flex flex-col h-full w-full">
       {/* 헤더 - 배경색 #F8F9FA */}
@@ -40,18 +28,7 @@ export default function AchievementModal() {
       
       {/* 컨텐츠 - 배경색 #FFFFFF */}
       <div className="flex-1 overflow-auto bg-[#FFFFFF]">
-        {isLoading ? (
-          <div className="flex h-full items-center justify-center">
-            <p>로딩 중...</p>
-          </div>
-        ) : (
-          <AchievementContent 
-            activeTab={activeTab} 
-            regularAchievements={regularAchievements}
-            repeatAchievements={repeatAchievements}
-            eventAchievements={eventAchievements}
-          />
-        )}
+        <AchievementContent activeTab={activeTab} />
       </div>
     </article>
   )

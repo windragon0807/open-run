@@ -34,9 +34,9 @@ export default function EventBanner({
   return (
     <div className="mt-[20px]">
       {mode === 'slider' ? (
-        <EventBannerSlider events={eventAchievements} />
+        <EventBannerSlider eventAchievements={eventAchievements} />
       ) : (
-        <EventBannerList events={eventAchievements} />
+        <EventBannerList eventAchievements={eventAchievements} />
       )}
     </div>
   );

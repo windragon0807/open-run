@@ -8,7 +8,7 @@ import { EventBannerItem } from './EventBannerItem'
  */
 export interface EventBannerListProps {
   /** 이벤트 도전과제 목록 */
-  events: EventAchievementType[]
+  eventAchievements: EventAchievementType[]
 }
 
 /**
@@ -16,15 +16,19 @@ export interface EventBannerListProps {
  * 
  * @param props - 컴포넌트 Props
  */
-export function EventBannerList({ events }: EventBannerListProps) {
-  if (events.length === 0) return null;
+export function EventBannerList({ eventAchievements }: EventBannerListProps) {
+  if (eventAchievements.length === 0) {
+    return (
+      <div className="text-center p-5 text-gray-500">
+        진행 중인 이벤트가 없습니다.
+      </div>
+    );
+  }
 
   return (
-    <div className="w-[328px] mx-auto">
-      {events.map((event) => (
-        <div key={event.id} className="mb-[8px]">
-          <EventBannerItem event={event} />
-        </div>
+    <div className="flex flex-col items-center space-y-[12px]">
+      {eventAchievements.map((event) => (
+        <EventBannerItem key={event.id} event={event} />
       ))}
     </div>
   );
