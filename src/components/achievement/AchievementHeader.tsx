@@ -15,7 +15,7 @@ interface AchievementHeaderProps {
  */
 export default function AchievementHeader({ onClose }: AchievementHeaderProps) {
   return (
-    <header className='relative z-20 flex h-60 w-full items-center justify-center bg-white px-5'>
+    <header className='relative z-20 flex h-60 w-full items-center justify-center bg-[#F8F9FA] px-5'>
       <HeaderBackButton onClose={onClose} />
       <h1 className='text-16 font-bold text-black-default'>도전 과제</h1>
     </header>
