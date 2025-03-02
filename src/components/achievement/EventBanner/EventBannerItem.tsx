@@ -46,7 +46,7 @@ export function EventBannerItem({
 
   return (
     <div 
-      className={`bg-[#ADB5BD] rounded-[10px] w-full h-[134px] flex relative ${isCompleted ? 'opacity-60' : ''} ${className}`}
+      className={`bg-[#ADB5BD] rounded-[10px] w-full h-[134px] flex relative shadow-floating-primary ${isCompleted ? 'opacity-60' : ''} ${className}`}
       onClick={handleClick}
       role={onClick ? "button" : undefined}
       tabIndex={onClick ? 0 : undefined}

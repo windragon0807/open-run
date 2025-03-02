@@ -46,7 +46,7 @@ export function AchievementBanner({
   }
   
   return (
-    <div className={`w-[328px] rounded-[10px] bg-white shadow ${className}`}>
+    <div className={`w-[328px] rounded-[10px] bg-white shadow-floating-primary ${className}`}>
       <div className="px-4 py-4">
         {/* 배너 헤더 */}
         <div className="flex items-center justify-between h-[60px] px-[14px]">
