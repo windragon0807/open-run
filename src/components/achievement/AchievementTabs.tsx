@@ -23,7 +23,7 @@ interface AchievementTabsProps {
  */
 export default function AchievementTabs({ activeTab, onTabChange }: AchievementTabsProps) {
   return (
-    <div className="flex border-b relative">
+    <div className="flex justify-center w-full border-b relative">
       {/* 이벤트 핸들러 래퍼 컴포넌트 */}
       <TabEventHandlerWrapper onTabChange={onTabChange} />
       

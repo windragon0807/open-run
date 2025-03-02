@@ -33,35 +33,51 @@ export function TabButtons({ activeTab, selectedTabId }: TabButtonsProps) {
   }, []);
 
   return (
-    <>
+    <div className="flex h-[36px] w-[328px] mx-auto">
       <button 
-        className={`flex-1 py-4 text-center ${activeTab === '전체' ? 'bg-black text-white' : ''}`}
+        className={`w-[82px] h-[36px] text-center ${
+          activeTab === '전체' 
+          ? 'bg-[#222222] text-[#F8F9FA] rounded-tl-[10px] rounded-tr-[10px]' 
+          : 'bg-[#F8F9FA] text-[#89939D]'
+        }`}
         onClick={() => handleTabChange('전체')}
         data-tab-id="전체"
       >
         전체
       </button>
       <button 
-        className={`flex-1 py-4 text-center ${activeTab === '일반' ? 'bg-black text-white' : ''}`}
+        className={`w-[82px] h-[36px] text-center ${
+          activeTab === '일반' 
+          ? 'bg-[#222222] text-[#F8F9FA] rounded-tl-[10px] rounded-tr-[10px]' 
+          : 'bg-[#F8F9FA] text-[#89939D]'
+        }`}
         onClick={() => handleTabChange('일반')}
         data-tab-id="일반"
       >
         일반
       </button>
       <button 
-        className={`flex-1 py-4 text-center ${activeTab === '반복' ? 'bg-black text-white' : ''}`}
+        className={`w-[82px] h-[36px] text-center ${
+          activeTab === '반복' 
+          ? 'bg-[#222222] text-[#F8F9FA] rounded-tl-[10px] rounded-tr-[10px]' 
+          : 'bg-[#F8F9FA] text-[#89939D]'
+        }`}
         onClick={() => handleTabChange('반복')}
         data-tab-id="반복"
       >
         반복
       </button>
       <button 
-        className={`flex-1 py-4 text-center ${activeTab === '이벤트' ? 'bg-black text-white' : ''}`}
+        className={`w-[82px] h-[36px] text-center ${
+          activeTab === '이벤트' 
+          ? 'bg-[#222222] text-[#F8F9FA] rounded-tl-[10px] rounded-tr-[10px]' 
+          : 'bg-[#F8F9FA] text-[#89939D]'
+        }`}
         onClick={() => handleTabChange('이벤트')}
         data-tab-id="이벤트"
       >
         이벤트
       </button>
-    </>
+    </div>
   )
 } 

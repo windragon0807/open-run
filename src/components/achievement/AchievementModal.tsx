@@ -1,76 +1,63 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { useAchievementStore } from '@/store/achievement'
+import { useEffect, useState } from 'react'
+import { useAchievementStore } from '@store/achievement'
 import AchievementHeader from './AchievementHeader'
-import AchievementTabs, { AchievementTabType } from './AchievementTabs'
+import AchievementTabs from './AchievementTabs'
 import AchievementContent from './AchievementContent'
+
+// 타입을 직접 정의하여 순환 참조 방지
+export type AchievementTabType = '전체' | '일반' | '반복' | '이벤트'
 
 /**
  * 도전과제 모달 컴포넌트
- * 사용자가 달성할 수 있는 도전과제 목록을 보여주고 관리하는 컴포넌트
  */
 export default function AchievementModal() {
-  const router = useRouter()
   const [activeTab, setActiveTab] = useState<AchievementTabType>('전체')
   const { 
+    fetchAchievements, 
+    isLoading, 
     regularAchievements, 
     repeatAchievements, 
-    eventAchievements, 
-    fetchAchievements, 
-    isLoading 
+    eventAchievements 
   } = useAchievementStore()
 
   useEffect(() => {
     fetchAchievements()
   }, [fetchAchievements])
 
-  /**
-   * 모달 닫기 핸들러
-   */
+  // 페이지 닫기 핸들러
   const handleClose = () => {
-    router.back()
-  }
-
-  /**
-   * 탭 변경 핸들러
-   * 
-   * @param tab - 선택된 탭
-   */
-  const handleTabChange = (tab: AchievementTabType) => {
-    setActiveTab(tab)
-  }
-
-  if (isLoading) {
-    return (
-      <div className="fixed inset-0 bg-white flex flex-col">
-        <AchievementHeader onClose={handleClose} />
-        <div className="flex-1 flex items-center justify-center">
-          <p className="text-gray-600">데이터를 불러오는 중...</p>
-        </div>
-      </div>
-    )
+    window.history.back()
   }
 
   return (
-    <div className="fixed inset-0 bg-white flex flex-col">
-      {/* 헤더 컴포넌트 */}
-      <AchievementHeader onClose={handleClose} />
+    <article className="flex flex-col h-full w-full">
+      {/* 헤더 - 배경색 #F8F9FA */}
+      <div className="bg-[#F8F9FA]">
+        <AchievementHeader onClose={handleClose} />
+      </div>
       
-      {/* 카테고리 탭 컴포넌트 */}
-      <AchievementTabs 
-        activeTab={activeTab} 
-        onTabChange={handleTabChange} 
-      />
+      {/* 탭 - 배경색 #F8F9FA */}
+      <div className="bg-[#F8F9FA]">
+        <AchievementTabs activeTab={activeTab} onTabChange={setActiveTab} />
+      </div>
       
-      {/* 콘텐츠 영역 컴포넌트 */}
-      <AchievementContent 
-        activeTab={activeTab}
-        regularAchievements={regularAchievements} 
-        repeatAchievements={repeatAchievements} 
-        eventAchievements={eventAchievements} 
-      />
-    </div>
+      {/* 컨텐츠 - 배경색 #FFFFFF */}
+      <div className="flex-1 overflow-auto bg-[#FFFFFF]">
+        {isLoading ? (
+          <div className="flex h-full items-center justify-center">
+            <p>로딩 중...</p>
+          </div>
+        ) : (
+          <AchievementContent 
+            activeTab={activeTab} 
+            regularAchievements={regularAchievements}
+            repeatAchievements={repeatAchievements}
+            eventAchievements={eventAchievements}
+          />
+        )}
+      </div>
+    </article>
   )
 } 
