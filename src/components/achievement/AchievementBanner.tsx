@@ -41,12 +41,27 @@ export function AchievementBanner({
 }: AchievementBannerProps) {
   const [isOpen, setIsOpen] = useState(false)
   
+  /**
+   * 아코디언 토글 함수
+   */
   const toggleAccordion = () => {
     setIsOpen(!isOpen)
   }
   
+  /**
+   * 배너 클릭 이벤트 핸들러
+   */
+  const handleBannerClick = () => {
+    if (details) {
+      toggleAccordion()
+    }
+  }
+  
   return (
-    <div className={`w-[328px] rounded-[10px] bg-white shadow-floating-primary ${className}`}>
+    <div 
+      className={`w-[328px] rounded-[10px] bg-white shadow-floating-primary ${className} ${details ? 'cursor-pointer' : ''}`}
+      onClick={handleBannerClick}
+    >
       <div className="px-4 py-4">
         {/* 배너 헤더 */}
         <div className="flex items-center justify-between h-[60px] px-[14px]">
@@ -57,10 +72,9 @@ export function AchievementBanner({
             </h3>
           </div>
           
-          <div className="flex items-center">
+          <div className="flex items-center" onClick={(e) => e.stopPropagation()}>
             <AchievementButton
               status={status}
-              onClick={() => console.log(`Achievement ${id} button clicked`)}
               className="mr-[8px]"
             />
             
