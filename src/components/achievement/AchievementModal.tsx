@@ -28,7 +28,7 @@ export default function AchievementModal() {
 
   // 페이지 닫기 핸들러
   const handleClose = () => {
-    window.history.back()
+    window.location.href = '/'
   }
 
   return (

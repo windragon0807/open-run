@@ -20,10 +20,7 @@ interface TabButtonsProps {
  */
 export function TabButtons({ activeTab, selectedTabId }: TabButtonsProps) {
   // 탭 변경 처리
-  const handleTabChange = useCallback((tab: AchievementTabType) => {
-    // URL 해시 변경
-    window.location.hash = `tab=${tab}`;
-    
+  const handleTabChange = useCallback((tab: AchievementTabType) => {    
     // 커스텀 이벤트 발생
     const event = new CustomEvent('achievementTabChange', { 
       detail: { tab } 
