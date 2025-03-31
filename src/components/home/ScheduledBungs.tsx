@@ -28,7 +28,7 @@ function BungList() {
   /* 실시간 타이머를 포함하고 있는 컴포넌트는 클라이언트 컴포넌트로 렌더링해야 합니다. */
   const { data: myBungs } = useMyBungsQuery({
     isOwned: null,
-    status: null,
+    status: 'ONGOING',
     page: 0,
     limit: 10,
   })
