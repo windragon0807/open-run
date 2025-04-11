@@ -1,12 +1,10 @@
-import AuthGuard from '@shared/AuthGuard'
-import Spacing from '@shared/Spacing'
-import Layout from '@shared/Layout'
-import FixedBottomMenuButton from '@shared/FixedBottomMenuButton'
-import Recommendation from '@components/home/Recommendation'
-import MyNFTs from '@components/home/MyNFTs'
-import ScheduledBungs from '@components/home/ScheduledBungs'
 import Header from '@components/home/Header'
 import Permission from '@components/home/Permission'
+import Recommendation from '@components/home/Recommendation'
+import ScheduledBungs from '@components/home/ScheduledBungs'
+import AuthGuard from '@shared/AuthGuard'
+import Layout from '@shared/Layout'
+import Spacing from '@shared/Spacing'
 
 export default async function HomePage() {
   return (
@@ -15,17 +13,14 @@ export default async function HomePage() {
         <Permission />
         <div className='h-full overflow-y-auto'>
           <Header />
-          <Spacing size={95} />
-          <MyNFTs />
           <Spacing size={40} />
           {/* 참여 예정 */}
           <ScheduledBungs />
           <Spacing size={40} />
           {/* 추천 */}
           <Recommendation />
-          <Spacing size={40} />
+          <Spacing size={96} />
         </div>
-        <FixedBottomMenuButton />
       </Layout>
     </AuthGuard>
   )

@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { imageList } from '@store/image'
@@ -43,6 +44,8 @@ type FormValues = {
 }
 
 export default function Forms({ nextStep }: { nextStep: () => void }) {
+  const router = useRouter()
+
   const [isAddressSearchModalOpen, setAddressSearchModalOpen] = useState(false)
   const [isDatePickerOpen, setDatePickerOpen] = useState(false)
   const [isTimePickerOpen, setTimePickerOpen] = useState(false)
@@ -50,7 +53,6 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   const handleImageChange = () => {
-    console.log('ryong', currentImageIndex)
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % 13) // 0-12까지 순환
     setValue('imageUrl', imageList[currentImageIndex])
   }
@@ -127,6 +129,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
     createBung(requestBody, {
       onSuccess: () => {
         메인페이지벙리스트업데이트()
+        router.push('/')
         nextStep()
       },
     })
