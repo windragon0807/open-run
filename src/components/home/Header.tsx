@@ -51,12 +51,12 @@ export default function Header() {
         <div className='relative mr-32 flex w-[152px] flex-1 flex-col items-center'>
           <div className='absolute z-0 h-full w-full rounded-[80px_80px_0_0] bg-gradient-weather opacity-30' />
           {isReverseGeocodeLoading ? (
-            <div className='mt-24 h-16 w-80 animate-pulse rounded-10 bg-gray-darken' />
+            <div className='mt-24 h-16 w-80 animate-pulse rounded-10 bg-gray-default' />
           ) : (
             <span className='z-10 mt-24 text-12 text-white'>{reverseGeocode?.location.slice(0, 2).join(' ')}</span>
           )}
           {isCurrentWeatherLoading ? (
-            <div className='mt-4 h-56 w-122 animate-pulse rounded-10 bg-gray-default' />
+            <div className='mt-19 h-30 w-122 animate-pulse rounded-10 bg-gray-default' />
           ) : (
             <span className='z-10 mt-4 flex items-center gap-8 font-jost text-40 font-bold text-white'>
               <Image src='/images/home/icon_cloud.png' alt='Cloud Icon' width={41} height={24} />
