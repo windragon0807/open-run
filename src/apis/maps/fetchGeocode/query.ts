@@ -24,8 +24,8 @@ type NaverMapGeocodeResponse = {
 }
 
 export type ResponseType = {
-  lat: string
-  lng: string
+  lat: number
+  lng: number
 }
 
 export async function fetchGeocode(request: RequestType): Promise<ResponseType> {
@@ -37,8 +37,8 @@ export async function fetchGeocode(request: RequestType): Promise<ResponseType> 
   const data: NaverMapGeocodeResponse = await response.json()
 
   return {
-    lng: data.addresses[0].x,
-    lat: data.addresses[0].y,
+    lng: Number(data.addresses[0].x),
+    lat: Number(data.addresses[0].y),
   }
 }
 
@@ -46,7 +46,7 @@ export function useGeocode(location: string) {
   return useQuery({
     queryKey: ['geocode', location],
     queryFn: () => fetchGeocode({ address: location }),
-    staleTime: 1000 * 60 * 60 * 24,
-    cacheTime: 1000 * 60 * 60 * 24,
+    staleTime: Infinity,
+    cacheTime: Infinity,
   })
 }

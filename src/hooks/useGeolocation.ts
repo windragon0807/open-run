@@ -1,15 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 type Geolocation = {
-  latitude: number | null
-  longitude: number | null
+  lat: number
+  lng: number
 }
 
 export default function useGeolocation() {
-  const [location, setLocation] = useState<Geolocation>({
-    latitude: null,
-    longitude: null,
-  })
+  const [location, setLocation] = useState<Geolocation>()
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -30,8 +27,8 @@ export default function useGeolocation() {
         })
 
         setLocation({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
         })
         setError(null)
       } catch (err) {
@@ -46,7 +43,7 @@ export default function useGeolocation() {
         } else {
           setError('위치 정보를 가져오는 중 오류가 발생했습니다.')
         }
-        setLocation({ latitude: null, longitude: null })
+        setLocation(undefined)
       } finally {
         setLoading(false)
       }
@@ -55,5 +52,5 @@ export default function useGeolocation() {
     getLocation()
   }, [])
 
-  return { ...location, error, loading }
+  return { location, error, loading }
 }

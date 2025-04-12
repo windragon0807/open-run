@@ -1,17 +1,28 @@
 'use client'
 
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import { useUserStore } from '@store/user'
 import BellIcon from '@icons/BellIcon'
+import useGeolocation from '@hooks/useGeolocation'
 import useLogout from '@hooks/useLogout'
+import { useReverseGeocode } from '@apis/maps/fetchReverseGeoCode/query'
+import { useCurrentWeather } from '@apis/weather/fetchCurrentWeather/query'
 import addDelimiter from '@utils/addDelimiter'
 import { colors } from '@styles/colors'
 
 export default function Header() {
-  const router = useRouter()
   const { userInfo } = useUserStore()
   const { logout } = useLogout()
+
+  const { location } = useGeolocation()
+  const { data: reverseGeocode, isLoading: isReverseGeocodeLoading } = useReverseGeocode(
+    { lat: location?.lat ?? 0, lng: location?.lng ?? 0 },
+    { enabled: location != null },
+  )
+  const { data: currentWeather, isLoading: isCurrentWeatherLoading } = useCurrentWeather(
+    { lat: location?.lat ?? 0, lng: location?.lng ?? 0 },
+    { enabled: location != null },
+  )
 
   return (
     <header className='flex h-[200px] justify-between bg-gradient-header-sample'>
@@ -33,17 +44,25 @@ export default function Header() {
       <div className='flex flex-col'>
         <div className='m-[16px_24px_16px] flex items-center justify-end gap-8'>
           <span className='text-20 font-bold text-white'>{userInfo?.nickname}</span>
-          <button className='-translate-y-2'>
+          <button className='-translate-y-2' onClick={logout}>
             <BellIcon size={24} color={colors.white} />
           </button>
         </div>
         <div className='relative mr-32 flex w-[152px] flex-1 flex-col items-center'>
           <div className='absolute z-0 h-full w-full rounded-[80px_80px_0_0] bg-gradient-weather opacity-30' />
-          <span className='z-10 mt-24 text-12 text-white'>서울시 서대문구</span>
-          <span className='z-10 mt-4 flex items-center gap-5 font-jost text-40 font-bold text-white'>
-            <Image src='/images/home/icon_cloud.png' alt='Cloud Icon' width={41} height={24} />
-            12°
-          </span>
+          {isReverseGeocodeLoading ? (
+            <div className='mt-24 h-16 w-80 animate-pulse rounded-10 bg-gray-darken' />
+          ) : (
+            <span className='z-10 mt-24 text-12 text-white'>{reverseGeocode?.location.slice(0, 2).join(' ')}</span>
+          )}
+          {isCurrentWeatherLoading ? (
+            <div className='mt-4 h-56 w-122 animate-pulse rounded-10 bg-gray-default' />
+          ) : (
+            <span className='z-10 mt-4 flex items-center gap-8 font-jost text-40 font-bold text-white'>
+              <Image src='/images/home/icon_cloud.png' alt='Cloud Icon' width={41} height={24} />
+              {currentWeather?.temperature}°
+            </span>
+          )}
         </div>
       </div>
     </header>

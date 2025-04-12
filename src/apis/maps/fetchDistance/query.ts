@@ -1,8 +1,8 @@
 export type RequestType = {
-  startLat: string
-  startLng: string
-  endLat: string
-  endLng: string
+  startLat: number
+  startLng: number
+  endLat: number
+  endLng: number
 }
 
 type NaverMapDistance5Response = {
@@ -25,13 +25,13 @@ export type ResponseType = number | null
 
 export async function fetchDistance(request: RequestType): Promise<ResponseType> {
   const params = new URLSearchParams({
-    startLat: request.startLat,
-    startLng: request.startLng,
-    endLat: request.endLat,
-    endLng: request.endLng,
+    startLat: String(request.startLat),
+    startLng: String(request.startLng),
+    endLat: String(request.endLat),
+    endLng: String(request.endLng),
   })
 
-  const response = await fetch(`/api/distance?${params}`)
+  const response = await fetch(`/api/directions?${params}`)
   const data: NaverMapDistance5Response = await response.json()
 
   const distance = data?.route?.traoptimal?.[0]?.summary?.distance

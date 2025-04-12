@@ -18,9 +18,9 @@ function Map({ location }: { location: string }) {
 
   return (
     <Container className='[&>div]:rounded-lg' style={{ height: 200 }}>
-      <NaverMap defaultCenter={new navermaps.LatLng(Number(coordinates.lat), Number(coordinates.lng))} defaultZoom={15}>
+      <NaverMap defaultCenter={new navermaps.LatLng(coordinates.lat, coordinates.lng)} defaultZoom={15}>
         <Marker
-          defaultPosition={new navermaps.LatLng(Number(coordinates.lat), Number(coordinates.lng))}
+          defaultPosition={new navermaps.LatLng(coordinates.lat, coordinates.lng)}
           icon={{
             url: '/images/maps/marker_destination.png',
             size: new navermaps.Size(22, 34),
