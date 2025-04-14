@@ -58,9 +58,9 @@ export default function Header() {
           {isCurrentWeatherLoading ? (
             <div className='mt-19 h-30 w-122 animate-pulse rounded-10 bg-gray-default' />
           ) : (
-            <span className='z-10 mt-4 flex items-center gap-8 font-jost text-40 font-bold text-white'>
+            <span className='z-10 mt-4 flex items-center gap-8 font-jost text-40 font-bold tracking-wide text-white'>
               <Image src='/images/home/icon_cloud.png' alt='Cloud Icon' width={41} height={24} />
-              {currentWeather?.temperature}°
+              {Math.floor(currentWeather?.temperature ?? 0)}°
             </span>
           )}
         </div>
