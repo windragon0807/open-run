@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Recommendation from '@components/home/Recommendation'
 import Input from '@shared/Input'
 import MagnifierIcon from '@icons/MagnifierIcon'
@@ -36,6 +36,13 @@ function ExploreHome({ onSearchButtonClick }: { onSearchButtonClick: () => void 
 
 function ExploreSearch({ onCancelButtonClick }: { onCancelButtonClick: () => void }) {
   const [keyword, setKeyword] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  // 페이지 첫 진입 시 입력란에 포커스
+  useEffect(() => {
+    inputRef.current?.focus()
+  }, [])
+
   const 검색한멤버가참여한벙리스트 = [
     {
       id: 1,
@@ -102,12 +109,13 @@ function ExploreSearch({ onCancelButtonClick }: { onCancelButtonClick: () => voi
   return (
     <section className='h-full border-2 border-black-default'>
       <div className='flex items-center gap-8 px-16 py-24'>
-        <Input placeholder='벙, 사용자 검색' value={keyword} setValue={setKeyword} />
+        <Input ref={inputRef} placeholder='벙, 사용자 검색' value={keyword} setValue={setKeyword} />
         <button className='flex-shrink-0 px-8 text-14' onClick={onCancelButtonClick}>
           취소
         </button>
       </div>
       <div className='h-[calc(100%-88px)] overflow-y-auto px-16 pb-120'>
+        {/* <p className='text-base mt-80 text-center text-gray-darken'>검색 결과가 없어요</p> */}
         <div className='mb-56 flex flex-col pt-16'>
           <h3 className='text-base mb-8 font-bold'>{keyword} 멤버가 참여한 벙</h3>
           <ul className='flex flex-col gap-8'>
