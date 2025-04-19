@@ -1,5 +1,6 @@
 'use client'
 
+import clsx from 'clsx'
 import { CSSProperties, ReactNode } from 'react'
 import { useAppMessage } from '@store/app'
 
@@ -14,7 +15,7 @@ export default function Layout({
 }) {
   const { message } = useAppMessage()
   return (
-    <main className={`h-dvh w-dvw ${className}`} style={{ ...style, paddingTop: message.statusBarHeight }}>
+    <main className={clsx('h-dvh w-dvw', className)} style={{ ...style, paddingTop: message.statusBarHeight }}>
       <section className='mx-auto h-full w-full max-w-tablet overflow-hidden'>{children}</section>
     </main>
   )

@@ -59,7 +59,7 @@ function RecommendationBungs() {
         </button>
       ))}
       {recommendationList?.list.length === 0 && (
-        <div className='flex h-full w-full flex-col items-center justify-center gap-8'>
+        <div className='mt-32 flex h-full w-full flex-col items-center justify-center gap-8'>
           <Image src='/images/home/skewed_x_button.png' alt='기울어진 X 버튼 이미지' width={56} height={56} />
           <p className='text-center text-14 text-gray-darken'>
             현재 열린 벙이 없어요 <br />

@@ -14,10 +14,8 @@ export default async function HomePage() {
         <div className='h-full overflow-y-auto'>
           <Header />
           <Spacing size={40} />
-          {/* 참여 예정 */}
           <ScheduledBungs />
           <Spacing size={40} />
-          {/* 추천 */}
           <Recommendation />
           <Spacing size={96} />
         </div>

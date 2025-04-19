@@ -79,7 +79,7 @@ function BungListLoadingFallback() {
   return (
     <>
       <div className='mx-auto mb-8 flex w-full max-w-[500px] justify-between'>
-        <span className='text-20 font-bold text-black-default'>참여 예정</span>
+        <span className='text-20 font-bold text-black-default'>나의 벙</span>
       </div>
       {Array(3)
         .fill(null)
@@ -94,7 +94,7 @@ function BungListErrorFallback() {
   return (
     <>
       <div className='mx-auto mb-8 flex w-full max-w-[500px] justify-between'>
-        <span className='text-20 font-bold text-black-default'>참여 예정</span>
+        <span className='text-20 font-bold text-black-default'>나의 벙</span>
       </div>
       <div className='mb-20'>
         <ErrorFallback type='medium' />
