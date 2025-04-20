@@ -27,7 +27,14 @@ export default function Header() {
   return (
     <header className='flex h-[200px] justify-between bg-gradient-header-sample'>
       <div className='relative flex w-[176px] flex-shrink-0 items-end justify-end'>
-        <Image className='absolute object-cover' src='/images/home/bg_cloud.png' alt='cloud' fill />
+        <Image
+          className='absolute object-cover'
+          src='/images/home/bg_cloud.png'
+          alt='cloud'
+          fill
+          priority
+          sizes='(max-width: 768px) 100vw, 176px'
+        />
         <Image
           className='absolute border'
           src='/temp/nft_character_lg.png'
