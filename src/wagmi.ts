@@ -13,12 +13,12 @@ export function getConfig() {
       }),
     ],
     storage: createStorage({
-        storage: cookieStorage,
+      storage: cookieStorage,
     }),
     ssr: true,
     transports: {
-        [base.id]: http(),
-        [baseSepolia.id]: http(),
+      [base.id]: http(),
+      [baseSepolia.id]: http(),
     },
   });
 }

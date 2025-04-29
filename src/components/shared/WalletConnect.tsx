@@ -12,10 +12,28 @@ import {
   Name,
   Identity,
 } from '@coinbase/onchainkit/identity';
+import { useUpdateWalletAddress } from "@apis/users/updateWalletAddress/mutation";
+import { useAccount } from "wagmi";
 
 export function WalletComponents() {
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const { mutate: updateWalletAddress, error } = useUpdateWalletAddress();
+  const { address, isConnected } = useAccount();
+
+  useEffect(() => {
+    if (isConnected && address) {
+      const params = { walletAddress: address };
+      updateWalletAddress(
+        params,
+        {
+          onError: (error) => {
+            console.error('Failed to update wallet address:', error);
+          },
+        }
+      );
+    }
+  }, [address, isConnected, updateWalletAddress]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
