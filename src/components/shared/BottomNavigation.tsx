@@ -5,12 +5,18 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ElementType } from 'react'
 import { useModalContext } from '@contexts/ModalContext'
+import { useAppMessage } from '@store/app'
 import CreateBung from '../home/create-bung/CreateBung'
 
 export default function BottomNavigation() {
+  const { isApp } = useAppMessage()
   const { openModal } = useModalContext()
   return (
-    <footer className='bg-gradient-bottom-navigation fixed bottom-0 left-0 right-0 z-[999] flex justify-center px-16 pb-24 pt-16'>
+    <footer
+      className={clsx(
+        'fixed bottom-0 left-0 right-0 z-[999] flex justify-center bg-gradient-bottom-navigation px-16 pt-16',
+        isApp ? 'pb-40' : 'pb-24',
+      )}>
       <div className='flex h-56 w-full max-w-[328px] items-center justify-between rounded-28 bg-white px-[9px]'>
         <IconLink href='/' Icon={OpenrunIcon} label='홈' />
         <IconLink href='/explore' Icon={ExploreIcon} label='탐색' />
