@@ -7,6 +7,7 @@ import AlertPortal from '@shared/Alert'
 import AppBridge from '@shared/AppBridge'
 import DarkMode from '@shared/DarkMode'
 import { ROOT_PORTAL_ID } from '@constants/layout'
+import { WalletProvider } from '@components/shared/WalletProvider'
 import '@styles/globals.css'
 
 const jost = Jost({
@@ -19,13 +20,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='ko'>
       <body className={`font-pretendard ${jost.variable} touch-none`}>
         <DarkMode />
-        <ReactQuery>
-          <ModalContext>
-            <NaverMapContext>
-              <AppBridge>{children}</AppBridge>
-            </NaverMapContext>
-          </ModalContext>
-        </ReactQuery>
+        <WalletProvider>
+          <ReactQuery>
+            <ModalContext>
+              <NaverMapContext>
+                <AppBridge>{children}</AppBridge>
+              </NaverMapContext>
+            </ModalContext>
+          </ReactQuery>
+        </WalletProvider>
         <div id={ROOT_PORTAL_ID} />
         <AlertPortal />
       </body>
