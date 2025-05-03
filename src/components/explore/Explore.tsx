@@ -1,7 +1,9 @@
 'use client'
 
+import clsx from 'clsx'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
+import { useAppStore } from '@store/app'
 import Recommendation from '@components/home/Recommendation'
 import Input from '@shared/Input'
 import MagnifierIcon from '@icons/MagnifierIcon'
@@ -18,9 +20,10 @@ export default function Explore() {
 }
 
 function ExploreHome({ onSearchButtonClick }: { onSearchButtonClick: () => void }) {
+  const { isApp } = useAppStore()
   return (
     <section>
-      <div className='px-16 pt-32'>
+      <div className={clsx('px-16', isApp ? 'pt-72' : 'pt-32')}>
         <h1 className='mb-16 text-28 font-bold'>탐색</h1>
         <button
           className='mb-24 flex h-40 w-full items-center justify-between rounded-8 border border-gray-default px-16'
@@ -35,6 +38,7 @@ function ExploreHome({ onSearchButtonClick }: { onSearchButtonClick: () => void 
 }
 
 function ExploreSearch({ onCancelButtonClick }: { onCancelButtonClick: () => void }) {
+  const { isApp } = useAppStore()
   const [keyword, setKeyword] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -107,7 +111,7 @@ function ExploreSearch({ onCancelButtonClick }: { onCancelButtonClick: () => voi
   ]
 
   return (
-    <section className='h-full border-2 border-black-default'>
+    <section className={clsx('h-full', isApp && 'pt-50')}>
       <div className='flex items-center gap-8 px-16 py-24'>
         <Input ref={inputRef} placeholder='벙, 사용자 검색' value={keyword} setValue={setKeyword} />
         <button className='flex-shrink-0 px-8 text-14' onClick={onCancelButtonClick}>

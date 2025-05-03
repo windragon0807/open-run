@@ -1,8 +1,7 @@
 'use client'
 
 import { ReactNode, useEffect } from 'react'
-
-import { useAppMessage } from '@store/app'
+import { useAppStore } from '@store/app'
 import { Message } from '@type/app'
 import { MESSAGE } from '@constants/app'
 
@@ -15,7 +14,7 @@ declare global {
 }
 
 export default function AppBridge({ children }: { children: ReactNode }) {
-  const { setApp, setMessage } = useAppMessage()
+  const { setApp, setMessage } = useAppStore()
   const isApp = checkIsApp()
 
   useEffect(() => {

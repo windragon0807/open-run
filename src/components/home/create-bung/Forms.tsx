@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useAppStore } from '@store/app'
 import { imageList } from '@store/image'
 import Button from '@components/bung/components/Button'
 import FormTitle from '@components/bung/components/FormTitle'
@@ -45,6 +46,7 @@ type FormValues = {
 
 export default function Forms({ nextStep }: { nextStep: () => void }) {
   const router = useRouter()
+  const { isApp } = useAppStore()
 
   const [isAddressSearchModalOpen, setAddressSearchModalOpen] = useState(false)
   const [isDatePickerOpen, setDatePickerOpen] = useState(false)
@@ -395,7 +397,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         </div>
 
         {/** 벙 만들기 버튼 */}
-        <PrimaryButton type='submit' className='mb-40'>
+        <PrimaryButton type='submit' className={isApp ? 'mb-60' : 'mb-40'}>
           {isLoading ? <LoadingLogo color={colors.secondary} className='mx-auto' /> : '벙 만들기'}
         </PrimaryButton>
       </form>

@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { useModalContext } from '@contexts/ModalContext'
 import { useAlertStore } from '@store/alert'
+import { useAppStore } from '@store/app'
 import { BungInfo } from '@type/bung'
 import HashTag from '@shared/HashTag'
 import Input from '@shared/Input'
@@ -33,6 +34,7 @@ type FormValues = {
 
 export default function ModifyBungModal({ details }: { details: BungInfo }) {
   const router = useRouter()
+  const { isApp } = useAppStore()
   const { closeModal } = useModalContext()
   const { mutate: modifyBung, isLoading } = useModifyBung()
   const 참여중인멤버수 = details.memberList.length
@@ -247,7 +249,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
           </div>
 
           {/** 수정 완료 버튼 */}
-          <PrimaryButton type='submit' className='mb-40'>
+          <PrimaryButton type='submit' className={isApp ? 'mb-60' : 'mb-40'}>
             {isLoading ? <LoadingLogo color={colors.secondary} className='mx-auto' /> : '수정 완료'}
           </PrimaryButton>
         </form>

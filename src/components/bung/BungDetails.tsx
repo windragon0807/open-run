@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Fragment, useRef } from 'react'
 import { useModalContext } from '@contexts/ModalContext'
+import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
 import { BungInfo } from '@type/bung'
 import PrimaryButton from '@shared/PrimaryButton'
@@ -46,6 +47,7 @@ export default function BungDetails({
   const 참여인원수 = details.memberList.length
 
   const router = useRouter()
+  const { isApp } = useAppStore()
   const { openModal } = useModalContext()
   const { userInfo } = useUserStore()
   const clearAllCache = useRefetch()
@@ -128,7 +130,9 @@ export default function BungDetails({
 
   return (
     <section className='relative h-full w-full'>
-      <header className='absolute flex h-60 w-full items-center justify-between px-16' onClick={handleScrollToTop}>
+      <header
+        className={clsx('absolute flex h-60 w-full items-center justify-between px-16', isApp && 'top-50')}
+        onClick={handleScrollToTop}>
         <Link href='/' onClick={(e) => e.stopPropagation()}>
           <ArrowLeftIcon size={24} color={colors.white} />
         </Link>
@@ -156,7 +160,10 @@ export default function BungDetails({
           )}
         </div>
       </header>
-      <div className='h-200 w-full cursor-pointer bg-cover' style={{ backgroundImage: `url(${details.mainImage})` }} />
+      <div
+        className={clsx('w-full cursor-pointer bg-cover', isApp ? 'h-240' : 'h-200')}
+        style={{ backgroundImage: `url(${details.mainImage})` }}
+      />
 
       <motion.section
         style={{ y: translateY }}
@@ -312,7 +319,7 @@ export default function BungDetails({
           </div>
 
           {/* 해시태그 */}
-          <div className='mb-80 flex flex-wrap gap-8 px-16'>
+          <div className={clsx('flex flex-wrap gap-8 px-16', isApp ? 'mb-100' : 'mb-80')}>
             {details.hashtags.map((label) => (
               <HashTag key={label} label={label} />
             ))}

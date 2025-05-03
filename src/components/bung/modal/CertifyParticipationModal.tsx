@@ -1,8 +1,10 @@
+import clsx from 'clsx'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { Container, Marker, NaverMap, useNavermaps } from 'react-naver-maps'
 import { useQuery } from 'react-query'
 import { useModalContext } from '@contexts/ModalContext'
+import { useAppStore } from '@store/app'
 import LoadingLogo from '@shared/LoadingLogo'
 import { BottomSheet } from '@shared/Modal'
 import PrimaryButton from '@shared/PrimaryButton'
@@ -17,6 +19,7 @@ const 참여인증거리 = 1_500 // 500m ?
 
 export default function CertifyParticipationModal({ destination, bungId }: { destination: string; bungId: string }) {
   const router = useRouter()
+  const { isApp } = useAppStore()
   const { closeModal } = useModalContext()
   const { mutate: certifyParticipation } = useCertifyParticipation()
   const { location } = useGeolocation()
@@ -65,7 +68,7 @@ export default function CertifyParticipationModal({ destination, bungId }: { des
         )}
       </section>
       <PrimaryButton
-        className='mb-40 mt-20'
+        className={clsx('mt-20', isApp ? 'mb-50' : 'mb-40')}
         disabled={distance == null || distance > 참여인증거리}
         onClick={handleClick}>
         {distance == null && <LoadingLogo />}

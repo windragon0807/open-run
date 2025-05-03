@@ -5,11 +5,11 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ElementType } from 'react'
 import { useModalContext } from '@contexts/ModalContext'
-import { useAppMessage } from '@store/app'
+import { useAppStore } from '@store/app'
 import CreateBung from '../home/create-bung/CreateBung'
 
 export default function BottomNavigation() {
-  const { isApp } = useAppMessage()
+  const { isApp } = useAppStore()
   const { openModal } = useModalContext()
   return (
     <footer

@@ -2,7 +2,8 @@
 
 import clsx from 'clsx'
 import Image from 'next/image'
-import { useAppMessage } from '@store/app'
+import Link from 'next/link'
+import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
 import BellIcon from '@icons/BellIcon'
 import useGeolocation from '@hooks/useGeolocation'
@@ -13,11 +14,12 @@ import addDelimiter from '@utils/addDelimiter'
 import { colors } from '@styles/colors'
 
 export default function Header() {
-  const { isApp } = useAppMessage()
+  const { isApp } = useAppStore()
   const { userInfo } = useUserStore()
   const { logout } = useLogout()
 
   const { location } = useGeolocation()
+  console.log('location', location)
   const { data: reverseGeocode, isLoading: isReverseGeocodeLoading } = useReverseGeocode(
     { lat: location?.lat ?? 0, lng: location?.lng ?? 0 },
     { enabled: location != null },
@@ -30,7 +32,7 @@ export default function Header() {
   return (
     <header className={clsx('bg-gradient-header-sample', isApp && 'pt-[64px]')}>
       <section className='flex h-[200px] w-full justify-between'>
-        <div className='relative flex w-[176px] flex-shrink-0 items-end justify-end'>
+        <Link href='/avatar' className='relative flex w-[176px] flex-shrink-0 items-end justify-end'>
           <Image
             className='absolute object-cover'
             src='/images/home/bg_cloud.png'
@@ -50,7 +52,7 @@ export default function Header() {
           <div className='absolute bottom-8 left-12'>
             <SkewedLikeLabel like={300} />
           </div>
-        </div>
+        </Link>
 
         <div className='flex flex-col'>
           <div className='m-[16px_24px_16px] flex items-center justify-end gap-8'>

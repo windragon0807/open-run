@@ -1,5 +1,4 @@
 import { create } from 'zustand'
-
 import { Message } from '@type/app'
 
 type Theme = {
@@ -10,7 +9,7 @@ type Theme = {
   setMessage: (message: Message) => void
 }
 
-export const useAppMessage = create<Theme>()((set) => ({
+export const useAppStore = create<Theme>()((set) => ({
   isApp: false,
   setApp: (isApp: boolean) => set(() => ({ isApp })),
 
