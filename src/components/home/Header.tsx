@@ -19,7 +19,7 @@ export default function Header() {
   const { logout } = useLogout()
 
   const { location } = useGeolocation()
-  console.log('location', location)
+  console.log('Current location', location)
   const { data: reverseGeocode, isLoading: isReverseGeocodeLoading } = useReverseGeocode(
     { lat: location?.lat ?? 0, lng: location?.lng ?? 0 },
     { enabled: location != null },

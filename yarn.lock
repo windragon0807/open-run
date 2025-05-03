@@ -1832,6 +1832,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eruda@npm:^3.4.1":
+  version: 3.4.1
+  resolution: "eruda@npm:3.4.1"
+  checksum: 815e86c708f494ee3e36dabc5bb75b6a5ac35bc2bd212b25dbe5b5527b1c0b116f03c7659b0186dd915f26e2380e1eae7e51ce79582991703bac45ed6788e043
+  languageName: node
+  linkType: hard
+
 "es-abstract@npm:^1.22.1":
   version: 1.22.3
   resolution: "es-abstract@npm:1.22.3"
@@ -4005,6 +4012,7 @@ __metadata:
     clsx: "npm:^2.1.1"
     concurrently: "npm:^8.2.2"
     date-fns: "npm:^3.6.0"
+    eruda: "npm:^3.4.1"
     eslint: "npm:^8"
     eslint-config-next: "npm:14.2.4"
     eslint-config-prettier: "npm:^9.1.0"

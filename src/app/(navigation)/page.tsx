@@ -1,5 +1,4 @@
 import Header from '@components/home/Header'
-import Permission from '@components/home/Permission'
 import Recommendation from '@components/home/Recommendation'
 import ScheduledBungs from '@components/home/ScheduledBungs'
 import AuthGuard from '@shared/AuthGuard'
@@ -10,7 +9,6 @@ export default async function HomePage() {
   return (
     <AuthGuard>
       <Layout className='bg-gray-lighten'>
-        <Permission />
         <div className='h-full overflow-y-auto'>
           <Header />
           <Spacing size={40} />

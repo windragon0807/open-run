@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { usePermissionStore } from '@store/permission'
 
 type Geolocation = {
   lat: number
@@ -6,6 +7,8 @@ type Geolocation = {
 }
 
 export default function useGeolocation() {
+  const { setGeolocation } = usePermissionStore()
+
   const [location, setLocation] = useState<Geolocation>()
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -26,12 +29,14 @@ export default function useGeolocation() {
           })
         })
 
+        setGeolocation(true)
         setLocation({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         })
         setError(null)
       } catch (err) {
+        setGeolocation(false)
         if (err instanceof GeolocationPositionError) {
           if (err.code === 1) {
             setError('위치 정보 접근 권한이 거부되었습니다. 브라우저 설정에서 권한을 허용해주세요.')

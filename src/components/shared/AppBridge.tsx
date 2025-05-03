@@ -51,6 +51,18 @@ export default function AppBridge({ children }: { children: ReactNode }) {
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    if (!isApp) return
+
+    if (process.env.NODE_ENV === 'development') {
+      import('eruda').then((eruda) => {
+        eruda.default.init({
+          tool: ['console', 'network'],
+        })
+      })
+    }
+  }, [isApp])
+
   return children
 }
 
