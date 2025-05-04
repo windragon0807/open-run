@@ -2,10 +2,10 @@
 
 import clsx from 'clsx'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
 import BellIcon from '@icons/BellIcon'
+import { useAppRouter } from '@hooks/useAppRouter'
 import useGeolocation from '@hooks/useGeolocation'
 import useLogout from '@hooks/useLogout'
 import { useReverseGeocode } from '@apis/maps/fetchReverseGeoCode/query'
@@ -15,6 +15,7 @@ import { colors } from '@styles/colors'
 
 export default function Header() {
   const { isApp } = useAppStore()
+  const appRouter = useAppRouter()
   const { userInfo } = useUserStore()
   const { logout } = useLogout()
 
@@ -31,7 +32,9 @@ export default function Header() {
   return (
     <header className={clsx('bg-gradient-header-sample', isApp && 'pt-[64px]')}>
       <section className='flex h-[200px] w-full justify-between'>
-        <Link href='/avatar' className='relative flex w-[176px] flex-shrink-0 items-end justify-end'>
+        <button
+          className='relative flex w-[176px] flex-shrink-0 items-end justify-end'
+          onClick={() => appRouter.push('/avatar')}>
           <Image
             className='absolute object-cover'
             src='/images/home/bg_cloud.png'
@@ -51,7 +54,7 @@ export default function Header() {
           <div className='absolute bottom-8 left-12'>
             <SkewedLikeLabel like={300} />
           </div>
-        </Link>
+        </button>
 
         <div className='flex flex-col'>
           <div className='m-[16px_24px_16px] flex items-center justify-end gap-8'>

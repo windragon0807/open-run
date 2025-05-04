@@ -1,7 +1,7 @@
+import { useAppRouter } from '@/hooks/useAppRouter'
 import clsx from 'clsx'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Fragment, useRef } from 'react'
 import { useModalContext } from '@contexts/ModalContext'
@@ -47,6 +47,7 @@ export default function BungDetails({
   const 참여인원수 = details.memberList.length
 
   const router = useRouter()
+  const appRouter = useAppRouter()
   const { isApp } = useAppStore()
   const { openModal } = useModalContext()
   const { userInfo } = useUserStore()
@@ -133,9 +134,9 @@ export default function BungDetails({
       <header
         className={clsx('absolute flex h-60 w-full items-center justify-between px-16', isApp && 'top-50')}
         onClick={handleScrollToTop}>
-        <Link href='/' onClick={(e) => e.stopPropagation()}>
+        <button onClick={() => appRouter.push('/')}>
           <ArrowLeftIcon size={24} color={colors.white} />
-        </Link>
+        </button>
         <div className='flex items-center gap-12'>
           {벙에참여한멤버인가 && (
             <button className='text-14 text-white' onClick={handleExit}>

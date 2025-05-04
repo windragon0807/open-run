@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { useAppRouter } from '@/hooks/useAppRouter'
 import { useAlertStore } from '@store/alert'
 import { usePermissionStore } from '@store/permission'
 import ErrorFallback from '@shared/Error'
@@ -21,7 +21,7 @@ export default function ScheduledBungs() {
 }
 
 function BungList() {
-  const router = useRouter()
+  const appRouter = useAppRouter()
   const { isGeolocationPermissionGranted } = usePermissionStore()
   const { openAlert } = useAlertStore()
 
@@ -42,7 +42,7 @@ function BungList() {
       return
     }
 
-    router.push(`/bung/${bungId}`)
+    appRouter.push(`/bung/${bungId}`)
   }
 
   return (
