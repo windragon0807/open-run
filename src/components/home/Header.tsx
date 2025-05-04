@@ -19,7 +19,6 @@ export default function Header() {
   const { logout } = useLogout()
 
   const { location } = useGeolocation()
-  console.log('Current location', location)
   const { data: reverseGeocode, isLoading: isReverseGeocodeLoading } = useReverseGeocode(
     { lat: location?.lat ?? 0, lng: location?.lng ?? 0 },
     { enabled: location != null },
@@ -63,12 +62,12 @@ export default function Header() {
           </div>
           <div className='relative mr-32 flex w-[152px] flex-1 flex-col items-center'>
             <div className='absolute z-0 h-full w-full rounded-[80px_80px_0_0] bg-gradient-weather opacity-30' />
-            {isReverseGeocodeLoading ? (
+            {location == null || isReverseGeocodeLoading ? (
               <div className='mt-24 h-16 w-80 animate-pulse rounded-10 bg-gray-default' />
             ) : (
               <span className='z-10 mt-24 text-12 text-white'>{reverseGeocode?.location.slice(0, 2).join(' ')}</span>
             )}
-            {isCurrentWeatherLoading ? (
+            {location == null || isCurrentWeatherLoading ? (
               <div className='mt-19 h-30 w-122 animate-pulse rounded-10 bg-gray-default' />
             ) : (
               <span className='z-10 mt-4 flex items-center gap-8 font-jost text-40 font-bold tracking-wide text-white'>

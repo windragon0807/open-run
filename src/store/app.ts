@@ -1,18 +1,11 @@
 import { create } from 'zustand'
-import { Message } from '@type/app'
 
-type Theme = {
+type App = {
   isApp: boolean
   setApp: (isApp: boolean) => void
-
-  message: Message
-  setMessage: (message: Message) => void
 }
 
-export const useAppStore = create<Theme>()((set) => ({
+export const useAppStore = create<App>()((set) => ({
   isApp: false,
   setApp: (isApp: boolean) => set(() => ({ isApp })),
-
-  message: {},
-  setMessage: (message: Message) => set(() => ({ message })),
 }))
