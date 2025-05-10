@@ -29,13 +29,13 @@ export default function AppBridge({ children }: { children: ReactNode }) {
 
   /* eruda 초기화 */
   useEffect(() => {
-    if (!isApp) return
+    // if (!isApp) return
 
-    if (process.env.NODE_ENV === 'development') {
-      import('eruda').then((eruda) => {
-        eruda.default.init()
-      })
-    }
+    // if (process.env.NODE_ENV === 'development') {
+    import('eruda').then((eruda) => {
+      eruda.default.init()
+    })
+    // }
   }, [isApp])
 
   return children
