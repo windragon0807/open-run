@@ -33,9 +33,7 @@ export default function AppBridge({ children }: { children: ReactNode }) {
 
     if (process.env.NODE_ENV === 'development') {
       import('eruda').then((eruda) => {
-        eruda.default.init({
-          tool: ['console', 'network'],
-        })
+        eruda.default.init()
       })
     }
   }, [isApp])

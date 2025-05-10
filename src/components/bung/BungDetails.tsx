@@ -268,7 +268,7 @@ export default function BungDetails({
                 )}
               </Fragment>
             ) : (
-              <PrimaryButton disabled={details.memberNumber - 참여인원수 > 0} onClick={handleJoinBung}>
+              <PrimaryButton disabled={details.memberNumber - 참여인원수 <= 0} onClick={handleJoinBung}>
                 참여하기
               </PrimaryButton>
             )}
