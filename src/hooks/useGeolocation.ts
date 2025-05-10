@@ -71,6 +71,7 @@ export default function useGeolocation() {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         })
+        console.info('위치 정보 수신:', { lat: position.coords.latitude, lng: position.coords.longitude })
       } catch (err) {
         setIsGeolocationPermissionGranted(false)
         if (err instanceof GeolocationPositionError) {
