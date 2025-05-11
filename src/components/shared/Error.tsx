@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import WarningIcon from '@icons/WarningIcon'
 
 export default function Error({ type }: { type: 'small' | 'medium' | 'large' }) {
@@ -26,11 +27,9 @@ export default function Error({ type }: { type: 'small' | 'medium' | 'large' }) 
       <div className='flex size-full flex-col items-center justify-center'>
         <WarningIcon className='mb-10' size={60} />
         <p className='mb-25 text-22 font-bold text-[#D7D6DE]'>정보를 불러오지 못했어요</p>
-        <button
-          className='rounded-20 border border-[#D7D6DE] px-28 py-6 text-16 font-semibold'
-          onClick={() => window.location.reload()}>
+        <Link href='/signin' className='rounded-20 border border-[#D7D6DE] px-28 py-6 text-16 font-semibold'>
           재시도
-        </button>
+        </Link>
       </div>
     )
   }
