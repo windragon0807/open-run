@@ -195,8 +195,8 @@ export default function BungDetails({
             <span className='mb-16 inline-block text-20 font-bold text-black-default'>{details.name}</span>
 
             {/* 벙 위치 */}
-            <div className='mb-8 flex items-center gap-8'>
-              <PlaceIcon size={16} color={colors.black.default} />
+            <div className='mb-8 flex gap-8'>
+              <PlaceIcon className='flex-shrink-0 translate-y-2' size={16} color={colors.black.default} />
               <span className='text-14 text-black-default'>{details.location}</span>
             </div>
 
@@ -286,7 +286,7 @@ export default function BungDetails({
             </div>
             <div className='flex gap-8 overflow-x-auto px-16'>
               {details.memberList.map((member) => (
-                <div key={`${member.nickname}`} className='flex flex-col items-center gap-6'>
+                <div key={member.nickname} className='flex flex-col items-center gap-6'>
                   <div className='relative aspect-[1] w-76 rounded-8 bg-black-default'>
                     <Image src='/temp/nft_detail_2.png' alt='' fill sizes='100%' />
                   </div>
@@ -311,8 +311,8 @@ export default function BungDetails({
           )}
 
           {/* 위치 및 지도 */}
-          <div className='mb-8 mt-40 flex items-center gap-4 pl-16'>
-            <PlaceIcon size={16} color={colors.black.default} />
+          <div className='mb-8 mt-40 flex gap-4 px-16'>
+            <PlaceIcon className='flex-shrink-0 translate-y-2' size={16} color={colors.black.default} />
             <span className='whitespace-pre-wrap text-14 font-bold text-black-darken'>{details.location}</span>
           </div>
           <div className='mb-18 px-16'>

@@ -48,8 +48,8 @@ export default function BungCard({
       <Spacing size={8} />
       <p className='truncate text-16 font-bold text-white'>{title}</p>
       <Spacing size={8} />
-      <div className='flex items-center gap-6'>
-        <PlaceIcon size={16} color={colors.white} />
+      <div className='flex gap-6'>
+        <PlaceIcon className='flex-shrink-0 translate-y-2' size={16} color={colors.white} />
         <span className='text-14'>{place}</span>
       </div>
       <Spacing size={2} />
