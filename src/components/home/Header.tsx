@@ -9,7 +9,6 @@ import { useReverseGeocode } from '@apis/maps/fetchReverseGeoCode/query'
 import { useCurrentWeather } from '@apis/weather/fetchCurrentWeather/query'
 import addDelimiter from '@utils/addDelimiter'
 import { colors } from '@styles/colors'
-import { WalletComponents } from '@components/shared/WalletConnect'
 
 export default function Header() {
   const { userInfo } = useUserStore()
@@ -52,7 +51,6 @@ export default function Header() {
       <div className='flex flex-col'>
         <div className='m-[16px_24px_16px] flex items-center justify-end gap-8'>
           <span className='text-20 font-bold text-white'>{userInfo?.nickname}</span>
-          <WalletComponents />
           <button className='-translate-y-2' onClick={logout}>
             <BellIcon size={24} color={colors.white} />
           </button>
