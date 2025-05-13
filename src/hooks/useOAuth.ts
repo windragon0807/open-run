@@ -1,7 +1,11 @@
 import { useRouter } from 'next/navigation'
+import { useAccount } from 'wagmi'
+import { smartWalletLogin } from '@apis/users/smartWalletLogin/api'
+import { COOKIE } from '@constants/cookie'
 
 export default function useSignin() {
   const router = useRouter()
+  const { address } = useAccount()
 
   const kakaoLogin = () => {
     const redirectUri = `${window.location.origin}/kakao/callback`
@@ -17,5 +21,24 @@ export default function useSignin() {
     )
   }
 
-  return { kakaoLogin, naverLogin }
+  const handleSmartWalletLogin = async () => {
+    if (!address) return
+
+    try {
+      // Call our backend through the API with just the wallet address
+      const response = await smartWalletLogin({
+        code: address,
+      })
+
+      // Set the JWT token in cookies
+      document.cookie = `${COOKIE.ACCESSTOKEN}=${response.data.jwtToken}; path=/`
+      
+      // Redirect based on whether the user needs to register
+      router.push(response.data.nickname == null ? '/register' : '/')
+    } catch (error) {
+      console.error('Smart wallet login failed:', error)
+    }
+  }
+
+  return { kakaoLogin, naverLogin, smartWalletLogin: handleSmartWalletLogin }
 }
