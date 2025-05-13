@@ -4,10 +4,10 @@ import { COOKIE } from '@constants/cookie'
 import { certifyAuth } from '@apis/middlewares/certifyAuth/api'
 
 export async function middleware(request: NextRequest) {
-  /* 카카오, 네이버 로그인 처리 */
+  /* 카카오, 네이버, 스마트 월렛 로그인 처리 */
   const pathname = request.nextUrl.pathname
   if (pathname.includes('/callback')) {
-    const authServer = pathname.split('/')[1] as 'kakao' | 'naver'
+    const authServer = pathname.split('/')[1] as 'kakao' | 'naver' | 'smart_wallet'
     const response = await certifyAuth({
       authServer,
       code: request.nextUrl.searchParams.get('code') as string,

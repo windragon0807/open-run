@@ -2,7 +2,7 @@ import qs from 'qs'
 import { ApiResponse } from '@apis/axios'
 
 export type RequestType = {
-  authServer: 'kakao' | 'naver'
+  authServer: 'kakao' | 'naver' | 'smart_wallet'
   code: string
   state: string | null
 }

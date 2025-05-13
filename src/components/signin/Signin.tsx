@@ -7,10 +7,11 @@ import useOAuth from '@hooks/useOAuth'
 import { COOKIE } from '@constants/cookie'
 import NaverLoginButton from '@components/signin/NaverLoginButton'
 import KakaoLoginButton from '@components/signin/KakaoLoginButton'
+import SmartWalletLoginButton from './SmartWalletLoginButton'
 import Spacing from '@components/shared/Spacing'
 
 export default function SignIn() {
-  const { kakaoLogin, naverLogin } = useOAuth()
+  const { kakaoLogin, naverLogin, smartWalletLogin } = useOAuth()
 
   useEffect(() => {
     removeCookie(COOKIE.ACCESSTOKEN)
@@ -21,6 +22,8 @@ export default function SignIn() {
       <KakaoLoginButton onClick={kakaoLogin} />
       <Spacing size={15} />
       <NaverLoginButton onClick={naverLogin} />
+      <Spacing size={15} />
+      <SmartWalletLoginButton onClick={smartWalletLogin} />
     </div>
   )
 }
