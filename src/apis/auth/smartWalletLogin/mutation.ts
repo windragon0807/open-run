@@ -10,7 +10,7 @@ export function useSmartWalletLogin() {
     mutationFn: smartWalletLogin,
     onSuccess: ({ data }) => {
       const { jwtToken, nickname } = data
-      setCookie(COOKIE.ACCESSTOKEN, jwtToken)
+      setCookie(COOKIE.ACCESSTOKEN, jwtToken, 60 * 60 * 6) // 6시간
       router.push(nickname == null ? '/register' : '/')
     },
   })
