@@ -3,11 +3,10 @@ import { Jost } from 'next/font/google'
 import { ModalContext } from '@contexts/ModalContext'
 import NaverMapContext from '@contexts/NaverMapContext'
 import ReactQuery from '@contexts/ReactQuery'
+import { WalletProvider } from '@components/shared/WalletProvider'
 import AlertPortal from '@shared/Alert'
 import AppBridge from '@shared/AppBridge'
-import DarkMode from '@shared/DarkMode'
 import { ROOT_PORTAL_ID } from '@constants/layout'
-import { WalletProvider } from '@components/shared/WalletProvider'
 import '@styles/globals.css'
 
 const jost = Jost({
@@ -19,16 +18,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang='ko'>
       <body className={`font-pretendard ${jost.variable} touch-none`}>
-        <DarkMode />
-        <WalletProvider>
-          <ReactQuery>
+        <ReactQuery>
+          <WalletProvider>
             <ModalContext>
               <NaverMapContext>
                 <AppBridge>{children}</AppBridge>
               </NaverMapContext>
             </ModalContext>
-          </ReactQuery>
-        </WalletProvider>
+          </WalletProvider>
+        </ReactQuery>
         <div id={ROOT_PORTAL_ID} />
         <AlertPortal />
       </body>
