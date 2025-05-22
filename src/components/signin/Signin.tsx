@@ -20,8 +20,9 @@ export default function SignIn() {
       return
     }
 
+    const walletConnectConnector = connectors.find((c) => c.id === 'walletConnect')
     connect(
-      { connector: connectors[0] },
+      { connector: walletConnectConnector ?? connectors[0] },
       {
         onSuccess: (data) => {
           const address = data.accounts[0]

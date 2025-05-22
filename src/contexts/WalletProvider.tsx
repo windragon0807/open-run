@@ -38,9 +38,3 @@ export function WalletProvider(props: { children: ReactNode; initialState?: Stat
     </WagmiProvider>
   )
 }
-
-// declare module "wagmi" {
-//   interface Register {
-//     config: ReturnType<typeof getConfig>;
-//   }
-// }

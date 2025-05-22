@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from 'next'
 import { Jost } from 'next/font/google'
+import GoogleMapContext from '@contexts/GoogleMapContext'
 import { ModalContext } from '@contexts/ModalContext'
 import NaverMapContext from '@contexts/NaverMapContext'
 import ReactQuery from '@contexts/ReactQuery'
-import { WalletProvider } from '@components/shared/WalletProvider'
+import { WalletProvider } from '@contexts/WalletProvider'
 import AlertPortal from '@shared/Alert'
 import AppBridge from '@shared/AppBridge'
 import { ROOT_PORTAL_ID } from '@constants/layout'
@@ -21,9 +22,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ReactQuery>
           <WalletProvider>
             <ModalContext>
-              <NaverMapContext>
-                <AppBridge>{children}</AppBridge>
-              </NaverMapContext>
+              <GoogleMapContext>
+                <NaverMapContext>
+                  <AppBridge>{children}</AppBridge>
+                </NaverMapContext>
+              </GoogleMapContext>
             </ModalContext>
           </WalletProvider>
         </ReactQuery>

@@ -25,6 +25,7 @@ import { useDropoutMember } from '@apis/bungs/dropoutMember/mutation'
 import { useJoinBung } from '@apis/bungs/joinBung/mutation'
 import { currentDate, formatDate, timerFormat } from '@utils/time'
 import { colors } from '@styles/colors'
+import GoogleMap from './GoogleMap'
 import Map from './Map'
 import BungCompleteModal from './modal/BungCompleteModal'
 import CertifyParticipationModal from './modal/CertifyParticipationModal'
@@ -316,7 +317,8 @@ export default function BungDetails({
             <span className='whitespace-pre-wrap text-14 font-bold text-black-darken'>{details.location}</span>
           </div>
           <div className='mb-18 px-16'>
-            <Map location={details.location} />
+            <GoogleMap location={details.location} />
+            {/* <Map location={details.location} /> */}
           </div>
 
           {/* 해시태그 */}
