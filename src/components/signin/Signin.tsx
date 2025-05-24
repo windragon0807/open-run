@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useAccount, useConnect, useDisconnect } from 'wagmi'
+import { Connector, useAccount, useConnect, useDisconnect } from 'wagmi'
 import LoadingLogo from '@shared/LoadingLogo'
 import { useSmartWalletLogin } from '@apis/auth/smartWalletLogin/mutation'
 import { removeCookie } from '@utils/cookie'
@@ -14,15 +14,14 @@ export default function SignIn() {
   const { disconnect } = useDisconnect()
   const { mutate: smartWalletLogin, isLoading } = useSmartWalletLogin()
 
-  const handleLoginButtonClick = () => {
+  const handleLoginButtonClick = (connector: Connector) => {
     if (address) {
       smartWalletLogin({ code: address })
       return
     }
 
-    const walletConnectConnector = connectors.find((c) => c.id === 'walletConnect')
     connect(
-      { connector: walletConnectConnector ?? connectors[0] },
+      { connector },
       {
         onSuccess: (data) => {
           const address = data.accounts[0]
@@ -40,7 +39,20 @@ export default function SignIn() {
 
   return (
     <div className='absolute bottom-40 w-full px-16'>
-      <button
+      {connectors.map((connector) => (
+        <button
+          key={connector.id}
+          className='relative flex h-56 w-full items-center justify-center gap-8 rounded-8 bg-primary hover:bg-primary/90'
+          onClick={() => handleLoginButtonClick(connector)}>
+          <span className='absolute -top-16 rounded-12 border border-primary bg-white px-12 py-4 text-12 font-semibold'>
+            NFT 보상을 받기 위한 전용 월렛이 필요해요
+          </span>
+          <span className='text-16 font-bold text-white'>
+            {로그인프로세스중인가 ? <LoadingLogo color={colors.white} className='mx-auto' /> : '월렛 만들고 시작하기'}
+          </span>
+        </button>
+      ))}
+      {/* <button
         className='relative flex h-56 w-full items-center justify-center gap-8 rounded-8 bg-primary hover:bg-primary/90'
         onClick={handleLoginButtonClick}>
         <span className='absolute -top-16 rounded-12 border border-primary bg-white px-12 py-4 text-12 font-semibold'>
@@ -49,10 +61,12 @@ export default function SignIn() {
         <span className='text-16 font-bold text-white'>
           {로그인프로세스중인가 ? <LoadingLogo color={colors.white} className='mx-auto' /> : '월렛 만들고 시작하기'}
         </span>
-      </button>
-      <button className='mt-16 w-full text-center' onClick={() => disconnect()}>
-        Disconnect
-      </button>
+      </button> */}
+      {address && (
+        <button className='mt-16 w-full text-center' onClick={() => disconnect()}>
+          Disconnect
+        </button>
+      )}
     </div>
   )
 }

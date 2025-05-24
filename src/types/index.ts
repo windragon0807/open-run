@@ -6,5 +6,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_NAVER_MAP_CLIENT_ID: string
     NAVER_MAP_CLIENT_ID: string
     NAVER_MAP_CLIENT_SECRET: string
+    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: string
   }
 }

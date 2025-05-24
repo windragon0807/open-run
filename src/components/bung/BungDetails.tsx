@@ -317,8 +317,8 @@ export default function BungDetails({
             <span className='whitespace-pre-wrap text-14 font-bold text-black-darken'>{details.location}</span>
           </div>
           <div className='mb-18 px-16'>
-            <GoogleMap location={details.location} />
-            {/* <Map location={details.location} /> */}
+            {/* <GoogleMap location={details.location} /> */}
+            <Map location={details.location} />
           </div>
 
           {/* 해시태그 */}
