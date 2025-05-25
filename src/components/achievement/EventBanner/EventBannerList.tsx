@@ -262,16 +262,18 @@ function EventBannerListItem({ event, isExpanded, onToggle, onEventClick }: Even
           backfaceVisibility: 'hidden',
         }}>
         {/* 이벤트 레이블 */}
-        <div className='my-[30px] ml-[16px] flex h-[60px] w-[60px] items-center justify-center rounded-[10px]'>
-          <div className={`${getLabelColor()} rounded-[6px] px-[8px] py-[4px] text-[12px] font-bold`}>
+        <div className='absolute left-[13px] top-[48px]'>
+          <div
+            className={`${getLabelColor()} flex h-[24px] w-[53px] items-center justify-center rounded-[25px] text-center text-[12px] font-normal leading-[16px] tracking-[-0.02em]`}
+            style={{ fontFamily: 'Pretendard', fontWeight: 400 }}>
             {getEventLabel()}
           </div>
         </div>
 
         {/* 이벤트 콘텐츠 영역 */}
-        <div className='relative ml-[8px] flex-1'>
+        <div className='relative ml-[80px] flex-1'>
           {/* 이벤트 제목과 설명 */}
-          <div className='mt-[22px]'>
+          <div className='mb-[31px] mt-[33px]'>
             {/* 이벤트 주제 */}
             <h3
               className='max-w-[200px] truncate text-[14px] font-bold leading-[20px] tracking-[-0.02em] text-[#666666] transition-opacity duration-300'
