@@ -42,6 +42,24 @@ export function EventBannerListItem({ event, isExpanded, onToggle, onEventClick 
   }
 
   /**
+   * 버튼 텍스트 결정 함수
+   */
+  const getButtonText = () => {
+    if (isCompleted) return '종료된\n이벤트'
+    return '모두 받기'
+  }
+
+  /**
+   * 버튼 스타일 결정 함수
+   */
+  const getButtonStyle = () => {
+    if (isCompleted) {
+      return 'bg-[#DEE2E6] text-[#89939D] hover:bg-[#CED4DA]'
+    }
+    return 'bg-[#5B7EFF] text-white hover:bg-[#4A6EEF]'
+  }
+
+  /**
    * 배너 클릭 핸들러 (아코디언 토글)
    */
   const handleBannerClick = (e: React.MouseEvent) => {
@@ -104,14 +122,17 @@ export function EventBannerListItem({ event, isExpanded, onToggle, onEventClick 
 
           {/* 모두 받기 버튼과 아코디언 버튼 */}
           <div className='absolute right-[16px] top-[40px] flex items-center'>
-            {/* 모두 받기 버튼 */}
+            {/* 모두 받기 / 종료된 이벤트 버튼 */}
             <button
-              className='flex h-[40px] w-[60px] items-center justify-center rounded-[8px] bg-[#5B7EFF] text-[12px] font-bold text-white transition-colors duration-200 hover:bg-[#4A6EEF]'
+              className={`flex h-[40px] w-[60px] items-center justify-center whitespace-pre-line rounded-[8px] text-[12px] font-bold transition-colors duration-200 ${getButtonStyle()}`}
               onClick={(e) => {
                 e.stopPropagation()
-                onEventClick?.(event)
-              }}>
-              모두 받기
+                if (!isCompleted) {
+                  onEventClick?.(event)
+                }
+              }}
+              disabled={isCompleted}>
+              {getButtonText()}
             </button>
 
             {/* 펼치기/접기 버튼 */}
