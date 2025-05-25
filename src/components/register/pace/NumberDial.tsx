@@ -4,7 +4,6 @@ interface NumberDialProps {
   value: number
   min: number
   max: number
-  onChange: (value: number) => void
   handleTouchStart: (e: React.TouchEvent) => void
   handleTouchMove: (e: React.TouchEvent) => void
   handleTouchEnd: () => void
@@ -19,7 +18,6 @@ export default function NumberDial({
   value,
   min,
   max,
-  onChange,
   handleTouchStart,
   handleTouchMove,
   handleTouchEnd,
@@ -46,6 +44,15 @@ export default function NumberDial({
 
   const displayNumbers = getDisplayNumbers(value, min, max)
 
+  /* [25.03] 1 ~ 7에서 0 ~ 7+로 표기 확장 */
+  const renderItem = (num: number) => {
+    if (digits === 1 && num === 7) {
+      return '7 +'
+    }
+
+    return String(num).padStart(digits, '0')
+  }
+
   return (
     <div
       className='relative h-full w-86 touch-none select-none overflow-hidden'
@@ -69,7 +76,7 @@ export default function NumberDial({
                   : 'text-[rgba(74,92,239,0.04)]'
             }`}
             style={{ transform: `translateY(${(index - 2) * 64 + 128}px)`, fontSize: '56px', userSelect: 'none' }}>
-            {num.toString().padStart(digits, '0')}
+            {renderItem(num)}
           </div>
         )
       })}

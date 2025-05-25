@@ -37,10 +37,9 @@ export default function Frequency({
         <div className='relative h-[320px] w-86 touch-none overflow-hidden'>
           <NumberDial
             value={value}
-            min={1}
+            min={0}
             max={7}
             digits={1}
-            onChange={(newValue) => setFrequency(newValue as WeekCount)}
             handleTouchStart={handleTouchStart}
             handleTouchMove={handleTouchMove}
             handleTouchEnd={handleTouchEnd}

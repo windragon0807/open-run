@@ -1,10 +1,11 @@
+import { useAppRouter } from '@/hooks/useAppRouter'
 import clsx from 'clsx'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Fragment, useRef } from 'react'
 import { useModalContext } from '@contexts/ModalContext'
+import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
 import { BungInfo } from '@type/bung'
 import PrimaryButton from '@shared/PrimaryButton'
@@ -24,6 +25,7 @@ import { useDropoutMember } from '@apis/bungs/dropoutMember/mutation'
 import { useJoinBung } from '@apis/bungs/joinBung/mutation'
 import { currentDate, formatDate, timerFormat } from '@utils/time'
 import { colors } from '@styles/colors'
+import GoogleMap from './GoogleMap'
 import Map from './Map'
 import BungCompleteModal from './modal/BungCompleteModal'
 import CertifyParticipationModal from './modal/CertifyParticipationModal'
@@ -46,6 +48,8 @@ export default function BungDetails({
   const 참여인원수 = details.memberList.length
 
   const router = useRouter()
+  const appRouter = useAppRouter()
+  const { isApp } = useAppStore()
   const { openModal } = useModalContext()
   const { userInfo } = useUserStore()
   const clearAllCache = useRefetch()
@@ -128,10 +132,12 @@ export default function BungDetails({
 
   return (
     <section className='relative h-full w-full'>
-      <header className='absolute flex h-60 w-full items-center justify-between px-16' onClick={handleScrollToTop}>
-        <Link href='/' onClick={(e) => e.stopPropagation()}>
+      <header
+        className={clsx('absolute flex h-60 w-full items-center justify-between px-16', isApp && 'top-50')}
+        onClick={handleScrollToTop}>
+        <button onClick={() => appRouter.push('/')}>
           <ArrowLeftIcon size={24} color={colors.white} />
-        </Link>
+        </button>
         <div className='flex items-center gap-12'>
           {벙에참여한멤버인가 && (
             <button className='text-14 text-white' onClick={handleExit}>
@@ -156,7 +162,10 @@ export default function BungDetails({
           )}
         </div>
       </header>
-      <div className='h-200 w-full cursor-pointer bg-cover' style={{ backgroundImage: `url(${details.mainImage})` }} />
+      <div
+        className={clsx('w-full cursor-pointer bg-cover', isApp ? 'h-240' : 'h-200')}
+        style={{ backgroundImage: `url(${details.mainImage})` }}
+      />
 
       <motion.section
         style={{ y: translateY }}
@@ -187,8 +196,8 @@ export default function BungDetails({
             <span className='mb-16 inline-block text-20 font-bold text-black-default'>{details.name}</span>
 
             {/* 벙 위치 */}
-            <div className='mb-8 flex items-center gap-8'>
-              <PlaceIcon size={16} color={colors.black.default} />
+            <div className='mb-8 flex gap-8'>
+              <PlaceIcon className='flex-shrink-0 translate-y-2' size={16} color={colors.black.default} />
               <span className='text-14 text-black-default'>{details.location}</span>
             </div>
 
@@ -260,7 +269,7 @@ export default function BungDetails({
                 )}
               </Fragment>
             ) : (
-              <PrimaryButton disabled={details.memberNumber - 참여인원수 > 0} onClick={handleJoinBung}>
+              <PrimaryButton disabled={details.memberNumber - 참여인원수 <= 0} onClick={handleJoinBung}>
                 참여하기
               </PrimaryButton>
             )}
@@ -278,7 +287,7 @@ export default function BungDetails({
             </div>
             <div className='flex gap-8 overflow-x-auto px-16'>
               {details.memberList.map((member) => (
-                <div key={`${member.nickname}`} className='flex flex-col items-center gap-6'>
+                <div key={member.nickname} className='flex flex-col items-center gap-6'>
                   <div className='relative aspect-[1] w-76 rounded-8 bg-black-default'>
                     <Image src='/temp/nft_detail_2.png' alt='' fill sizes='100%' />
                   </div>
@@ -303,16 +312,17 @@ export default function BungDetails({
           )}
 
           {/* 위치 및 지도 */}
-          <div className='mb-8 mt-40 flex items-center gap-4 pl-16'>
-            <PlaceIcon size={16} color={colors.black.default} />
+          <div className='mb-8 mt-40 flex gap-4 px-16'>
+            <PlaceIcon className='flex-shrink-0 translate-y-2' size={16} color={colors.black.default} />
             <span className='whitespace-pre-wrap text-14 font-bold text-black-darken'>{details.location}</span>
           </div>
           <div className='mb-18 px-16'>
+            {/* <GoogleMap location={details.location} /> */}
             <Map location={details.location} />
           </div>
 
           {/* 해시태그 */}
-          <div className='mb-80 flex flex-wrap gap-8 px-16'>
+          <div className={clsx('flex flex-wrap gap-8 px-16', isApp ? 'mb-100' : 'mb-80')}>
             {details.hashtags.map((label) => (
               <HashTag key={label} label={label} />
             ))}

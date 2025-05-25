@@ -23,7 +23,7 @@ export default function Recommendation() {
 
 function RecommendationBungs() {
   const router = useRouter()
-  const { geolocation } = usePermissionStore()
+  const { isGeolocationPermissionGranted } = usePermissionStore()
   const { openAlert } = useAlertStore()
 
   const { data: recommendationList } = useBungsQuery({
@@ -33,7 +33,7 @@ function RecommendationBungs() {
   })
 
   const handleClick = (bungId: string) => {
-    if (geolocation === false) {
+    if (isGeolocationPermissionGranted === false) {
       openAlert({
         title: '서비스 접근 권한 안내',
         description: `위치 권한 사용을 거부하였습니다. 기능 사용을 원하실 경우 휴대폰설정 > 애플리케이션 관리자에서 해당 앱의 권한을 허용해주세요.`,
@@ -59,10 +59,10 @@ function RecommendationBungs() {
         </button>
       ))}
       {recommendationList?.list.length === 0 && (
-        <div className='flex h-full w-full flex-col items-center justify-center gap-8'>
+        <div className='mt-32 flex h-full w-full flex-col items-center justify-center gap-8'>
           <Image src='/images/home/skewed_x_button.png' alt='기울어진 X 버튼 이미지' width={56} height={56} />
           <p className='text-center text-14 text-gray-darken'>
-            현재 열림 벙이 없어요 <br />
+            현재 열린 벙이 없어요 <br />
             새로운 벙을 만들어 멤버를 모집해 보세요!
           </p>
         </div>

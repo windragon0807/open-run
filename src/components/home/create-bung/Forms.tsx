@@ -1,7 +1,10 @@
+import { useThumbnailImage } from '@/hooks/useThumbnailImage'
 import clsx from 'clsx'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useAppStore } from '@store/app'
 import { imageList } from '@store/image'
 import Button from '@components/bung/components/Button'
 import FormTitle from '@components/bung/components/FormTitle'
@@ -43,17 +46,14 @@ type FormValues = {
 }
 
 export default function Forms({ nextStep }: { nextStep: () => void }) {
+  const router = useRouter()
+  const { isApp } = useAppStore()
+  const { nextImage } = useThumbnailImage()
+
   const [isAddressSearchModalOpen, setAddressSearchModalOpen] = useState(false)
   const [isDatePickerOpen, setDatePickerOpen] = useState(false)
   const [isTimePickerOpen, setTimePickerOpen] = useState(false)
   const dateElementRef = useRef<HTMLDivElement>(null)
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
-
-  const handleImageChange = () => {
-    console.log('ryong', currentImageIndex)
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % 13) // 0-12까지 순환
-    setValue('imageUrl', imageList[currentImageIndex])
-  }
 
   const { mutate: createBung, isLoading } = useCreateBung()
   const 메인페이지벙리스트업데이트 = useRefetchQuery(queryKey)
@@ -127,6 +127,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
     createBung(requestBody, {
       onSuccess: () => {
         메인페이지벙리스트업데이트()
+        router.push('/')
         nextStep()
       },
     })
@@ -153,7 +154,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           <button
             type='button'
             className='absolute bottom-16 right-16 rounded-4 bg-primary p-8'
-            onClick={handleImageChange}>
+            onClick={() => nextImage({ onChange: (imageUrl) => setValue('imageUrl', imageUrl) })}>
             <RandomIcon size={24} color={colors.white} />
           </button>
         </section>
@@ -392,7 +393,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         </div>
 
         {/** 벙 만들기 버튼 */}
-        <PrimaryButton type='submit' className='mb-40'>
+        <PrimaryButton type='submit' className={isApp ? 'mb-60' : 'mb-40'}>
           {isLoading ? <LoadingLogo color={colors.secondary} className='mx-auto' /> : '벙 만들기'}
         </PrimaryButton>
       </form>

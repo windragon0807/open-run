@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import { useAppRouter } from '@/hooks/useAppRouter'
 import { useAlertStore } from '@store/alert'
 import { usePermissionStore } from '@store/permission'
 import ErrorFallback from '@shared/Error'
@@ -21,20 +21,20 @@ export default function ScheduledBungs() {
 }
 
 function BungList() {
-  const router = useRouter()
-  const { geolocation } = usePermissionStore()
+  const appRouter = useAppRouter()
+  const { isGeolocationPermissionGranted } = usePermissionStore()
   const { openAlert } = useAlertStore()
 
   /* 실시간 타이머를 포함하고 있는 컴포넌트는 클라이언트 컴포넌트로 렌더링해야 합니다. */
   const { data: myBungs } = useMyBungsQuery({
     isOwned: null,
-    status: null,
+    status: 'ONGOING',
     page: 0,
     limit: 10,
   })
 
   const handleClick = (bungId: string) => {
-    if (geolocation === false) {
+    if (isGeolocationPermissionGranted === false) {
       openAlert({
         title: '서비스 접근 권한 안내',
         description: `위치 권한 사용을 거부하였습니다. 기능 사용을 원하실 경우 휴대폰설정 > 애플리케이션 관리자에서 해당 앱의 권한을 허용해주세요.`,
@@ -42,7 +42,7 @@ function BungList() {
       return
     }
 
-    router.push(`/bung/${bungId}`)
+    appRouter.push(`/bung/${bungId}`)
   }
 
   return (
@@ -79,7 +79,7 @@ function BungListLoadingFallback() {
   return (
     <>
       <div className='mx-auto mb-8 flex w-full max-w-[500px] justify-between'>
-        <span className='text-20 font-bold text-black-default'>참여 예정</span>
+        <span className='text-20 font-bold text-black-default'>나의 벙</span>
       </div>
       {Array(3)
         .fill(null)
@@ -94,7 +94,7 @@ function BungListErrorFallback() {
   return (
     <>
       <div className='mx-auto mb-8 flex w-full max-w-[500px] justify-between'>
-        <span className='text-20 font-bold text-black-default'>참여 예정</span>
+        <span className='text-20 font-bold text-black-default'>나의 벙</span>
       </div>
       <div className='mb-20'>
         <ErrorFallback type='medium' />

@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { useModalContext } from '@contexts/ModalContext'
 import { useAlertStore } from '@store/alert'
+import { useAppStore } from '@store/app'
 import { BungInfo } from '@type/bung'
 import HashTag from '@shared/HashTag'
 import Input from '@shared/Input'
@@ -15,6 +16,8 @@ import TextArea from '@shared/TextArea'
 import BrokenXIcon from '@icons/BrokenXIcon'
 import CalendarIcon from '@icons/CalendarIcon'
 import ClockIcon from '@icons/ClockIcon'
+import RandomIcon from '@icons/RandomIcon'
+import { useThumbnailImage } from '@hooks/useThumbnailImage'
 import { useModifyBung } from '@apis/bungs/modifyBung/mutation'
 import { formatDate } from '@utils/time'
 import { colors } from '@styles/colors'
@@ -29,14 +32,17 @@ type FormValues = {
   hasAfterRun: boolean
   afterRunDescription: string
   hashTags: string[]
+  mainImage: string
 }
 
 export default function ModifyBungModal({ details }: { details: BungInfo }) {
   const router = useRouter()
+  const { isApp } = useAppStore()
   const { closeModal } = useModalContext()
   const { mutate: modifyBung, isLoading } = useModifyBung()
   const 참여중인멤버수 = details.memberList.length
   const openAlert = useAlertStore((state) => state.openAlert)
+  const { nextImage } = useThumbnailImage(details.mainImage)
 
   const {
     register,
@@ -52,6 +58,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
       hasAfterRun: details.hasAfterRun,
       afterRunDescription: details.afterRunDescription,
       hashTags: details.hashtags,
+      mainImage: details.mainImage || '',
     },
   })
 
@@ -72,6 +79,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
       hasAfterRun: formData.hasAfterRun,
       afterRunDescription: formData.hasAfterRun ? formData.afterRunDescription : '',
       hashtags: formData.hashTags,
+      mainImage: formData.mainImage,
     }
 
     modifyBung(request, {
@@ -95,7 +103,13 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
       <section className='h-[calc(100%-110px)] overflow-y-auto'>
         <form className='flex w-full flex-col overflow-y-auto px-16' onSubmit={handleSubmit(onSubmit)}>
           <section className='relative mx-auto mb-32 h-184 w-full'>
-            <Image className='rounded-8' src={details.mainImage as string} alt='Thumbnail Image' fill />
+            <Image className='rounded-8' src={watch('mainImage')} alt='Thumbnail Image' fill />
+            <button
+              type='button'
+              className='absolute bottom-16 right-16 rounded-4 bg-primary p-8'
+              onClick={() => nextImage({ onChange: (imageUrl) => setValue('mainImage', imageUrl) })}>
+              <RandomIcon size={24} color={colors.white} />
+            </button>
           </section>
 
           {/** 벙 이름 */}
@@ -247,7 +261,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
           </div>
 
           {/** 수정 완료 버튼 */}
-          <PrimaryButton type='submit' className='mb-40'>
+          <PrimaryButton type='submit' className={isApp ? 'mb-60' : 'mb-40'}>
             {isLoading ? <LoadingLogo color={colors.secondary} className='mx-auto' /> : '수정 완료'}
           </PrimaryButton>
         </form>

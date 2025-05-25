@@ -1,14 +1,19 @@
-import { useQuery, UseQueryOptions } from 'react-query'
-import { PaginationResponse, Pagination } from '@apis/type'
+import { UseQueryOptions, useQuery } from 'react-query'
 import { BungInfo } from '@type/bung'
 import http from '@apis/axios'
+import { Pagination, PaginationResponse } from '@apis/type'
 import { toKSTDate } from '@utils/time'
 
 type RequestType = {
   /* null : 전체, true : 내가 벙주인 벙, false : 내가 참여한 벙 */
   isOwned: boolean | null
-  /* null : 현재 일자보다 미래 시점의 모든 벙, PARTICIPATING : 시작은 했는데 안 끝난 벙, ACCOMPLISHED : 완료된 벙 */
-  status: 'PARTICIPATING' | 'ACCOMPLISHED' | null
+  /*
+   * null : 현재 일자보다 미래 시점의 모든 벙
+   * PARTICIPATING : 시작은 했는데 안 끝난 벙
+   * ACCOMPLISHED : 완료된 벙
+   * ONGOING : 참여 예정 중이거나 진행 중인 벙
+   */
+  status: 'PARTICIPATING' | 'ACCOMPLISHED' | 'ONGOING' | null
   page: number
   limit: number
 }

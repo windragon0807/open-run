@@ -1,5 +1,7 @@
+import clsx from 'clsx'
 import Image from 'next/image'
 import { useModalContext } from '@contexts/ModalContext'
+import { useAppStore } from '@store/app'
 import { BungMember } from '@type/bung'
 import Input from '@shared/Input'
 import ArrowLeftIcon from '@icons/ArrowLeftIcon'
@@ -16,11 +18,12 @@ export default function ManageMembers({
   memberList: BungMember[]
   setPageCategory: (category: PageCategory) => void
 }) {
+  const { isApp } = useAppStore()
   const { openModal } = useModalContext()
   const { search, setSearch, filteredList } = useFushSearch(memberList, 'nickname')
 
   return (
-    <section className='h-full w-full bg-gray-lighten'>
+    <section className={clsx('h-full w-full bg-gray-lighten', isApp && 'pt-50')}>
       <header className='relative flex h-60 w-full items-center justify-center'>
         <button className='absolute left-16' onClick={() => setPageCategory('벙 상세')}>
           <ArrowLeftIcon size={24} color={colors.black.darken} />

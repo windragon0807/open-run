@@ -18,6 +18,7 @@ const config: Config = {
       '4xl': '1920px',
     },
     fontSize: {
+      10: ['0.625rem', { lineHeight: '1.2', letterSpacing: '-0.013rem' }], // [10px, 12px, -0.2px]
       12: ['0.75rem', { lineHeight: '1.333', letterSpacing: '-0.015rem' }], // [12px, 16px, -0.24px]
       14: ['0.875rem', { lineHeight: '1.428', letterSpacing: '-0.018rem' }], // [14px, 20px, -0.28px]
       16: ['1rem', { lineHeight: '1.5', letterSpacing: '-0.02rem' }], // [16px, 24px, -0.32px]
@@ -53,6 +54,10 @@ const config: Config = {
           'linear-gradient(146deg, rgba(255, 255, 255, 0.20) 41.23%, rgba(224, 251, 96, 0.20) 65.21%, rgba(74, 92, 239, 0.20) 81.2%)',
         'gradient-transparent-secondary':
           'linear-gradient(90deg, rgba(0, 0, 0, 0.00) 0%, rgba(224, 251, 96, 0.80) 100%)',
+        'gradient-bottom-navigation': 'linear-gradient(180deg, rgba(222, 226, 230, 0.00) 0%, #DEE2E6 70%)',
+        'gradient-weather':
+          'linear-gradient(180deg, #586587 0%, rgba(248, 249, 250, 0.00) 75%, rgba(248, 249, 250, 0.00) 100%)',
+        'gradient-header-sample': 'linear-gradient(180deg, #B1B9CD 20%, rgba(137, 147, 157, 0.00) 100%)',
       },
       boxShadow: {
         'floating-primary': '0px 0px 16px 0px rgba(74, 92, 239, 0.20)',

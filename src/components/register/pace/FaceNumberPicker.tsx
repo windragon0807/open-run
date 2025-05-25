@@ -60,7 +60,6 @@ export default function FaceNumberPicker({
           value={minutes}
           min={minMinutes}
           max={maxMinutes}
-          onChange={(newMinutes) => onChange(`${newMinutes}'${padStart(seconds)}\"`)}
           handleTouchStart={handleMinutesTouchStart}
           handleTouchMove={handleMinutesTouchMove}
           handleTouchEnd={handleMinutesTouchEnd}
@@ -71,7 +70,7 @@ export default function FaceNumberPicker({
           digits={2}
         />
       </div>
-      <div className='text-40 -ml-2 mb-18 mr-4 touch-none text-center font-pretendard font-bold italic tracking-tight text-primary'>
+      <div className='-ml-2 mb-18 mr-4 touch-none text-center font-pretendard text-40 font-bold italic tracking-tight text-primary'>
         {`'`}
       </div>
       <div className='relative h-[320px] w-86 touch-none overflow-hidden'>
@@ -79,7 +78,6 @@ export default function FaceNumberPicker({
           value={seconds}
           min={minSeconds}
           max={maxSeconds}
-          onChange={(newSeconds) => onChange(`${padStart(minutes)}'${padStart(newSeconds)}\"`)}
           handleTouchStart={handleSecondsTouchStart}
           handleTouchMove={handleSecondsTouchMove}
           handleTouchEnd={handleSecondsTouchEnd}
@@ -90,7 +88,7 @@ export default function FaceNumberPicker({
           digits={2}
         />
       </div>
-      <div className='text-40 -ml-4 mb-18 touch-none text-center font-pretendard font-bold italic tracking-tight text-primary'>
+      <div className='-ml-4 mb-18 touch-none text-center font-pretendard text-40 font-bold italic tracking-tight text-primary'>
         {`"`}
       </div>
     </div>

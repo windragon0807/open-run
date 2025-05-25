@@ -1,8 +1,10 @@
+import clsx from 'clsx'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { Container, Marker, NaverMap, useNavermaps } from 'react-naver-maps'
 import { useQuery } from 'react-query'
 import { useModalContext } from '@contexts/ModalContext'
+import { useAppStore } from '@store/app'
 import LoadingLogo from '@shared/LoadingLogo'
 import { BottomSheet } from '@shared/Modal'
 import PrimaryButton from '@shared/PrimaryButton'
@@ -17,24 +19,24 @@ const 참여인증거리 = 1_500 // 500m ?
 
 export default function CertifyParticipationModal({ destination, bungId }: { destination: string; bungId: string }) {
   const router = useRouter()
+  const { isApp } = useAppStore()
   const { closeModal } = useModalContext()
   const { mutate: certifyParticipation } = useCertifyParticipation()
-  const { latitude, longitude } = useGeolocation()
+  const { location } = useGeolocation()
   const { data: coordinates } = useGeocode(destination)
-  const 모든좌표가유효한가 = latitude != null && longitude != null && coordinates != null
+  const 모든좌표가유효한가 = location != null && coordinates != null
 
   const { data: distance } = useQuery({
-    queryKey: ['distance', latitude, longitude, coordinates?.lat, coordinates?.lng],
+    queryKey: ['distance', location, coordinates?.lat, coordinates?.lng],
     queryFn: () =>
       fetchDistance({
-        startLat: String(latitude),
-        startLng: String(longitude),
-        endLat: String(coordinates?.lat),
-        endLng: String(coordinates?.lng),
+        startLat: location?.lat ?? 0,
+        startLng: location?.lng ?? 0,
+        endLat: coordinates?.lat ?? 0,
+        endLng: coordinates?.lng ?? 0,
       }),
     enabled: 모든좌표가유효한가 === true,
   })
-  console.log('ryong', distance)
 
   const handleClick = () => {
     certifyParticipation(
@@ -58,7 +60,7 @@ export default function CertifyParticipationModal({ destination, bungId }: { des
       </header>
       <section className='w-full'>
         {모든좌표가유효한가 === true ? (
-          <Map curLat={latitude} curLng={longitude} desLat={Number(coordinates.lat)} desLng={Number(coordinates.lng)} />
+          <Map curLat={location?.lat} curLng={location?.lng} desLat={coordinates.lat} desLng={coordinates.lng} />
         ) : (
           <div className='relative aspect-square w-full animate-pulse'>
             <Image className='object-cover' src='/images/maps/map_placeholder.png' alt='map' fill />
@@ -66,7 +68,7 @@ export default function CertifyParticipationModal({ destination, bungId }: { des
         )}
       </section>
       <PrimaryButton
-        className='mb-40 mt-20'
+        className={clsx('mt-20', isApp ? 'mb-50' : 'mb-40')}
         disabled={distance == null || distance > 참여인증거리}
         onClick={handleClick}>
         {distance == null && <LoadingLogo />}
