@@ -144,8 +144,8 @@ function EventBannerListItem({ event, isExpanded, onToggle, onEventClick }: Even
    * 레이블 색상 결정 함수
    */
   const getLabelColor = () => {
-    if (isCompleted) return 'bg-[#FF6B9D] text-white'
-    return 'bg-[#FF6B9D] text-white'
+    if (isCompleted) return 'bg-[#F06595] text-white'
+    return 'bg-[#DEE2E6] text-[#222222]'
   }
 
   /**
