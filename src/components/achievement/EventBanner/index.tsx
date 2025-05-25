@@ -1,13 +1,13 @@
 'use client'
 
 import { EventAchievementType } from '@/types/achievement'
-import { EventBannerSlider } from './EventBannerSlider'
 import { EventBannerList } from './EventBannerList'
+import { EventBannerSlider } from './EventBannerSlider'
 
-// 모든 컴포넌트를 내보내기 - 다른 곳에서 직접 사용할 수 있게 함
-export * from './EventBannerItem'
-export * from './EventBannerSlider'
-export * from './EventBannerList'
+// 개별 컴포넌트들을 export
+export { EventBannerItem } from './EventBannerItem'
+export { EventBannerSlider } from './EventBannerSlider'
+export { EventBannerList } from './EventBannerList'
 
 /**
  * 이벤트 배너 Props
@@ -15,29 +15,22 @@ export * from './EventBannerList'
 export interface EventBannerProps {
   /** 이벤트 도전과제 목록 */
   eventAchievements: EventAchievementType[]
-  /** 표시 모드 (기본값: slider) */
-  mode?: 'slider' | 'list'
+  /** 표시 모드 */
+  mode: 'slider' | 'list'
+  /** 클릭 이벤트 핸들러 */
+  onEventClick?: (event: EventAchievementType) => void
 }
 
 /**
- * 이벤트 도전과제 배너 컴포넌트
- * 
+ * 이벤트 배너 컴포넌트
+ * mode에 따라 슬라이더 또는 리스트 형태로 표시됩니다.
+ *
  * @param props - 컴포넌트 Props
  */
-export default function EventBanner({ 
-  eventAchievements, 
-  mode = 'slider' 
-}: EventBannerProps) {
-  // 이벤트가 없는 경우 렌더링하지 않음
-  if (!eventAchievements.length) return null;
+export default function EventBanner({ eventAchievements, mode, onEventClick }: EventBannerProps) {
+  if (mode === 'slider') {
+    return <EventBannerSlider eventAchievements={eventAchievements} />
+  }
 
-  return (
-    <div className="mt-[20px]">
-      {mode === 'slider' ? (
-        <EventBannerSlider eventAchievements={eventAchievements} />
-      ) : (
-        <EventBannerList eventAchievements={eventAchievements} />
-      )}
-    </div>
-  );
-} 
+  return <EventBannerList eventAchievements={eventAchievements} onEventClick={onEventClick} />
+}
