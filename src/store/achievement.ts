@@ -94,7 +94,7 @@ export const useAchievementStore = create<AchievementState>((set) => ({
           description: '크리스마스 특별 이벤트에 참여하세요!',
           category: '이벤트',
           status: '완료',
-          startDate: '2024-12-24',
+          startDate: '2024-12-01',
           endDate: '2024-12-25',
           progress: {
             current: 3,
@@ -113,7 +113,7 @@ export const useAchievementStore = create<AchievementState>((set) => ({
           category: '이벤트',
           status: '진행중',
           startDate: '2025-01-01',
-          endDate: '2025-02-03',
+          endDate: '2025-03-15',
           progress: {
             current: 1,
             total: 3,
@@ -125,13 +125,17 @@ export const useAchievementStore = create<AchievementState>((set) => ({
         },
         {
           id: 'event-3',
-          theme: '[2024 할로윈]',
-          title: '사랑 안주면 러닝귀신이 되어...',
-          description: '할로윈 특별 러닝 챌린지',
+          theme: '[2025 발렌타인]',
+          title: '사랑의 러닝 챌린지',
+          description: '발렌타인 특별 러닝 이벤트',
           category: '이벤트',
-          status: '대기중',
-          startDate: '2024-10-01',
-          endDate: '2024-11-11',
+          status: '진행중',
+          startDate: '2025-02-01',
+          endDate: (() => {
+            const tomorrow = new Date()
+            tomorrow.setDate(tomorrow.getDate() + 2)
+            return tomorrow.toISOString().split('T')[0]
+          })(),
           progress: {
             current: 0,
             total: 2,
@@ -143,16 +147,38 @@ export const useAchievementStore = create<AchievementState>((set) => ({
         },
         {
           id: 'event-4',
-          theme: '[2024 NFT 어워즈]',
-          title: '작년 최고의 NFT 아바타는?',
-          description: 'NFT 어워즈 특별 이벤트',
+          theme: '[2025 봄맞이]',
+          title: '봄맞이 건강 챌린지',
+          description: '봄을 맞아 건강한 습관 만들기',
           category: '이벤트',
-          status: '진행중',
-          startDate: '2025-02-01',
-          endDate: '2025-02-03',
+          status: '대기중',
+          startDate: '2025-03-01',
+          endDate: '2025-03-31',
           progress: {
             current: 2,
             total: 4,
+          },
+          reward: {
+            type: '포인트',
+            amount: 500,
+          },
+        },
+        {
+          id: 'event-5',
+          theme: '[완료된 이벤트]',
+          title: '완료된 테스트 이벤트',
+          description: '이 이벤트는 완료 상태입니다',
+          category: '이벤트',
+          status: '완료',
+          startDate: '2025-01-01',
+          endDate: '2025-01-31',
+          progress: {
+            current: 5,
+            total: 5,
+          },
+          reward: {
+            type: '포인트',
+            amount: 1000,
           },
         },
       ]

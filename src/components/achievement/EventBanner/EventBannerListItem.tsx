@@ -1,4 +1,7 @@
+'use client'
+
 import { SubChallengeItem } from './SubChallengeItem'
+import { ENDING_SOON_DAYS_BEFORE } from './constants'
 import { EventBannerListItemProps } from './types'
 import { getSubChallenges } from './utils'
 
@@ -9,10 +12,24 @@ export function EventBannerListItem({ event, isExpanded, onToggle, onEventClick 
   const isCompleted = event.status === '완료'
 
   /**
+   * 종료 예정 상태 확인 함수
+   */
+  const isEndingSoon = () => {
+    if (!event.endDate) return false
+
+    const endDate = new Date(event.endDate)
+    const today = new Date()
+    const diffTime = endDate.getTime() - today.getTime()
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+
+    return diffDays <= ENDING_SOON_DAYS_BEFORE && diffDays > 0
+  }
+
+  /**
    * 이벤트 레이블 결정 함수
    */
   const getEventLabel = () => {
-    if (isCompleted) return '종료예정'
+    if (isEndingSoon()) return '종료예정'
     return '이벤트'
   }
 
@@ -20,7 +37,7 @@ export function EventBannerListItem({ event, isExpanded, onToggle, onEventClick 
    * 레이블 색상 결정 함수
    */
   const getLabelColor = () => {
-    if (isCompleted) return 'bg-[#F06595] text-white'
+    if (isEndingSoon()) return 'bg-[#F06595] text-white'
     return 'bg-[#DEE2E6] text-[#222222]'
   }
 
@@ -42,7 +59,7 @@ export function EventBannerListItem({ event, isExpanded, onToggle, onEventClick 
       {/* 메인 배너 */}
       <div
         className={`relative flex h-[120px] w-[328px] cursor-pointer rounded-[10px] bg-white shadow-floating-primary transition-all duration-300 ${
-          isCompleted ? 'opacity-60' : ''
+          isCompleted ? 'opacity-40' : ''
         }`}
         onClick={handleBannerClick}
         role='button'

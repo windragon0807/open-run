@@ -18,6 +18,9 @@ export type { SubChallenge } from './utils'
 // 유틸리티 함수들을 export
 export { getSubChallenges } from './utils'
 
+// 상수들을 export
+export { ENDING_SOON_DAYS_BEFORE, COMPLETED_EVENT_OPACITY } from './constants'
+
 /**
  * 이벤트 배너 Props
  */
