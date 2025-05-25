@@ -27,7 +27,7 @@ export default function BottomNavigation() {
           }}>
           <PlusIcon />
         </button>
-        <IconLink href='/challenge' Icon={FlagIcon} label='도전과제' />
+        <IconLink href='/achievements' Icon={FlagIcon} label='도전과제' />
         <IconLink href='/my' Icon={PersonIcon} label='프로필' />
       </div>
     </footer>
