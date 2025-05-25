@@ -1,10 +1,5 @@
+import { EventAchievementType, RegularAchievementType, RepeatAchievementType } from '@/types/achievement'
 import { create } from 'zustand'
-import { 
-  AchievementType, 
-  RegularAchievementType, 
-  RepeatAchievementType, 
-  EventAchievementType 
-} from '@/types/achievement'
 
 /**
  * 도전과제 스토어 상태 인터페이스
@@ -55,8 +50,8 @@ export const useAchievementStore = create<AchievementState>((set) => ({
           group: '출석',
           reward: {
             type: '포인트',
-            amount: 100
-          }
+            amount: 100,
+          },
         },
         {
           id: 'regular-2',
@@ -67,9 +62,9 @@ export const useAchievementStore = create<AchievementState>((set) => ({
           group: '초대',
           reward: {
             type: '포인트',
-            amount: 200
-          }
-        }
+            amount: 200,
+          },
+        },
       ]
 
       const repeatAchievements: RepeatAchievementType[] = [
@@ -82,121 +77,125 @@ export const useAchievementStore = create<AchievementState>((set) => ({
           cycle: '일간',
           progress: {
             current: 3,
-            total: 7
+            total: 7,
           },
           reward: {
             type: '포인트',
-            amount: 50
-          }
-        }
+            amount: 50,
+          },
+        },
       ]
 
       const eventAchievements: EventAchievementType[] = [
         {
           id: 'event-1',
-          title: '[2024 크리스마스] 루돌프 선물배달 작전',
-          description: '이벤트 NFT 장착하고 성당 근처에서 달리기',
+          theme: '[2024 크리스마스]',
+          title: '루돌프 선물배달 작전',
+          description: '크리스마스 특별 이벤트에 참여하세요!',
           category: '이벤트',
           status: '완료',
           startDate: '2024-12-24',
           endDate: '2024-12-25',
           progress: {
-            current: 5,
-            total: 5
+            current: 3,
+            total: 3,
           },
           reward: {
             type: '아이템',
-            amount: 1
-          }
+            amount: 1,
+          },
         },
         {
           id: 'event-2',
-          title: '[2024 크리스마스] 이벤트 NFT 컬렉터',
-          description: '모든 NFT를 모아보자!',
+          theme: '[2025 신년]',
+          title: '행복 뉴이어~ 안녕, 2024년',
+          description: '새해 맞이 특별 이벤트',
           category: '이벤트',
           status: '진행중',
-          startDate: '2024-12-24',
-          endDate: '2024-12-25',
+          startDate: '2025-01-01',
+          endDate: '2025-02-03',
           progress: {
-            current: 3,
-            total: 10
+            current: 1,
+            total: 3,
           },
           reward: {
             type: '포인트',
-            amount: 300
-          }
+            amount: 300,
+          },
         },
         {
           id: 'event-3',
-          title: '일어나.. 런닝해야지...',
-          description: '아침 러닝 챌린지',
+          theme: '[2024 할로윈]',
+          title: '사랑 안주면 러닝귀신이 되어...',
+          description: '할로윈 특별 러닝 챌린지',
           category: '이벤트',
           status: '대기중',
-          startDate: '2025-12-01',
-          endDate: '2025-12-31',
+          startDate: '2024-10-01',
+          endDate: '2024-11-11',
           progress: {
             current: 0,
-            total: 8
+            total: 2,
           },
           reward: {
             type: '포인트',
-            amount: 150
-          }
+            amount: 150,
+          },
         },
         {
-            id: 'event-4',
-            title: '사랑의 러닝핑',
-            description: '발렌타인 데이 특별 이벤트',
+          id: 'event-4',
+          theme: '[2024 NFT 어워즈]',
+          title: '작년 최고의 NFT 아바타는?',
+          description: 'NFT 어워즈 특별 이벤트',
           category: '이벤트',
           status: '진행중',
           startDate: '2025-02-01',
-          endDate: '2025-02-28',
+          endDate: '2025-02-03',
           progress: {
-            current: 0,
-            total: 8
+            current: 2,
+            total: 4,
           },
-        }
+        },
       ]
 
-      set({ 
-        regularAchievements, 
-        repeatAchievements, 
+      set({
+        regularAchievements,
+        repeatAchievements,
         eventAchievements,
-        isLoading: false 
+        isLoading: false,
       })
     } catch (error) {
-      set({ 
-        error: error instanceof Error ? error.message : '도전과제를 불러오는 중 오류가 발생했습니다.', 
-        isLoading: false 
+      set({
+        error: error instanceof Error ? error.message : '도전과제를 불러오는 중 오류가 발생했습니다.',
+        isLoading: false,
       })
     }
   },
 
   /**
    * 도전과제 상태를 업데이트하는 함수
-   * 
+   *
    * @param id - 도전과제 ID
    * @param status - 업데이트할 상태
    */
   updateAchievementStatus: (id: string, status: '진행중' | '완료' | '대기중') => {
     set((state) => {
-      const updatedRegular = state.regularAchievements.map((achievement) => 
-        achievement.id === id ? { ...achievement, status } : achievement
+      const updatedRegular = state.regularAchievements.map((achievement) =>
+        achievement.id === id ? { ...achievement, status } : achievement,
       )
-      
-      const updatedRepeat = state.repeatAchievements.map((achievement) => 
-        achievement.id === id ? { ...achievement, status } : achievement
+
+      const updatedRepeat = state.repeatAchievements.map((achievement) =>
+        achievement.id === id ? { ...achievement, status } : achievement,
       )
-      
-      const updatedEvent = state.eventAchievements.map((achievement) => 
-        achievement.id === id ? { ...achievement, status } : achievement
+
+      const updatedEvent = state.eventAchievements.map((achievement) =>
+        achievement.id === id ? { ...achievement, status } : achievement,
       )
-      
+
       return {
         regularAchievements: updatedRegular,
         repeatAchievements: updatedRepeat,
-        eventAchievements: updatedEvent
+        eventAchievements: updatedEvent,
       }
     })
-  }
-})) 
+  },
+}))

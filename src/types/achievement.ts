@@ -61,6 +61,8 @@ export interface RepeatAchievementType extends BaseAchievementType {
  */
 export interface EventAchievementType extends BaseAchievementType {
   category: '이벤트'
+  /** 이벤트 주제 (예: [2024 크리스마스]) */
+  theme: string
   /** 이벤트 시작 날짜 */
   startDate: string
   /** 이벤트 종료 날짜 */
@@ -79,4 +81,4 @@ export interface EventAchievementType extends BaseAchievementType {
 /**
  * 도전과제 유니온 타입
  */
-export type AchievementType = RegularAchievementType | RepeatAchievementType | EventAchievementType 
+export type AchievementType = RegularAchievementType | RepeatAchievementType | EventAchievementType

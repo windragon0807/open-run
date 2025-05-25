@@ -37,6 +37,7 @@ interface SubChallengeItemProps {
   /** 서브 도전과제 */
   challenge: {
     id: string
+    theme: string
     title: string
     description: string
     progress: { current: number; total: number }
@@ -87,9 +88,19 @@ function SubChallengeItem({ challenge, onChallengeClick }: SubChallengeItemProps
         <div className='relative ml-[8px] flex-1'>
           {/* 제목과 설명 */}
           <div className='mt-[22px]'>
-            <h4 className='max-w-[180px] truncate text-[14px] font-bold leading-[20px] tracking-[-0.02em] text-[#222222]'>
-              {challenge.title}
+            {/* 이벤트 주제 */}
+            <h4
+              className='max-w-[180px] truncate text-[14px] font-bold leading-[20px] tracking-[-0.02em] text-[#666666]'
+              style={{ fontFamily: 'Pretendard', fontWeight: 700 }}>
+              {challenge.theme}
             </h4>
+
+            {/* 이벤트 제목 */}
+            <h5
+              className='max-w-[180px] truncate text-[14px] font-bold leading-[20px] tracking-[-0.02em] text-[#222222]'
+              style={{ fontFamily: 'Pretendard', fontWeight: 700 }}>
+              {challenge.title}
+            </h5>
 
             <p className='max-w-[180px] truncate text-[12px] font-normal leading-[16px] tracking-[-0.02em] text-[#666666]'>
               {challenge.description}
@@ -159,31 +170,81 @@ function EventBannerListItem({ event, isExpanded, onToggle, onEventClick }: Even
     onToggle()
   }
 
-  // 임시 서브 도전과제 데이터 (실제로는 event에서 가져와야 함)
-  const subChallenges = [
-    {
-      id: '1',
-      title: event.title,
-      description: '이벤트 NFT 장착하고 성당 근처에서 달리기',
-      progress: { current: event.progress?.current || 0, total: event.progress?.total || 1 },
-      status: '진행중' as AchievementStatus,
-      imageUrl: event.imageUrl,
-    },
-    {
-      id: '2',
-      title: '이벤트 NFT 컬렉터',
-      description: '모든 NFT를 모아보자!',
-      progress: { current: 3, total: 10 },
-      status: '진행중' as AchievementStatus,
-    },
-    {
-      id: '3',
-      title: '오늘부터 내가 루돌프',
-      description: '이벤트 첫 출석보상',
-      progress: { current: 1, total: 1 },
-      status: '완료' as AchievementStatus,
-    },
-  ]
+  // 이벤트별 서브 도전과제 데이터 생성
+  const getSubChallenges = () => {
+    if (event.theme === '[2024 크리스마스]') {
+      return [
+        {
+          id: '1',
+          theme: event.theme,
+          title: '루돌프 선물배달 작전',
+          description: '이벤트 NFT 장착하고 성당 근처에서 달리기',
+          progress: { current: 1, total: 1 },
+          status: '완료' as AchievementStatus,
+          imageUrl: event.imageUrl,
+        },
+        {
+          id: '2',
+          theme: event.theme,
+          title: '이벤트 NFT 컬렉터',
+          description: '모든 NFT를 모아보자!',
+          progress: { current: 1, total: 1 },
+          status: '완료' as AchievementStatus,
+        },
+        {
+          id: '3',
+          theme: event.theme,
+          title: '오늘부터 내가 루돌프',
+          description: '이벤트 첫 출석보상',
+          progress: { current: 1, total: 1 },
+          status: '완료' as AchievementStatus,
+        },
+      ]
+    } else if (event.theme === '[2025 신년]') {
+      return [
+        {
+          id: '1',
+          theme: event.theme,
+          title: '새해 첫 달리기',
+          description: '2025년 첫 러닝을 완주하세요',
+          progress: { current: 1, total: 1 },
+          status: '완료' as AchievementStatus,
+          imageUrl: event.imageUrl,
+        },
+        {
+          id: '2',
+          theme: event.theme,
+          title: '신년 다짐 세우기',
+          description: '올해의 목표를 설정해보세요',
+          progress: { current: 0, total: 1 },
+          status: '진행중' as AchievementStatus,
+        },
+        {
+          id: '3',
+          theme: event.theme,
+          title: '새해 인사하기',
+          description: '친구들에게 새해 인사를 전하세요',
+          progress: { current: 0, total: 1 },
+          status: '진행중' as AchievementStatus,
+        },
+      ]
+    } else {
+      // 기본 서브 도전과제
+      return [
+        {
+          id: '1',
+          theme: event.theme,
+          title: event.title,
+          description: event.description,
+          progress: { current: event.progress?.current || 0, total: event.progress?.total || 1 },
+          status: event.status,
+          imageUrl: event.imageUrl,
+        },
+      ]
+    }
+  }
+
+  const subChallenges = getSubChallenges()
 
   return (
     <div className='mb-3 flex w-full flex-col items-center'>
@@ -211,27 +272,41 @@ function EventBannerListItem({ event, isExpanded, onToggle, onEventClick }: Even
         <div className='relative ml-[8px] flex-1'>
           {/* 이벤트 제목과 설명 */}
           <div className='mt-[22px]'>
-            <h3 className='max-w-[200px] truncate text-[14px] font-bold leading-[20px] tracking-[-0.02em] text-[#222222] transition-opacity duration-300'>
-              {event.title}
+            {/* 이벤트 주제 */}
+            <h3
+              className='max-w-[200px] truncate text-[14px] font-bold leading-[20px] tracking-[-0.02em] text-[#666666] transition-opacity duration-300'
+              style={{ fontFamily: 'Pretendard', fontWeight: 700 }}>
+              {event.theme}
             </h3>
 
-            <p className='max-w-[200px] truncate text-[12px] font-normal leading-[16px] tracking-[-0.02em] text-[#222222] transition-opacity duration-300'>
-              {event.description}
+            {/* 이벤트 제목 */}
+            <h4
+              className='max-w-[200px] truncate text-[14px] font-bold leading-[20px] tracking-[-0.02em] text-[#222222] transition-opacity duration-300'
+              style={{ fontFamily: 'Pretendard', fontWeight: 700 }}>
+              {event.title}
+            </h4>
+
+            {/* 이벤트 기간 */}
+            <p className='text-[12px] font-normal leading-[16px] tracking-[-0.02em] text-[#222222] transition-opacity duration-300'>
+              ~ {event.endDate}
             </p>
           </div>
 
-          {/* 하단 정보 영역 */}
-          <div className='absolute bottom-[16px] left-0 right-[16px] flex items-center justify-between'>
-            <div className='mr-[11px] flex-1'>
-              {/* 이벤트 기간 (종료일만 표시) */}
-              <p className='text-[12px] font-normal leading-[16px] tracking-[-0.02em] text-[#222222] transition-opacity duration-300'>
-                ~ {event.endDate}
-              </p>
-            </div>
+          {/* 모두 받기 버튼과 아코디언 버튼 */}
+          <div className='absolute right-[16px] top-[40px] flex items-center'>
+            {/* 모두 받기 버튼 */}
+            <button
+              className='flex h-[40px] w-[60px] items-center justify-center rounded-[8px] bg-[#5B7EFF] text-[12px] font-bold text-white transition-colors duration-200 hover:bg-[#4A6EEF]'
+              onClick={(e) => {
+                e.stopPropagation()
+                onEventClick?.(event)
+              }}>
+              모두 받기
+            </button>
 
             {/* 펼치기/접기 버튼 */}
             <button
-              className={`bg-black/10 flex h-[24px] w-[24px] items-center justify-center rounded-full transition-transform duration-300 ${
+              className={`bg-black/10 ml-[10px] flex h-[24px] w-[24px] items-center justify-center rounded-full transition-transform duration-300 ${
                 isExpanded ? 'rotate-180' : ''
               }`}
               onClick={(e) => {
@@ -250,18 +325,6 @@ function EventBannerListItem({ event, isExpanded, onToggle, onEventClick }: Even
               </svg>
             </button>
           </div>
-        </div>
-
-        {/* 모두 받기 버튼 (우상단) */}
-        <div className='absolute right-[16px] top-[16px]'>
-          <button
-            className='rounded-[6px] bg-[#5B7EFF] px-[12px] py-[6px] text-[12px] font-bold text-white transition-colors duration-200 hover:bg-[#4A6EEF]'
-            onClick={(e) => {
-              e.stopPropagation()
-              onEventClick?.(event)
-            }}>
-            모두 받기
-          </button>
         </div>
       </div>
 
