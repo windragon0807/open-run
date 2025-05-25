@@ -8,6 +8,15 @@ import { EventBannerSlider } from './EventBannerSlider'
 export { EventBannerItem } from './EventBannerItem'
 export { EventBannerSlider } from './EventBannerSlider'
 export { EventBannerList } from './EventBannerList'
+export { EventBannerListItem } from './EventBannerListItem'
+export { SubChallengeItem } from './SubChallengeItem'
+
+// 타입들을 export
+export type { EventBannerListProps, EventBannerListItemProps, SubChallengeItemProps } from './types'
+export type { SubChallenge } from './utils'
+
+// 유틸리티 함수들을 export
+export { getSubChallenges } from './utils'
 
 /**
  * 이벤트 배너 Props
