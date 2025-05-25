@@ -247,7 +247,7 @@ function EventBannerListItem({ event, isExpanded, onToggle, onEventClick }: Even
   const subChallenges = getSubChallenges()
 
   return (
-    <div className='mb-3 flex w-full flex-col items-center'>
+    <div className='mb-[14px] flex w-full flex-col items-center'>
       {/* 메인 배너 */}
       <div
         className={`relative flex h-[120px] w-[328px] cursor-pointer rounded-[10px] bg-white shadow-floating-primary transition-all duration-300 ${

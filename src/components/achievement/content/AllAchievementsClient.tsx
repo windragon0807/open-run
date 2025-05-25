@@ -36,8 +36,8 @@ export default function AllAchievementsClient() {
 
   return (
     <div>
-      {/* 이벤트 배너 */}
-      <div className='mb-5 flex justify-center'>
+      {/* 이벤트 스크롤 배너 */}
+      <div className='mb-5 mt-[20px] flex justify-center'>
         <div className='w-full max-w-[328px]'>
           <EventBanner eventAchievements={eventAchievements} mode='slider' />
         </div>
