@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from 'next'
 import { Jost } from 'next/font/google'
 import GoogleMapContext from '@contexts/GoogleMapContext'
 import { ModalContext } from '@contexts/ModalContext'
-import NaverMapContext from '@contexts/NaverMapContext'
 import ReactQueryProvider from '@contexts/ReactQueryProvider'
 import { WalletProvider } from '@contexts/WalletProvider'
 import AlertPortal from '@shared/Alert'
@@ -21,13 +20,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`font-pretendard ${jost.variable} touch-none`}>
         <ReactQueryProvider>
           <WalletProvider>
-            <AppBridge>
-              <ModalContext>
-                <GoogleMapContext>
-                  <NaverMapContext>{children}</NaverMapContext>
-                </GoogleMapContext>
-              </ModalContext>
-            </AppBridge>
+            <GoogleMapContext>
+              <AppBridge>
+                <ModalContext>{children}</ModalContext>
+              </AppBridge>
+            </GoogleMapContext>
           </WalletProvider>
         </ReactQueryProvider>
         <div id={ROOT_PORTAL_ID} />

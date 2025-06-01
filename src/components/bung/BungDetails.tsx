@@ -26,7 +26,6 @@ import { useJoinBung } from '@apis/bungs/joinBung/mutation'
 import { currentDate, formatDate, timerFormat } from '@utils/time'
 import { colors } from '@styles/colors'
 import GoogleMap from './GoogleMap'
-import Map from './Map'
 import BungCompleteModal from './modal/BungCompleteModal'
 import CertifyParticipationModal from './modal/CertifyParticipationModal'
 import DeleteBungModal from './modal/DeleteBungModal'
@@ -189,7 +188,7 @@ export default function BungDetails({
 
         <section
           ref={containerRef}
-          className='overflow-y-auto rounded-[8px_8px_0_0] bg-gray-lighten'
+          className='overflow-y-auto rounded-[8px_8px_0_0] bg-gray-lighten pb-50'
           style={{ height: 벙에참여한유저인가 ? 'calc(100% - 80px)' : 'calc(100% - 50px)' }}>
           <div className='mb-24 rounded-8 bg-white p-16 shadow-floating-primary'>
             {/* 벙 이름 */}
@@ -317,8 +316,7 @@ export default function BungDetails({
             <span className='whitespace-pre-wrap text-14 font-bold text-black-darken'>{details.location}</span>
           </div>
           <div className='mb-18 px-16'>
-            {/* <GoogleMap location={details.location} /> */}
-            <Map location={details.location} />
+            <GoogleMap location={details.location} />
           </div>
 
           {/* 해시태그 */}

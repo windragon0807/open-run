@@ -1,7 +1,7 @@
+import { AdvancedMarker, Map } from '@vis.gl/react-google-maps'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { Container, Marker, NaverMap, useNavermaps } from 'react-naver-maps'
 import { useQuery } from 'react-query'
 import { useModalContext } from '@contexts/ModalContext'
 import { useAppStore } from '@store/app'
@@ -60,7 +60,7 @@ export default function CertifyParticipationModal({ destination, bungId }: { des
       </header>
       <section className='w-full'>
         {모든좌표가유효한가 === true ? (
-          <Map curLat={location?.lat} curLng={location?.lng} desLat={coordinates.lat} desLng={coordinates.lng} />
+          <GoogleMap currentPosition={location} destinationPosition={coordinates} />
         ) : (
           <div className='relative aspect-square w-full animate-pulse'>
             <Image className='object-cover' src='/images/maps/map_placeholder.png' alt='map' fill />
@@ -79,35 +79,55 @@ export default function CertifyParticipationModal({ destination, bungId }: { des
   )
 }
 
-function Map({ curLat, curLng, desLat, desLng }: { curLat: number; curLng: number; desLat: number; desLng: number }) {
-  const navermaps = useNavermaps()
-  const currentPosition = new navermaps.LatLng(curLat, curLng)
-  const destinationPosition = new navermaps.LatLng(desLat, desLng)
-
+function GoogleMap({
+  currentPosition,
+  destinationPosition,
+}: {
+  currentPosition: { lat: number; lng: number }
+  destinationPosition: { lat: number; lng: number }
+}) {
   return (
-    <Container className='[&>div]:rounded-lg' style={{ aspectRatio: 1 }}>
-      <NaverMap defaultCenter={currentPosition} defaultZoom={15}>
-        <Marker
-          defaultPosition={currentPosition}
-          icon={{
-            url: '/images/maps/marker_current.png',
-            size: new navermaps.Size(22, 22),
-            scaledSize: new navermaps.Size(22, 22),
-            origin: new navermaps.Point(0, 0),
-            anchor: new navermaps.Point(8, 25),
-          }}
-        />
-        <Marker
-          defaultPosition={destinationPosition}
-          icon={{
-            url: '/images/maps/marker_destination.png',
-            size: new navermaps.Size(22, 34),
-            scaledSize: new navermaps.Size(22, 34),
-            origin: new navermaps.Point(0, 0),
-            anchor: new navermaps.Point(11, 42),
-          }}
-        />
-      </NaverMap>
-    </Container>
+    <div className='relative aspect-square w-full'>
+      <style jsx global>{`
+        .gmnoprint {
+          display: none !important;
+        }
+        .gm-style-cc {
+          display: none !important;
+        }
+      `}</style>
+      <Map
+        defaultZoom={16} // 지도의 초기 줌 레벨 (1-20, 숫자가 클수록 더 가까이 확대)
+        defaultCenter={currentPosition} // 지도의 초기 중심 좌표
+        mapId='bung-map' // Google Cloud Console에서 생성한 지도 스타일 ID
+        disableDefaultUI={true} // 기본 UI 컨트롤 모두 비활성화
+        zoomControl={false} // 줌 컨트롤 비활성화
+        mapTypeControl={false} // 지도/위성 전환 컨트롤 비활성화
+        streetViewControl={false} // 스트리트뷰 컨트롤 비활성화
+        fullscreenControl={false} // 전체화면 컨트롤 비활성화
+        gestureHandling='cooperative' // 스크롤 시 지도 확대/축소 방지
+        clickableIcons={false} // 지도 내 POI 클릭 비활성화
+        draggableCursor='grab' // 드래그 가능한 상태일 때의 커서
+        draggingCursor='grabbing' // 드래그 중일 때의 커서
+        keyboardShortcuts={false} // 키보드 단축키 비활성화
+        mapTypeId='roadmap' // 지도 타입 (roadmap: 일반 지도, satellite: 위성 지도)
+        style={mapStyle} // 지도 컨테이너의 스타일
+      >
+        <AdvancedMarker position={currentPosition}>
+          <Image src='/images/maps/marker_current.png' width={22} height={22} alt='Current Marker' />
+        </AdvancedMarker>
+        <AdvancedMarker position={destinationPosition}>
+          <Image src='/images/maps/marker_destination.png' width={20} height={35} alt='Destination Marker' />
+        </AdvancedMarker>
+      </Map>
+    </div>
   )
+}
+
+const mapStyle = {
+  width: '100%',
+  height: '100%',
+  borderRadius: '8px',
+  overflow: 'hidden',
+  border: `1px solid ${colors.gray.default}`,
 }
