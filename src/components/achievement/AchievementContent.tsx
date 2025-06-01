@@ -1,3 +1,5 @@
+import clsx from 'clsx'
+import { useAppStore } from '@store/app'
 import { AchievementTabType } from './AchievementModal'
 import AllAchievementsClient from './content/AllAchievementsClient'
 import EventAchievementsClient from './content/EventAchievementsClient'
@@ -18,8 +20,9 @@ interface AchievementContentProps {
  * @param props - 컴포넌트 Props
  */
 export default function AchievementContent({ activeTab }: AchievementContentProps) {
+  const { isApp } = useAppStore()
   return (
-    <div className='h-full overflow-y-auto rounded-t-[10px] bg-[#FFFFFF]'>
+    <div className={clsx('h-full overflow-y-auto rounded-t-10 bg-white', isApp ? 'pb-100' : 'pb-80')}>
       {activeTab === '전체' && <AllAchievementsClient />}
       {activeTab === '일반' && <RegularAchievementsClient />}
       {activeTab === '반복' && <RepeatAchievementsClient />}

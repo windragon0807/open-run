@@ -39,7 +39,7 @@ export function EventBannerSlider({ eventAchievements }: EventBannerSliderProps)
   if (eventAchievements.length === 0) return null
 
   return (
-    <div className='mx-auto w-[328px]'>
+    <div className='mx-auto w-full'>
       {/* 이벤트 배너 슬라이더 */}
       <div
         className='relative h-[134px] w-full overflow-hidden'

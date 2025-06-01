@@ -76,7 +76,7 @@ export function EventBannerListItem({ event, isExpanded, onToggle, onEventClick 
     <div className='mb-[14px] flex w-full flex-col items-center'>
       {/* 메인 배너 */}
       <div
-        className={`relative flex h-[120px] w-[328px] cursor-pointer rounded-[10px] bg-white shadow-floating-primary transition-all duration-300 ${
+        className={`relative flex h-[120px] w-full cursor-pointer rounded-[10px] bg-white shadow-floating-primary transition-all duration-300 ${
           isCompleted ? 'opacity-40' : ''
         }`}
         onClick={handleBannerClick}
@@ -161,7 +161,7 @@ export function EventBannerListItem({ event, isExpanded, onToggle, onEventClick 
 
       {/* 펼쳐진 서브 도전과제들 */}
       {isExpanded && (
-        <div className='mt-[12px] w-[328px] transition-all duration-300'>
+        <div className='mt-[12px] w-full transition-all duration-300'>
           {subChallenges.map((challenge) => (
             <SubChallengeItem key={challenge.id} challenge={challenge} onChallengeClick={onEventClick} />
           ))}

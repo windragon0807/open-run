@@ -30,7 +30,7 @@ export function SubChallengeItem({ challenge, onChallengeClick }: SubChallengeIt
 
   return (
     <div className='mb-3 flex w-full justify-center'>
-      <div className='relative flex h-[120px] w-[328px] cursor-pointer rounded-[10px] bg-white shadow-sm transition-all duration-300'>
+      <div className='relative flex h-[120px] w-full cursor-pointer rounded-[10px] bg-white shadow-sm transition-all duration-300'>
         {/* 서브 도전과제 이미지 */}
         <div
           className='my-[30px] ml-[16px] h-[60px] w-[60px] rounded-[10px] bg-[#DEE2E6] transition-transform duration-300'

@@ -4,8 +4,6 @@ import { useAchievementStore } from '@/store/achievement'
 import { useEffect } from 'react'
 import { AchievementBanner } from '../AchievementBanner'
 import EventBanner from '../EventBanner'
-import RegularAchievementsClient from './RegularAchievementsClient'
-import RepeatAchievementsClient from './RepeatAchievementsClient'
 
 /**
  * 도전과제 상태에 따른 정렬 우선순위
@@ -35,20 +33,16 @@ export default function AllAchievementsClient() {
   }
 
   return (
-    <div>
+    <div className='px-16'>
       {/* 이벤트 스크롤 배너 */}
-      <div className='mb-5 mt-[20px] flex justify-center'>
-        <div className='w-full max-w-[328px]'>
-          <EventBanner eventAchievements={eventAchievements} mode='slider' />
-        </div>
+      <div className='mb-5 mt-[20px] flex w-full justify-center'>
+        <EventBanner eventAchievements={eventAchievements} mode='slider' />
       </div>
 
       {/* 모든 도전과제를 하나의 컨테이너로 통합 */}
-      <div className='flex flex-col items-center'>
-        <div className='mt-[20px] flex flex-col items-center space-y-[12px] p-5'>
-          <RegularAchievementsList achievements={regularAchievements} />
-          <RepeatAchievementsList achievements={repeatAchievements} />
-        </div>
+      <div className='mt-[20px] flex flex-col items-center space-y-[12px]'>
+        <RegularAchievementsList achievements={regularAchievements} />
+        <RepeatAchievementsList achievements={repeatAchievements} />
       </div>
     </div>
   )
@@ -68,7 +62,7 @@ function RegularAchievementsList({ achievements }: { achievements: any[] }) {
   return (
     <>
       {sortedAchievements.map((achievement) => (
-        <div key={achievement.id} className='w-full max-w-[328px]'>
+        <div key={achievement.id} className='w-full'>
           <AchievementBanner
             id={achievement.id}
             title={achievement.title}
@@ -85,7 +79,7 @@ function RegularAchievementsList({ achievements }: { achievements: any[] }) {
                 )}
               </div>
             }
-            className='w-full max-w-[328px]'
+            className='w-full'
           />
         </div>
       ))}
@@ -107,7 +101,7 @@ function RepeatAchievementsList({ achievements }: { achievements: any[] }) {
   return (
     <>
       {sortedAchievements.map((achievement) => (
-        <div key={achievement.id} className='w-full max-w-[328px]'>
+        <div key={achievement.id} className='w-full'>
           <AchievementBanner
             key={achievement.id}
             id={achievement.id}
@@ -142,7 +136,7 @@ function RepeatAchievementsList({ achievements }: { achievements: any[] }) {
                 {achievement.cycle && <p className='text-xs text-gray-500 mt-1'>사이클: {achievement.cycle}</p>}
               </div>
             }
-            className='w-full max-w-[328px]'
+            className='w-full'
           />
         </div>
       ))}
