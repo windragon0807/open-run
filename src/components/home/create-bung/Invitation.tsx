@@ -1,8 +1,10 @@
 'use client'
 
+import clsx from 'clsx'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
+import { useAppStore } from '@store/app'
 import Input from '@shared/Input'
 import PrimaryButton from '@shared/PrimaryButton'
 import Spacing from '@shared/Spacing'
@@ -15,6 +17,7 @@ import { useSearchByNicknameMutation } from '@apis/users/searchByNickname/query'
 import { colors } from '@styles/colors'
 
 export default function Invitation() {
+  const { isApp } = useAppStore()
   const { mutate: searchByNickname, data: searchedList } = useSearchByNicknameMutation()
   const [selectedMembers, setSelectedMembers] = useState<
     {
@@ -116,10 +119,14 @@ export default function Invitation() {
         </ul>
       </div>
       <Spacing size={32} />
-      <ul className='flex h-[calc(100%-160px)] flex-col gap-8 overflow-y-auto pb-20 pr-8'>
+      <ul
+        className={clsx(
+          'flex flex-col gap-8 overflow-y-auto pb-20 pr-8',
+          isApp ? 'h-[calc(100%-260px)]' : 'h-[calc(100%-160px)]',
+        )}>
         {멤버추천리스트를보여줄상태인가 ? renderSuggestionList() : renderSearchedList()}
       </ul>
-      <div className='absolute bottom-20 w-[calc(100%-32px)]'>
+      <div className={clsx('absolute w-[calc(100%-32px)]', isApp ? 'bottom-56' : 'bottom-20')}>
         <PrimaryButton disabled={selectedMembers.length === 0}>초대 완료</PrimaryButton>
       </div>
     </section>

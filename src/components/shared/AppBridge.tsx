@@ -1,6 +1,7 @@
 'use client'
 
 import { ReactNode, useEffect } from 'react'
+import { WalletProvider } from '@contexts/WalletProvider'
 import { useAppStore } from '@store/app'
 import { MESSAGE } from '@constants/app'
 
@@ -18,30 +19,25 @@ export type BridgeMessage<T = unknown> = {
 }
 
 export default function AppBridge({ children }: { children: ReactNode }) {
-  const { setApp } = useAppStore()
+  const { setIsApp } = useAppStore()
   const isApp = checkIsApp()
 
   /* 앱 여부 설정 */
   useEffect(() => {
     if (!isApp) return
-    setApp(isApp)
-  }, [isApp])
+    setIsApp(isApp)
 
-  /* eruda 초기화 */
-  useEffect(() => {
-    // if (!isApp) return
-
-    // if (process.env.NODE_ENV === 'development') {
-    import('eruda').then((eruda) => {
-      eruda.default.init()
-    })
-    // }
+    if (process.env.NODE_ENV === 'development') {
+      import('eruda').then((eruda) => {
+        eruda.default.init()
+      })
+    }
   }, [isApp])
 
   return children
 }
 
-const checkIsApp = () => {
+export const checkIsApp = () => {
   if (typeof window === 'undefined') return false
 
   const isReactNativeWebView = !!window.ReactNativeWebView

@@ -12,7 +12,9 @@ const wagmiConfig = createConfig({
   connectors: [
     coinbaseWallet({
       appName: 'OnchainKit',
-      preference: 'smartWalletOnly',
+      preference: {
+        options: 'eoaOnly',
+      },
       version: '4',
     }),
   ],

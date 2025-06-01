@@ -4,7 +4,7 @@ import { setCookie } from '@utils/cookie'
 import { COOKIE } from '@constants/cookie'
 import { smartWalletLogin } from './index'
 
-export function useSmartWalletLogin() {
+export function useSmartWalletLogin(onSuccess?: () => void) {
   const router = useRouter()
   return useMutation({
     mutationFn: smartWalletLogin,
@@ -12,6 +12,7 @@ export function useSmartWalletLogin() {
       const { jwtToken, nickname } = data
       setCookie(COOKIE.ACCESSTOKEN, jwtToken, 60 * 60 * 6) // 6시간
       router.push(nickname == null ? '/register' : '/')
+      onSuccess?.()
     },
   })
 }

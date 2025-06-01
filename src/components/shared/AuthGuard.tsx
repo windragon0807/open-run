@@ -1,6 +1,5 @@
 'use client'
 
-import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
 import { useUserStore } from '@store/user'
@@ -11,12 +10,12 @@ export default function AuthGuard({ children }: { children: ReactNode }) {
   const { userInfo, setUserInfo } = useUserStore()
 
   useUserInfo({
-    onSuccess: (data) => {
-      if (axios.isAxiosError(data)) {
-        router.push('/signin')
+    onSuccess: ({ data }) => {
+      if (data?.nickname == null) {
+        router.replace('/signin')
       }
 
-      setUserInfo(data.data)
+      setUserInfo(data)
     },
   })
 

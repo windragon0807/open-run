@@ -1,7 +1,9 @@
 'use client'
 
+import clsx from 'clsx'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { useAppStore } from '@store/app'
 import { RegisterStep, UserRegister } from '@type/register'
 import Layout from '@shared/Layout'
 import ArrowLeftIcon from '@icons/ArrowLeftIcon'
@@ -18,11 +20,12 @@ import Welcome from './welcome'
 
 export default function Register() {
   const route = useRouter()
+  const { isApp } = useAppStore()
   const { mutate: register } = useRegister()
 
   const [data, setData] = useState<UserRegister>({
     nickname: '',
-    runningPace: `0'0"`,
+    runningPace: `00\'00\"`,
     runningFrequency: 0,
   })
   const [step, setStep] = useState<RegisterStep>(0)
@@ -36,7 +39,6 @@ export default function Register() {
     setStep((prev) => (prev - 1) as RegisterStep)
   }
   const handleNext = () => {
-    if (step === 4) return
     if (step === 1 && (isValid === 'overlap' || isValid === 'consonant')) {
       alert('다른 닉네임을 입력해주세요.')
       return
@@ -50,8 +52,6 @@ export default function Register() {
   const 닉네임스텝에서버튼이비활성화상태인가 = step === 1 && isValid !== 'pass'
 
   const handleSubmit = () => {
-    if (step !== 4) return
-
     register(data, {
       onSuccess: () => {
         route.replace('/')
@@ -62,15 +62,16 @@ export default function Register() {
   return (
     <Layout className={step === 0 ? 'bg-gradient-primary-white' : 'bg-gray-lighten'}>
       <section className='relative flex h-full w-full max-w-tablet flex-col items-center'>
-        {step > 0 ? <Header step={step} onBackIconClick={handlePrevious} onSkipTextClick={() => setStep(4)} /> : null}
         {step === 0 ? (
-          <button className='absolute left-0 top-0 z-[10] h-60 pl-16' onClick={handlePrevious}>
+          <button
+            className={clsx('absolute left-0 top-0 z-[10] h-60 pl-16', isApp && 'top-50')}
+            onClick={handlePrevious}>
             <ArrowLeftIcon size={40} color={colors.white} />
           </button>
         ) : null}
-
         {step === 0 ? <Welcome /> : null}
 
+        {step > 0 ? <Header step={step} onBackIconClick={handlePrevious} onSkipTextClick={() => setStep(4)} /> : null}
         {step === 1 ? (
           <Nickname
             nickname={data.nickname}
@@ -98,7 +99,11 @@ export default function Register() {
 
         {step === 4 ? <Onboarding nickname={data.nickname} /> : null}
 
-        <section className='absolute bottom-40 left-1/2 w-full max-w-tablet -translate-x-1/2 px-16'>
+        <section
+          className={clsx(
+            'absolute left-1/2 w-full max-w-tablet -translate-x-1/2 px-16',
+            isApp ? 'bottom-56' : 'bottom-40',
+          )}>
           <BottomButton
             onClick={step === 4 ? handleSubmit : handleNext}
             disabled={닉네임스텝에서버튼이비활성화상태인가}>
