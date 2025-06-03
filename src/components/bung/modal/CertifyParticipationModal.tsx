@@ -2,7 +2,7 @@ import { AdvancedMarker, Map } from '@vis.gl/react-google-maps'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useQuery } from 'react-query'
+import { useMemo } from 'react'
 import { useModalContext } from '@contexts/ModalContext'
 import { useAppStore } from '@store/app'
 import LoadingLogo from '@shared/LoadingLogo'
@@ -11,11 +11,11 @@ import PrimaryButton from '@shared/PrimaryButton'
 import BrokenXIcon from '@icons/BrokenXIcon'
 import useGeolocation from '@hooks/useGeolocation'
 import { useCertifyParticipation } from '@apis/bungs/certifyParticipation/mutation'
-import { fetchDistance } from '@apis/maps/fetchDistance/query'
-import { useGeocode } from '@apis/maps/fetchGeocode/query'
+import { useGeocoding } from '@apis/maps/geocoding/query'
+import { calculateDistance } from '@utils/distance'
 import { colors } from '@styles/colors'
 
-const 참여인증거리 = 1_500 // 500m ?
+const 참여인증거리 = 500 // 500m
 
 export default function CertifyParticipationModal({ destination, bungId }: { destination: string; bungId: string }) {
   const router = useRouter()
@@ -23,20 +23,19 @@ export default function CertifyParticipationModal({ destination, bungId }: { des
   const { closeModal } = useModalContext()
   const { mutate: certifyParticipation } = useCertifyParticipation()
   const { location } = useGeolocation()
-  const { data: coordinates } = useGeocode(destination)
+  const { data: coordinates } = useGeocoding({ address: destination })
   const 모든좌표가유효한가 = location != null && coordinates != null
 
-  const { data: distance } = useQuery({
-    queryKey: ['distance', location, coordinates?.lat, coordinates?.lng],
-    queryFn: () =>
-      fetchDistance({
-        startLat: location?.lat ?? 0,
-        startLng: location?.lng ?? 0,
-        endLat: coordinates?.lat ?? 0,
-        endLng: coordinates?.lng ?? 0,
-      }),
-    enabled: 모든좌표가유효한가 === true,
-  })
+  const distance = useMemo(() => {
+    if (모든좌표가유효한가 === false) return null
+    const distance = calculateDistance(location.lat, location.lng, coordinates.lat, coordinates.lng)
+    console.log('Distance', {
+      start: location,
+      destination: coordinates,
+      distance: `${distance}m`,
+    })
+    return distance
+  }, [모든좌표가유효한가])
 
   const handleClick = () => {
     certifyParticipation(

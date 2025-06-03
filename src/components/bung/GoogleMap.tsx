@@ -1,11 +1,11 @@
 import { AdvancedMarker, Map } from '@vis.gl/react-google-maps'
 import Image from 'next/image'
 import { memo } from 'react'
-import { useGeocode } from '@apis/maps/fetchGeocode/query'
+import { useGeocoding } from '@apis/maps/geocoding/query'
 import { colors } from '@styles/colors'
 
 function GoogleMap({ location }: { location: string }) {
-  const { data: coordinates } = useGeocode(location)
+  const { data: coordinates } = useGeocoding({ address: location })
   if (coordinates == null)
     return (
       <div className='relative h-200 w-full animate-pulse'>

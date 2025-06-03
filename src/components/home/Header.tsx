@@ -8,8 +8,8 @@ import BellIcon from '@icons/BellIcon'
 import { useAppRouter } from '@hooks/useAppRouter'
 import useGeolocation from '@hooks/useGeolocation'
 import useLogout from '@hooks/useLogout'
-import { useReverseGeocode } from '@apis/maps/fetchReverseGeoCode/query'
-import { useCurrentWeather } from '@apis/weather/fetchCurrentWeather/query'
+import { useReverseGeocoding } from '@apis/maps/reverse-geocoding/query'
+import { useCurrentWeather } from '@apis/weather/query'
 import addDelimiter from '@utils/addDelimiter'
 import { colors } from '@styles/colors'
 
@@ -20,7 +20,7 @@ export default function Header() {
   const { logout } = useLogout()
 
   const { location } = useGeolocation()
-  const { data: reverseGeocode, isLoading: isReverseGeocodeLoading } = useReverseGeocode(
+  const { data: reverseGeocode, isLoading: isReverseGeocodeLoading } = useReverseGeocoding(
     { lat: location?.lat ?? 0, lng: location?.lng ?? 0 },
     { enabled: location != null },
   )
@@ -68,7 +68,7 @@ export default function Header() {
             {location == null || isReverseGeocodeLoading ? (
               <div className='mt-24 h-16 w-80 animate-pulse rounded-10 bg-gray-default' />
             ) : (
-              <span className='z-10 mt-24 text-12 text-white'>{reverseGeocode?.location.slice(0, 2).join(' ')}</span>
+              <span className='z-10 mt-24 text-12 text-white'>{reverseGeocode ?? ''}</span>
             )}
             {location == null || isCurrentWeatherLoading ? (
               <div className='mt-19 h-30 w-122 animate-pulse rounded-10 bg-gray-default' />
