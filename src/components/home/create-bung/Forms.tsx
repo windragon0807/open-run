@@ -142,7 +142,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         <AddressSearchModal
           onClose={() => setAddressSearchModalOpen(false)}
           onComplete={(address) => {
-            setValue('location', address.address)
+            setValue('location', address)
           }}
         />
       ) : null}

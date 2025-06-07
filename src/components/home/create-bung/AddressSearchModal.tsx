@@ -1,38 +1,159 @@
-import DaumPostcodeEmbed, { Address } from 'react-daum-postcode'
-
-import Spacing from '@shared/Spacing'
+import { motion } from 'framer-motion'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import BrokenXIcon from '@icons/BrokenXIcon'
+import useDebounce from '@hooks/useDebounce'
+import { ResponseType } from '@apis/maps/places'
+import { usePlacesAutocomplete } from '@apis/maps/places/mutation'
 import { colors } from '@styles/colors'
+
+type Suggestion = {
+  placeId: string
+  mainAddress: string
+  secondaryAddress: string
+}
 
 export default function AddressSearchModal({
   onClose,
   onComplete,
 }: {
   onClose: () => void
-  onComplete: (address: Address) => void
+  onComplete: (address: string) => void
 }) {
+  const [search, setSearch] = useState('')
+  const debouncedSearch = useDebounce(search, 300)
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([])
+  const [selectedSuggestionPlaceId, setSelectedSuggestionPlaceId] = useState<string | null>(null)
+
+  const { mutate: fetchPlacesAutocomplete } = usePlacesAutocomplete()
+
+  useEffect(() => {
+    if (debouncedSearch === '') {
+      setSuggestions([])
+      return
+    }
+
+    fetchPlacesAutocomplete(
+      { input: debouncedSearch },
+      {
+        onSuccess: ({ suggestions }: ResponseType) => {
+          setSuggestions(
+            suggestions.map(({ placePrediction: { placeId, structuredFormat } }) => ({
+              placeId,
+              mainAddress: structuredFormat.mainText.text,
+              secondaryAddress: structuredFormat.secondaryText.text,
+            })),
+          )
+        },
+      },
+    )
+  }, [debouncedSearch])
+
   return (
-    <section className={`fixed bottom-0 left-0 right-0 top-0 z-[1000] bg-black-darkest/60`}>
-      <section className='absolute left-[50%] top-[10%] w-[90%] -translate-x-1/2 rounded-10 bg-white'>
+    <section className='fixed bottom-0 left-0 right-0 top-0 z-[1000] rounded-t-2xl bg-black-darkest/60'>
+      <article className='absolute left-1/2 top-[10%] aspect-[328/480] max-h-[650px] w-[90%] -translate-x-1/2 rounded-10 bg-white'>
         <div className='h-full w-full'>
-          <header className='relative flex h-60 w-full items-center'>
+          <header className='relative mb-16 flex h-60 w-full items-center'>
             <h2 className='w-full text-center font-bold'>주소검색</h2>
             <button className='absolute right-12' onClick={onClose}>
               <BrokenXIcon size={24} color={colors.black.default} />
             </button>
           </header>
-          <div className='h-[calc(100%-80px)]'>
-            <DaumPostcodeEmbed
-              className='w-full'
-              onComplete={(address) => {
-                onComplete(address)
-                onClose()
-              }}
-            />
+
+          <div className='h-[calc(100%-76px)] px-24'>
+            <div className='mb-24 flex items-center gap-16'>
+              <motion.input
+                layout
+                className='flex-1 rounded-8 border border-gray-default p-12 text-16 focus:border-primary focus:outline-none'
+                type='text'
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder='도로명, 건물명, 지번 입력'
+              />
+              {search.length > 0 && (
+                <button
+                  className='text-14'
+                  onClick={() => {
+                    setSearch('')
+                    setSuggestions([])
+                  }}>
+                  취소
+                </button>
+              )}
+            </div>
+            <div className='scrollbar-hide h-[calc(100%-74px)] overflow-y-auto'>
+              {suggestions.length === 0 ? (
+                <div className='flex flex-col'>
+                  <span className='mb-8 text-14 font-bold'>검색 팁</span>
+                  <span className='text-gray-darker text-14'>도로명 + 건물번호</span>
+                  <span className='mb-8 text-14 text-pink'>여의서로 330</span>
+                  <span className='text-gray-darker text-14'>지번 주소</span>
+                  <span className='mb-8 text-14 text-pink'>잠실동 47</span>
+                  <span className='text-gray-darker text-14'>장소명</span>
+                  <span className='mb-24 text-14 text-pink'>뚝섬한강공원, 서울숲</span>
+                  <span className='text-14 font-bold'>
+                    러닝을 시작할 정확한 위치는 &apos;상세주소&apos;란에 적어주세요
+                  </span>
+                  <span className='text-14'>
+                    <span className='text-gray-darker'>종로3가역</span>{' '}
+                    <span className='text-pink'>&apos;2-1번 출구 인근 물품보관함&apos;</span>
+                  </span>
+                </div>
+              ) : (
+                <ul className='flex flex-col divide-y divide-gray-default pb-24'>
+                  {suggestions.map(({ placeId, mainAddress, secondaryAddress }) => (
+                    <li
+                      key={placeId}
+                      className='flex cursor-pointer flex-col p-8'
+                      onClick={() => {
+                        if (selectedSuggestionPlaceId === placeId) {
+                          setSelectedSuggestionPlaceId(null)
+                        } else {
+                          setSelectedSuggestionPlaceId(placeId)
+                        }
+                      }}>
+                      <div className='flex items-center justify-between gap-8'>
+                        <div className='flex flex-col'>
+                          <span className='text-14 font-bold'>{mainAddress}</span>
+                          <span className='text-gray-darker text-14'>{secondaryAddress}</span>
+                        </div>
+                        {selectedSuggestionPlaceId === placeId && (
+                          <button
+                            className='flex-shrink-0 rounded-20 bg-black-darken px-18 py-4 text-14 text-white'
+                            onClick={() => {
+                              onComplete(`${secondaryAddress} ${mainAddress}`)
+                              onClose()
+                            }}>
+                            선택
+                          </button>
+                        )}
+                      </div>
+                      {selectedSuggestionPlaceId === placeId && (
+                        <div className='relative mt-8 aspect-[264/210] w-full'>
+                          <Image
+                            className='rounded-10 border border-gray-default'
+                            src={`https://maps.googleapis.com/maps/api/staticmap?center=${mainAddress}&zoom=16&size=400x400&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`}
+                            alt='Google Static Map'
+                            fill
+                            unoptimized
+                          />
+                          <Image
+                            className='absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2'
+                            src='/images/maps/marker_destination.png'
+                            alt='Destination Marker'
+                            width={20}
+                            height={35}
+                          />
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
-          <Spacing size={8} />
         </div>
-      </section>
+      </article>
     </section>
   )
 }
