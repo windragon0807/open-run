@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import BrokenXIcon from '@icons/BrokenXIcon'
@@ -26,6 +25,18 @@ export default function AddressSearchModal({
   const [selectedSuggestionPlaceId, setSelectedSuggestionPlaceId] = useState<string | null>(null)
 
   const { mutate: fetchPlacesAutocomplete } = usePlacesAutocomplete()
+
+  const renderHighlightKeyword = (text: string, keyword: string) => {
+    if (keyword === '') return text
+
+    const parts = text.split(keyword)
+    return parts.map((part, index) => (
+      <span key={index}>
+        {part}
+        {index < parts.length - 1 && <span className='font-bold'>{keyword}</span>}
+      </span>
+    ))
+  }
 
   useEffect(() => {
     if (debouncedSearch === '') {
@@ -62,8 +73,7 @@ export default function AddressSearchModal({
 
           <div className='h-[calc(100%-76px)] px-24'>
             <div className='mb-24 flex items-center gap-16'>
-              <motion.input
-                layout
+              <input
                 className='flex-1 rounded-8 border border-gray-default p-12 text-16 focus:border-primary focus:outline-none'
                 type='text'
                 value={search}
@@ -114,7 +124,7 @@ export default function AddressSearchModal({
                       }}>
                       <div className='flex items-center justify-between gap-8'>
                         <div className='flex flex-col'>
-                          <span className='text-14 font-bold'>{mainAddress}</span>
+                          <span className='text-14'>{renderHighlightKeyword(mainAddress, search)}</span>
                           <span className='text-gray-darker text-14'>{secondaryAddress}</span>
                         </div>
                         {selectedSuggestionPlaceId === placeId && (
@@ -130,12 +140,15 @@ export default function AddressSearchModal({
                       </div>
                       {selectedSuggestionPlaceId === placeId && (
                         <div className='relative mt-8 aspect-[264/210] w-full'>
+                          {/* https://developers.google.com/maps/documentation/maps-static/start?hl=ko */}
                           <Image
                             className='rounded-10 border border-gray-default'
                             src={`https://maps.googleapis.com/maps/api/staticmap?center=${mainAddress}&zoom=16&size=400x400&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`}
                             alt='Google Static Map'
                             fill
                             unoptimized
+                            placeholder='blur'
+                            blurDataURL='/images/maps/map_placeholder.png'
                           />
                           <Image
                             className='absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2'

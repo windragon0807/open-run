@@ -36,7 +36,6 @@ export async function POST(request: NextRequest) {
     }
 
     const data = await response.json()
-    console.log('ryong', data)
     return NextResponse.json(data)
   } catch (error) {
     return NextResponse.json({ error: '장소 검색 실패' }, { status: 500 })
