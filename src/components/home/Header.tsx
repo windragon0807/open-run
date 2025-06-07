@@ -32,9 +32,7 @@ export default function Header() {
   return (
     <header className={clsx('bg-gradient-header-sample', isApp && 'pt-[64px]')}>
       <section className='flex h-[200px] w-full justify-between'>
-        <button
-          className='relative flex w-[176px] flex-shrink-0 items-end justify-end'
-          onClick={() => appRouter.push('/avatar')}>
+        <div className='relative flex w-[176px] flex-shrink-0 items-end justify-end'>
           <Image
             className='absolute object-cover'
             src='/images/home/bg_cloud.png'
@@ -51,10 +49,13 @@ export default function Header() {
             height={200}
             priority
           />
+          <div className={clsx('absolute left-16', isApp ? 'top-0' : 'top-8')}>
+            <AvatarButton onClick={() => appRouter.push('/avatar')} />
+          </div>
           <div className='absolute bottom-8 left-12'>
             <SkewedLikeLabel like={300} />
           </div>
-        </button>
+        </div>
 
         <div className='flex flex-col'>
           <div className='m-[16px_24px_16px] flex items-center justify-end gap-8'>
@@ -82,6 +83,21 @@ export default function Header() {
         </div>
       </section>
     </header>
+  )
+}
+
+function AvatarButton({ onClick }: { onClick?: () => void }) {
+  return (
+    <button
+      className='flex aspect-square w-40 items-center justify-center rounded-full bg-black-darken/10'
+      onClick={onClick}>
+      <svg width={16} height={16} viewBox='0 0 16 16'>
+        <path
+          className='fill-white'
+          d='M15.4998 7.25L12.7732 9.125V14.001H3.22729V9.125L0.499756 7.25L3.90894 2H5.74976C5.74976 2.59664 5.98712 3.16888 6.40894 3.59082C6.83084 4.01272 7.4031 4.24993 7.99976 4.25C8.59649 4.25 9.16861 4.01277 9.59058 3.59082C10.0125 3.16885 10.2498 2.59675 10.2498 2H12.0906L15.4998 7.25Z'
+        />
+      </svg>
+    </button>
   )
 }
 
