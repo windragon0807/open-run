@@ -1,5 +1,5 @@
-import { ApiResponse } from '@apis/axios'
 import { WearingAvatar } from '@type/avatar'
+import { ApiResponse } from '@apis/axios'
 
 type ResponseType = ApiResponse<WearingAvatar>
 
@@ -108,15 +108,5 @@ const mockData: ResponseType['data'] = {
       subCategory: 'body-accessories',
       link: '',
     },
-  },
-  background: {
-    id: '00061',
-    imageUrl: '/temp/avatar/background/nft_background.png',
-    thumbnailUrl: '/temp/avatar/background/nft_background.png',
-    rarity: 'common',
-    name: 'background',
-    mainCategory: 'background',
-    subCategory: null,
-    link: '',
   },
 }

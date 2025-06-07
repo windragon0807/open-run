@@ -3,7 +3,6 @@ import { ElementType, useState } from 'react'
 import { MainCategory, SelectedCategory, SubCategory } from '@type/avatar'
 import {
   AccessoriesIcon,
-  BackgroundIcon,
   FaceIcon,
   FootwearIcon,
   FullSetIcon,
@@ -28,7 +27,6 @@ const categoryList: {
     mainCategory: 'accessories',
     icon: AccessoriesIcon,
   },
-  { mainCategory: 'background', icon: BackgroundIcon },
 ]
 
 const subCategoryList: {

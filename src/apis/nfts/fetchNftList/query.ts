@@ -1,5 +1,5 @@
-import { ApiResponse } from '@apis/axios'
 import { Avatar } from '@type/avatar'
+import { ApiResponse } from '@apis/axios'
 
 type ResponseType = ApiResponse<Avatar[]>
 
@@ -625,17 +625,6 @@ const mockData: ResponseType['data'] = [
     rarity: 'common',
     name: 'hair_3',
     mainCategory: 'hair',
-    subCategory: null,
-    link: '',
-  },
-  // Background 1개
-  {
-    id: '00061',
-    imageUrl: '/temp/avatar/background/nft_background.png',
-    thumbnailUrl: '/temp/avatar/background/nft_background.png',
-    rarity: 'common',
-    name: 'background',
-    mainCategory: 'background',
     subCategory: null,
     link: '',
   },

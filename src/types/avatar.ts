@@ -7,7 +7,6 @@ export type MainCategory =
   | 'skin'
   | 'hair'
   | 'accessories'
-  | 'background'
 export type SubCategory = 'head-accessories' | 'eye-accessories' | 'ear-accessories' | 'body-accessories'
 export type Rarity = 'common' | 'rare' | 'epic'
 
@@ -36,7 +35,6 @@ export type WearingAvatar = {
     'ear-accessories': Avatar | null
     'body-accessories': Avatar | null
   }
-  background: Avatar | null
 }
 
 export type SelectedCategory = {

@@ -104,16 +104,3 @@ export function AccessoriesIcon({ focused }: { focused: boolean }) {
     </svg>
   )
 }
-
-export function BackgroundIcon({ focused }: { focused: boolean }) {
-  return (
-    <svg width='24' height='24' viewBox='0 0 24 24' fill='none'>
-      <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M5 5H19V13.5859L15.2071 9.79304L14.5 9.08594L13.7929 9.79304L10.3726 13.2134L8.0547 11.6681L7.37258 11.2134L6.79289 11.793L5 13.5859V5ZM21 17.3665V15.5859V5V3H19H5H3V5V15.5859V17.3665ZM8.5 7C7.67157 7 7 7.67157 7 8.5C7 9.32843 7.67157 10 8.5 10C9.32843 10 10 9.32843 10 8.5C10 7.67157 9.32843 7 8.5 7Z'
-        fill={focused ? FOCUSED_COLOR : UNFOCUSED_COLOR}
-      />
-    </svg>
-  )
-}
