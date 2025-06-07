@@ -5,15 +5,6 @@ export default function AvatarCloset({ selectedAvatar }: { selectedAvatar: Weari
   return (
     <section className='z-10 w-full bg-white px-16 shadow-floating-primary'>
       <div className='relative mb-16 flex h-248 w-full justify-center rounded-16 bg-black-darken'>
-        {selectedAvatar.background && (
-          <Image
-            className='absolute top-16'
-            src={selectedAvatar.background.imageUrl as string}
-            alt='Avatar Background'
-            width={216}
-            height={216}
-          />
-        )}
         <div className='absolute top-16 h-270 w-216 flex-shrink-0'>
           {selectedAvatar.hair && <Parts src={selectedAvatar.hair.imageUrl[1]} alt='뒷머리' />}
           {selectedAvatar.skin && <Parts src={selectedAvatar.skin.imageUrl as string} alt='피부' />}
