@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { Weather } from '@type/weather'
 
 /**
  * GET /api/weather
@@ -35,9 +36,10 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: '날씨 정보를 찾을 수 없습니다' }, { status: 500 })
     }
 
+    /** https://openweathermap.org/weather-conditions */
     const data: ResponseType = await response.json()
     const result = {
-      weather: data.current.weather[0].main,
+      weather: getWeather(data.current.weather[0].id),
       temperature: data.current.temp,
     }
 
@@ -63,7 +65,7 @@ type ResponseType = {
     visibility: Number
     weather: Array<{
       id: number
-      main: string /* 날씨  */
+      main: string /* 날씨 */
       description: string
       icon: string
     }>
@@ -74,4 +76,23 @@ type ResponseType = {
   lon: number
   timezone: string
   timezone_offset: number
+}
+
+/**
+ * Group ID
+ * 2** : Thunderstorm -> Rain
+ * 3** : Drizzle -> Rain
+ * 5** : Rain
+ * 6** : Snow
+ * 800 : Clear
+ * 9** : Clouds
+ */
+function getWeather(id: number): Weather {
+  if (id >= 200 && id < 300) return 'rain'
+  if (id >= 300 && id < 400) return 'rain'
+  if (id >= 500 && id < 600) return 'rain'
+  if (id >= 600 && id < 700) return 'snow'
+  if (id === 800) return 'clear'
+  if (id >= 800 && id < 900) return 'clouds'
+  return 'clear'
 }

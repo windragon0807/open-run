@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import Image from 'next/image'
 import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
+import { Weather } from '@type/weather'
 import BellIcon from '@icons/BellIcon'
 import { useAppRouter } from '@hooks/useAppRouter'
 import useGeolocation from '@hooks/useGeolocation'
@@ -30,17 +31,25 @@ export default function Header() {
   )
 
   return (
-    <header className={clsx('bg-gradient-header-sample', isApp && 'pt-[64px]')}>
+    <header
+      className={clsx(isApp && 'pt-[64px]', currentWeather == null && 'animate-pulse')}
+      style={{
+        background: currentWeather
+          ? getWeatherData(currentWeather.weather).background
+          : weatherData.clouds.background.morning,
+      }}>
       <section className='flex h-[200px] w-full justify-between'>
         <div className='relative flex w-[176px] flex-shrink-0 items-end justify-end'>
-          <Image
-            className='absolute object-cover'
-            src='/images/home/bg_cloud.png'
-            alt='cloud'
-            fill
-            priority
-            sizes='(max-width: 768px) 100vw, 176px'
-          />
+          {currentWeather && (
+            <Image
+              className='absolute object-cover'
+              src={getWeatherData(currentWeather.weather).image}
+              alt='Weather Image'
+              fill
+              priority
+              sizes='(max-width: 768px) 100vw, 176px'
+            />
+          )}
           <Image
             className='absolute border'
             src='/temp/nft_character_lg.png'
@@ -75,7 +84,12 @@ export default function Header() {
               <div className='mt-19 h-30 w-122 animate-pulse rounded-10 bg-gray-default' />
             ) : (
               <span className='z-10 mt-4 flex items-center gap-8 font-jost text-40 font-bold tracking-wide text-white'>
-                <Image src='/images/home/icon_cloud.png' alt='Cloud Icon' width={41} height={24} />
+                <Image
+                  src={getWeatherData(currentWeather?.weather ?? 'clear').icon}
+                  alt='Weather Icon'
+                  width={41}
+                  height={24}
+                />
                 {Math.floor(currentWeather?.temperature ?? 0)}°
               </span>
             )}
@@ -108,4 +122,65 @@ function SkewedLikeLabel({ like }: { like: number }) {
       <span className='font-jost text-16 font-[900]'>{addDelimiter(like)}</span>
     </div>
   )
+}
+
+const weatherData = {
+  clear: {
+    image: '/images/home/bg_clear.png',
+    icon: '/images/home/icon_clear.png',
+    background: {
+      morning: 'linear-gradient(180deg, #81C0FF 20%, rgba(195, 225, 255, 0.00) 100%)',
+      afternoon: 'linear-gradient(180deg, #AAB9DF 30%, rgba(255, 145, 107, 0.30) 60%, rgba(255, 145, 107, 0.00) 100%)',
+      night: 'linear-gradient(180deg, #002A51 20%, rgba(84, 103, 195, 0.90) 60%, rgba(92, 100, 175, 0.00) 100%)',
+    },
+  },
+  clouds: {
+    image: '/images/home/bg_clouds.png',
+    icon: '/images/home/icon_clouds.png',
+    background: {
+      morning: 'linear-gradient(180deg, #B1B9CD 20%, rgba(137, 147, 157, 0.00) 100%)',
+      afternoon: 'linear-gradient(180deg, #8C93A5 20%, rgba(223, 157, 128, 0.30) 60%, rgba(232, 71, 0, 0.00) 100%)',
+      night: 'linear-gradient(180deg, #53555B 20%, rgba(96, 98, 105, 0.00) 100%)',
+    },
+  },
+  rain: {
+    image: '/images/home/bg_rain.png',
+    icon: '/images/home/icon_rain.png',
+    background: {
+      morning: 'linear-gradient(180deg, #9DC7CD 20%, rgba(104, 201, 243, 0.00) 100%)',
+      afternoon: 'linear-gradient(180deg, #513853 20%, rgba(173, 77, 71, 0.90) 60%, rgba(232, 71, 0, 0.00) 100%)',
+      night: 'linear-gradient(180deg, #253232 20%, rgba(84, 117, 143, 0.90) 60%, rgba(50, 118, 148, 0.00) 100%)',
+    },
+  },
+  snow: {
+    image: '/images/home/bg_snow.png',
+    icon: '/images/home/icon_snow.png',
+    background: {
+      morning: 'linear-gradient(180deg, #C1D6FF 20%, rgba(208, 224, 255, 0.00) 100%)',
+      afternoon: 'linear-gradient(180deg, #7A95C9 20%, #E3C1D5 60%, rgba(255, 219, 239, 0.00) 100%)',
+      night: 'linear-gradient(180deg, #1D499F 20%, rgba(84, 103, 195, 0.90) 60%, rgba(92, 100, 175, 0.00) 100%)',
+    },
+  },
+} as const
+
+function getWeatherData(weather: Weather) {
+  const data = weatherData[weather]
+
+  // 현재 시간 기준 오전 6시 ~ 오후 4시 사이면 오전, 오후 4시 ~ 오전 8시 사이면 오후, 나머지는 밤
+  let background: string
+  const now = new Date()
+  const hours = now.getHours()
+  if (hours >= 6 && hours < 16) {
+    background = data.background.morning
+  } else if (hours >= 16 && hours < 20) {
+    background = data.background.afternoon
+  } else {
+    background = data.background.night
+  }
+
+  return {
+    image: data.image,
+    icon: data.icon,
+    background,
+  }
 }

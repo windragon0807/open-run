@@ -1,8 +1,9 @@
 import { Geolocation } from '@type/geolocation'
+import { Weather } from '@type/weather'
 
 export type RequestType = Geolocation
 export type ResponseType = {
-  weather: string
+  weather: Weather
   temperature: number
 }
 

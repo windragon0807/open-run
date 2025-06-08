@@ -85,7 +85,11 @@ export default function useGeolocation() {
         } else {
           console.error('위치 정보를 가져오는 중 오류가 발생했습니다.')
         }
-        setLocation(null)
+        // 기본 위치(서울시청)로 설정
+        setLocation({
+          lat: 37.577956,
+          lng: 126.916561,
+        })
       }
     }
 

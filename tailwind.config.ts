@@ -57,7 +57,6 @@ const config: Config = {
         'gradient-bottom-navigation': 'linear-gradient(180deg, rgba(222, 226, 230, 0.00) 0%, #DEE2E6 70%)',
         'gradient-weather':
           'linear-gradient(180deg, #586587 0%, rgba(248, 249, 250, 0.00) 75%, rgba(248, 249, 250, 0.00) 100%)',
-        'gradient-header-sample': 'linear-gradient(180deg, #B1B9CD 20%, rgba(137, 147, 157, 0.00) 100%)',
       },
       boxShadow: {
         'floating-primary': '0px 0px 16px 0px rgba(74, 92, 239, 0.20)',
