@@ -6,7 +6,7 @@ export function useThumbnailImage(initialImageUrl?: string | null) {
 
   const nextImage = useCallback(({ onChange }: { onChange?: (imageUrl: string) => void }) => {
     setImageIndex((prevIndex) => {
-      const nextIndex = (prevIndex + 1) % 13
+      const nextIndex = prevIndex === 13 ? 1 : prevIndex + 1
       onChange?.(imageList[nextIndex - 1])
       return nextIndex
     })
