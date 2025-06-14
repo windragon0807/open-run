@@ -73,23 +73,41 @@ export default function useGeolocation() {
         })
         console.info('위치 정보 수신:', { lat: position.coords.latitude, lng: position.coords.longitude })
       } catch (err) {
-        setIsGeolocationPermissionGranted(false)
         if (err instanceof GeolocationPositionError) {
-          if (err.code === 1) {
-            console.error('위치 정보 접근 권한이 거부되었습니다. 브라우저 설정에서 권한을 허용해주세요.')
-          } else if (err.code === 2) {
-            console.error('위치 정보를 가져올 수 없습니다.')
-          } else if (err.code === 3) {
-            console.error('위치 정보 요청 시간이 초과되었습니다.')
+          if (err.code === GeolocationPositionError.PERMISSION_DENIED) {
+            console.error(
+              '[위치 정보 권한 거부] 브라우저 설정에서 위치 정보 접근 권한을 허용해주세요. (에러 코드: PERMISSION_DENIED)',
+            )
+          } else if (err.code === GeolocationPositionError.POSITION_UNAVAILABLE) {
+            console.error(
+              '[위치 정보 사용 불가] 현재 위치를 확인할 수 없습니다. 인터넷 연결을 확인하거나 GPS가 켜져있는지 확인해주세요. (에러 코드: POSITION_UNAVAILABLE)',
+            )
+            /**
+             * CoreLocationProvider: CoreLocation framework reported a kCLErrorLocationUnknown failure.
+             * macOS 브라우저에서 테스트 시 간헐적으로 발생하는 오류를 커버하기 위함
+             */
+            if (process.env.NODE_ENV === 'development') {
+              console.log('개발 환경에서는 에러 발생 시 임시 위치 정보 권한 허용')
+              setIsGeolocationPermissionGranted(true)
+              // 기본 위치(서울시청)로 설정
+              setLocation({
+                lat: 37.577956,
+                lng: 126.916561,
+              })
+              return
+            }
+          } else if (err.code === GeolocationPositionError.TIMEOUT) {
+            console.error(
+              '[위치 정보 요청 시간 초과] 위치 정보를 가져오는 데 너무 오래 걸립니다. 네트워크 상태를 확인해주세요. (에러 코드: TIMEOUT)',
+            )
           }
         } else {
           console.error('위치 정보를 가져오는 중 오류가 발생했습니다.')
         }
+
+        setIsGeolocationPermissionGranted(false)
         // 기본 위치(서울시청)로 설정
-        setLocation({
-          lat: 37.577956,
-          lng: 126.916561,
-        })
+        setLocation(null)
       }
     }
 
