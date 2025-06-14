@@ -32,7 +32,7 @@ export default function FaceNumberPicker({
     initialValue: parseInt(defaultValue.split("'")[0]),
     min: minMinutes,
     max: maxMinutes,
-    onChange: (newMinutes) => onChange(`${newMinutes}\'${padStart(seconds)}\"`),
+    onChange: (newMinutes) => onChange(`${padStart(newMinutes)}\'${padStart(seconds)}\"`),
   })
 
   const {
