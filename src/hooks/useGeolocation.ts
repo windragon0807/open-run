@@ -87,7 +87,7 @@ export default function useGeolocation() {
              * macOS 브라우저에서 테스트 시 간헐적으로 발생하는 오류를 커버하기 위함
              */
             if (process.env.NODE_ENV === 'development') {
-              console.log('개발 환경에서는 에러 발생 시 임시 위치 정보 권한 허용')
+              console.warn('개발 환경에서는 에러 발생 시 임시 위치 정보 권한 허용')
               setIsGeolocationPermissionGranted(true)
               // 기본 위치(서울시청)로 설정
               setLocation({
