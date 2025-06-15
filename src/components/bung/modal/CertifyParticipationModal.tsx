@@ -1,12 +1,13 @@
+import { MODAL_KEY } from '@/constants/modal'
+import { useModal } from '@/contexts/ModalProvider'
 import { AdvancedMarker, Map } from '@vis.gl/react-google-maps'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useMemo } from 'react'
-import { useModalContext } from '@contexts/ModalContext'
 import { useAppStore } from '@store/app'
 import LoadingLogo from '@shared/LoadingLogo'
-import { BottomSheet } from '@shared/Modal'
+import { BottomSheet, Dimmed } from '@shared/Modal'
 import PrimaryButton from '@shared/PrimaryButton'
 import BrokenXIcon from '@icons/BrokenXIcon'
 import useGeolocation from '@hooks/useGeolocation'
@@ -20,7 +21,7 @@ const 참여인증거리 = 500 // 500m
 export default function CertifyParticipationModal({ destination, bungId }: { destination: string; bungId: string }) {
   const router = useRouter()
   const { isApp } = useAppStore()
-  const { closeModal } = useModalContext()
+  const { closeModal } = useModal()
   const { mutate: certifyParticipation } = useCertifyParticipation()
   const { location } = useGeolocation()
   const { data: coordinates } = useGeocoding({ address: destination })
@@ -43,38 +44,40 @@ export default function CertifyParticipationModal({ destination, bungId }: { des
       {
         onSuccess: () => {
           router.refresh()
-          closeModal()
+          closeModal(MODAL_KEY.CERTIFY_PARTICIPATION)
         },
       },
     )
   }
 
   return (
-    <BottomSheet className='px-16'>
-      <header className='flex h-60 w-full items-center justify-center'>
-        <button className='absolute left-16' onClick={closeModal}>
-          <BrokenXIcon size={24} color={colors.black.default} />
-        </button>
-        <span className='text-16 font-bold text-black-darken'>참여 인증</span>
-      </header>
-      <section className='w-full'>
-        {모든좌표가유효한가 === true ? (
-          <GoogleMap currentPosition={location} destinationPosition={coordinates} />
-        ) : (
-          <div className='relative aspect-square w-full animate-pulse'>
-            <Image className='object-cover' src='/images/maps/map_placeholder.png' alt='map' fill />
-          </div>
-        )}
-      </section>
-      <PrimaryButton
-        className={clsx('mt-20', isApp ? 'mb-50' : 'mb-40')}
-        disabled={distance == null || distance > 참여인증거리}
-        onClick={handleClick}>
-        {distance == null && <LoadingLogo />}
-        {distance != null && distance <= 참여인증거리 && '참여 인증 완료'}
-        {distance != null && distance > 참여인증거리 && '목적지까지 500m 이내여야 합니다.'}
-      </PrimaryButton>
-    </BottomSheet>
+    <Dimmed onClick={() => closeModal(MODAL_KEY.CERTIFY_PARTICIPATION)}>
+      <BottomSheet className='px-16'>
+        <header className='flex h-60 w-full items-center justify-center'>
+          <button className='absolute left-16' onClick={() => closeModal(MODAL_KEY.CERTIFY_PARTICIPATION)}>
+            <BrokenXIcon size={24} color={colors.black.default} />
+          </button>
+          <span className='text-16 font-bold text-black-darken'>참여 인증</span>
+        </header>
+        <section className='w-full'>
+          {모든좌표가유효한가 === true ? (
+            <GoogleMap currentPosition={location} destinationPosition={coordinates} />
+          ) : (
+            <div className='relative aspect-square w-full animate-pulse'>
+              <Image className='object-cover' src='/images/maps/map_placeholder.png' alt='map' fill />
+            </div>
+          )}
+        </section>
+        <PrimaryButton
+          className={clsx('mt-20', isApp ? 'mb-50' : 'mb-40')}
+          disabled={distance == null || distance > 참여인증거리}
+          onClick={handleClick}>
+          {distance == null && <LoadingLogo />}
+          {distance != null && distance <= 참여인증거리 && '참여 인증 완료'}
+          {distance != null && distance > 참여인증거리 && '목적지까지 500m 이내여야 합니다.'}
+        </PrimaryButton>
+      </BottomSheet>
+    </Dimmed>
   )
 }
 

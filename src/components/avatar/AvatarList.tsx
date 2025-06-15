@@ -1,6 +1,7 @@
+import { useModal } from '@/contexts/ModalProvider'
 import Image from 'next/image'
-import { useModalContext } from '@contexts/ModalContext'
 import { Avatar, SubCategory, WearingAvatar } from '@type/avatar'
+import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 import DetailModal from './DetailModal'
 import RarityIcon from './shared/RarityIcon'
@@ -14,7 +15,7 @@ export default function AvatarList({
   selectedAvatar: WearingAvatar
   setSelectedAvatar: (avatar: WearingAvatar) => void
 }) {
-  const { openModal } = useModalContext()
+  const { showModal } = useModal()
 
   const handleAvatarSelect = (avatar: Avatar) => {
     if (avatar.mainCategory === 'accessories') {
@@ -91,8 +92,9 @@ export default function AvatarList({
                 className='absolute right-6 top-6'
                 onClick={(e) => {
                   e.stopPropagation()
-                  openModal({
-                    contents: (
+                  showModal({
+                    key: MODAL_KEY.AVATAR_DETAIL,
+                    component: (
                       <DetailModal
                         serialNumber={avatar.id}
                         imageSrc={Array.isArray(avatar.imageUrl) ? avatar.imageUrl[0] : avatar.imageUrl}

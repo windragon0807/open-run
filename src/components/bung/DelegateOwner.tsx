@@ -1,6 +1,7 @@
+import { MODAL_KEY } from '@/constants/modal'
+import { useModal } from '@/contexts/ModalProvider'
 import clsx from 'clsx'
 import Image from 'next/image'
-import { useModalContext } from '@contexts/ModalContext'
 import { useAppStore } from '@store/app'
 import { BungMember } from '@type/bung'
 import Input from '@shared/Input'
@@ -19,7 +20,7 @@ export default function DelegateOwner({
   setPageCategory: (category: PageCategory) => void
 }) {
   const { isApp } = useAppStore()
-  const { openModal } = useModalContext()
+  const { showModal } = useModal()
   const { search, setSearch, filteredList } = useFushSearch(memberList, 'nickname')
 
   return (
@@ -74,8 +75,9 @@ export default function DelegateOwner({
               <button
                 className='rounded-12 bg-black-darken px-13 py-4 text-12 text-white'
                 onClick={() =>
-                  openModal({
-                    contents: <ConfirmDelegateModal member={member} onSuccess={() => setPageCategory('벙 상세')} />,
+                  showModal({
+                    key: MODAL_KEY.CONFIRM_DELEGATE,
+                    component: <ConfirmDelegateModal member={member} onSuccess={() => setPageCategory('벙 상세')} />,
                   })
                 }>
                 벙주 넘기기

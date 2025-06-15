@@ -1,0 +1,13 @@
+export const MODAL_KEY = {
+  CREATE_BUNG: 'create-bung',
+  AVATAR_DETAIL: 'avatar-detail',
+  BUNG_COMPLETE: 'bung-complete',
+  MODIFY_BUNG: 'modify-bung',
+  DELETE_BUNG: 'delete-bung',
+  CERTIFY_PARTICIPATION: 'certify-participation',
+  WHY_CERTIFICATION: 'why-certification',
+  CONFIRM_DELEGATE: 'confirm-delegate',
+  CONFIRM_DROPOUT: 'confirm-dropout',
+  ALERT: 'alert',
+  ADDRESS_SEARCH: 'address-search',
+} as const

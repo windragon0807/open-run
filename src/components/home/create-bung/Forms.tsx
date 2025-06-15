@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
 import { imageList } from '@store/image'
 import Button from '@components/bung/components/Button'
@@ -24,6 +25,7 @@ import { useRefetchQuery } from '@hooks/useRefetchQuery'
 import { useCreateBung } from '@apis/bungs/createBung/mutation'
 import { queryKey } from '@apis/bungs/fetchMyBungs/query'
 import { currentDate, formatDate } from '@utils/time'
+import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 import AddressSearchModal from './AddressSearchModal'
 
@@ -49,8 +51,8 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
   const router = useRouter()
   const { isApp } = useAppStore()
   const { nextImage } = useThumbnailImage()
+  const { showModal } = useModal()
 
-  const [isAddressSearchModalOpen, setAddressSearchModalOpen] = useState(false)
   const [isDatePickerOpen, setDatePickerOpen] = useState(false)
   const [isTimePickerOpen, setTimePickerOpen] = useState(false)
   const dateElementRef = useRef<HTMLDivElement>(null)
@@ -138,15 +140,6 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
 
   return (
     <section className='flex w-full flex-col overflow-y-auto px-16'>
-      {isAddressSearchModalOpen ? (
-        <AddressSearchModal
-          onClose={() => setAddressSearchModalOpen(false)}
-          onComplete={(address) => {
-            setValue('location', address)
-          }}
-        />
-      ) : null}
-
       <form onSubmit={handleSubmit(onSubmit)}>
         {/** 랜덤 이미지 선택 */}
         <section className='relative mx-auto mb-32 h-184 w-full'>
@@ -187,7 +180,18 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             <button
               type='button'
               className='h-40 w-80 place-items-center rounded-8 bg-primary text-14 font-semibold text-white'
-              onClick={() => setAddressSearchModalOpen(true)}>
+              onClick={() => {
+                showModal({
+                  key: MODAL_KEY.ADDRESS_SEARCH,
+                  component: (
+                    <AddressSearchModal
+                      onComplete={(address) => {
+                        setValue('location', address)
+                      }}
+                    />
+                  ),
+                })
+              }}>
               주소 검색
             </button>
           </div>

@@ -1,12 +1,13 @@
 import clsx from 'clsx'
 import Image from 'next/image'
-import { useModalContext } from '@contexts/ModalContext'
+import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
 import { BungMember } from '@type/bung'
 import Input from '@shared/Input'
 import ArrowLeftIcon from '@icons/ArrowLeftIcon'
 import MagnifierIcon from '@icons/MagnifierIcon'
 import useFushSearch from '@hooks/useFuseSearch'
+import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 import ConfirmDropoutModal from './modal/ConfirmDropoutModal'
 import { PageCategory } from './types'
@@ -19,7 +20,7 @@ export default function ManageMembers({
   setPageCategory: (category: PageCategory) => void
 }) {
   const { isApp } = useAppStore()
-  const { openModal } = useModalContext()
+  const { showModal } = useModal()
   const { search, setSearch, filteredList } = useFushSearch(memberList, 'nickname')
 
   return (
@@ -66,7 +67,10 @@ export default function ManageMembers({
                 <button
                   className='rounded-12 bg-pink px-13 py-4 text-12 text-white'
                   onClick={() => {
-                    openModal({ contents: <ConfirmDropoutModal member={member} /> })
+                    showModal({
+                      key: MODAL_KEY.CONFIRM_DROPOUT,
+                      component: <ConfirmDropoutModal member={member} />,
+                    })
                   }}>
                   내보내기
                 </button>

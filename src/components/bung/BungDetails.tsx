@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { Fragment, useRef } from 'react'
-import { useModalContext } from '@contexts/ModalContext'
+import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
 import { BungInfo } from '@type/bung'
@@ -24,6 +24,7 @@ import { useCompleteBung } from '@apis/bungs/completeBung/mutation'
 import { useDropoutMember } from '@apis/bungs/dropoutMember/mutation'
 import { useJoinBung } from '@apis/bungs/joinBung/mutation'
 import { convertUTCtoLocaleDate, currentDate, formatDate, timerFormat } from '@utils/time'
+import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 import GoogleMap from './GoogleMap'
 import BungCompleteModal from './modal/BungCompleteModal'
@@ -49,7 +50,7 @@ export default function BungDetails({
   const router = useRouter()
   const appRouter = useAppRouter()
   const { isApp } = useAppStore()
-  const { openModal } = useModalContext()
+  const { showModal } = useModal()
   const { userInfo } = useUserStore()
   const clearAllCache = useRefetch()
   const { mutate: completeBung } = useCompleteBung()
@@ -83,8 +84,9 @@ export default function BungDetails({
           router.refresh()
           router.replace('/')
 
-          openModal({
-            contents: (
+          showModal({
+            key: MODAL_KEY.BUNG_COMPLETE,
+            component: (
               <BungCompleteModal
                 imageUrl={details.mainImage as string}
                 title={details.name}
@@ -146,7 +148,10 @@ export default function BungDetails({
           {벙에참여한벙주인가 && (
             <>
               {/** 벙 수정 */}
-              <button onClick={() => openModal({ contents: <ModifyBungModal details={details} /> })}>
+              <button
+                onClick={() =>
+                  showModal({ key: MODAL_KEY.MODIFY_BUNG, component: <ModifyBungModal details={details} /> })
+                }>
                 <PencilIcon size={24} color={colors.white} />
               </button>
               {/** 벙주 넘기기 */}
@@ -154,7 +159,10 @@ export default function BungDetails({
                 <ChangeOwnerIcon size={24} color={colors.white} />
               </button>
               {/** 벙 삭제 */}
-              <button onClick={() => openModal({ contents: <DeleteBungModal bungId={details.bungId} /> })}>
+              <button
+                onClick={() =>
+                  showModal({ key: MODAL_KEY.DELETE_BUNG, component: <DeleteBungModal bungId={details.bungId} /> })
+                }>
                 <WastebasketIcon size={24} color={colors.white} />
               </button>
             </>
@@ -234,8 +242,9 @@ export default function BungDetails({
                     className='rounded-8 bg-black-darken px-14 py-10 text-14 font-bold text-white disabled:bg-gray-default disabled:text-white'
                     disabled={현재유저의벙참여정보?.participationStatus === true}
                     onClick={() => {
-                      openModal({
-                        contents: <CertifyParticipationModal destination={details.location} bungId={details.bungId} />,
+                      showModal({
+                        key: MODAL_KEY.CERTIFY_PARTICIPATION,
+                        component: <CertifyParticipationModal destination={details.location} bungId={details.bungId} />,
                       })
                     }}>
                     참여 인증
@@ -244,8 +253,9 @@ export default function BungDetails({
                 <button
                   className='flex h-32 w-full items-center justify-between rounded-8 bg-gray-lighten px-16'
                   onClick={() => {
-                    openModal({
-                      contents: <WhyCertificationModal />,
+                    showModal({
+                      key: MODAL_KEY.WHY_CERTIFICATION,
+                      component: <WhyCertificationModal />,
                     })
                   }}>
                   <p className='text-12 font-bold text-black-darken'>참여 인증을 왜 해야 하나요?</p>

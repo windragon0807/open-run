@@ -1,9 +1,12 @@
+import { Dimmed } from '@/components/shared/Modal'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import { useModal } from '@contexts/ModalProvider'
 import BrokenXIcon from '@icons/BrokenXIcon'
 import useDebounce from '@hooks/useDebounce'
 import { ResponseType } from '@apis/maps/places'
 import { usePlacesAutocomplete } from '@apis/maps/places/mutation'
+import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 
 type Suggestion = {
@@ -12,13 +15,9 @@ type Suggestion = {
   secondaryAddress: string
 }
 
-export default function AddressSearchModal({
-  onClose,
-  onComplete,
-}: {
-  onClose: () => void
-  onComplete: (address: string) => void
-}) {
+export default function AddressSearchModal({ onComplete }: { onComplete: (address: string) => void }) {
+  const { closeModal } = useModal()
+
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 300)
   const [suggestions, setSuggestions] = useState<Suggestion[]>([])
@@ -61,12 +60,12 @@ export default function AddressSearchModal({
   }, [debouncedSearch])
 
   return (
-    <section className='fixed bottom-0 left-0 right-0 top-0 z-[1000] rounded-t-2xl bg-black-darkest/60'>
-      <article className='absolute left-1/2 top-[10%] aspect-[328/480] max-h-[650px] w-[90%] -translate-x-1/2 rounded-10 bg-white'>
+    <Dimmed onClick={() => closeModal(MODAL_KEY.ADDRESS_SEARCH)}>
+      <article className='absolute left-1/2 top-1/2 aspect-[328/480] max-h-[650px] w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-10 bg-white'>
         <div className='h-full w-full'>
           <header className='relative mb-16 flex h-60 w-full items-center'>
             <h2 className='w-full text-center font-bold'>주소검색</h2>
-            <button className='absolute right-12' onClick={onClose}>
+            <button className='absolute right-12' onClick={() => closeModal(MODAL_KEY.ADDRESS_SEARCH)}>
               <BrokenXIcon size={24} color={colors.black.default} />
             </button>
           </header>
@@ -91,15 +90,15 @@ export default function AddressSearchModal({
                 </button>
               )}
             </div>
-            <div className='scrollbar-hide h-[calc(100%-74px)] overflow-y-auto'>
+            <div className='h-[calc(100%-74px)] overflow-y-auto scrollbar-hide'>
               {suggestions.length === 0 ? (
                 <div className='flex flex-col'>
                   <span className='mb-8 text-14 font-bold'>검색 팁</span>
-                  <span className='text-gray-darker text-14'>도로명 + 건물번호</span>
+                  <span className='text-14 text-gray-darker'>도로명 + 건물번호</span>
                   <span className='mb-8 text-14 text-pink'>여의서로 330</span>
-                  <span className='text-gray-darker text-14'>지번 주소</span>
+                  <span className='text-14 text-gray-darker'>지번 주소</span>
                   <span className='mb-8 text-14 text-pink'>잠실동 47</span>
-                  <span className='text-gray-darker text-14'>장소명</span>
+                  <span className='text-14 text-gray-darker'>장소명</span>
                   <span className='mb-24 text-14 text-pink'>뚝섬한강공원, 서울숲</span>
                   <span className='text-14 font-bold'>
                     러닝을 시작할 정확한 위치는 &apos;상세주소&apos;란에 적어주세요
@@ -125,14 +124,14 @@ export default function AddressSearchModal({
                       <div className='flex items-center justify-between gap-8'>
                         <div className='flex flex-col'>
                           <span className='text-14'>{renderHighlightKeyword(mainAddress, search)}</span>
-                          <span className='text-gray-darker text-14'>{secondaryAddress}</span>
+                          <span className='text-14 text-gray-darker'>{secondaryAddress}</span>
                         </div>
                         {selectedSuggestionPlaceId === placeId && (
                           <button
                             className='flex-shrink-0 rounded-20 bg-black-darken px-18 py-4 text-14 text-white'
                             onClick={() => {
                               onComplete(`${secondaryAddress} ${mainAddress}`)
-                              onClose()
+                              closeModal(MODAL_KEY.ADDRESS_SEARCH)
                             }}>
                             선택
                           </button>
@@ -167,6 +166,6 @@ export default function AddressSearchModal({
           </div>
         </div>
       </article>
-    </section>
+    </Dimmed>
   )
 }

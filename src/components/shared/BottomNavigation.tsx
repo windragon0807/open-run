@@ -4,13 +4,14 @@ import clsx from 'clsx'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ElementType } from 'react'
-import { useModalContext } from '@contexts/ModalContext'
+import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
+import { MODAL_KEY } from '@constants/modal'
 import CreateBung from '../home/create-bung/CreateBung'
 
 export default function BottomNavigation() {
   const { isApp } = useAppStore()
-  const { openModal } = useModalContext()
+  const { showModal } = useModal()
   return (
     <footer
       className={clsx(
@@ -23,7 +24,7 @@ export default function BottomNavigation() {
         <button
           className='flex h-full flex-1 items-center justify-center'
           onClick={() => {
-            openModal({ contents: <CreateBung /> })
+            showModal({ key: MODAL_KEY.CREATE_BUNG, component: <CreateBung /> })
           }}>
           <PlusIcon />
         </button>
