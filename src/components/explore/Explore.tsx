@@ -182,7 +182,9 @@ function ExploreResult({
       <div className='flex flex-col pt-8'>
         <p className='mb-6 line-clamp-2 text-14 font-bold'>{renderHighlightKeyword(title, keyword)}</p>
         <span className='text-12'>{renderHighlightKeyword(location, keyword)}</span>
-        <span className='text-12'>{formatDate(startDate, 'M월 d일 (E) a h:mm')}</span>
+        <span className='text-12'>
+          {formatDate({ date: startDate, formatStr: 'M월 d일 (E) a h:mm', convertUTCtoLocale: true })}
+        </span>
       </div>
     </li>
   )

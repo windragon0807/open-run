@@ -23,7 +23,7 @@ import useTimer from '@hooks/useTimer'
 import { useCompleteBung } from '@apis/bungs/completeBung/mutation'
 import { useDropoutMember } from '@apis/bungs/dropoutMember/mutation'
 import { useJoinBung } from '@apis/bungs/joinBung/mutation'
-import { currentDate, formatDate, timerFormat } from '@utils/time'
+import { convertUTCtoLocaleDate, currentDate, formatDate, timerFormat } from '@utils/time'
 import { colors } from '@styles/colors'
 import GoogleMap from './GoogleMap'
 import BungCompleteModal from './modal/BungCompleteModal'
@@ -127,7 +127,7 @@ export default function BungDetails({
   const 벙에참여한멤버인가 = isParticipated && !isOwner
   const 벙에참여한유저인가 = isParticipated
   const 현재유저의벙참여정보 = details.memberList.find((member) => member.userId === userInfo!.userId)
-  const 벙이진행중인가 = details.startDateTime < currentDate()
+  const 벙이진행중인가 = convertUTCtoLocaleDate(details.startDateTime) < currentDate()
 
   return (
     <section className='relative h-full w-full'>
@@ -204,7 +204,7 @@ export default function BungDetails({
             <div className='mb-8 flex items-center gap-8'>
               <CalendarIcon size={16} color={colors.black.default} />
               <span className='text-14 text-black-default'>
-                {formatDate(details.startDateTime, 'M월 d일 (E) a h:mm')}
+                {formatDate({ date: details.startDateTime, formatStr: 'M월 d일 (E) a h:mm', convertUTCtoLocale: true })}
               </span>
             </div>
 
@@ -261,7 +261,12 @@ export default function BungDetails({
                     </button>
                     {벙이진행중인가 === false && (
                       <p className='mt-4 text-center text-12 font-semibold text-gray-darken'>
-                        {formatDate(details.endDateTime, 'M/d a h:mm')} 이후에 버튼이 활성화됩니다
+                        {formatDate({
+                          date: details.endDateTime,
+                          formatStr: 'M/d a h:mm',
+                          convertUTCtoLocale: true,
+                        })}{' '}
+                        이후에 버튼이 활성화됩니다
                       </p>
                     )}
                   </>

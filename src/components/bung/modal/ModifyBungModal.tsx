@@ -142,11 +142,15 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
             <div className='flex w-full gap-8'>
               <Button className='cursor-default bg-gray-default pl-16'>
                 <CalendarIcon size={16} color={colors.gray.darken} />
-                <p className='text-gray-darken'>{formatDate(details.startDateTime, 'yyyy년 M월 d일')}</p>
+                <p className='text-gray-darken'>
+                  {formatDate({ date: details.startDateTime, formatStr: 'yyyy년 M월 d일', convertUTCtoLocale: true })}
+                </p>
               </Button>
               <Button className='cursor-default bg-gray-default pl-16'>
                 <ClockIcon size={16} color={colors.gray.darken} />
-                <p className='text-gray-darken'>{formatDate(details.startDateTime, 'hh : mm')}</p>
+                <p className='text-gray-darken'>
+                  {formatDate({ date: details.startDateTime, formatStr: 'hh : mm', convertUTCtoLocale: true })}
+                </p>
               </Button>
             </div>
           </div>

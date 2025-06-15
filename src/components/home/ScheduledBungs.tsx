@@ -49,12 +49,12 @@ function BungList() {
     <>
       <div className='mx-auto mb-8 flex w-full max-w-[500px] justify-between'>
         <span className='text-20 font-bold text-black-default'>나의 벙</span>
-        {myBungs!.list.length === 0 && (
+        {myBungs!.data.length === 0 && (
           <span className='place-content-center text-12 text-black-default'>아직 일정이 없어요</span>
         )}
       </div>
       <ul>
-        {myBungs!.list.map((item) => (
+        {myBungs!.data.map((item) => (
           <li key={`myBungs-${item.bungId}`}>
             <button className='w-full text-start' onClick={() => handleClick(item.bungId)}>
               <BungCard

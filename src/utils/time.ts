@@ -1,4 +1,4 @@
-import { format, addHours } from 'date-fns'
+import { format, toZonedTime } from 'date-fns-tz'
 import { ko } from 'date-fns/locale'
 import { padStart } from './string'
 
@@ -6,14 +6,32 @@ export function currentDate() {
   return new Date()
 }
 
-export function toKSTDate(date: string | number | Date) {
-  const utcDate = new Date(date)
-  const kstDate = addHours(utcDate, 9)
-  return kstDate
+export function convertUTCtoLocaleDate(date: string | number | Date) {
+  const utcDate = new Date(date + 'Z')
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  const zonedDate = toZonedTime(utcDate, timeZone)
+  return zonedDate
 }
 
-export function formatDate(date: string | number | Date, formatStr: string) {
-  return format(date, formatStr, { locale: ko })
+export function formatDate({
+  date,
+  formatStr,
+  convertUTCtoLocale,
+}: {
+  date: string | number | Date
+  formatStr: string
+  convertUTCtoLocale?: boolean
+}) {
+  if (!convertUTCtoLocale) {
+    return format(date, formatStr, { locale: ko })
+  }
+
+  return format(convertUTCtoLocaleDate(date), formatStr, { locale: ko })
+}
+
+export function timezoneFormatDate(date: string | number | Date, formatStr: string) {
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  return format(date, formatStr, { locale: ko, timeZone })
 }
 
 export function timerFormat({

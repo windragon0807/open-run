@@ -24,13 +24,13 @@ async function BungDetailPage({ bungId }: { bungId: string }) {
   const [{ data: userInfo }, bungDetail] = await Promise.all([fetchUserInfo(), fetchBungDetail({ bungId })])
 
   const userId = userInfo.userId
-  const isParticipated = bungDetail.memberList.some((participant) => participant.userId === userId)
-  const isOwner = bungDetail.memberList.find((participant) => participant.userId === userId)?.owner ?? false
+  const isParticipated = bungDetail.data.memberList.some((participant) => participant.userId === userId)
+  const isOwner = bungDetail.data.memberList.find((participant) => participant.userId === userId)?.owner ?? false
 
   return (
     <Suspense fallback={<LoadingFallback />}>
       <AuthGuard>
-        <PageCategory details={bungDetail} isParticipated={isParticipated} isOwner={isOwner} />
+        <PageCategory details={bungDetail.data} isParticipated={isParticipated} isOwner={isOwner} />
       </AuthGuard>
     </Suspense>
   )
@@ -39,7 +39,7 @@ async function BungDetailPage({ bungId }: { bungId: string }) {
 export async function generateMetadata({ params: { bungId } }: Props): Promise<Metadata> {
   const bungDetail = await fetchBungDetail({ bungId })
   return {
-    title: bungDetail.name,
+    title: bungDetail.data.name,
   }
 }
 

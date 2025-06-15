@@ -7,7 +7,7 @@ import CrownIcon from '@icons/CrownIcon'
 import PlaceIcon from '@icons/PlaceIcon'
 import RunnerIcon from '@icons/RunnerIcon'
 import useTimer from '@hooks/useTimer'
-import { currentDate, formatDate, timerFormat } from '@utils/time'
+import { convertUTCtoLocaleDate, currentDate, formatDate, timerFormat } from '@utils/time'
 import { colors } from '@styles/colors'
 
 export default function BungCard({
@@ -20,7 +20,7 @@ export default function BungCard({
   isBungOwner,
 }: {
   backgroundImageUrl: string
-  time: Date
+  time: string
   title: string
   place: string
   distance: number
@@ -29,8 +29,8 @@ export default function BungCard({
 }) {
   const { days, hours, minutes, seconds } = useTimer(time)
   const formattedTime = timerFormat({ days, hours, minutes, seconds })
-  const formattedDate = formatDate(time, 'M월 d일 (E) a h:mm')
-  const 벙이진행중인가 = time < currentDate()
+  const formattedDate = formatDate({ date: time, formatStr: 'M월 d일 (E) a h:mm', convertUTCtoLocale: true })
+  const 벙이진행중인가 = convertUTCtoLocaleDate(time) < currentDate()
 
   return (
     <article

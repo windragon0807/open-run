@@ -1,8 +1,7 @@
-import { useQuery, UseQueryOptions } from 'react-query'
-import { PaginationResponse, Pagination } from '@apis/type'
-import http from '@apis/axios'
-import { toKSTDate } from '@utils/time'
+import { useQuery } from 'react-query'
 import { BungInfo } from '@type/bung'
+import http from '@apis/axios'
+import { PaginationResponse } from '@apis/type'
 
 type RequestType = {
   /**
@@ -14,40 +13,20 @@ type RequestType = {
   limit: number
 }
 
-type ResponseType = PaginationResponse<
-  Array<
-    Omit<BungInfo, 'startDateTime' | 'endDateTime' | 'memberList'> & {
-      startDateTime: string
-      endDateTime: string
-    }
-  >
->
-
-type DataType = Pagination & {
-  list: Array<Omit<BungInfo, 'memberList'>>
-}
+type ResponseType = PaginationResponse<Array<Omit<BungInfo, 'memberList'>>>
 
 /** 벙 목록을 보는 경우 (전체보기, 내가 참여한 벙만 보기) */
-export async function fetchBungs(request: RequestType): Promise<DataType> {
-  const response: ResponseType = await http.get('/v1/bungs', { params: request })
-  return {
-    ...response,
-    list: response.data.map((bungInfo) => ({
-      ...bungInfo,
-      startDateTime: toKSTDate(bungInfo.startDateTime),
-      endDateTime: toKSTDate(bungInfo.endDateTime),
-    })),
-  }
+export function fetchBungs(request: RequestType): Promise<ResponseType> {
+  return http.get('/v1/bungs', { params: request })
 }
 
 export const queryKey = 'fetchBungs'
 
-export function useBungsQuery(request: RequestType, options?: UseQueryOptions<DataType>) {
+export function useBungsQuery(request: RequestType) {
   return useQuery({
     queryKey: [queryKey, request],
     queryFn: () => fetchBungs(request),
     suspense: true,
     useErrorBoundary: true,
-    ...options,
   })
 }

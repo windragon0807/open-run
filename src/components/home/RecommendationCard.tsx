@@ -24,12 +24,12 @@ export default function RecommendationCard({
   backgroundImageUrl: string
   title: string
   location: string
-  time: Date
+  time: string
   remainingCount: number
   hashtags: string[]
 }) {
   // 남은 시간을 상태로 관리
-  const formattedDate = formatDate(time, 'M월 d일 (E) a h:mm')
+  const formattedDate = formatDate({ date: time, formatStr: 'M월 d일 (E) a h:mm', convertUTCtoLocale: true })
 
   return (
     <article

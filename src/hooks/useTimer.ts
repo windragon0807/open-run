@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react'
 import { differenceInSeconds } from 'date-fns'
-import { currentDate } from '@utils/time'
+import { useEffect, useState } from 'react'
+import { convertUTCtoLocaleDate, currentDate } from '@utils/time'
 
 export default function useTimer(targetTime: number | string | Date) {
+  const localTargetTime = convertUTCtoLocaleDate(targetTime)
+
   // 남은 시간을 상태로 관리
-  const [remainingTime, setRemainingTime] = useState(differenceInSeconds(targetTime, currentDate()))
+  const [remainingTime, setRemainingTime] = useState(differenceInSeconds(localTargetTime, currentDate()))
 
   useEffect(() => {
     // 타이머를 1초마다 업데이트
     const timerId = setInterval(() => {
-      const secondsLeft = differenceInSeconds(targetTime, currentDate())
+      const secondsLeft = differenceInSeconds(localTargetTime, currentDate())
       if (secondsLeft <= 0) {
         clearInterval(timerId)
       }
@@ -18,7 +20,7 @@ export default function useTimer(targetTime: number | string | Date) {
 
     // 컴포넌트 언마운트 시 타이머 정리
     return () => clearInterval(timerId)
-  }, [targetTime])
+  }, [localTargetTime])
 
   // 남은 시간을 일, 시, 분, 초로 변환
   const days = Math.floor(remainingTime / (3600 * 24))
