@@ -10,4 +10,5 @@ export const MODAL_KEY = {
   CONFIRM_DROPOUT: 'confirm-dropout',
   ALERT: 'alert',
   ADDRESS_SEARCH: 'address-search',
+  BUNG_COMPLETE_TOAST: 'bung-complete-toast',
 } as const

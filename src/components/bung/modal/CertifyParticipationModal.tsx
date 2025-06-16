@@ -15,13 +15,14 @@ import { useCertifyParticipation } from '@apis/bungs/certifyParticipation/mutati
 import { useGeocoding } from '@apis/maps/geocoding/query'
 import { calculateDistance } from '@utils/distance'
 import { colors } from '@styles/colors'
+import BungCompleteToastModal from './BungCompleteToastModal'
 
 const 참여인증거리 = 500 // 500m
 
 export default function CertifyParticipationModal({ destination, bungId }: { destination: string; bungId: string }) {
   const router = useRouter()
   const { isApp } = useAppStore()
-  const { closeModal } = useModal()
+  const { showModal, closeModal } = useModal()
   const { mutate: certifyParticipation } = useCertifyParticipation()
   const { location } = useGeolocation()
   const { data: coordinates } = useGeocoding({ address: destination })
@@ -45,6 +46,10 @@ export default function CertifyParticipationModal({ destination, bungId }: { des
         onSuccess: () => {
           router.refresh()
           closeModal(MODAL_KEY.CERTIFY_PARTICIPATION)
+          showModal({
+            key: MODAL_KEY.BUNG_COMPLETE_TOAST,
+            component: <BungCompleteToastModal />,
+          })
         },
       },
     )
