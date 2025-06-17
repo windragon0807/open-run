@@ -61,7 +61,9 @@ export default function AddressSearchModal({ onComplete }: { onComplete: (addres
 
   return (
     <Dimmed onClick={() => closeModal(MODAL_KEY.ADDRESS_SEARCH)}>
-      <article className='absolute left-1/2 top-1/2 aspect-[328/480] max-h-[650px] w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-10 bg-white'>
+      <article
+        className='absolute left-1/2 top-1/2 aspect-[328/480] max-h-[650px] w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-10 bg-white'
+        onClick={(e) => e.stopPropagation()}>
         <div className='h-full w-full'>
           <header className='relative mb-16 flex h-60 w-full items-center'>
             <h2 className='w-full text-center font-bold'>주소검색</h2>
