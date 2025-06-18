@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useAccount, useConnect, useDisconnect } from 'wagmi'
 import { useAppStore } from '@store/app'
-import { CheckWalletConnectedResponse, SmartWalletConnectResponse } from '@type/app'
+import { SmartWalletConnectResponse } from '@type/app'
 import { postMessageToRN } from '@shared/AppBridge'
 import LoadingLogo from '@shared/LoadingLogo'
 import { useMessageHandler } from '@hooks/useMessageHandler'
@@ -20,17 +20,10 @@ export default function Signin() {
 
 function SignInApp() {
   const [isLoading, setIsLoading] = useState(false)
-  const [isConnected, setIsConnected] = useState<boolean>()
-  const { mutate: smartWalletLogin } = useSmartWalletLogin(() => {
-    setIsLoading(false)
-  })
+  const { mutate: smartWalletLogin } = useSmartWalletLogin()
 
   useMessageHandler(({ type, data }) => {
     switch (type) {
-      case MESSAGE.RESPONSE_CHECK_WALLET_CONNECTED:
-        setIsConnected(data as CheckWalletConnectedResponse)
-        break
-
       case MESSAGE.RESPONSE_SMART_WALLET_CONNECT:
         smartWalletLogin({ code: data as SmartWalletConnectResponse })
         break
@@ -42,8 +35,8 @@ function SignInApp() {
   })
 
   useEffect(() => {
-    postMessageToRN({ type: MESSAGE.REQUEST_CHECK_WALLET_CONNECTED })
     removeCookie(COOKIE.ACCESSTOKEN)
+    postMessageToRN({ type: MESSAGE.DISCONNECT_SMART_WALLET })
   }, [])
 
   return (
@@ -55,13 +48,6 @@ function SignInApp() {
           postMessageToRN({ type: MESSAGE.REQUEST_SMART_WALLET_CONNECT })
         }}
       />
-      {isConnected && (
-        <button
-          className='mt-16 w-full text-center'
-          onClick={() => postMessageToRN({ type: MESSAGE.DISCONNECT_SMART_WALLET })}>
-          Disconnect
-        </button>
-      )}
     </div>
   )
 }
@@ -72,9 +58,7 @@ function SignInBrowser() {
   const { disconnect } = useDisconnect()
   const [isLoading, setIsLoading] = useState(false)
 
-  const { mutate: smartWalletLogin } = useSmartWalletLogin(() => {
-    setIsLoading(false)
-  })
+  const { mutate: smartWalletLogin } = useSmartWalletLogin()
 
   const handleLoginButtonClick = () => {
     setIsLoading(true)
@@ -96,22 +80,15 @@ function SignInBrowser() {
     )
   }
 
-  const handleDisconnectButtonClick = () => {
-    disconnect()
-  }
-
   useEffect(() => {
     removeCookie(COOKIE.ACCESSTOKEN)
+    address && disconnect()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <div className='absolute bottom-40 w-full px-16'>
       <SmartWalletLoginButton isLoading={isLoading} onClick={handleLoginButtonClick} />
-      {address && (
-        <button className='mt-16 w-full text-center' onClick={handleDisconnectButtonClick}>
-          Disconnect
-        </button>
-      )}
     </div>
   )
 }
@@ -120,6 +97,7 @@ function SmartWalletLoginButton({ isLoading, onClick }: { isLoading: boolean; on
   return (
     <button
       className='relative flex h-56 w-full items-center justify-center gap-8 rounded-8 bg-primary hover:bg-primary/90'
+      disabled={isLoading}
       onClick={onClick}>
       <span className='absolute -top-16 rounded-12 border border-primary bg-white px-12 py-4 text-12 font-semibold'>
         NFT 보상을 받기 위한 전용 월렛이 필요해요
