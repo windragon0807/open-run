@@ -1,9 +1,12 @@
+import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useModal } from '@contexts/ModalProvider'
+import { useAppStore } from '@store/app'
 import { MODAL_KEY } from '@constants/modal'
 
 export default function BungCompleteToastModal() {
+  const { isApp } = useAppStore()
   const [isOpen, setIsOpen] = useState(true)
   const { closeModal } = useModal()
 
@@ -22,7 +25,10 @@ export default function BungCompleteToastModal() {
     <AnimatePresence onExitComplete={handleExitComplete}>
       {isOpen && (
         <motion.div
-          className='fixed bottom-24 left-0 right-0 z-[1000] mx-auto h-[56px] rounded-16 px-16'
+          className={clsx(
+            'fixed left-0 right-0 z-[1000] mx-auto h-[56px] rounded-16 px-16',
+            isApp ? 'bottom-40' : 'bottom-24',
+          )}
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}

@@ -17,6 +17,7 @@ export default function AddressClipboard() {
 
 function AddressClipboardApp() {
   const [address, setAddress] = useState('')
+
   useMessageHandler(({ type, data }) => {
     switch (type) {
       case MESSAGE.RESPONSE_SMART_WALLET_CONNECT:
