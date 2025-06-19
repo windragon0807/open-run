@@ -76,12 +76,12 @@ export default function Header() {
           <div className='relative mr-32 flex w-[152px] flex-1 flex-col items-center'>
             <div className='absolute z-0 h-full w-full rounded-[80px_80px_0_0] bg-gradient-weather opacity-30' />
             {location == null || isReverseGeocodeLoading ? (
-              <div className='mt-24 h-16 w-80 animate-pulse rounded-10 bg-gray-default' />
+              <div className='bg-gray mt-24 h-16 w-80 animate-pulse rounded-10' />
             ) : (
               <span className='z-10 mt-24 text-12 text-white'>{reverseGeocode ?? ''}</span>
             )}
             {location == null || isCurrentWeatherLoading ? (
-              <div className='mt-19 h-30 w-122 animate-pulse rounded-10 bg-gray-default' />
+              <div className='bg-gray mt-19 h-30 w-122 animate-pulse rounded-10' />
             ) : (
               <span className='z-10 mt-4 flex items-center gap-8 font-jost text-40 font-bold tracking-wide text-white'>
                 <Image
@@ -117,7 +117,7 @@ function AvatarButton({ onClick }: { onClick?: () => void }) {
 
 function SkewedLikeLabel({ like }: { like: number }) {
   return (
-    <div className='flex h-28 skew-x-[-10deg] transform items-center justify-center gap-4 rounded-lg border-2 border-black-default bg-white px-8'>
+    <div className='border-black flex h-28 skew-x-[-10deg] transform items-center justify-center gap-4 rounded-lg border-2 bg-white px-8'>
       <Image src='/images/icon_thumbup.png' alt='Thumb Up Icon' width={16} height={16} />
       <span className='font-jost text-16 font-[900]'>{addDelimiter(like)}</span>
     </div>

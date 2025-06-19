@@ -55,5 +55,5 @@ const mapStyle = {
   height: '100%',
   borderRadius: '8px',
   overflow: 'hidden',
-  border: `1px solid ${colors.gray.default}`,
+  border: `1px solid ${colors.gray.DEFAULT}`,
 }

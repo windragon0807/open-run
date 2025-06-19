@@ -175,7 +175,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           <FormTitle required>장소</FormTitle>
           <div className='flex w-full gap-8'>
             <div className='flex-1'>
-              <Input className='disabled:bg-gray-default' placeholder='주소 검색' value={watch('location')} disabled />
+              <Input className='disabled:bg-gray' placeholder='주소 검색' value={watch('location')} disabled />
             </div>
             <button
               type='button'
@@ -208,8 +208,8 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
                 setDatePickerOpen((prev) => !prev)
                 if (isTimePickerOpen) setTimePickerOpen(false)
               }}>
-              <CalendarIcon size={16} color={시작날짜를선택했는가 ? colors.primary : colors.black.default} />
-              <p className={시작날짜를선택했는가 ? 'text-primary' : 'text-black-default'}>
+              <CalendarIcon size={16} color={시작날짜를선택했는가 ? colors.primary : colors.black.DEFAULT} />
+              <p className={시작날짜를선택했는가 ? 'text-primary' : 'text-black'}>
                 {시작날짜를선택했는가
                   ? formatDate({ date: watch('startDate') as Date, formatStr: 'yyyy년 M월 d일' })
                   : '날짜 선택'}
@@ -221,15 +221,15 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
                 setTimePickerOpen((prev) => !prev)
                 if (isDatePickerOpen) setDatePickerOpen(false)
               }}>
-              <ClockIcon size={16} color={시작시간을선택했는가 ? colors.primary : colors.black.default} />
-              <p className={시작시간을선택했는가 ? 'text-primary' : 'text-black-default'}>
+              <ClockIcon size={16} color={시작시간을선택했는가 ? colors.primary : colors.black.DEFAULT} />
+              <p className={시작시간을선택했는가 ? 'text-primary' : 'text-black'}>
                 {시작시간을선택했는가 ? (watch('startTime') as string).replace(':', ' : ') : '시간 선택'}
               </p>
             </Button>
           </div>
 
           {isDatePickerOpen ? (
-            <div className='flex w-full justify-center rounded-8 border border-gray-default bg-white p-16'>
+            <div className='border-gray flex w-full justify-center rounded-8 border bg-white p-16'>
               <DatePicker
                 defaultValue={watch('startDate')}
                 onDateClick={(date) => {
@@ -248,7 +248,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             </div>
           ) : null}
           {isTimePickerOpen ? (
-            <div className='rounded-8 border border-gray-default bg-white p-16'>
+            <div className='border-gray rounded-8 border bg-white p-16'>
               <TimePicker
                 value={watch('startTime')}
                 onChange={(time) => {
@@ -281,7 +281,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           <NumberInput
             className='pr-40'
             placeholder='예상되는 소요 시간을 알려주세요'
-            addon={<span className='absolute right-16 top-10 text-14 text-black-default'>분</span>}
+            addon={<span className='text-black absolute right-16 top-10 text-14'>분</span>}
             error={errors.runningTime?.message}
             {...register('runningTime', {
               required: '필수 항목입니다',
@@ -295,7 +295,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           <NumberInput
             className='pr-40'
             placeholder='목표 거리를 입력하세요'
-            addon={<span className='absolute right-16 top-10 text-14 text-black-default'>km</span>}
+            addon={<span className='text-black absolute right-16 top-10 text-14'>km</span>}
             error={errors.distance?.message}
             {...register('distance', {
               required: '필수 항목입니다',
@@ -309,9 +309,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           <div className='flex gap-8'>
             <NumberInput
               placeholder='분'
-              addon={
-                <span className='absolute right-16 top-10 text-14 font-bold italic text-black-default'>{"'"}</span>
-              }
+              addon={<span className='text-black absolute right-16 top-10 text-14 font-bold italic'>{"'"}</span>}
               {...register('paceMinute', {
                 required: '필수 항목입니다',
               })}
@@ -319,9 +317,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             />
             <NumberInput
               placeholder='초'
-              addon={
-                <span className='absolute right-16 top-10 text-14 font-bold italic text-black-default'>{'"'}</span>
-              }
+              addon={<span className='text-black absolute right-16 top-10 text-14 font-bold italic'>{'"'}</span>}
               {...register('paceSecond', {
                 required: '필수 항목입니다',
               })}
@@ -351,7 +347,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             <Button
               className={clsx(
                 'justify-center',
-                watch('hasAfterRun') === true ? 'border-primary bg-primary/10' : 'border-gray-default bg-white',
+                watch('hasAfterRun') === true ? 'border-primary bg-primary/10' : 'border-gray bg-white',
               )}
               onClick={() => setValue('hasAfterRun', true)}>
               유
@@ -359,7 +355,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             <Button
               className={clsx(
                 'justify-center',
-                watch('hasAfterRun') === false ? 'border-primary bg-primary/10' : 'border-gray-default bg-white',
+                watch('hasAfterRun') === false ? 'border-primary bg-primary/10' : 'border-gray bg-white',
               )}
               onClick={() => setValue('hasAfterRun', false)}>
               무

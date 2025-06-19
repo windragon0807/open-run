@@ -35,12 +35,12 @@ export default function DetailModal({
           <header className='relative mb-16 flex h-60 w-full items-center justify-center'>
             <span className='text-16 font-bold'>NFT 아이템</span>
             <button className='absolute right-18' onClick={() => closeModal(MODAL_KEY.AVATAR_DETAIL)}>
-              <BrokenXIcon size={24} color={colors.black.default} />
+              <BrokenXIcon size={24} color={colors.black.DEFAULT} />
             </button>
           </header>
 
           <div className='relative mb-8 aspect-square w-168'>
-            <span className='absolute bottom-0 left-1/2 -translate-x-1/2 font-jost text-56 font-[900] italic text-black-default opacity-10'>
+            <span className='text-black absolute bottom-0 left-1/2 -translate-x-1/2 font-jost text-56 font-[900] italic opacity-10'>
               {serialNumber}
             </span>
             <Image src={imageSrc} alt='Avatar' fill className='object-contain' />

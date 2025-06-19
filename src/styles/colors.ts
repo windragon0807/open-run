@@ -4,13 +4,13 @@ export const colors = {
 
   white: 'hsl(0, 0%, 100%)', // #fff
   black: {
-    default: 'hsl(0, 0%, 20%)', // #333
+    DEFAULT: 'hsl(0, 0%, 20%)', // #333
     darken: 'hsl(0, 0%, 13%)', // #222
     darkest: 'hsl(0, 0%, 0%)', // #000
   },
   gray: {
     lighten: 'hsl(210, 17%, 98%)', // #F8F9FA
-    default: 'hsl(210, 14%, 89%)', // #DEE2E6
+    DEFAULT: 'hsl(210, 14%, 89%)', // #DEE2E6
     darken: 'hsl(210, 11%, 71%)', // #ADB5BD
     darker: 'hsl(210, 11%, 62%)', // #89939D
     darkest: 'hsl(210, 7%, 56%)', // #868E96

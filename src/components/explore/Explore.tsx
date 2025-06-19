@@ -26,7 +26,7 @@ function ExploreHome({ onSearchButtonClick }: { onSearchButtonClick: () => void 
       <div className={clsx('px-16', isApp ? 'pt-72' : 'pt-32')}>
         <h1 className='mb-16 text-28 font-bold'>탐색</h1>
         <button
-          className='mb-24 flex h-40 w-full items-center justify-between rounded-8 border border-gray-default px-16'
+          className='border-gray mb-24 flex h-40 w-full items-center justify-between rounded-8 border px-16'
           onClick={onSearchButtonClick}>
           <span className='text-14 text-gray-darken'>벙, 사용자 검색</span>
           <MagnifierIcon size={16} color={colors.black.darken} />
@@ -174,7 +174,7 @@ function ExploreResult({
     <li key={title} className='flex gap-16'>
       <div className='relative h-94 w-140 flex-shrink-0'>
         <Image src={imageUrl} alt={title} fill className='rounded-8 object-cover' />
-        <div className='absolute left-8 top-8 rounded-4 bg-black-default/60 px-4'>
+        <div className='bg-black/60 absolute left-8 top-8 rounded-4 px-4'>
           <span className='text-12 font-bold text-white'>{memberCount}</span>
           <span className='text-12 text-gray-darken'>/{totalMemberCount}</span>
         </div>

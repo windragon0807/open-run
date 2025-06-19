@@ -11,7 +11,7 @@ export default function NextButton({
 }) {
   return (
     <button
-      className='h-59 w-full rounded-8 bg-primary text-16 font-bold text-white disabled:bg-gray-default'
+      className='disabled:bg-gray h-59 w-full rounded-8 bg-primary text-16 font-bold text-white'
       disabled={disabled}
       onClick={onClick}>
       {children}

@@ -13,7 +13,7 @@ export default function WhyCertificationModal() {
           <header className='relative mb-16 flex h-60 w-full items-center justify-center'>
             <h3 className='text-16 font-bold text-black-darken'>참여 인증을 왜 해야 하나요?</h3>
             <button className='absolute right-16' onClick={() => closeModal(MODAL_KEY.WHY_CERTIFICATION)}>
-              <BrokenXIcon size={24} color={colors.black.default} />
+              <BrokenXIcon size={24} color={colors.black.DEFAULT} />
             </button>
           </header>
           <div className='px-24 pb-30 text-14'>

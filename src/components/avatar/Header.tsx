@@ -10,9 +10,9 @@ export default function Header({ onSaveButtonClick }: { onSaveButtonClick: () =>
           <path d='M11.4 12L16 7.4L14.6 6L8.6 12L14.6 18L16 16.6L11.4 12Z' fill={colors.black.darken} />
         </svg>
       </button>
-      <h1 className='text-16 font-bold text-black-default'>아바타 변경</h1>
+      <h1 className='text-black text-16 font-bold'>아바타 변경</h1>
       <button className='absolute right-16' onClick={onSaveButtonClick}>
-        <span className='text-14 text-black-default'>저장</span>
+        <span className='text-black text-14'>저장</span>
       </button>
     </header>
   )

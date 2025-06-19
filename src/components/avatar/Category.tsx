@@ -53,7 +53,7 @@ export default function Category({
           <button
             key={item.mainCategory}
             className={`flex h-40 w-40 flex-shrink-0 items-center justify-center rounded-4 ${
-              selectedCategory.mainCategory === item.mainCategory ? 'bg-gray-default' : ''
+              selectedCategory.mainCategory === item.mainCategory ? 'bg-gray' : ''
             }`}
             onClick={() => setSelectedCategory({ mainCategory: item.mainCategory, subCategory: null })}>
             <item.icon focused={selectedCategory.mainCategory === item.mainCategory} />
@@ -72,18 +72,18 @@ export default function Category({
               <motion.button
                 whileTap={{ scale: 0.95 }}
                 className={`flex-shrink-0 rounded-4 px-8 py-2 text-14 ${
-                  selectedCategory.subCategory === null ? 'bg-gray-default font-bold' : ''
+                  selectedCategory.subCategory === null ? 'bg-gray font-bold' : ''
                 }`}
                 onClick={() => setSelectedCategory({ ...selectedCategory, subCategory: null })}>
                 전체
               </motion.button>
-              <div className='ml-4 mr-4 h-16 w-1 border-l border-gray-default' />
+              <div className='border-gray ml-4 mr-4 h-16 w-1 border-l' />
               {subCategoryList.map((subItem) => (
                 <motion.button
                   key={subItem.subCategory}
                   whileTap={{ scale: 0.95 }}
                   className={`flex-shrink-0 rounded-4 px-8 py-2 text-14 ${
-                    selectedCategory.subCategory === subItem.subCategory ? 'bg-gray-default font-bold' : ''
+                    selectedCategory.subCategory === subItem.subCategory ? 'bg-gray font-bold' : ''
                   }`}
                   onClick={() => setSelectedCategory({ ...selectedCategory, subCategory: subItem.subCategory })}>
                   {subItem.label}

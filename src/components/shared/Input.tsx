@@ -14,8 +14,8 @@ const Input = forwardRef<
       <input
         ref={ref}
         className={clsx(
-          'h-40 w-full rounded-8 px-16 text-14 focus:outline-none disabled:bg-gray-default disabled:text-gray-darken',
-          error ? 'border-2 border-pink caret-pink' : 'border border-gray-default caret-primary focus:border-primary',
+          'disabled:bg-gray h-40 w-full rounded-8 px-16 text-14 focus:outline-none disabled:text-gray-darken',
+          error ? 'border-2 border-pink caret-pink' : 'border-gray border caret-primary focus:border-primary',
           className,
         )}
         onChange={(event) => {

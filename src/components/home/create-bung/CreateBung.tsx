@@ -25,7 +25,7 @@ export default function CreateBung() {
               closeModal(MODAL_KEY.CREATE_BUNG)
             }}>
             {step === 'create' ? (
-              <BrokenXIcon size={24} color={colors.black.default} />
+              <BrokenXIcon size={24} color={colors.black.DEFAULT} />
             ) : (
               <span className='text-14 text-black-darken'>건너뛰기</span>
             )}

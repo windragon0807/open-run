@@ -29,7 +29,7 @@ export default function ManageMembers({
         <button className='absolute left-16' onClick={() => setPageCategory('벙 상세')}>
           <ArrowLeftIcon size={24} color={colors.black.darken} />
         </button>
-        <span className='text-16 font-bold text-black-default'>멤버 관리</span>
+        <span className='text-black text-16 font-bold'>멤버 관리</span>
       </header>
       <section className='flex h-full w-full flex-col gap-16 px-16'>
         <Input

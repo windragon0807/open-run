@@ -56,9 +56,9 @@ function BungList() {
   return (
     <>
       <div className='mx-auto mb-8 flex w-full max-w-[500px] justify-between'>
-        <span className='text-20 font-bold text-black-default'>나의 벙</span>
+        <span className='text-black text-20 font-bold'>나의 벙</span>
         {myBungs!.data.length === 0 && (
-          <span className='place-content-center text-12 text-black-default'>아직 일정이 없어요</span>
+          <span className='text-black place-content-center text-12'>아직 일정이 없어요</span>
         )}
       </div>
       <ul>
@@ -87,12 +87,12 @@ function BungListLoadingFallback() {
   return (
     <>
       <div className='mx-auto mb-8 flex w-full max-w-[500px] justify-between'>
-        <span className='text-20 font-bold text-black-default'>나의 벙</span>
+        <span className='text-black text-20 font-bold'>나의 벙</span>
       </div>
       {Array(3)
         .fill(null)
         .map((_, index) => (
-          <Skeleton key={index} className='h-184 w-full rounded-16 bg-gray-default' />
+          <Skeleton key={index} className='bg-gray h-184 w-full rounded-16' />
         ))}
     </>
   )
@@ -102,7 +102,7 @@ function BungListErrorFallback() {
   return (
     <>
       <div className='mx-auto mb-8 flex w-full max-w-[500px] justify-between'>
-        <span className='text-20 font-bold text-black-default'>나의 벙</span>
+        <span className='text-black text-20 font-bold'>나의 벙</span>
       </div>
       <div className='mb-20'>
         <ErrorFallback type='medium' />

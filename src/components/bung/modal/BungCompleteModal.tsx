@@ -48,7 +48,7 @@ export default function BungCompleteModal({
       <BottomSheet fullSize>
         <header className='relative mb-16 flex h-60 w-full items-center justify-center px-16'>
           <button className='absolute left-16' onClick={() => closeModal(MODAL_KEY.BUNG_COMPLETE)}>
-            <BrokenXIcon size={24} color={colors.black.default} />
+            <BrokenXIcon size={24} color={colors.black.DEFAULT} />
           </button>
           <span className='text-16 font-bold'>벙 완료!</span>
           <button className='absolute right-16' onClick={handleSaveButton}>

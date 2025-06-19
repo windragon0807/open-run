@@ -16,7 +16,7 @@ export default function Recommendation() {
   return (
     <section className='flex flex-col px-16 pb-60'>
       <div className='mx-auto mb-8 flex w-full max-w-[500px] items-center justify-between'>
-        <span className='text-20 font-bold text-black-default'>추천</span>
+        <span className='text-black text-20 font-bold'>추천</span>
       </div>
       <WrappedRecommendationBungs />
     </section>
@@ -84,7 +84,7 @@ function RecommendationLoadingFallback() {
       {Array(2)
         .fill(null)
         .map((_, index) => (
-          <Skeleton key={index} className='mb-8 h-184 w-full rounded-16 bg-gray-default' />
+          <Skeleton key={index} className='bg-gray mb-8 h-184 w-full rounded-16' />
         ))}
     </section>
   )

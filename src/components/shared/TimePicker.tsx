@@ -1,7 +1,7 @@
-import { useState, useRef, useCallback, TouchEvent, MouseEvent } from 'react'
+import { MouseEvent, TouchEvent, useCallback, useRef, useState } from 'react'
 import { padStart } from '@utils/string'
-import { colors } from '@styles/colors'
 import { currentDate } from '@utils/time'
+import { colors } from '@styles/colors'
 
 // [00, 01, 02, ..., 23]
 const hours = Array.from({ length: 24 }, (_, i) => padStart(i))
@@ -38,8 +38,8 @@ export default function TimePicker({
         }}
       />
 
-      <div className='absolute top-40 h-1 w-133 bg-gray-default'></div>
-      <div className='absolute bottom-40 h-1 w-133 bg-gray-default'></div>
+      <div className='bg-gray absolute top-40 h-1 w-133'></div>
+      <div className='bg-gray absolute bottom-40 h-1 w-133'></div>
     </article>
   )
 }
@@ -175,7 +175,7 @@ function Picker({
           className='flex items-center justify-center text-14 font-bold'
           style={{
             height: itemHeight,
-            color: Math.abs(index - 1) === 0 ? colors.black.darken : colors.gray.default,
+            color: Math.abs(index - 1) === 0 ? colors.black.darken : colors.gray.DEFAULT,
           }}>
           {option}
         </div>

@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { forwardRef, InputHTMLAttributes } from 'react'
+import { InputHTMLAttributes, forwardRef } from 'react'
 
 const TextArea = forwardRef<
   HTMLTextAreaElement,
@@ -13,8 +13,8 @@ const TextArea = forwardRef<
       <textarea
         ref={ref}
         className={clsx(
-          'h-40 w-full resize-none rounded-8 border border-gray-default px-16 text-14 caret-primary focus:border-primary focus:outline-none',
-          error ? 'border-2 border-pink caret-pink' : 'border border-gray-default caret-primary focus:border-primary',
+          'border-gray h-40 w-full resize-none rounded-8 border px-16 text-14 caret-primary focus:border-primary focus:outline-none',
+          error ? 'border-2 border-pink caret-pink' : 'border-gray border caret-primary focus:border-primary',
           className,
         )}
         onChange={(event) => {

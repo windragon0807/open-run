@@ -201,33 +201,33 @@ export default function BungDetails({
           style={{ height: 벙에참여한유저인가 ? 'calc(100% - 80px)' : 'calc(100% - 50px)' }}>
           <div className='mb-24 rounded-8 bg-white p-16 shadow-floating-primary'>
             {/* 벙 이름 */}
-            <span className='mb-16 inline-block text-20 font-bold text-black-default'>{details.name}</span>
+            <span className='text-black mb-16 inline-block text-20 font-bold'>{details.name}</span>
 
             {/* 벙 위치 */}
             <div className='mb-8 flex gap-8'>
-              <PlaceIcon className='flex-shrink-0 translate-y-2' size={16} color={colors.black.default} />
-              <span className='text-14 text-black-default'>{details.location}</span>
+              <PlaceIcon className='flex-shrink-0 translate-y-2' size={16} color={colors.black.DEFAULT} />
+              <span className='text-black text-14'>{details.location}</span>
             </div>
 
             {/* 벙 시작 날짜 및 시간 */}
             <div className='mb-8 flex items-center gap-8'>
-              <CalendarIcon size={16} color={colors.black.default} />
-              <span className='text-14 text-black-default'>
+              <CalendarIcon size={16} color={colors.black.DEFAULT} />
+              <span className='text-black text-14'>
                 {formatDate({ date: details.startDateTime, formatStr: 'M월 d일 (E) a h:mm', convertUTCtoLocale: true })}
               </span>
             </div>
 
             {/* 벙 거리 및 페이스 */}
             <div className='mb-8 flex items-center gap-8'>
-              <RunnerIcon size={16} color={colors.black.default} />
-              <span className='text-14 text-black-default'>{`${details.distance} km ${details.pace}`}</span>
+              <RunnerIcon size={16} color={colors.black.DEFAULT} />
+              <span className='text-black text-14'>{`${details.distance} km ${details.pace}`}</span>
             </div>
 
             {/* 벙 참여 인원 및 남은 자리 */}
             <div className='mb-24 flex items-center gap-8'>
-              <PersonIcon size={16} color={colors.black.default} />
+              <PersonIcon size={16} color={colors.black.DEFAULT} />
               <div className='flex items-center gap-4'>
-                <span className='text-14 text-black-default'>{`${참여인원수} / ${details.memberNumber}`}</span>
+                <span className='text-black text-14'>{`${참여인원수} / ${details.memberNumber}`}</span>
                 <span className='rounded-4 bg-pink/10 px-4 py-2 text-12 font-bold text-pink'>{`${details.memberNumber - 참여인원수}자리 남았어요`}</span>
               </div>
             </div>
@@ -240,7 +240,7 @@ export default function BungDetails({
                       : '러닝 시작 전, 벙주의 안내에 따라\n참여 인증을 해주세요'}
                   </p>
                   <button
-                    className='rounded-8 bg-black-darken px-14 py-10 text-14 font-bold text-white disabled:bg-gray-default disabled:text-white'
+                    className='disabled:bg-gray rounded-8 bg-black-darken px-14 py-10 text-14 font-bold text-white disabled:text-white'
                     disabled={현재유저의벙참여정보?.participationStatus === true}
                     onClick={() => {
                       showModal({
@@ -265,7 +265,7 @@ export default function BungDetails({
                 {벙에참여한벙주인가 && (
                   <>
                     <button
-                      className='mt-16 h-56 w-full rounded-8 bg-black-darken text-16 font-bold text-white disabled:bg-gray-default disabled:text-white'
+                      className='disabled:bg-gray mt-16 h-56 w-full rounded-8 bg-black-darken text-16 font-bold text-white disabled:text-white'
                       disabled={벙이진행중인가 === false}
                       onClick={handleBungComplete}>
                       벙 완료
@@ -303,7 +303,7 @@ export default function BungDetails({
             <div className='flex gap-8 overflow-x-auto px-16'>
               {details.memberList.map((member) => (
                 <div key={member.nickname} className='flex flex-col items-center gap-6'>
-                  <div className='relative aspect-[1] w-76 rounded-8 bg-black-default'>
+                  <div className='bg-black relative aspect-[1] w-76 rounded-8'>
                     <Image src='/temp/nft_detail_2.png' alt='' fill sizes='100%' />
                   </div>
                   <div className='flex items-center gap-4'>
@@ -328,7 +328,7 @@ export default function BungDetails({
 
           {/* 위치 및 지도 */}
           <div className='mb-8 mt-40 flex gap-4 px-16'>
-            <PlaceIcon className='flex-shrink-0 translate-y-2' size={16} color={colors.black.default} />
+            <PlaceIcon className='flex-shrink-0 translate-y-2' size={16} color={colors.black.DEFAULT} />
             <span className='whitespace-pre-wrap text-14 font-bold text-black-darken'>{details.location}</span>
           </div>
           <div className='mb-18 px-16'>

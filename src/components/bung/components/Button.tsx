@@ -14,7 +14,7 @@ export default function Button({
   return (
     <button
       type={type}
-      className={`flex h-40 flex-1 items-center gap-8 rounded-8 border border-gray-default text-14 font-semibold ${className}`}
+      className={`border-gray flex h-40 flex-1 items-center gap-8 rounded-8 border text-14 font-semibold ${className}`}
       onClick={onClick}>
       {children}
     </button>

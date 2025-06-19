@@ -68,14 +68,14 @@ export default function AddressSearchModal({ onComplete }: { onComplete: (addres
           <header className='relative mb-16 flex h-60 w-full items-center'>
             <h2 className='w-full text-center font-bold'>주소검색</h2>
             <button className='absolute right-12' onClick={() => closeModal(MODAL_KEY.ADDRESS_SEARCH)}>
-              <BrokenXIcon size={24} color={colors.black.default} />
+              <BrokenXIcon size={24} color={colors.black.DEFAULT} />
             </button>
           </header>
 
           <div className='h-[calc(100%-76px)] px-24'>
             <div className='mb-24 flex items-center gap-16'>
               <input
-                className='flex-1 rounded-8 border border-gray-default p-12 text-16 focus:border-primary focus:outline-none'
+                className='border-gray flex-1 rounded-8 border p-12 text-16 focus:border-primary focus:outline-none'
                 type='text'
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
@@ -111,7 +111,7 @@ export default function AddressSearchModal({ onComplete }: { onComplete: (addres
                   </span>
                 </div>
               ) : (
-                <ul className='flex flex-col divide-y divide-gray-default pb-24'>
+                <ul className='divide-gray flex flex-col divide-y pb-24'>
                   {suggestions.map(({ placeId, mainAddress, secondaryAddress }) => (
                     <li
                       key={placeId}
@@ -143,7 +143,7 @@ export default function AddressSearchModal({ onComplete }: { onComplete: (addres
                         <div className='relative mt-8 aspect-[264/210] w-full'>
                           {/* https://developers.google.com/maps/documentation/maps-static/start?hl=ko */}
                           <Image
-                            className='rounded-10 border border-gray-default'
+                            className='border-gray rounded-10 border'
                             src={`https://maps.googleapis.com/maps/api/staticmap?center=${mainAddress}&zoom=16&size=400x400&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`}
                             alt='Google Static Map'
                             fill

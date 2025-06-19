@@ -17,7 +17,7 @@ export default function InputText({
       <div className='relative inline-block'>
         <input
           className={`h-50 w-300 border-b-2 bg-inherit pl-10 caret-primary outline-none
-            ${isValid === 'default' ? 'border-gray-default' : ''}
+            ${isValid === 'default' ? 'border-gray' : ''}
             ${isValid === 'pass' ? 'border-primary' : ''}
             ${isValid === 'overlap' || isValid === 'consonant' ? 'border-red' : ''}
           `}
@@ -32,7 +32,7 @@ export default function InputText({
             }
           }}
         />
-        <span className='absolute right-10 top-1/2 -translate-y-1/2 text-gray-default'>
+        <span className='text-gray absolute right-10 top-1/2 -translate-y-1/2'>
           {value.length}/{maxLength}
         </span>
       </div>
