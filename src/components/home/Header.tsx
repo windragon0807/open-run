@@ -1,5 +1,3 @@
-'use client'
-
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useAppStore } from '@store/app'
@@ -13,6 +11,7 @@ import { useReverseGeocoding } from '@apis/maps/reverse-geocoding/query'
 import { useCurrentWeather } from '@apis/weather/query'
 import addDelimiter from '@utils/addDelimiter'
 import { colors } from '@styles/colors'
+import AddressClipboard from './AddressClipboard'
 
 export default function Header() {
   const { isApp } = useAppStore()
@@ -67,8 +66,11 @@ export default function Header() {
         </div>
 
         <div className='flex flex-col'>
-          <div className='m-[16px_24px_16px] flex items-center justify-end gap-8'>
-            <span className='text-20 font-bold text-white'>{userInfo?.nickname}</span>
+          <div className='m-[8px_24px_16px] flex items-center justify-end gap-12'>
+            <div className='flex flex-col items-end'>
+              <span className='text-20 font-bold text-white'>{userInfo?.nickname}</span>
+              <AddressClipboard />
+            </div>
             <button className='-translate-y-2' onClick={logout}>
               <BellIcon size={24} color={colors.white} />
             </button>

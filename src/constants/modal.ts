@@ -11,4 +11,5 @@ export const MODAL_KEY = {
   ALERT: 'alert',
   ADDRESS_SEARCH: 'address-search',
   BUNG_COMPLETE_TOAST: 'bung-complete-toast',
+  COMPLETE_COPY_TOAST: 'complete-copy-toast',
 } as const
