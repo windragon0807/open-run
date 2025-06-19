@@ -15,7 +15,7 @@ export default function HomePage() {
   return (
     <AuthGuard>
       <Layout className='relative bg-gray-lighten'>
-        <div className='absolute top-0 z-10 w-full'>
+        <div className='absolute top-0 z-10 w-full max-w-tablet'>
           <Header />
         </div>
         <div

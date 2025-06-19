@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { useAccount } from 'wagmi'
 import { useModal } from '@contexts/ModalProvider'
@@ -26,9 +26,10 @@ function AddressClipboardApp() {
     }
   })
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    if (address) return
     postMessageToRN({ type: MESSAGE.REQUEST_SMART_WALLET_CONNECT })
-  }, [])
+  }, [address])
 
   return <CommonComponent address={address} />
 }
