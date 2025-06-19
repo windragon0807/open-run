@@ -1,5 +1,3 @@
-'use client'
-
 import { useAppRouter } from '@/hooks/useAppRouter'
 import { useModal } from '@contexts/ModalProvider'
 import { usePermissionStore } from '@store/permission'
