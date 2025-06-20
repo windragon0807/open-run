@@ -1,5 +1,7 @@
 import clsx from 'clsx'
+import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
+import { useEffect, useRef, useState } from 'react'
 import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
 import { Weather } from '@type/weather'
@@ -18,87 +20,194 @@ export default function Header() {
   const appRouter = useAppRouter()
   const { userInfo } = useUserStore()
   const { logout } = useLogout()
+  const headerRef = useRef<HTMLDivElement>(null)
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true)
 
   const { location } = useGeolocation()
-  const { data: reverseGeocode, isLoading: isReverseGeocodeLoading } = useReverseGeocoding(
+  const { data: reverseGeocode } = useReverseGeocoding(
     { lat: location?.lat ?? 0, lng: location?.lng ?? 0 },
     { enabled: location != null },
   )
-  const { data: currentWeather, isLoading: isCurrentWeatherLoading } = useCurrentWeather(
+  const { data: currentWeather } = useCurrentWeather(
     { lat: location?.lat ?? 0, lng: location?.lng ?? 0 },
     { enabled: location != null },
   )
+
+  // Intersection Observer를 사용하여 Header가 화면에서 사라지는 것을 감지
+  useEffect(() => {
+    const headerElement = headerRef.current
+    if (!headerElement) {
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // Header가 화면에서 사라지면 상태를 false로 변경
+          setIsHeaderVisible(entry.isIntersecting)
+        })
+      },
+      {
+        threshold: 0.5,
+      },
+    )
+
+    observer.observe(headerElement)
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [setIsHeaderVisible])
+
+  const isReverseGeocodeLoading = location == null || reverseGeocode == null
+  const isCurrentWeatherLoading = location == null || currentWeather == null
 
   return (
-    <header
-      className={clsx(isApp && 'pt-[64px]', currentWeather == null && 'animate-pulse')}
-      style={{
-        background: currentWeather
-          ? getWeatherData(currentWeather.weather).background
-          : weatherData.clouds.background.morning,
-      }}>
-      <section className='flex h-[200px] w-full justify-between'>
-        <div className='relative flex w-[176px] flex-shrink-0 items-end justify-end'>
-          {currentWeather && (
-            <Image
-              className='absolute object-cover'
-              src={getWeatherData(currentWeather.weather).image}
-              alt='Weather Image'
-              fill
-              priority
-              sizes='(max-width: 768px) 100vw, 176px'
-            />
-          )}
-          <Image
-            className='absolute border'
-            src='/temp/nft_character_lg.png'
-            alt='NFT Character'
-            width={160}
-            height={200}
-            priority
-          />
-          <div className={clsx('absolute left-16', isApp ? 'top-0' : 'top-8')}>
-            <AvatarButton onClick={() => appRouter.push('/avatar')} />
-          </div>
-          <div className='absolute bottom-8 left-12'>
-            <SkewedLikeLabel like={300} />
-          </div>
-        </div>
-
-        <div className='flex flex-col'>
-          <div className='m-[8px_24px_16px] flex items-center justify-end gap-12'>
-            <div className='flex flex-col items-end'>
-              <span className='text-20 font-bold text-white'>{userInfo?.nickname}</span>
-              <AddressClipboard />
-            </div>
-            <button className='-translate-y-2' onClick={logout}>
-              <BellIcon size={24} color={colors.white} />
-            </button>
-          </div>
-          <div className='relative mr-32 flex w-[152px] flex-1 flex-col items-center'>
-            <div className='absolute z-0 h-full w-full rounded-[80px_80px_0_0] bg-gradient-weather opacity-30' />
-            {location == null || isReverseGeocodeLoading ? (
-              <div className='bg-gray mt-24 h-16 w-80 animate-pulse rounded-10' />
-            ) : (
-              <span className='z-10 mt-24 text-12 text-white'>{reverseGeocode ?? ''}</span>
-            )}
-            {location == null || isCurrentWeatherLoading ? (
-              <div className='bg-gray mt-19 h-30 w-122 animate-pulse rounded-10' />
-            ) : (
-              <span className='z-10 mt-4 flex items-center gap-8 font-jost text-40 font-bold tracking-wide text-white'>
+    <>
+      {/* 상단에 떠있는 파란색 사각형 */}
+      <AnimatePresence>
+        {!isHeaderVisible && (
+          <motion.div
+            initial={{ y: -90, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -90, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className={clsx('fixed left-0 right-0 top-0 z-50 mx-auto w-full max-w-tablet', isApp && 'pt-[64px]')}
+            style={{
+              background: `${
+                currentWeather
+                  ? getWeatherData(currentWeather.weather).background
+                  : weatherData.clouds.background.morning
+              }, linear-gradient(to bottom, white 80%, transparent 100%)`,
+            }}>
+            <section className='flex h-[90px] w-full justify-between'>
+              <div className='relative flex w-[118px] flex-shrink-0 items-end justify-end'>
+                {currentWeather && (
+                  <Image
+                    className='absolute object-cover'
+                    src={getWeatherData(currentWeather.weather).image}
+                    alt='Weather Image'
+                    width={80}
+                    height={90}
+                    priority
+                  />
+                )}
                 <Image
-                  src={getWeatherData(currentWeather?.weather ?? 'clear').icon}
-                  alt='Weather Icon'
-                  width={41}
-                  height={24}
+                  className='absolute border'
+                  src='/temp/nft_character_lg.png'
+                  alt='NFT Character'
+                  width={68}
+                  height={90}
+                  priority
                 />
-                {Math.floor(currentWeather?.temperature ?? 0)}°
-              </span>
+                <div className={clsx('absolute left-16', isApp ? 'top-0' : 'top-8')}>
+                  <AvatarButton onClick={() => appRouter.push('/avatar')} />
+                </div>
+                <div className='absolute bottom-8 left-8'>
+                  <SkewedLikeLabel like={300} />
+                </div>
+              </div>
+
+              <div className='flex flex-col'>
+                <div className='m-[8px_24px_10px] flex items-center justify-end gap-12'>
+                  <div className='flex flex-col items-end'>
+                    <span className='text-16 font-bold text-white'>{userInfo?.nickname}</span>
+                    <AddressClipboard />
+                  </div>
+                  <button className='-translate-y-2' onClick={logout}>
+                    <BellIcon size={24} color={colors.white} />
+                  </button>
+                </div>
+
+                {isReverseGeocodeLoading || isCurrentWeatherLoading ? (
+                  <div className='relative mr-24 flex h-[28px] w-[160px] animate-pulse rounded-full bg-[#586587] bg-opacity-30' />
+                ) : (
+                  <div className='relative mr-24 flex h-[28px] w-[160px] items-center justify-center gap-5 rounded-full bg-[#586587] bg-opacity-30'>
+                    <Image
+                      src={getWeatherData(currentWeather.weather).icon}
+                      alt='Weather Icon'
+                      width={20}
+                      height={20}
+                    />
+                    <span className='font-jost text-16 font-bold text-white'>
+                      {Math.floor(currentWeather.temperature)}°
+                    </span>
+                    <span className='text-12 text-white'>{reverseGeocode.split(' ')[0]}</span>
+                  </div>
+                )}
+              </div>
+            </section>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* 기존 Header */}
+      <header
+        ref={headerRef}
+        className={clsx(isApp && 'pt-[64px]', currentWeather == null && 'animate-pulse')}
+        style={{
+          background: currentWeather
+            ? getWeatherData(currentWeather.weather).background
+            : weatherData.clouds.background.morning,
+        }}>
+        <section className='flex h-[200px] w-full justify-between'>
+          <div className='relative flex w-[176px] flex-shrink-0 items-end justify-end'>
+            {currentWeather && (
+              <Image
+                className='absolute object-cover'
+                src={getWeatherData(currentWeather.weather).image}
+                alt='Weather Image'
+                fill
+                priority
+                sizes='(max-width: 768px) 100vw, 176px'
+              />
             )}
+            <Image
+              className='absolute border'
+              src='/temp/nft_character_lg.png'
+              alt='NFT Character'
+              width={160}
+              height={200}
+              priority
+            />
+            <div className={clsx('absolute left-16', isApp ? 'top-0' : 'top-8')}>
+              <AvatarButton onClick={() => appRouter.push('/avatar')} />
+            </div>
+            <div className='absolute bottom-8 left-12'>
+              <SkewedLikeLabel like={300} />
+            </div>
           </div>
-        </div>
-      </section>
-    </header>
+
+          <div className='flex flex-col'>
+            <div className='m-[8px_24px_16px] flex items-center justify-end gap-12'>
+              <div className='flex flex-col items-end'>
+                <span className='text-20 font-bold text-white'>{userInfo?.nickname}</span>
+                <AddressClipboard />
+              </div>
+              <button className='-translate-y-2' onClick={logout}>
+                <BellIcon size={24} color={colors.white} />
+              </button>
+            </div>
+            <div className='relative mr-32 flex w-[152px] flex-1 flex-col items-center'>
+              <div className='absolute z-0 h-full w-full rounded-[80px_80px_0_0] bg-gradient-weather opacity-30' />
+              {isReverseGeocodeLoading ? (
+                <div className='bg-gray mt-24 h-16 w-80 animate-pulse rounded-10' />
+              ) : (
+                <span className='z-10 mt-24 text-12 text-white'>{reverseGeocode}</span>
+              )}
+              {isCurrentWeatherLoading ? (
+                <div className='bg-gray mt-19 h-30 w-122 animate-pulse rounded-10' />
+              ) : (
+                <span className='z-10 mt-4 flex items-center gap-8 font-jost text-40 font-bold tracking-wide text-white'>
+                  <Image src={getWeatherData(currentWeather.weather).icon} alt='Weather Icon' width={41} height={24} />
+                  {Math.floor(currentWeather.temperature)}°
+                </span>
+              )}
+            </div>
+          </div>
+        </section>
+      </header>
+    </>
   )
 }
 

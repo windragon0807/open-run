@@ -52,7 +52,7 @@ function CommonComponent({ address }: { address: string }) {
         })
       }>
       <div className='flex cursor-pointer items-center gap-6'>
-        <span className='text-12 text-white'>{formatAddress(address)}</span>
+        <span className='text-10 text-white'>{formatAddress(address)}</span>
         <svg className='-translate-y-1' width={12} height={12} viewBox='0 0 10 10'>
           <path
             className='fill-white'
