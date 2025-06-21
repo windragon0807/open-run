@@ -119,8 +119,7 @@ export default function BungDetails({
       { userId: userInfo!.userId, bungId: details.bungId },
       {
         onSuccess: () => {
-          clearAllCache()
-          router.replace('/')
+          router.refresh()
         },
       },
     )
