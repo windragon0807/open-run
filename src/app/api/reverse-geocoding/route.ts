@@ -34,10 +34,8 @@ export async function GET(request: NextRequest) {
 
     const data: ResponseType = await response.json()
     const firstResultAddress = data.results[0].formatted_address
-    const [_, province, city] = firstResultAddress.split(' ')
-    const result = `${province} ${city}`
 
-    return NextResponse.json(result)
+    return NextResponse.json(firstResultAddress)
   } catch (error) {
     return NextResponse.json({ error: '경로 조회 실패' }, { status: 500 })
   }
