@@ -48,8 +48,7 @@ export default function AddressSearchModal({ onComplete }: { onComplete: (addres
       { lat: location.lat, lng: location.lng },
       {
         onSuccess: (data) => {
-          onComplete(data)
-          closeModal(MODAL_KEY.ADDRESS_SEARCH)
+          setSearch(data)
         },
       },
     )
