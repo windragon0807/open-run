@@ -1,0 +1,14 @@
+:root {
+  --swiper-pagination-color: #222222;
+  --swiper-pagination-bullet-inactive-color: #DEE2E6;
+  --swiper-pagination-bullet-inactive-opacity: 1;
+  --swiper-pagination-bullet-width: 8px;
+  --swiper-pagination-bullet-height: 8px;
+}
+
+.swiper-pagination-bullet-active {
+  width: 8px !important;
+  border-radius: 5px !important;
+  transition: width 0.7s ease;
+  transition-origin: left;
+}

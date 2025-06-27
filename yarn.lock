@@ -5907,6 +5907,7 @@ __metadata:
     react-hook-form: "npm:^7.54.2"
     react-query: "npm:^3.39.3"
     server-only: "npm:^0.0.1"
+    swiper: "npm:^11.2.8"
     tailwindcss: "npm:^3.4.1"
     typescript: "npm:^5"
     wagmi: "npm:^2.15.0"
@@ -7495,6 +7496,13 @@ __metadata:
   version: 1.0.0
   resolution: "supports-preserve-symlinks-flag@npm:1.0.0"
   checksum: 6c4032340701a9950865f7ae8ef38578d8d7053f5e10518076e6554a9381fa91bd9c6850193695c141f32b21f979c985db07265a758867bac95de05f7d8aeb39
+  languageName: node
+  linkType: hard
+
+"swiper@npm:^11.2.8":
+  version: 11.2.8
+  resolution: "swiper@npm:11.2.8"
+  checksum: 1f20611434ae9659a62da3efc220043c52135e9377c95c359f2baa4852deaeb52c9580e14e4d1b6c3f1a27ff118bbd3b9e13f14c8ca99e0ee7f63b17ec94f6dc
   languageName: node
   linkType: hard
 

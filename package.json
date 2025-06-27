@@ -30,6 +30,7 @@
     "react-hook-form": "^7.54.2",
     "react-query": "^3.39.3",
     "server-only": "^0.0.1",
+    "swiper": "^11.2.8",
     "wagmi": "^2.15.0",
     "zustand": "^4.5.1"
   },

@@ -1,5 +1,6 @@
 'use client'
 
+import ChallengeSwiper from '@components/home/ChallengeSwiper'
 import Header from '@components/home/Header'
 import Recommendation from '@components/home/Recommendation'
 import ScheduledBungs from '@components/home/ScheduledBungs'
@@ -13,7 +14,9 @@ export default function HomePage() {
       <Layout className='bg-gray-lighten'>
         <div className='relative h-full overflow-y-auto pb-96'>
           <Header />
-          <Spacing size={40} />
+          <Spacing size={16} />
+          <ChallengeSwiper />
+          <Spacing size={8} />
           <ScheduledBungs />
           <Spacing size={40} />
           <Recommendation />
