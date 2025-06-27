@@ -42,7 +42,11 @@ export default function BungCard({
         backgroundImage: `${벙이진행중인가 ? 'linear-gradient(90deg, rgba(0, 0, 0, 0.00) 0%, rgba(224, 251, 96, 0.50) 100%), ' : ''}url(${backgroundImageUrl})`,
       }}>
       {isBungOwner ? <CrownIcon className='absolute right-16 top-16' size={24} color={colors.white} /> : null}
-      <span className={clsx('text-16 font-black italic', 벙이진행중인가 && 'font-jost font-black text-secondary')}>
+      <span
+        className={clsx(
+          'text-16 font-black italic',
+          벙이진행중인가 && 'animate-pulse font-jost font-black text-secondary',
+        )}>
         {벙이진행중인가 ? 'Run Started!' : formattedTime}
       </span>
       <Spacing size={8} />
