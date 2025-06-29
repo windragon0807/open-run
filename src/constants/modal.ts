@@ -12,4 +12,5 @@ export const MODAL_KEY = {
   ADDRESS_SEARCH: 'address-search',
   BUNG_COMPLETE_TOAST: 'bung-complete-toast',
   COMPLETE_COPY_TOAST: 'complete-copy-toast',
+  AVATAR_CAPTURE: 'avatar-capture',
 } as const
