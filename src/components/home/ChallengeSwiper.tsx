@@ -55,7 +55,7 @@ export default function ChallengeSwiper() {
       pagination={{
         clickable: true,
       }}
-      className='!pb-[30px]'>
+      className='!pb-30 !pt-16'>
       {mockData.map((item, index) => (
         <SwiperSlide key={`swiper-slide-${index}`}>
           <div className='flex h-[92px] w-full items-center gap-8 rounded-8 bg-white p-16 shadow-floating-primary'>
