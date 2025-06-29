@@ -90,7 +90,7 @@ function BungListLoadingFallback() {
       {Array(3)
         .fill(null)
         .map((_, index) => (
-          <Skeleton key={index} className='h-184 w-full rounded-16 bg-gray' />
+          <Skeleton key={index} className='mb-8 h-184 w-full rounded-16 bg-gray' />
         ))}
     </>
   )
