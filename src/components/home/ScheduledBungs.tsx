@@ -13,7 +13,7 @@ import CreateBungButton from './CreateBungButton'
 
 export default function ScheduledBungs() {
   return (
-    <section className='flex flex-col gap-8 px-16'>
+    <section className='flex flex-col px-16'>
       <WrappedBungList />
       <CreateBungButton>벙 만들기</CreateBungButton>
     </section>
@@ -54,12 +54,12 @@ function BungList() {
   return (
     <>
       <div className='mx-auto mb-8 flex w-full max-w-[500px] justify-between'>
-        <span className='text-black text-20 font-bold'>나의 벙</span>
+        <span className='text-20 font-bold text-black'>나의 벙</span>
         {myBungs!.data.length === 0 && (
-          <span className='text-black place-content-center text-12'>아직 일정이 없어요</span>
+          <span className='place-content-center text-12 text-black'>아직 일정이 없어요</span>
         )}
       </div>
-      <ul>
+      <ul className='mb-8'>
         {myBungs!.data.map((item) => (
           <li key={`myBungs-${item.bungId}`}>
             <button className='w-full text-start' onClick={() => handleClick(item.bungId)}>
@@ -85,12 +85,12 @@ function BungListLoadingFallback() {
   return (
     <>
       <div className='mx-auto mb-8 flex w-full max-w-[500px] justify-between'>
-        <span className='text-black text-20 font-bold'>나의 벙</span>
+        <span className='text-20 font-bold text-black'>나의 벙</span>
       </div>
       {Array(3)
         .fill(null)
         .map((_, index) => (
-          <Skeleton key={index} className='bg-gray h-184 w-full rounded-16' />
+          <Skeleton key={index} className='h-184 w-full rounded-16 bg-gray' />
         ))}
     </>
   )
@@ -100,7 +100,7 @@ function BungListErrorFallback() {
   return (
     <>
       <div className='mx-auto mb-8 flex w-full max-w-[500px] justify-between'>
-        <span className='text-black text-20 font-bold'>나의 벙</span>
+        <span className='text-20 font-bold text-black'>나의 벙</span>
       </div>
       <div className='mb-20'>
         <ErrorFallback type='medium' />

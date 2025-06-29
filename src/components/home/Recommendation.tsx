@@ -1,11 +1,11 @@
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import { useModal } from '@contexts/ModalProvider'
 import { usePermissionStore } from '@store/permission'
 import AlertModal from '@shared/AlertModal'
 import ErrorFallback from '@shared/Error'
 import Skeleton from '@shared/Skeleton'
 import withBoundary from '@shared/withBoundary'
+import { useAppRouter } from '@hooks/useAppRouter'
 import { useBungsQuery } from '@apis/bungs/fetchBungs/query'
 import { MODAL_KEY } from '@constants/modal'
 import RecommendationCard from './RecommendationCard'
@@ -14,7 +14,7 @@ export default function Recommendation() {
   return (
     <section className='flex flex-col px-16 pb-60'>
       <div className='mx-auto mb-8 flex w-full max-w-[500px] items-center justify-between'>
-        <span className='text-black text-20 font-bold'>추천</span>
+        <span className='text-20 font-bold text-black'>추천</span>
       </div>
       <WrappedRecommendationBungs />
     </section>
@@ -22,7 +22,7 @@ export default function Recommendation() {
 }
 
 function RecommendationBungs() {
-  const router = useRouter()
+  const appRouter = useAppRouter()
   const { isGeolocationPermissionGranted } = usePermissionStore()
   const { showModal } = useModal()
 
@@ -46,7 +46,7 @@ function RecommendationBungs() {
       return
     }
 
-    router.push(`/bung/${bungId}`)
+    appRouter.push(`/bung/${bungId}`)
   }
 
   return (
@@ -82,7 +82,7 @@ function RecommendationLoadingFallback() {
       {Array(2)
         .fill(null)
         .map((_, index) => (
-          <Skeleton key={index} className='bg-gray mb-8 h-184 w-full rounded-16' />
+          <Skeleton key={index} className='mb-8 h-184 w-full rounded-16 bg-gray' />
         ))}
     </section>
   )

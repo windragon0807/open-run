@@ -48,7 +48,7 @@ export default function ChallengeSwiper() {
     <Swiper
       spaceBetween={20}
       modules={[Autoplay, Pagination]}
-      slidesPerView={1.05}
+      slidesPerView={1.15}
       centeredSlides
       loop
       autoplay={{ delay: 4_000, disableOnInteraction: true }}
