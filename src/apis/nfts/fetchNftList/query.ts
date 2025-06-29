@@ -322,17 +322,7 @@ const mockData: ResponseType['data'] = [
     subCategory: 'head-accessories',
     link: '',
   },
-  // Face 5개
-  {
-    id: '00031',
-    imageUrl: '/temp/avatar/face/nft_face_1.png',
-    thumbnailUrl: '/temp/avatar/face/nft_face_1.png',
-    rarity: 'common',
-    name: 'face_1',
-    mainCategory: 'face',
-    subCategory: null,
-    link: '',
-  },
+  // Face 4개
   {
     id: '00032',
     imageUrl: '/temp/avatar/face/nft_face_2.png',
@@ -475,17 +465,7 @@ const mockData: ResponseType['data'] = [
     subCategory: null,
     link: '',
   },
-  // Skin 7개
-  {
-    id: '00046',
-    imageUrl: '/temp/avatar/skin/nft_skin_1.png',
-    thumbnailUrl: '/temp/avatar/skin/nft_skin_1.png',
-    rarity: 'common',
-    name: 'skin_1',
-    mainCategory: 'skin',
-    subCategory: null,
-    link: '',
-  },
+  // Skin 6개
   {
     id: '00047',
     imageUrl: '/temp/avatar/skin/nft_skin_2.png',

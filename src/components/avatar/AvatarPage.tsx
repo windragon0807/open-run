@@ -110,10 +110,16 @@ export default function AvatarPage({
             {/* 아바타 이미지 */}
             <div ref={avatarRef} className='absolute top-16 h-270 w-216 flex-shrink-0'>
               {selectedAvatar.hair && <Parts src={selectedAvatar.hair.imageUrl[1]} alt='뒷머리' />}
-              {selectedAvatar.skin && <Parts src={selectedAvatar.skin.imageUrl as string} alt='피부' />}
+              <Parts
+                src={(selectedAvatar.skin?.imageUrl as string) ?? '/images/avatars/avatar_default_skin.png'}
+                alt='피부'
+              />
               <Parts src='/temp/avatar/nft_body.png' alt='아바타' />
               {selectedAvatar.hair && <Parts src={selectedAvatar.hair.imageUrl[0]} alt='앞머리' />}
-              {selectedAvatar.face && <Parts src={selectedAvatar.face.imageUrl as string} alt='얼굴' />}
+              <Parts
+                src={(selectedAvatar.face?.imageUrl as string) ?? '/images/avatars/avatar_default_face.png'}
+                alt='얼굴'
+              />
               {selectedAvatar.accessories['head-accessories'] && (
                 <Parts src={selectedAvatar.accessories['head-accessories'].imageUrl as string} alt='머리 악세서리' />
               )}
