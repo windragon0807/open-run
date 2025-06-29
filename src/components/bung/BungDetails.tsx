@@ -18,12 +18,11 @@ import PersonIcon from '@icons/PersonIcon'
 import PlaceIcon from '@icons/PlaceIcon'
 import RunnerIcon from '@icons/RunnerIcon'
 import WastebasketIcon from '@icons/WastebasketIcon'
-import { useRefetch } from '@hooks/useRefetch'
 import useTimer from '@hooks/useTimer'
 import { useCompleteBung } from '@apis/bungs/completeBung/mutation'
 import { useDropoutMember } from '@apis/bungs/dropoutMember/mutation'
 import { useJoinBung } from '@apis/bungs/joinBung/mutation'
-import { convertUTCtoLocaleDate, currentDate, formatDate, timerFormat } from '@utils/time'
+import { formatDate, timerFormat } from '@utils/time'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 import GoogleMap from './GoogleMap'
@@ -53,7 +52,6 @@ export default function BungDetails({
   const { isApp } = useAppStore()
   const { showModal } = useModal()
   const { userInfo } = useUserStore()
-  const clearAllCache = useRefetch()
   const { mutate: completeBung } = useCompleteBung()
   const { mutate: dropoutMember } = useDropoutMember()
   const { mutate: joinBung } = useJoinBung()
@@ -129,7 +127,7 @@ export default function BungDetails({
   const 벙에참여한멤버인가 = isParticipated && !isOwner
   const 벙에참여한유저인가 = isParticipated
   const 현재유저의벙참여정보 = details.memberList.find((member) => member.userId === userInfo!.userId)
-  const 벙이진행중인가 = convertUTCtoLocaleDate(details.startDateTime) < currentDate()
+  const 벙이진행중인가 = days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0
 
   return (
     <section className='relative h-full w-full'>
@@ -200,18 +198,18 @@ export default function BungDetails({
           style={{ height: 벙에참여한유저인가 ? 'calc(100% - 80px)' : 'calc(100% - 50px)' }}>
           <div className='mb-24 rounded-8 bg-white p-16 shadow-floating-primary'>
             {/* 벙 이름 */}
-            <span className='text-black mb-16 inline-block text-20 font-bold'>{details.name}</span>
+            <span className='mb-16 inline-block text-20 font-bold text-black'>{details.name}</span>
 
             {/* 벙 위치 */}
             <div className='mb-8 flex gap-8'>
               <PlaceIcon className='flex-shrink-0 translate-y-2' size={16} color={colors.black.DEFAULT} />
-              <span className='text-black text-14'>{details.location}</span>
+              <span className='text-14 text-black'>{details.location}</span>
             </div>
 
             {/* 벙 시작 날짜 및 시간 */}
             <div className='mb-8 flex items-center gap-8'>
               <CalendarIcon size={16} color={colors.black.DEFAULT} />
-              <span className='text-black text-14'>
+              <span className='text-14 text-black'>
                 {formatDate({ date: details.startDateTime, formatStr: 'M월 d일 (E) a h:mm', convertUTCtoLocale: true })}
               </span>
             </div>
@@ -219,14 +217,14 @@ export default function BungDetails({
             {/* 벙 거리 및 페이스 */}
             <div className='mb-8 flex items-center gap-8'>
               <RunnerIcon size={16} color={colors.black.DEFAULT} />
-              <span className='text-black text-14'>{`${details.distance} km ${details.pace}`}</span>
+              <span className='text-14 text-black'>{`${details.distance} km ${details.pace}`}</span>
             </div>
 
             {/* 벙 참여 인원 및 남은 자리 */}
             <div className='mb-24 flex items-center gap-8'>
               <PersonIcon size={16} color={colors.black.DEFAULT} />
               <div className='flex items-center gap-4'>
-                <span className='text-black text-14'>{`${참여인원수} / ${details.memberNumber}`}</span>
+                <span className='text-14 text-black'>{`${참여인원수} / ${details.memberNumber}`}</span>
                 <span className='rounded-4 bg-pink/10 px-4 py-2 text-12 font-bold text-pink'>{`${details.memberNumber - 참여인원수}자리 남았어요`}</span>
               </div>
             </div>
@@ -239,7 +237,7 @@ export default function BungDetails({
                       : '러닝 시작 전, 벙주의 안내에 따라\n참여 인증을 해주세요'}
                   </p>
                   <button
-                    className='disabled:bg-gray rounded-8 bg-black-darken px-14 py-10 text-14 font-bold text-white disabled:text-white'
+                    className='rounded-8 bg-black-darken px-14 py-10 text-14 font-bold text-white disabled:bg-gray disabled:text-white'
                     disabled={현재유저의벙참여정보?.participationStatus === true}
                     onClick={() => {
                       showModal({
@@ -264,7 +262,7 @@ export default function BungDetails({
                 {벙에참여한벙주인가 && (
                   <>
                     <button
-                      className='disabled:bg-gray mt-16 h-56 w-full rounded-8 bg-black-darken text-16 font-bold text-white disabled:text-white'
+                      className='mt-16 h-56 w-full rounded-8 bg-black-darken text-16 font-bold text-white disabled:bg-gray disabled:text-white'
                       disabled={벙이진행중인가 === false}
                       onClick={handleBungComplete}>
                       벙 완료
@@ -302,7 +300,7 @@ export default function BungDetails({
             <div className='flex gap-8 overflow-x-auto px-16'>
               {details.memberList.map((member) => (
                 <div key={member.nickname} className='flex flex-col items-center gap-6'>
-                  <div className='bg-black relative aspect-[1] w-76 rounded-8'>
+                  <div className='relative aspect-[1] w-76 rounded-8 bg-black'>
                     <Image src='/temp/nft_detail_2.png' alt='' fill sizes='100%' />
                   </div>
                   <div className='flex items-center gap-4'>

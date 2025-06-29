@@ -14,7 +14,6 @@ export default function HomePage() {
       <Layout className='bg-gray-lighten'>
         <div className='relative h-full overflow-y-auto pb-96'>
           <Header />
-          <Spacing size={16} />
           <ChallengeSwiper />
           <Spacing size={8} />
           <ScheduledBungs />

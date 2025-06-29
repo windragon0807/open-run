@@ -7,7 +7,7 @@ import CrownIcon from '@icons/CrownIcon'
 import PlaceIcon from '@icons/PlaceIcon'
 import RunnerIcon from '@icons/RunnerIcon'
 import useTimer from '@hooks/useTimer'
-import { convertUTCtoLocaleDate, currentDate, formatDate, timerFormat } from '@utils/time'
+import { formatDate, timerFormat } from '@utils/time'
 import { colors } from '@styles/colors'
 
 export default function BungCard({
@@ -30,24 +30,24 @@ export default function BungCard({
   const { days, hours, minutes, seconds } = useTimer(time)
   const formattedTime = timerFormat({ days, hours, minutes, seconds })
   const formattedDate = formatDate({ date: time, formatStr: 'M월 d일 (E) a h:mm', convertUTCtoLocale: true })
-  const 벙이진행중인가 = convertUTCtoLocaleDate(time) < currentDate()
+  const 벙이시작되었는가 = days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0
 
   return (
     <article
       className={clsx(
         'relative mx-auto h-184 w-full max-w-[500px] rounded-8 bg-cover bg-center p-16 text-white shadow-lg',
-        벙이진행중인가 && 'border-3 border-secondary',
+        벙이시작되었는가 && 'border-3 border-secondary',
       )}
       style={{
-        backgroundImage: `${벙이진행중인가 ? 'linear-gradient(90deg, rgba(0, 0, 0, 0.00) 0%, rgba(224, 251, 96, 0.50) 100%), ' : ''}url(${backgroundImageUrl})`,
+        backgroundImage: `${벙이시작되었는가 ? 'linear-gradient(90deg, rgba(0, 0, 0, 0.00) 0%, rgba(224, 251, 96, 0.50) 100%), ' : ''}url(${backgroundImageUrl})`,
       }}>
       {isBungOwner ? <CrownIcon className='absolute right-16 top-16' size={24} color={colors.white} /> : null}
       <span
         className={clsx(
           'text-16 font-black italic',
-          벙이진행중인가 && 'animate-pulse font-jost font-black text-secondary',
+          벙이시작되었는가 && 'animate-pulse font-jost font-black text-secondary',
         )}>
-        {벙이진행중인가 ? 'Run Started!' : formattedTime}
+        {벙이시작되었는가 ? 'Run Started!' : formattedTime}
       </span>
       <Spacing size={8} />
       <p className='truncate text-16 font-bold text-white'>{title}</p>
