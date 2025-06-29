@@ -37,7 +37,7 @@ export default function AvatarPage({
       <Header onSaveButtonClick={() => {}} />
 
       <section className='flex h-[calc(100%-60px)] w-full flex-col items-center bg-gray-lighten'>
-        <AvatarCloset selectedAvatar={selectedAvatar} />
+        <AvatarCloset selectedAvatar={selectedAvatar} setSelectedAvatar={setSelectedAvatar} />
         <Category selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} />
         <AvatarList
           avatarList={filteredAvatarList}

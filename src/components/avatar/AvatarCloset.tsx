@@ -1,7 +1,32 @@
 import Image from 'next/image'
 import { WearingAvatar } from '@type/avatar'
 
-export default function AvatarCloset({ selectedAvatar }: { selectedAvatar: WearingAvatar }) {
+export default function AvatarCloset({
+  selectedAvatar,
+  setSelectedAvatar,
+}: {
+  selectedAvatar: WearingAvatar
+  setSelectedAvatar: (avatar: WearingAvatar) => void
+}) {
+  console.log('ryong', selectedAvatar)
+
+  const handleReset = () => {
+    setSelectedAvatar({
+      upperClothing: null,
+      lowerClothing: null,
+      fullSet: null,
+      footwear: null,
+      face: null,
+      skin: null,
+      hair: null,
+      accessories: {
+        'head-accessories': null,
+        'ear-accessories': null,
+        'body-accessories': null,
+        'eye-accessories': null,
+      },
+    })
+  }
   return (
     <section className='z-10 w-full bg-white px-16 shadow-floating-primary'>
       <div className='relative mb-16 flex h-248 w-full justify-center rounded-16 bg-black-darken'>
@@ -40,8 +65,10 @@ export default function AvatarCloset({ selectedAvatar }: { selectedAvatar: Weari
           )}
         </div>
 
-        {/** 랜덤 버튼 */}
-        <button className='absolute bottom-8 right-8 flex aspect-square w-[40px] items-center justify-center rounded-full bg-white'>
+        {/** 초기화 버튼 */}
+        <button
+          className='absolute bottom-8 right-8 flex aspect-square w-[40px] items-center justify-center rounded-full bg-white'
+          onClick={handleReset}>
           <svg width={24} height={24} viewBox='0 0 24 24'>
             <path
               className='fill-black-darken'
