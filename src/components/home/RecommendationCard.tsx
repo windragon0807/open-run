@@ -37,8 +37,8 @@ export default function RecommendationCard({
       style={{ backgroundImage: `url(${backgroundImageUrl})` }}>
       <span className='text-16 font-bold'>{title}</span>
       <Spacing size={8} />
-      <div className='flex items-center gap-6'>
-        <PlaceIcon size={16} color={colors.white} />
+      <div className='flex gap-6'>
+        <PlaceIcon className='translate-y-2' size={16} color={colors.white} />
         <span className='text-14'>{location}</span>
       </div>
       <Spacing size={2} />
