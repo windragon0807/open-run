@@ -26,7 +26,7 @@ export default function BungCompleteToastModal() {
       {isOpen && (
         <motion.div
           className={clsx(
-            'fixed left-0 right-0 z-[1000] mx-auto h-[56px] rounded-16 px-16',
+            'z-modal fixed left-0 right-0 mx-auto h-[56px] rounded-16 px-16',
             isApp ? 'bottom-40' : 'bottom-24',
           )}
           initial={{ y: 100, opacity: 0 }}

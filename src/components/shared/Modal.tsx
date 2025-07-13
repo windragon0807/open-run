@@ -4,7 +4,7 @@ import { ReactNode } from 'react'
 
 export function Dimmed({ children, onClick }: { children: ReactNode; onClick?: () => void }) {
   return (
-    <section className='fixed bottom-0 left-0 right-0 top-0 z-[1000] bg-black-darkest/60' onClick={onClick}>
+    <section className='z-modal fixed bottom-0 left-0 right-0 top-0 bg-black-darkest/60' onClick={onClick}>
       <motion.section
         className='h-full w-full'
         initial={{ opacity: 0 }}

@@ -2,7 +2,7 @@
 
 import clsx from 'clsx'
 import { useCallback } from 'react'
-import { AchievementTabType } from './AchievementModal'
+import { AchievementTabType } from './index'
 
 /**
  * 탭 버튼 컴포넌트 Props

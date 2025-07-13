@@ -1,6 +1,6 @@
-import { AchievementTabType } from './AchievementModal'
 import { TabButtons } from './TabButtons'
 import { TabEventHandler } from './TabEventHandler'
+import { AchievementTabType } from './index'
 
 /**
  * 도전과제 탭 컴포넌트 Props

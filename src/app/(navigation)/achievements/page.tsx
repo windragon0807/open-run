@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import AchievementPage from '@components/achievement/AchievementModal'
+import AchievementPage from '@components/achievement'
 import AuthGuard from '@shared/AuthGuard'
 import Layout from '@shared/Layout'
 

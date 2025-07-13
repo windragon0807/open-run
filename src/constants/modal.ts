@@ -13,4 +13,5 @@ export const MODAL_KEY = {
   BUNG_COMPLETE_TOAST: 'bung-complete-toast',
   COMPLETE_COPY_TOAST: 'complete-copy-toast',
   AVATAR_CAPTURE: 'avatar-capture',
+  REWARD: 'reward',
 } as const

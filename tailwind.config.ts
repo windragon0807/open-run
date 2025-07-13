@@ -61,6 +61,9 @@ const config: Config = {
       boxShadow: {
         'floating-primary': '0px 0px 16px 0px rgba(74, 92, 239, 0.20)',
       },
+      zIndex: {
+        modal: '1000',
+      },
       keyframes: {
         marquee: {
           '0%': { transform: 'translateX(100%)' },

@@ -40,13 +40,13 @@ export default function DetailModal({
           </header>
 
           <div className='relative mb-8 aspect-square w-168'>
-            <span className='text-black absolute bottom-0 left-1/2 -translate-x-1/2 font-jost text-56 font-[900] italic opacity-10'>
+            <span className='absolute bottom-0 left-1/2 -translate-x-1/2 font-jost text-56 font-[900] italic text-black opacity-10'>
               {serialNumber}
             </span>
             <Image src={imageSrc} alt='Avatar' fill className='object-contain' />
           </div>
 
-          <RarityBadge rarity={rarity} />
+          <RarityBadge rarity={rarity} className='mb-8' />
           <h4 className='mb-4 text-16 font-bold text-black-darken'>{name}</h4>
           <span className='text-12 text-gray-darkest'>{category}</span>
 

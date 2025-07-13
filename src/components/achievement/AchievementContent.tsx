@@ -1,10 +1,10 @@
 import clsx from 'clsx'
 import { useAppStore } from '@store/app'
-import { AchievementTabType } from './AchievementModal'
 import AllAchievementsClient from './content/AllAchievementsClient'
 import EventAchievementsClient from './content/EventAchievementsClient'
 import RegularAchievementsClient from './content/RegularAchievementsClient'
 import RepeatAchievementsClient from './content/RepeatAchievementsClient'
+import { AchievementTabType } from './index'
 
 /**
  * 도전과제 콘텐츠 컴포넌트 Props
