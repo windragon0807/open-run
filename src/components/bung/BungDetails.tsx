@@ -90,7 +90,7 @@ export default function BungDetails({
                 imageUrl={details.mainImage as string}
                 title={details.name}
                 location={details.location}
-                memberList={details.memberList}
+                memberList={details.memberList.filter((member) => member.userId !== userInfo!.userId)}
               />
             ),
           })
