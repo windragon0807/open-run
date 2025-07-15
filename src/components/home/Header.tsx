@@ -23,7 +23,7 @@ export default function Header() {
   const headerRef = useRef<HTMLDivElement>(null)
   const [isHeaderVisible, setIsHeaderVisible] = useState(true)
 
-  const { location } = useGeolocation()
+  const { location, isLoading: isLocationLoading } = useGeolocation()
   const { data: reverseGeocode } = useReverseGeocoding(
     { lat: location?.lat ?? 0, lng: location?.lng ?? 0 },
     { enabled: location != null },
@@ -59,12 +59,11 @@ export default function Header() {
     }
   }, [setIsHeaderVisible])
 
-  const isReverseGeocodeLoading = location == null || reverseGeocode == null
-  const isCurrentWeatherLoading = location == null || currentWeather == null
+  const isReverseGeocodeLoading = isLocationLoading || location == null || reverseGeocode == null
+  const isCurrentWeatherLoading = isLocationLoading || location == null || currentWeather == null
 
   return (
     <>
-      {/* 상단에 떠있는 파란색 사각형 */}
       <AnimatePresence>
         {!isHeaderVisible && (
           <motion.div
