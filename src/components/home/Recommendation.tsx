@@ -58,7 +58,7 @@ function RecommendationBungs() {
             title={bung.name}
             location={bung.location}
             time={bung.startDateTime}
-            remainingCount={bung.memberNumber}
+            remainingCount={bung.memberNumber - bung.memberList.length}
             hashtags={bung.hashtags}
           />
         </button>

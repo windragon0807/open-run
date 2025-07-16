@@ -13,7 +13,7 @@ type RequestType = {
   limit: number
 }
 
-type ResponseType = PaginationResponse<Array<Omit<BungInfo, 'memberList'>>>
+type ResponseType = PaginationResponse<Array<BungInfo>>
 
 /** 벙 목록을 보는 경우 (전체보기, 내가 참여한 벙만 보기) */
 export function fetchBungs(request: RequestType): Promise<ResponseType> {
