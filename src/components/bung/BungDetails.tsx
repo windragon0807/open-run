@@ -9,6 +9,7 @@ import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
 import { BungInfo } from '@type/bung'
 import PrimaryButton from '@shared/PrimaryButton'
+import ToastModal from '@shared/ToastModal'
 import ArrowLeftIcon from '@icons/ArrowLeftIcon'
 import ArrowRightIcon from '@icons/ArrowRightIcon'
 import CalendarIcon from '@icons/CalendarIcon'
@@ -27,7 +28,6 @@ import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 import GoogleMap from './GoogleMap'
 import BungCompleteModal from './modal/BungCompleteModal'
-import BungCompleteToastModal from './modal/BungCompleteToastModal'
 import CertifyParticipationModal from './modal/CertifyParticipationModal'
 import DeleteBungModal from './modal/DeleteBungModal'
 import ModifyBungModal from './modal/ModifyBungModal'
@@ -76,6 +76,14 @@ export default function BungDetails({
   const formattedTime = timerFormat({ days, hours, minutes, seconds })
 
   const handleBungComplete = () => {
+    if (details.memberList.length < 3) {
+      showModal({
+        key: MODAL_KEY.TOAST,
+        component: <ToastModal mode='error' message='벙 참여 인원이 3명 미만입니다.' />,
+      })
+      return
+    }
+
     completeBung(
       { bungId: details.bungId },
       {
@@ -132,7 +140,10 @@ export default function BungDetails({
   return (
     <section className='relative h-full w-full'>
       <header
-        className={clsx('absolute flex h-60 w-full items-center justify-between px-16', isApp && 'top-50')}
+        className={clsx(
+          'absolute flex h-60 w-full cursor-pointer items-center justify-between px-16',
+          isApp && 'top-50',
+        )}
         onClick={handleScrollToTop}>
         <button onClick={() => appRouter.push('/')}>
           <ArrowLeftIcon size={24} color={colors.white} />
@@ -168,7 +179,7 @@ export default function BungDetails({
         </div>
       </header>
       <div
-        className={clsx('w-full cursor-pointer bg-cover', isApp ? 'h-240' : 'h-200')}
+        className={clsx('w-full bg-cover', isApp ? 'h-240' : 'h-200')}
         style={{ backgroundImage: `url(${details.mainImage})` }}
       />
 

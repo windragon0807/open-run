@@ -8,13 +8,13 @@ import { useAppStore } from '@store/app'
 import LoadingLogo from '@shared/LoadingLogo'
 import { BottomSheet, Dimmed } from '@shared/Modal'
 import PrimaryButton from '@shared/PrimaryButton'
+import ToastModal from '@shared/ToastModal'
 import BrokenXIcon from '@icons/BrokenXIcon'
 import useGeolocation from '@hooks/useGeolocation'
 import { useCertifyParticipation } from '@apis/bungs/certifyParticipation/mutation'
 import { calculateDistance } from '@utils/distance'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
-import BungCompleteToastModal from './BungCompleteToastModal'
 
 const 참여인증거리 = 500 // 500m
 
@@ -46,8 +46,8 @@ export default function CertifyParticipationModal({ bungId, lat, lng }: { bungId
           router.refresh()
           closeModal(MODAL_KEY.CERTIFY_PARTICIPATION)
           showModal({
-            key: MODAL_KEY.BUNG_COMPLETE_TOAST,
-            component: <BungCompleteToastModal />,
+            key: MODAL_KEY.TOAST,
+            component: <ToastModal mode='success' message='참여 인증 성공!' />,
           })
         },
       },

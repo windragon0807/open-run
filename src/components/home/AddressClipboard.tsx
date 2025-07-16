@@ -4,10 +4,10 @@ import { useAccount } from 'wagmi'
 import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
 import { postMessageToRN } from '@shared/AppBridge'
+import ToastModal from '@shared/ToastModal'
 import { useMessageHandler } from '@hooks/useMessageHandler'
 import { MESSAGE } from '@constants/app'
 import { MODAL_KEY } from '@constants/modal'
-import CompleteCopyToast from './CompleteCopyToast'
 
 export default function AddressClipboard() {
   const { isApp } = useAppStore()
@@ -47,8 +47,8 @@ function CommonComponent({ address }: { address: string }) {
       text={address ?? ''}
       onCopy={() =>
         showModal({
-          key: MODAL_KEY.COMPLETE_COPY_TOAST,
-          component: <CompleteCopyToast />,
+          key: MODAL_KEY.TOAST,
+          component: <ToastModal mode='success' message='주소가 복사되었습니다.' />,
         })
       }>
       <div className='flex cursor-pointer items-center gap-6'>
