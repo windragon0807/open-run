@@ -1,10 +1,9 @@
-import { MODAL_KEY } from '@/constants/modal'
-import { useModal } from '@/contexts/ModalProvider'
 import { AdvancedMarker, Map } from '@vis.gl/react-google-maps'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
+import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
 import LoadingLogo from '@shared/LoadingLogo'
 import { BottomSheet, Dimmed } from '@shared/Modal'
@@ -12,24 +11,24 @@ import PrimaryButton from '@shared/PrimaryButton'
 import BrokenXIcon from '@icons/BrokenXIcon'
 import useGeolocation from '@hooks/useGeolocation'
 import { useCertifyParticipation } from '@apis/bungs/certifyParticipation/mutation'
-import { useGeocoding } from '@apis/maps/geocoding/query'
 import { calculateDistance } from '@utils/distance'
+import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 import BungCompleteToastModal from './BungCompleteToastModal'
 
 const 참여인증거리 = 500 // 500m
 
-export default function CertifyParticipationModal({ destination, bungId }: { destination: string; bungId: string }) {
+export default function CertifyParticipationModal({ bungId, lat, lng }: { bungId: string; lat: number; lng: number }) {
+  const coordinates = useMemo(() => ({ lat, lng }), [lat, lng])
+
   const router = useRouter()
   const { isApp } = useAppStore()
   const { showModal, closeModal } = useModal()
   const { mutate: certifyParticipation } = useCertifyParticipation()
   const { location } = useGeolocation()
-  const { data: coordinates } = useGeocoding({ address: destination })
-  const 모든좌표가유효한가 = location != null && coordinates != null
 
   const distance = useMemo(() => {
-    if (모든좌표가유효한가 === false) return null
+    if (location == null) return null
     const distance = calculateDistance(location.lat, location.lng, coordinates.lat, coordinates.lng)
     console.log('Distance', {
       start: location,
@@ -37,7 +36,7 @@ export default function CertifyParticipationModal({ destination, bungId }: { des
       distance: `${distance}m`,
     })
     return distance
-  }, [모든좌표가유효한가])
+  }, [location, coordinates])
 
   const handleClick = () => {
     certifyParticipation(
@@ -65,7 +64,7 @@ export default function CertifyParticipationModal({ destination, bungId }: { des
           <span className='text-16 font-bold text-black-darken'>참여 인증</span>
         </header>
         <section className='w-full'>
-          {모든좌표가유효한가 === true ? (
+          {location != null ? (
             <GoogleMap currentPosition={location} destinationPosition={coordinates} />
           ) : (
             <div className='relative aspect-square w-full animate-pulse'>
@@ -86,7 +85,7 @@ export default function CertifyParticipationModal({ destination, bungId }: { des
   )
 }
 
-function GoogleMap({
+const GoogleMap = memo(function GoogleMap({
   currentPosition,
   destinationPosition,
 }: {
@@ -129,7 +128,7 @@ function GoogleMap({
       </Map>
     </div>
   )
-}
+})
 
 const mapStyle = {
   width: '100%',

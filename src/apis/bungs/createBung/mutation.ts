@@ -5,6 +5,8 @@ export type RequestType = {
   name: string
   description: string
   location: string
+  latitude: number
+  longitude: number
   startDateTime: string
   endDateTime: string
   distance: number

@@ -24,6 +24,7 @@ import RandomIcon from '@icons/RandomIcon'
 import { useRefetchQuery } from '@hooks/useRefetchQuery'
 import { useCreateBung } from '@apis/bungs/createBung/mutation'
 import { queryKey } from '@apis/bungs/fetchMyBungs/query'
+import { useGeocoding } from '@apis/maps/geocoding/mutation'
 import { currentDate, formatDate } from '@utils/time'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
@@ -57,8 +58,10 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
   const [isTimePickerOpen, setTimePickerOpen] = useState(false)
   const dateElementRef = useRef<HTMLDivElement>(null)
 
-  const { mutate: createBung, isLoading } = useCreateBung()
+  const { mutateAsync: createBung, isLoading } = useCreateBung()
+  const { mutateAsync: geocoding } = useGeocoding()
   const 메인페이지벙리스트업데이트 = useRefetchQuery(queryKey)
+
   const {
     register,
     handleSubmit,
@@ -85,7 +88,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
     },
   })
 
-  const onSubmit = (formData: FormValues) => {
+  const onSubmit = async (formData: FormValues) => {
     if (formData.startDate == null) {
       setError('startDate', { message: '필수 항목입니다' })
       dateElementRef.current?.scrollIntoView({ block: 'center' })
@@ -111,28 +114,35 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
     const endDate = new Date(startDate)
     endDate.setMinutes(endDate.getMinutes() + Number(formData.runningTime))
 
-    const requestBody = {
-      name: formData.bungName,
-      description: formData.description,
-      location: `${formData.location} ${formData.detailedAddress}`,
-      startDateTime: startDate.toISOString(),
-      endDateTime: endDate.toISOString(),
-      distance: Number(formData.distance),
-      pace: `${formData.paceMinute}'${formData.paceSecond}"`,
-      memberNumber: Number(formData.memberNumber),
-      hasAfterRun: formData.hasAfterRun,
-      afterRunDescription: formData.hasAfterRun ? formData.afterRunDescription : '',
-      hashtags: formData.hashTags,
-      mainImage: formData.imageUrl,
-    }
+    try {
+      const data = await geocoding({ address: formData.location })
+      const requestBody = {
+        name: formData.bungName,
+        description: formData.description,
+        location: `${formData.location} ${formData.detailedAddress}`,
+        latitude: data.lat,
+        longitude: data.lng,
+        startDateTime: startDate.toISOString(),
+        endDateTime: endDate.toISOString(),
+        distance: Number(formData.distance),
+        pace: `${formData.paceMinute}'${formData.paceSecond}"`,
+        memberNumber: Number(formData.memberNumber),
+        hasAfterRun: formData.hasAfterRun,
+        afterRunDescription: formData.hasAfterRun ? formData.afterRunDescription : '',
+        hashtags: formData.hashTags,
+        mainImage: formData.imageUrl,
+      }
 
-    createBung(requestBody, {
-      onSuccess: () => {
-        메인페이지벙리스트업데이트()
-        router.push('/')
-        nextStep()
-      },
-    })
+      await createBung(requestBody, {
+        onSuccess: () => {
+          메인페이지벙리스트업데이트()
+          router.push('/')
+          nextStep()
+        },
+      })
+    } catch (err) {
+      alert(err)
+    }
   }
 
   const 시작날짜를선택했는가 = watch('startDate') != null
@@ -229,7 +239,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           </div>
 
           {isDatePickerOpen ? (
-            <div className='border-gray flex w-full justify-center rounded-8 border bg-white p-16'>
+            <div className='flex w-full justify-center rounded-8 border border-gray bg-white p-16'>
               <DatePicker
                 defaultValue={watch('startDate')}
                 onDateClick={(date) => {
@@ -248,7 +258,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             </div>
           ) : null}
           {isTimePickerOpen ? (
-            <div className='border-gray rounded-8 border bg-white p-16'>
+            <div className='rounded-8 border border-gray bg-white p-16'>
               <TimePicker
                 value={watch('startTime')}
                 onChange={(time) => {
@@ -281,7 +291,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           <NumberInput
             className='pr-40'
             placeholder='예상되는 소요 시간을 알려주세요'
-            addon={<span className='text-black absolute right-16 top-10 text-14'>분</span>}
+            addon={<span className='absolute right-16 top-10 text-14 text-black'>분</span>}
             error={errors.runningTime?.message}
             {...register('runningTime', {
               required: '필수 항목입니다',
@@ -295,7 +305,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           <NumberInput
             className='pr-40'
             placeholder='목표 거리를 입력하세요'
-            addon={<span className='text-black absolute right-16 top-10 text-14'>km</span>}
+            addon={<span className='absolute right-16 top-10 text-14 text-black'>km</span>}
             error={errors.distance?.message}
             {...register('distance', {
               required: '필수 항목입니다',
@@ -309,7 +319,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           <div className='flex gap-8'>
             <NumberInput
               placeholder='분'
-              addon={<span className='text-black absolute right-16 top-10 text-14 font-bold italic'>{"'"}</span>}
+              addon={<span className='absolute right-16 top-10 text-14 font-bold italic text-black'>{"'"}</span>}
               {...register('paceMinute', {
                 required: '필수 항목입니다',
               })}
@@ -317,7 +327,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             />
             <NumberInput
               placeholder='초'
-              addon={<span className='text-black absolute right-16 top-10 text-14 font-bold italic'>{'"'}</span>}
+              addon={<span className='absolute right-16 top-10 text-14 font-bold italic text-black'>{'"'}</span>}
               {...register('paceSecond', {
                 required: '필수 항목입니다',
               })}

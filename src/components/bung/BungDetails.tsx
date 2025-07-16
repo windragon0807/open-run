@@ -242,7 +242,13 @@ export default function BungDetails({
                     onClick={() => {
                       showModal({
                         key: MODAL_KEY.CERTIFY_PARTICIPATION,
-                        component: <CertifyParticipationModal destination={details.location} bungId={details.bungId} />,
+                        component: (
+                          <CertifyParticipationModal
+                            bungId={details.bungId}
+                            lat={details.latitude}
+                            lng={details.longitude}
+                          />
+                        ),
                       })
                     }}>
                     참여 인증
@@ -329,7 +335,7 @@ export default function BungDetails({
             <span className='whitespace-pre-wrap text-14 font-bold text-black-darken'>{details.location}</span>
           </div>
           <div className='mb-18 px-16'>
-            <GoogleMap location={details.location} />
+            <GoogleMap lat={details.latitude} lng={details.longitude} />
           </div>
 
           {/* 해시태그 */}
