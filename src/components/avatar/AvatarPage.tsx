@@ -3,11 +3,11 @@
 import clsx from 'clsx'
 import html2canvas from 'html2canvas'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
 import { Avatar, SelectedCategory, WearingAvatar } from '@type/avatar'
-import { useAppRouter } from '@hooks/useAppRouter'
 import { cropSquareImage } from '@utils/image'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
@@ -23,7 +23,7 @@ export default function AvatarPage({
   wearingAvatar: WearingAvatar
 }) {
   const { isApp } = useAppStore()
-  const appRouter = useAppRouter()
+  const router = useRouter()
   const { showModal } = useModal()
 
   const avatarRef = useRef<HTMLDivElement>(null)
@@ -75,10 +75,10 @@ export default function AvatarPage({
   }
 
   return (
-    <article className={clsx('h-full w-full', isApp && 'pt-50')}>
+    <article className={clsx('h-full w-full bg-white', isApp && 'pt-50')}>
       {/* 헤더 */}
       <header className='relative z-20 flex h-60 w-full items-center justify-center bg-white px-5'>
-        <button className='absolute left-16' onClick={() => appRouter.push('/')}>
+        <button className='absolute left-16' onClick={() => router.push('/')}>
           <svg width='24' height='24' viewBox='0 0 24 24' fill='none'>
             <path d='M11.4 12L16 7.4L14.6 6L8.6 12L14.6 18L16 16.6L11.4 12Z' fill={colors.black.darken} />
           </svg>

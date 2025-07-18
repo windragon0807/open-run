@@ -22,7 +22,7 @@ export default function Explore() {
 function ExploreHome({ onSearchButtonClick }: { onSearchButtonClick: () => void }) {
   const { isApp } = useAppStore()
   return (
-    <section>
+    <section className='h-full w-full bg-white'>
       <div className={clsx('px-16', isApp ? 'pt-72' : 'pt-32')}>
         <h1 className='mb-16 text-28 font-bold'>탐색</h1>
         <button

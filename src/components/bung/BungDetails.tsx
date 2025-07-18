@@ -1,4 +1,3 @@
-import { useAppRouter } from '@/hooks/useAppRouter'
 import clsx from 'clsx'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
@@ -48,7 +47,6 @@ export default function BungDetails({
   const 참여인원수 = details.memberList.length
 
   const router = useRouter()
-  const appRouter = useAppRouter()
   const { isApp } = useAppStore()
   const { showModal } = useModal()
   const { userInfo } = useUserStore()
@@ -145,7 +143,7 @@ export default function BungDetails({
           isApp && 'top-50',
         )}
         onClick={handleScrollToTop}>
-        <button onClick={() => appRouter.push('/')}>
+        <button onClick={() => router.push('/')}>
           <ArrowLeftIcon size={24} color={colors.white} />
         </button>
         <div className='flex items-center gap-12'>

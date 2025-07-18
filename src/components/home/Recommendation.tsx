@@ -1,11 +1,11 @@
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useModal } from '@contexts/ModalProvider'
 import { usePermissionStore } from '@store/permission'
 import AlertModal from '@shared/AlertModal'
 import ErrorFallback from '@shared/Error'
 import Skeleton from '@shared/Skeleton'
 import withBoundary from '@shared/withBoundary'
-import { useAppRouter } from '@hooks/useAppRouter'
 import { useBungsQuery } from '@apis/bungs/fetchBungs/query'
 import { MODAL_KEY } from '@constants/modal'
 import RecommendationCard from './RecommendationCard'
@@ -22,7 +22,7 @@ export default function Recommendation() {
 }
 
 function RecommendationBungs() {
-  const appRouter = useAppRouter()
+  const router = useRouter()
   const { isGeolocationPermissionGranted } = usePermissionStore()
   const { showModal } = useModal()
 
@@ -46,7 +46,7 @@ function RecommendationBungs() {
       return
     }
 
-    appRouter.push(`/bung/${bungId}`)
+    router.push(`/bung/${bungId}`)
   }
 
   return (

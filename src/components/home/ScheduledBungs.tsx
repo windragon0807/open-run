@@ -1,4 +1,4 @@
-import { useAppRouter } from '@/hooks/useAppRouter'
+import { useRouter } from 'next/navigation'
 import { useModal } from '@contexts/ModalProvider'
 import { usePermissionStore } from '@store/permission'
 import AlertModal from '@shared/AlertModal'
@@ -21,7 +21,7 @@ export default function ScheduledBungs() {
 }
 
 function BungList() {
-  const appRouter = useAppRouter()
+  const router = useRouter()
   const { isGeolocationPermissionGranted } = usePermissionStore()
   const { showModal } = useModal()
 
@@ -48,7 +48,7 @@ function BungList() {
       return
     }
 
-    appRouter.push(`/bung/${bungId}`)
+    router.push(`/bung/${bungId}`)
   }
 
   return (

@@ -1,12 +1,12 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
 import { Weather } from '@type/weather'
 import BellIcon from '@icons/BellIcon'
-import { useAppRouter } from '@hooks/useAppRouter'
 import useGeolocation from '@hooks/useGeolocation'
 import useLogout from '@hooks/useLogout'
 import { useReverseGeocoding } from '@apis/maps/reverse-geocoding/query'
@@ -17,7 +17,7 @@ import AddressClipboard from './AddressClipboard'
 
 export default function Header() {
   const { isApp } = useAppStore()
-  const appRouter = useAppRouter()
+  const router = useRouter()
   const { userInfo } = useUserStore()
   const { logout } = useLogout()
   const headerRef = useRef<HTMLDivElement>(null)
@@ -100,7 +100,7 @@ export default function Header() {
                   priority
                 />
                 <div className={clsx('absolute left-16', isApp ? 'top-0' : 'top-8')}>
-                  <AvatarButton onClick={() => appRouter.push('/avatar')} />
+                  <AvatarButton onClick={() => router.push('/avatar')} />
                 </div>
                 <div className='absolute bottom-8 left-8'>
                   <SkewedLikeLabel like={300} />
@@ -170,7 +170,7 @@ export default function Header() {
               priority
             />
             <div className={clsx('absolute left-16', isApp ? 'top-0' : 'top-8')}>
-              <AvatarButton onClick={() => appRouter.push('/avatar')} />
+              <AvatarButton onClick={() => router.push('/avatar')} />
             </div>
             <div className='absolute bottom-8 left-12'>
               <SkewedLikeLabel like={300} />
