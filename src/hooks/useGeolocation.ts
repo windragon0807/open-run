@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery } from 'react-query'
 import { useAppStore } from '@store/app'
 import { usePermissionStore } from '@store/permission'
 import { Geolocation } from '@type/geolocation'
@@ -104,7 +104,6 @@ const getBrowserLocation = (): Promise<Geolocation> => {
 export default function useGeolocation() {
   const { isApp } = useAppStore()
   const { setIsGeolocationPermissionGranted } = usePermissionStore()
-  const queryClient = useQueryClient()
   const messageHandlerRef = useRef<((event: MessageEvent) => void) | null>(null)
 
   // React Query를 사용한 위치 정보 캐싱
@@ -112,6 +111,7 @@ export default function useGeolocation() {
     data: location,
     isLoading,
     error,
+    refetch,
   } = useQuery({
     queryKey: ['geolocation'],
     queryFn: async (): Promise<Geolocation> => {
@@ -161,15 +161,10 @@ export default function useGeolocation() {
     }
   }, [isApp])
 
-  // 수동으로 위치 정보 새로고침하는 함수
-  const refreshLocation = () => {
-    queryClient.invalidateQueries({ queryKey: ['geolocation'] })
-  }
-
   return {
     location: location || null,
     isLoading,
     error,
-    refetch: refreshLocation,
+    refetch,
   }
 }

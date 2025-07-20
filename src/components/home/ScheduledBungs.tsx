@@ -1,13 +1,9 @@
-import { useRouter } from 'next/navigation'
-import { useModal } from '@contexts/ModalProvider'
-import { usePermissionStore } from '@store/permission'
-import AlertModal from '@shared/AlertModal'
+import Link from 'next/link'
 import ErrorFallback from '@shared/Error'
 import Skeleton from '@shared/Skeleton'
 import Spacing from '@shared/Spacing'
 import withBoundary from '@shared/withBoundary'
 import { useMyBungsQuery } from '@apis/bungs/fetchMyBungs/query'
-import { MODAL_KEY } from '@constants/modal'
 import BungCard from './BungCard'
 import CreateBungButton from './CreateBungButton'
 
@@ -21,10 +17,6 @@ export default function ScheduledBungs() {
 }
 
 function BungList() {
-  const router = useRouter()
-  const { isGeolocationPermissionGranted } = usePermissionStore()
-  const { showModal } = useModal()
-
   /* 실시간 타이머를 포함하고 있는 컴포넌트는 클라이언트 컴포넌트로 렌더링해야 합니다. */
   const { data: myBungs } = useMyBungsQuery({
     isOwned: null,
@@ -32,24 +24,6 @@ function BungList() {
     page: 0,
     limit: 10,
   })
-
-  const handleClick = (bungId: string) => {
-    if (isGeolocationPermissionGranted === false) {
-      showModal({
-        key: MODAL_KEY.ALERT,
-        component: (
-          <AlertModal
-            title='서비스 접근 권한 안내'
-            description='위치 권한 사용을 거부하였습니다. 기능 사용을 원하실 경우 휴대폰설정 > 애플리케이션 관리자에서 해당 앱의 권한을 허용해주세요.'
-          />
-        ),
-      })
-
-      return
-    }
-
-    router.push(`/bung/${bungId}`)
-  }
 
   return (
     <>
@@ -62,7 +36,7 @@ function BungList() {
       <ul className='mb-8'>
         {myBungs!.data.map((item) => (
           <li key={`myBungs-${item.bungId}`}>
-            <button className='w-full text-start' onClick={() => handleClick(item.bungId)}>
+            <Link className='w-full text-start' href={`/bung/${item.bungId}`}>
               <BungCard
                 backgroundImageUrl={item.mainImage as string}
                 time={item.startDateTime}
@@ -72,7 +46,7 @@ function BungList() {
                 pace={item.pace}
                 isBungOwner={item.hasOwnership}
               />
-            </button>
+            </Link>
             <Spacing size={8} />
           </li>
         ))}

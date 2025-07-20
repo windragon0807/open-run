@@ -23,7 +23,7 @@ export default function Header() {
   const headerRef = useRef<HTMLDivElement>(null)
   const [isHeaderVisible, setIsHeaderVisible] = useState(true)
 
-  const { location, isLoading: isLocationLoading } = useGeolocation()
+  const { location, isLoading: isLocationLoading, refetch } = useGeolocation()
   const { data: reverseGeocode } = useReverseGeocoding(
     { lat: location?.lat ?? 0, lng: location?.lng ?? 0 },
     { enabled: location != null },
@@ -187,7 +187,11 @@ export default function Header() {
                 <BellIcon size={24} color={colors.white} />
               </button>
             </div>
-            <div className='relative mr-32 flex w-[152px] flex-1 flex-col items-center'>
+            <div
+              className='relative mr-32 flex w-[152px] flex-1 cursor-pointer flex-col items-center'
+              onClick={() => {
+                refetch()
+              }}>
               <div className='absolute z-0 h-full w-full rounded-[80px_80px_0_0] bg-gradient-weather opacity-30' />
               {isReverseGeocodeLoading ? (
                 <div className='mt-24 h-16 w-80 animate-pulse rounded-10 bg-gray' />

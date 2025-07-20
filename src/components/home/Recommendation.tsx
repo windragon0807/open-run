@@ -1,13 +1,9 @@
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { useModal } from '@contexts/ModalProvider'
-import { usePermissionStore } from '@store/permission'
-import AlertModal from '@shared/AlertModal'
+import Link from 'next/link'
 import ErrorFallback from '@shared/Error'
 import Skeleton from '@shared/Skeleton'
 import withBoundary from '@shared/withBoundary'
 import { useBungsQuery } from '@apis/bungs/fetchBungs/query'
-import { MODAL_KEY } from '@constants/modal'
 import RecommendationCard from './RecommendationCard'
 
 export default function Recommendation() {
@@ -22,37 +18,16 @@ export default function Recommendation() {
 }
 
 function RecommendationBungs() {
-  const router = useRouter()
-  const { isGeolocationPermissionGranted } = usePermissionStore()
-  const { showModal } = useModal()
-
   const { data: recommendationList } = useBungsQuery({
     isAvailableOnly: true,
     page: 0,
     limit: 10,
   })
 
-  const handleClick = (bungId: string) => {
-    if (isGeolocationPermissionGranted === false) {
-      showModal({
-        key: MODAL_KEY.ALERT,
-        component: (
-          <AlertModal
-            title='서비스 접근 권한 안내'
-            description='위치 권한 사용을 거부하였습니다. 기능 사용을 원하실 경우 휴대폰설정 > 애플리케이션 관리자에서 해당 앱의 권한을 허용해주세요.'
-          />
-        ),
-      })
-      return
-    }
-
-    router.push(`/bung/${bungId}`)
-  }
-
   return (
     <section className='flex flex-col gap-8'>
       {recommendationList?.data.map((bung) => (
-        <button key={bung.bungId} className='text-start' onClick={() => handleClick(bung.bungId)}>
+        <Link key={bung.bungId} className='text-start' href={`/bung/${bung.bungId}`}>
           <RecommendationCard
             backgroundImageUrl={bung.mainImage as string}
             title={bung.name}
@@ -61,7 +36,7 @@ function RecommendationBungs() {
             remainingCount={bung.memberNumber - bung.memberList.length}
             hashtags={bung.hashtags}
           />
-        </button>
+        </Link>
       ))}
       {recommendationList?.data.length === 0 && (
         <div className='mt-32 flex h-full w-full flex-col items-center justify-center gap-8'>
