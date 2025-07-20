@@ -1,7 +1,10 @@
+'use client'
+
 import { MODAL_KEY } from '@/constants/modal'
 import { useModal } from '@/contexts/ModalProvider'
 import clsx from 'clsx'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useAppStore } from '@store/app'
 import { BungMember } from '@type/bung'
 import Input from '@shared/Input'
@@ -10,26 +13,22 @@ import MagnifierIcon from '@icons/MagnifierIcon'
 import useFushSearch from '@hooks/useFuseSearch'
 import { colors } from '@styles/colors'
 import ConfirmDelegateModal from './modal/ConfirmDelegateModal'
-import { PageCategory } from './types'
 
-export default function DelegateOwner({
-  memberList,
-  setPageCategory,
-}: {
-  memberList: BungMember[]
-  setPageCategory: (category: PageCategory) => void
-}) {
+export default function DelegateOwner({ memberList }: { memberList: BungMember[] }) {
+  const filteredMemberList = memberList.filter(({ owner }) => !owner)
+
+  const router = useRouter()
   const { isApp } = useAppStore()
   const { showModal } = useModal()
-  const { search, setSearch, filteredList } = useFushSearch(memberList, 'nickname')
+  const { search, setSearch, filteredList } = useFushSearch(filteredMemberList, 'nickname')
 
   return (
     <section className={clsx('h-full w-full bg-gray-lighten', isApp && 'pt-50')} onClick={(e) => e.stopPropagation()}>
       <header className='relative flex h-60 w-full items-center justify-center'>
-        <button className='absolute left-16' onClick={() => setPageCategory('벙 상세')}>
+        <button className='absolute left-16' onClick={() => router.back()}>
           <ArrowLeftIcon size={24} color={colors.black.darken} />
         </button>
-        <span className='text-black text-16 font-bold'>벙주 넘기기</span>
+        <span className='text-16 font-bold text-black'>벙주 넘기기</span>
       </header>
       <section className='flex h-full w-full flex-col gap-16 px-16'>
         <div className='w-full rounded-8 bg-white p-16'>
@@ -77,7 +76,7 @@ export default function DelegateOwner({
                 onClick={() =>
                   showModal({
                     key: MODAL_KEY.CONFIRM_DELEGATE,
-                    component: <ConfirmDelegateModal member={member} onSuccess={() => setPageCategory('벙 상세')} />,
+                    component: <ConfirmDelegateModal member={member} onSuccess={() => router.back()} />,
                   })
                 }>
                 벙주 넘기기

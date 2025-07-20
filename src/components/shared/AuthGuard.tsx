@@ -5,7 +5,7 @@ import { ReactNode } from 'react'
 import { useUserStore } from '@store/user'
 import { useUserInfo } from '@apis/users/fetchUserInfo/query'
 
-export default function AuthGuard({ children }: { children: ReactNode }) {
+export default function AuthGuard({ children, loadingFallback }: { children: ReactNode; loadingFallback?: ReactNode }) {
   const router = useRouter()
   const { userInfo, setUserInfo } = useUserStore()
 
@@ -20,7 +20,7 @@ export default function AuthGuard({ children }: { children: ReactNode }) {
   })
 
   if (userInfo == null) {
-    return null
+    return loadingFallback ?? null
   }
 
   return children

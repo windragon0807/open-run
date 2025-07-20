@@ -1,7 +1,9 @@
+'use client'
+
 import clsx from 'clsx'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { Fragment, useRef } from 'react'
 import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
@@ -31,28 +33,21 @@ import CertifyParticipationModal from './modal/CertifyParticipationModal'
 import DeleteBungModal from './modal/DeleteBungModal'
 import ModifyBungModal from './modal/ModifyBungModal'
 import WhyCertificationModal from './modal/WhyCertificationModal'
-import { PageCategory } from './types'
 
-export default function BungDetails({
-  details,
-  isParticipated,
-  isOwner,
-  setPageCategory,
-}: {
-  details: BungInfo
-  isParticipated: boolean
-  isOwner: boolean
-  setPageCategory: (category: PageCategory) => void
-}) {
+export default function BungDetails({ details }: { details: BungInfo }) {
   const 참여인원수 = details.memberList.length
 
   const router = useRouter()
+  const { bungId } = useParams<{ bungId: string }>()
   const { isApp } = useAppStore()
   const { showModal } = useModal()
   const { userInfo } = useUserStore()
   const { mutate: completeBung } = useCompleteBung()
   const { mutate: dropoutMember } = useDropoutMember()
   const { mutate: joinBung } = useJoinBung()
+
+  const isParticipated = details.memberList.some((participant) => participant.userId === userInfo!.userId)
+  const isOwner = details.memberList.find((participant) => participant.userId === userInfo!.userId)?.owner ?? false
 
   /* 스크롤이 올라갈수록 컨텐츠 영역이 올라가는 효과를 주기 위한 로직 */
   const containerRef = useRef<HTMLDivElement>(null)
@@ -162,7 +157,10 @@ export default function BungDetails({
                 <PencilIcon size={24} color={colors.white} />
               </button>
               {/** 벙주 넘기기 */}
-              <button onClick={() => setPageCategory('벙주 넘기기')}>
+              <button
+                onClick={() =>
+                  router.push(`/bung/${bungId}/delegate-owner?memberList=${JSON.stringify(details.memberList)}`)
+                }>
                 <ChangeOwnerIcon size={24} color={colors.white} />
               </button>
               {/** 벙 삭제 */}
@@ -307,7 +305,11 @@ export default function BungDetails({
             <div className='flex w-full items-center justify-between px-16'>
               <span className='text-16 font-bold text-black-darken'>{참여인원수}명이 함께 뛸 예정이에요</span>
               {벙에참여한벙주인가 && (
-                <button className='text-14 font-normal text-black-darken' onClick={() => setPageCategory('멤버관리')}>
+                <button
+                  className='text-14 font-normal text-black-darken'
+                  onClick={() =>
+                    router.push(`/bung/${bungId}/manage-members?memberList=${JSON.stringify(details.memberList)}`)
+                  }>
                   멤버관리
                 </button>
               )}
