@@ -8,6 +8,7 @@ import { useRef, useState } from 'react'
 import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
 import { Avatar, SelectedCategory, WearingAvatar } from '@type/avatar'
+import AvatarComponent from '@shared/Avatar'
 import { cropSquareImage } from '@utils/image'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
@@ -108,35 +109,11 @@ export default function AvatarPage({
             </svg>
 
             {/* 아바타 이미지 */}
-            <div ref={avatarRef} className='absolute top-16 h-270 w-216 flex-shrink-0'>
-              {selectedAvatar.hair && <Parts src={selectedAvatar.hair.imageUrl[1]} alt='뒷머리' />}
-              <Parts
-                src={(selectedAvatar.skin?.imageUrl as string) ?? '/images/avatars/avatar_default_skin.png'}
-                alt='피부'
-              />
-              <Parts src='/temp/avatar/nft_body.png' alt='아바타' />
-              {selectedAvatar.hair && <Parts src={selectedAvatar.hair.imageUrl[0]} alt='앞머리' />}
-              <Parts
-                src={(selectedAvatar.face?.imageUrl as string) ?? '/images/avatars/avatar_default_face.png'}
-                alt='얼굴'
-              />
-              {selectedAvatar.accessories['head-accessories'] && (
-                <Parts src={selectedAvatar.accessories['head-accessories'].imageUrl as string} alt='머리 악세서리' />
-              )}
-              {selectedAvatar.accessories['ear-accessories'] && (
-                <Parts src={selectedAvatar.accessories['ear-accessories'].imageUrl as string} alt='귀 악세서리' />
-              )}
-              {selectedAvatar.footwear && <Parts src={selectedAvatar.footwear.imageUrl as string} alt='신발' />}
-              {selectedAvatar.lowerClothing && (
-                <Parts src={selectedAvatar.lowerClothing.imageUrl as string} alt='하의' />
-              )}
-              {selectedAvatar.upperClothing && (
-                <Parts src={selectedAvatar.upperClothing.imageUrl as string} alt='상의' />
-              )}
-              {selectedAvatar.accessories['body-accessories'] && (
-                <Parts src={selectedAvatar.accessories['body-accessories'].imageUrl as string} alt='몸 악세서리' />
-              )}
-            </div>
+            <AvatarComponent
+              ref={avatarRef}
+              className='absolute top-16 h-270 w-216 flex-shrink-0'
+              {...selectedAvatar}
+            />
 
             {/* 초기화 버튼 */}
             <button

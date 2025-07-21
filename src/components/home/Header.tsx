@@ -6,10 +6,12 @@ import { useEffect, useRef, useState } from 'react'
 import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
 import { Weather } from '@type/weather'
+import Avatar from '@shared/Avatar'
 import BellIcon from '@icons/BellIcon'
 import useGeolocation from '@hooks/useGeolocation'
 import useLogout from '@hooks/useLogout'
 import { useReverseGeocoding } from '@apis/maps/reverse-geocoding/query'
+import { useWearingAvatar } from '@apis/nfts/fetchWearingAvatar/query'
 import { useCurrentWeather } from '@apis/weather/query'
 import addDelimiter from '@utils/addDelimiter'
 import { colors } from '@styles/colors'
@@ -23,7 +25,8 @@ export default function Header() {
   const headerRef = useRef<HTMLDivElement>(null)
   const [isHeaderVisible, setIsHeaderVisible] = useState(true)
 
-  const { location, isLoading: isLocationLoading, refetch } = useGeolocation()
+  const { data: wearingAvatar } = useWearingAvatar()
+  const { location, refetch } = useGeolocation()
   const { data: reverseGeocode } = useReverseGeocoding(
     { lat: location?.lat ?? 0, lng: location?.lng ?? 0 },
     { enabled: location != null },
@@ -59,8 +62,8 @@ export default function Header() {
     }
   }, [setIsHeaderVisible])
 
-  const isReverseGeocodeLoading = isLocationLoading || location == null || reverseGeocode == null
-  const isCurrentWeatherLoading = isLocationLoading || location == null || currentWeather == null
+  const isReverseGeocodeLoading = location == null || reverseGeocode == null
+  const isCurrentWeatherLoading = location == null || currentWeather == null
 
   return (
     <>
@@ -91,14 +94,8 @@ export default function Header() {
                     priority
                   />
                 )}
-                <Image
-                  className='absolute border'
-                  src='/temp/nft_character_lg.png'
-                  alt='NFT Character'
-                  width={68}
-                  height={90}
-                  priority
-                />
+                {wearingAvatar && <Avatar className='absolute h-90 w-68' {...wearingAvatar} />}
+
                 <div className={clsx('absolute left-16', isApp ? 'top-0' : 'top-8')}>
                   <AvatarButton onClick={() => router.push('/avatar')} />
                 </div>
@@ -153,7 +150,7 @@ export default function Header() {
           <div className='relative flex w-[176px] flex-shrink-0 items-end justify-end'>
             {currentWeather && (
               <Image
-                className='absolute object-cover'
+                className='object-cover'
                 src={getWeatherData(currentWeather.weather).image}
                 alt='Weather Image'
                 fill
@@ -161,14 +158,8 @@ export default function Header() {
                 sizes='(max-width: 768px) 100vw, 176px'
               />
             )}
-            <Image
-              className='absolute border'
-              src='/temp/nft_character_lg.png'
-              alt='NFT Character'
-              width={160}
-              height={200}
-              priority
-            />
+            {wearingAvatar && <Avatar className='absolute h-200 w-160' {...wearingAvatar} />}
+
             <div className={clsx('absolute left-16', isApp ? 'top-0' : 'top-8')}>
               <AvatarButton onClick={() => router.push('/avatar')} />
             </div>
