@@ -11,7 +11,7 @@ export type ResponseType = ApiResponse<
     nickname: string
     email: string
     identityAuthenticated: boolean
-    provider: 'kakao' | 'naver' | 'smart_wallet'
+    provider: 'smart_wallet'
     blackListed: boolean
     createdDate: string // 2024-11-27T06:39:53.326Z
     lastLoginDate: string // 2024-11-27T06:39:53.326Z

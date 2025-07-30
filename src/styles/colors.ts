@@ -18,7 +18,4 @@ export const colors = {
   pink: 'hsl(339, 82%, 67%)', // #F06595
   fluorescent: 'hsl(70, 95%, 68%)', // #E0FB60
   red: 'hsl(0, 100%, 50%)', // #FF0000
-
-  kakao: 'hsl(54, 100%, 50%)', // #FEE500
-  naver: 'hsl(145, 94%, 40%)', // #06C755
 } as const
