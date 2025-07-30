@@ -1,5 +1,5 @@
+import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
-import { useMutation } from 'react-query'
 import { setCookie } from '@utils/cookie'
 import { COOKIE } from '@constants/cookie'
 import { smartWalletLogin } from './index'

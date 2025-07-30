@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import http, { ApiResponse } from '@apis/axios'
 
 type RequestType = {
@@ -15,5 +15,7 @@ function fetchHashtags(params: RequestType): Promise<ResponseType> {
 }
 
 export function useHashtagsMutation() {
-  return useMutation(fetchHashtags)
+  return useMutation({
+    mutationFn: fetchHashtags,
+  })
 }

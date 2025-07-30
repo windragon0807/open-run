@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import http from '@apis/axios'
 
 export type RequestType = {
@@ -23,5 +23,7 @@ function createBung(params: RequestType) {
 }
 
 export function useCreateBung() {
-  return useMutation(createBung)
+  return useMutation({
+    mutationFn: createBung,
+  })
 }

@@ -58,7 +58,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
   const [isTimePickerOpen, setTimePickerOpen] = useState(false)
   const dateElementRef = useRef<HTMLDivElement>(null)
 
-  const { mutateAsync: createBung, isLoading } = useCreateBung()
+  const { mutateAsync: createBung, isPending } = useCreateBung()
   const { mutateAsync: geocoding } = useGeocoding()
   const 메인페이지벙리스트업데이트 = useRefetchQuery(queryKey)
 
@@ -406,7 +406,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
 
         {/** 벙 만들기 버튼 */}
         <PrimaryButton type='submit' className={isApp ? 'mb-60' : 'mb-40'}>
-          {isLoading ? <LoadingLogo color={colors.secondary} className='mx-auto' /> : '벙 만들기'}
+          {isPending ? <LoadingLogo color={colors.secondary} className='mx-auto' /> : '벙 만들기'}
         </PrimaryButton>
       </form>
     </section>

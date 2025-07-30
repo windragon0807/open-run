@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import http, { ApiResponse } from '@apis/axios'
 
 export type RequestType = {
@@ -29,5 +29,7 @@ function searchByNickname(params: RequestType): Promise<ResponseType> {
 }
 
 export function useSearchByNicknameMutation() {
-  return useMutation(searchByNickname)
+  return useMutation({
+    mutationFn: searchByNickname,
+  })
 }

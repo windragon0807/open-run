@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import http from '@apis/axios'
 
 export type RequestType = {
@@ -10,5 +10,7 @@ function certifyParticipation({ bungId }: RequestType) {
 }
 
 export function useCertifyParticipation() {
-  return useMutation(certifyParticipation)
+  return useMutation({
+    mutationFn: certifyParticipation,
+  })
 }

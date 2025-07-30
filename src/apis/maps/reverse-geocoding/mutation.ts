@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { fetchReverseGeocoding } from './index'
 
 export function useReverseGeocodingMutation() {

@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import http from '@apis/axios'
 
 type RequestType = {
@@ -11,5 +11,7 @@ function delegateOwner({ bungId, newOwnerUserId }: RequestType): Promise<Respons
 }
 
 export function useDelegateOwner() {
-  return useMutation(delegateOwner)
+  return useMutation({
+    mutationFn: delegateOwner,
+  })
 }

@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import http from '@apis/axios'
 
 type RequestType = {
@@ -11,5 +11,7 @@ function dropoutMember({ bungId, userId }: RequestType): Promise<ResponseType> {
 }
 
 export function useDropoutMember() {
-  return useMutation(dropoutMember)
+  return useMutation({
+    mutationFn: dropoutMember,
+  })
 }

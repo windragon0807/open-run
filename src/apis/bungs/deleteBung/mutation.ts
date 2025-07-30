@@ -1,4 +1,4 @@
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import http from '@apis/axios'
 
 type RequestType = {
@@ -10,5 +10,7 @@ function deleteBung({ bungId }: RequestType): Promise<ResponseType> {
 }
 
 export function useDeleteBung() {
-  return useMutation(deleteBung)
+  return useMutation({
+    mutationFn: deleteBung,
+  })
 }

@@ -1,8 +1,8 @@
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
 export function useRefetchQuery(queryKey: string) {
   const queryClient = useQueryClient()
   return () => {
-    queryClient.invalidateQueries([queryKey])
+    queryClient.invalidateQueries({ queryKey: [queryKey] })
   }
 }

@@ -1,6 +1,6 @@
-import { useMutation } from 'react-query'
-import http from '@apis/axios'
+import { useMutation } from '@tanstack/react-query'
 import { UserRegister } from '@type/register'
+import http from '@apis/axios'
 
 type RequestType = UserRegister
 
@@ -13,5 +13,7 @@ function register(params: RequestType) {
 }
 
 export function useRegister() {
-  return useMutation(register)
+  return useMutation({
+    mutationFn: register,
+  })
 }

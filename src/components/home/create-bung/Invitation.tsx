@@ -1,9 +1,9 @@
 'use client'
 
+import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
 import { useAppStore } from '@store/app'
 import Input from '@shared/Input'
 import PrimaryButton from '@shared/PrimaryButton'
@@ -35,7 +35,7 @@ export default function Invitation() {
   const renderSuggestionList = () => {
     if (suggestionList == null) return null
     if (suggestionList.data.length === 0)
-      return <div className='text-gray mt-20 text-center text-14'>아직 함께했던 멤버가 없습니다.</div>
+      return <div className='mt-20 text-center text-14 text-gray'>아직 함께했던 멤버가 없습니다.</div>
     return suggestionList.data.map(({ userId, nickname }) => (
       <Member
         key={userId}
@@ -66,7 +66,7 @@ export default function Invitation() {
   const renderSearchedList = () => {
     if (searchedList == null) return null
     if (searchedList.data.length === 0)
-      return <div className='text-gray mt-20 text-center text-14'>검색 결과가 없습니다.</div>
+      return <div className='mt-20 text-center text-14 text-gray'>검색 결과가 없습니다.</div>
     return searchedList.data.map(({ userId, nickname }) => (
       <Member
         key={userId}
@@ -152,7 +152,7 @@ function Member({
         <div className='flex items-center gap-16'>
           <Image src={imageUrl} alt='' width={76} height={76} />
           <div className='flex flex-col gap-4'>
-            {isRecommend && <span className='bg-gray w-fit rounded-4 px-4 py-2 text-12 text-black-darken'>추천</span>}
+            {isRecommend && <span className='w-fit rounded-4 bg-gray px-4 py-2 text-12 text-black-darken'>추천</span>}
             <span className='text-14 font-bold text-black-darken'>{name}</span>
           </div>
         </div>
@@ -181,7 +181,7 @@ function Member({
 
 function SelectedMember({ nickname, onClose }: { nickname: string; onClose: () => void }) {
   return (
-    <div className='bg-gray flex w-fit shrink-0 items-center gap-8 rounded-4 px-8 py-4'>
+    <div className='flex w-fit shrink-0 items-center gap-8 rounded-4 bg-gray px-8 py-4'>
       <span className='text-14 font-bold'>{nickname}</span>
       <button onClick={onClose}>
         <BrokenXIcon size={16} color={colors.black.DEFAULT} />

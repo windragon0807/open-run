@@ -40,7 +40,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
   const router = useRouter()
   const { isApp } = useAppStore()
   const { showModal, closeModal } = useModal()
-  const { mutate: modifyBung, isLoading } = useModifyBung()
+  const { mutate: modifyBung, isPending } = useModifyBung()
   const 참여중인멤버수 = details.memberList.length
   const { nextImage } = useThumbnailImage(details.mainImage)
 
@@ -142,13 +142,13 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
             <div className='relative mb-16 flex flex-col gap-8'>
               <FormTitle>시작 일시</FormTitle>
               <div className='flex w-full gap-8'>
-                <Button className='bg-gray cursor-default pl-16'>
+                <Button className='cursor-default bg-gray pl-16'>
                   <CalendarIcon size={16} color={colors.gray.darken} />
                   <p className='text-gray-darken'>
                     {formatDate({ date: details.startDateTime, formatStr: 'yyyy년 M월 d일', convertUTCtoLocale: true })}
                   </p>
                 </Button>
-                <Button className='bg-gray cursor-default pl-16'>
+                <Button className='cursor-default bg-gray pl-16'>
                   <ClockIcon size={16} color={colors.gray.darken} />
                   <p className='text-gray-darken'>
                     {formatDate({ date: details.startDateTime, formatStr: 'hh : mm', convertUTCtoLocale: true })}
@@ -268,7 +268,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
 
             {/** 수정 완료 버튼 */}
             <PrimaryButton type='submit' className={isApp ? 'mb-60' : 'mb-40'}>
-              {isLoading ? <LoadingLogo color={colors.secondary} className='mx-auto' /> : '수정 완료'}
+              {isPending ? <LoadingLogo color={colors.secondary} className='mx-auto' /> : '수정 완료'}
             </PrimaryButton>
           </form>
         </section>

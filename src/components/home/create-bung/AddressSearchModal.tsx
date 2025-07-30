@@ -27,7 +27,7 @@ export default function AddressSearchModal({ onComplete }: { onComplete: (addres
   const [selectedSuggestionPlaceId, setSelectedSuggestionPlaceId] = useState<string | null>(null)
 
   const { mutate: fetchPlacesAutocomplete } = usePlacesAutocomplete()
-  const { mutate: fetchReverseGeocoding, isLoading: isReverseGeocodingLoading } = useReverseGeocodingMutation()
+  const { mutate: fetchReverseGeocoding, isPending: isReverseGeocodingLoading } = useReverseGeocodingMutation()
 
   const renderHighlightKeyword = (text: string, keyword: string) => {
     if (keyword === '') return text

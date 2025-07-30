@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { BungInfo } from '@type/bung'
 import http from '@apis/axios'
 import { PaginationResponse } from '@apis/type'
@@ -23,10 +23,8 @@ export function fetchBungs(request: RequestType): Promise<ResponseType> {
 export const queryKey = 'fetchBungs'
 
 export function useBungsQuery(request: RequestType) {
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: [queryKey, request],
     queryFn: () => fetchBungs(request),
-    suspense: true,
-    useErrorBoundary: true,
   })
 }

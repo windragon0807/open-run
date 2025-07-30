@@ -1,5 +1,5 @@
+import { useQuery } from '@tanstack/react-query'
 import { useEffect, useRef } from 'react'
-import { useQuery } from 'react-query'
 import { useAppStore } from '@store/app'
 import { usePermissionStore } from '@store/permission'
 import { Geolocation } from '@type/geolocation'
@@ -141,7 +141,7 @@ export default function useGeolocation() {
       }
     },
     staleTime: GEOLOCATION_STALE_TIME,
-    cacheTime: GEOLOCATION_CACHE_TIME,
+    gcTime: GEOLOCATION_CACHE_TIME,
     retry: GEOLOCATION_RETRY_COUNT,
     retryDelay: GEOLOCATION_RETRY_DELAY,
     refetchOnWindowFocus: false, // 윈도우 포커스 시 자동 재요청 비활성화
