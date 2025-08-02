@@ -11,6 +11,7 @@ export type BungInfo = {
   distance: number
   pace: string
   memberNumber: number
+  currentMemberNumber: number
   hasAfterRun: boolean
   afterRunDescription: string
   hashtags: string[]
@@ -21,8 +22,8 @@ export type BungMember = {
   userId: string
   nickname: string
   email: string
-  runningPage: string
-  userBungId: number
+  profileImageUrl: string
+  likeCount: number
   participationStatus: boolean
   owner: boolean
 }
