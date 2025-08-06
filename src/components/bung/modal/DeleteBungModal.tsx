@@ -37,9 +37,7 @@ export default function DeleteBungModal({ bungId }: { bungId: string }) {
             </p>
           </div>
           <div className='flex w-full gap-8'>
-            <button
-              className={`h-56 flex-1 rounded-8 bg-pink/20 text-16 font-bold text-pink`}
-              onClick={handleDeleteBung}>
+            <button className='h-56 flex-1 rounded-8 bg-pink/20 text-16 font-bold text-pink' onClick={handleDeleteBung}>
               삭제
             </button>
             <button

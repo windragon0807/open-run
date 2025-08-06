@@ -6,22 +6,20 @@ import { useEffect, useRef, useState } from 'react'
 import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
 import { Weather } from '@type/weather'
+import AddressClipboard from '@shared/AddressClipboard'
 import Avatar from '@shared/Avatar'
 import BellIcon from '@icons/BellIcon'
 import useGeolocation from '@hooks/useGeolocation'
-import useLogout from '@hooks/useLogout'
 import { useReverseGeocoding } from '@apis/maps/reverse-geocoding/query'
 import { useWearingAvatar } from '@apis/nfts/fetchWearingAvatar/query'
 import { useCurrentWeather } from '@apis/weather/query'
 import addDelimiter from '@utils/addDelimiter'
 import { colors } from '@styles/colors'
-import AddressClipboard from './AddressClipboard'
 
 export default function Header() {
   const { isApp } = useAppStore()
   const router = useRouter()
   const { userInfo } = useUserStore()
-  const { logout } = useLogout()
   const headerRef = useRef<HTMLDivElement>(null)
   const [isHeaderVisible, setIsHeaderVisible] = useState(true)
 
@@ -108,9 +106,21 @@ export default function Header() {
                 <div className='m-[8px_24px_10px] flex items-center justify-end gap-12'>
                   <div className='flex flex-col items-end'>
                     <span className='text-16 font-bold text-white'>{userInfo?.nickname}</span>
-                    <AddressClipboard />
+                    <AddressClipboard>
+                      {(address) => (
+                        <div className='flex cursor-pointer items-center gap-6'>
+                          <span className='text-10 text-white'>{address}</span>
+                          <svg className='-translate-y-1' width={12} height={12} viewBox='0 0 10 10'>
+                            <path
+                              className='fill-white'
+                              d='M7.91699 1.45801H2.91699V0.625H8.75V7.70801H7.91699V1.45801ZM1.25 9.375V2.29199H7.08301V9.375H1.25Z'
+                            />
+                          </svg>
+                        </div>
+                      )}
+                    </AddressClipboard>
                   </div>
-                  <button className='-translate-y-2' onClick={logout}>
+                  <button className='-translate-y-2'>
                     <BellIcon size={24} color={colors.white} />
                   </button>
                 </div>
@@ -172,9 +182,21 @@ export default function Header() {
             <div className='m-[8px_24px_16px] flex items-center justify-end gap-12'>
               <div className='flex flex-col items-end'>
                 <span className='text-20 font-bold text-white'>{userInfo?.nickname}</span>
-                <AddressClipboard />
+                <AddressClipboard>
+                  {(address) => (
+                    <div className='flex cursor-pointer items-center gap-6'>
+                      <span className='text-10 text-white'>{address}</span>
+                      <svg className='-translate-y-1' width={12} height={12} viewBox='0 0 10 10'>
+                        <path
+                          className='fill-white'
+                          d='M7.91699 1.45801H2.91699V0.625H8.75V7.70801H7.91699V1.45801ZM1.25 9.375V2.29199H7.08301V9.375H1.25Z'
+                        />
+                      </svg>
+                    </div>
+                  )}
+                </AddressClipboard>
               </div>
-              <button className='-translate-y-2' onClick={logout}>
+              <button className='-translate-y-2'>
                 <BellIcon size={24} color={colors.white} />
               </button>
             </div>

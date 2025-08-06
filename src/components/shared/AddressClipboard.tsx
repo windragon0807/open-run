@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import CopyToClipboard from 'react-copy-to-clipboard'
 import { useAccount } from 'wagmi'
 import { useModal } from '@contexts/ModalProvider'
@@ -9,13 +9,21 @@ import { useMessageHandler } from '@hooks/useMessageHandler'
 import { MESSAGE } from '@constants/app'
 import { MODAL_KEY } from '@constants/modal'
 
-export default function AddressClipboard() {
-  const { isApp } = useAppStore()
-
-  return isApp ? <AddressClipboardApp /> : <AddressClipboardBrowser />
+type Props = {
+  children: (address: string) => ReactNode
 }
 
-function AddressClipboardApp() {
+export default function AddressClipboard({ children }: Props) {
+  const { isApp } = useAppStore()
+
+  return isApp ? (
+    <AddressClipboardApp>{children}</AddressClipboardApp>
+  ) : (
+    <AddressClipboardBrowser>{children}</AddressClipboardBrowser>
+  )
+}
+
+function AddressClipboardApp({ children }: Props) {
   const [address, setAddress] = useState('')
 
   useMessageHandler(({ type, data }) => {
@@ -31,41 +39,33 @@ function AddressClipboardApp() {
     postMessageToRN({ type: MESSAGE.REQUEST_SMART_WALLET_CONNECT })
   }, [address])
 
-  return <CommonComponent address={address} />
+  return <CommonComponent address={address}>{children}</CommonComponent>
 }
 
-function AddressClipboardBrowser() {
+function AddressClipboardBrowser({ children }: Props) {
   const { address } = useAccount()
-  return <CommonComponent address={address ?? ''} />
+  return <CommonComponent address={address ?? ''}>{children}</CommonComponent>
 }
 
-function CommonComponent({ address }: { address: string }) {
+function CommonComponent({ address, children }: { address: string; children: (address: string) => ReactNode }) {
   const { showModal } = useModal()
 
   return (
     <CopyToClipboard
-      text={address ?? ''}
+      text={address}
       onCopy={() =>
         showModal({
           key: MODAL_KEY.TOAST,
           component: <ToastModal mode='success' message='주소가 복사되었습니다.' />,
         })
       }>
-      <div className='flex cursor-pointer items-center gap-6'>
-        <span className='text-10 text-white'>{formatAddress(address)}</span>
-        <svg className='-translate-y-1' width={12} height={12} viewBox='0 0 10 10'>
-          <path
-            className='fill-white'
-            d='M7.91699 1.45801H2.91699V0.625H8.75V7.70801H7.91699V1.45801ZM1.25 9.375V2.29199H7.08301V9.375H1.25Z'
-          />
-        </svg>
-      </div>
+      {children(formatAddress(address))}
     </CopyToClipboard>
   )
 }
 
 // address를 앞 4글자, 뒤 4글자만 보여주고 가운데는 ***로 처리하는 함수
-function formatAddress(address: string | undefined): string {
+function formatAddress(address: string): string {
   if (!address) return ''
   if (address.length <= 8) return address
   return `${address.slice(0, 4)}***${address.slice(-4)}`

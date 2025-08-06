@@ -13,4 +13,6 @@ export const MODAL_KEY = {
   TOAST: 'toast',
   AVATAR_CAPTURE: 'avatar-capture',
   REWARD: 'reward',
+  SETTING: 'setting',
+  DELETE_USER: 'delete-user',
 } as const
