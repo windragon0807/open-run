@@ -28,7 +28,13 @@ export default function SettingModal() {
           <MenuButton label='알림 설정' arrow />
           <MenuButton label='고객지원' arrow />
           <hr className='my-16 border-gray' />
-          <MenuButton label='로그아웃' onClick={logout} />
+          <MenuButton
+            label='로그아웃'
+            onClick={() => {
+              closeModal(MODAL_KEY.SETTING)
+              logout()
+            }}
+          />
           <MenuButton
             className='text-pink'
             label='계정 탈퇴'
