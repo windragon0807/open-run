@@ -3,6 +3,9 @@
 import clsx from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
+import 'swiper/css'
+import { Autoplay } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
 import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
 import AddressClipboard from '@shared/AddressClipboard'
@@ -57,7 +60,43 @@ export default function Profile() {
           <Record className='flex-1' icon={<FlagIcon />} value={120} title='획득한 NFT' />
         </div>
 
-        <div className='flex h-[calc(100%-400px)] w-full flex-col gap-8 overflow-y-auto scrollbar-hide'>
+        <div className='mb-24 h-76 w-full rounded-8 bg-black-darken'>
+          <Swiper
+            className='h-full'
+            modules={[Autoplay]}
+            slidesPerView={1}
+            centeredSlides
+            loop
+            direction='vertical'
+            autoplay={{ delay: 3000 }}>
+            <SwiperSlide>
+              <RecentNftCard
+                image='/temp/nft_profile_parts.png'
+                title='이벤트 NFT 장착하고 성당 근처에서 달리기'
+                description='도전과제 달성으로 획득'
+                date='2024.12.25'
+              />
+            </SwiperSlide>
+            <SwiperSlide>
+              <RecentNftCard
+                image='/temp/nft_profile_parts.png'
+                title='비 오는 날 10km 달리기'
+                description='특별 도전과제 달성으로 획득'
+                date='2024.12.20'
+              />
+            </SwiperSlide>
+            <SwiperSlide>
+              <RecentNftCard
+                image='/temp/nft_profile_parts.png'
+                title='새벽 5시 러닝 클럽 참여'
+                description='연속 참여 보상으로 획득'
+                date='2024.12.15'
+              />
+            </SwiperSlide>
+          </Swiper>
+        </div>
+
+        <div className='flex h-[calc(100%-495px)] w-full flex-col gap-8 overflow-y-auto scrollbar-hide'>
           <CompletedBung title='완료한 일정' location='서울 마포구 공덕동' date='6/11 (화) 오후 7:00' />
           <CompletedBung title='완료한 일정' location='서울 마포구 공덕동' date='6/11 (화) 오후 7:00' />
         </div>
@@ -155,6 +194,48 @@ function FlagIcon() {
         d='M1.53552 3.97656C1.85603 3.94882 2.14329 4.15343 2.2318 4.4502L2.25719 4.58301L3.12829 14.5449L1.80016 14.6611L0.92907 4.69922C0.901149 4.37852 1.10479 4.09045 1.40173 4.00195L1.53552 3.97656ZM13.0472 6.98242L15.3334 10.1328L10.1908 11.416L7.04723 10.249L4.00036 11.999L3.33337 4.53223L6.47594 2.66602L9.6195 3.94922L14.7621 2.66602L13.0472 6.98242Z'
       />
     </svg>
+  )
+}
+
+function RecentNftCard({
+  image,
+  title,
+  description,
+  date,
+  className,
+}: {
+  image: string
+  title: string
+  description: string
+  date: string
+  className?: string
+}) {
+  return (
+    <div className={clsx('relative flex h-full w-full gap-8 rounded-8 p-8', className)}>
+      <div className='size-60 flex-shrink-0 place-content-center place-items-center rounded-8 bg-gray-lighten'>
+        <Image src={image} alt='parts' width={52} height={52} />
+      </div>
+      <div className='flex flex-col'>
+        <span className='flex items-center gap-4 text-12 font-bold text-secondary'>
+          최근 획득한 NFT
+          <svg width='16' height='16' viewBox='0 0 16 16'>
+            <path
+              className='fill-secondary'
+              d='M12.82 1.46422C12.8771 1.29057 13.1227 1.29057 13.1798 1.46422L13.4857 2.39413C13.5045 2.45128 13.5493 2.4961 13.6064 2.51489L14.5363 2.82072C14.71 2.87783 14.71 3.12347 14.5363 3.18058L13.6064 3.48641C13.5493 3.50521 13.5045 3.55002 13.4857 3.60717L13.1798 4.53708C13.1227 4.71073 12.8771 4.71073 12.82 4.53708L12.5142 3.60717C12.4954 3.55002 12.4505 3.50521 12.3934 3.48641L11.4635 3.18058C11.2898 3.12347 11.2898 2.87783 11.4635 2.82072L12.3934 2.51489C12.4505 2.4961 12.4954 2.45128 12.5142 2.39413L12.82 1.46422Z'
+            />
+            <path
+              className='stroke-secondary'
+              d='M8.01074 2.66797C8.01165 2.66982 8.01326 2.67257 8.01465 2.67676L9.11523 6.02441C9.24904 6.43125 9.56875 6.75096 9.97559 6.88477L13.3232 7.98535C13.3266 7.98648 13.3292 7.98745 13.3311 7.98828C13.3317 7.99021 13.333 7.99397 13.333 8C13.333 8.0052 13.3317 8.0086 13.3311 8.01074C13.3292 8.0116 13.3269 8.01345 13.3232 8.01465L9.97559 9.11523C9.56875 9.24904 9.24904 9.56875 9.11523 9.97559L8.01465 13.3232C8.01345 13.3269 8.0116 13.3292 8.01074 13.3311C8.0086 13.3317 8.0052 13.333 8 13.333C7.99397 13.333 7.99021 13.3317 7.98828 13.3311C7.98745 13.3292 7.98648 13.3266 7.98535 13.3232L6.88477 9.97559C6.75096 9.56875 6.43125 9.24904 6.02441 9.11523L2.67676 8.01465C2.67257 8.01326 2.66982 8.01165 2.66797 8.01074C2.66733 8.00857 2.66699 8.00498 2.66699 8C2.66699 7.99427 2.66729 7.99031 2.66797 7.98828C2.66982 7.98739 2.67285 7.98665 2.67676 7.98535L6.02441 6.88477C6.43125 6.75096 6.75096 6.43125 6.88477 6.02441L7.98535 2.67676C7.98665 2.67285 7.98739 2.66982 7.98828 2.66797C7.99031 2.66729 7.99427 2.66699 8 2.66699C8.00498 2.66699 8.00857 2.66733 8.01074 2.66797Z'
+              strokeWidth='1.33333'
+            />
+          </svg>
+        </span>
+        <p className='text-12 text-white'>
+          <strong>{title}</strong> {description}
+        </p>
+      </div>
+      <span className='absolute bottom-8 right-8 text-10 text-gray-darker'>{date}</span>
+    </div>
   )
 }
 

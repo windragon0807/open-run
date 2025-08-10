@@ -19,7 +19,7 @@ export default function AuthGuard({ children, loadingFallback }: { children: Rea
     },
   })
 
-  if (userInfo == null) {
+  if (userInfo.nickname == null) {
     return loadingFallback ?? null
   }
 
