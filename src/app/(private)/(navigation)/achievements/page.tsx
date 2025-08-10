@@ -1,13 +1,8 @@
 import { Metadata } from 'next'
 import AchievementPage from '@components/achievement'
-import AuthGuard from '@shared/AuthGuard'
 
 export default async function Page() {
-  return (
-    <AuthGuard>
-      <AchievementPage />
-    </AuthGuard>
-  )
+  return <AchievementPage />
 }
 
 export const metadata: Metadata = {

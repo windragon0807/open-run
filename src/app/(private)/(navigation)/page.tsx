@@ -4,20 +4,17 @@ import ChallengeSwiper from '@components/home/ChallengeSwiper'
 import Header from '@components/home/Header'
 import Recommendation from '@components/home/Recommendation'
 import ScheduledBungs from '@components/home/ScheduledBungs'
-import AuthGuard from '@shared/AuthGuard'
 import Spacing from '@shared/Spacing'
 
 export default function HomePage() {
   return (
-    <AuthGuard>
-      <div className='relative h-full overflow-y-auto bg-gray-lighten pb-96'>
-        <Header />
-        <ChallengeSwiper />
-        <Spacing size={8} />
-        <ScheduledBungs />
-        <Spacing size={40} />
-        <Recommendation />
-      </div>
-    </AuthGuard>
+    <div className='relative h-full overflow-y-auto bg-gray-lighten pb-96'>
+      <Header />
+      <ChallengeSwiper />
+      <Spacing size={8} />
+      <ScheduledBungs />
+      <Spacing size={40} />
+      <Recommendation />
+    </div>
   )
 }

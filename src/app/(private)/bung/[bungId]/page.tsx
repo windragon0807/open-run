@@ -1,7 +1,6 @@
 import { Metadata } from 'next'
 import { Suspense } from 'react'
 import BungDetails from '@components/bung/BungDetails'
-import AuthGuard from '@shared/AuthGuard'
 import Skeleton from '@shared/Skeleton'
 import { fetchBungDetail } from '@apis/bungs/fetchBungDetails/api'
 
@@ -21,11 +20,7 @@ export default async function Page({ params: { bungId } }: Props) {
 
 async function BungDetailPage({ bungId }: { bungId: string }) {
   const bungDetail = await fetchBungDetail({ bungId })
-  return (
-    <AuthGuard loadingFallback={<LoadingFallback />}>
-      <BungDetails details={bungDetail.data} />
-    </AuthGuard>
-  )
+  return <BungDetails details={bungDetail.data} />
 }
 
 export async function generateMetadata({ params: { bungId } }: Props): Promise<Metadata> {
