@@ -1,14 +1,9 @@
 import { Metadata } from 'next'
 import ManageMembers from '@components/bung/ManageMembers'
-import Layout from '@shared/Layout'
 
 export default function Page({ searchParams }: { searchParams: { memberList: string } }) {
   const memberList = JSON.parse(searchParams.memberList)
-  return (
-    <Layout>
-      <ManageMembers memberList={memberList} />
-    </Layout>
-  )
+  return <ManageMembers memberList={memberList} />
 }
 
 export const metadata: Metadata = {

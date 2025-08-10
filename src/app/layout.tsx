@@ -5,6 +5,7 @@ import { ModalProvider } from '@contexts/ModalProvider'
 import ReactQueryProvider from '@contexts/ReactQueryProvider'
 import { WalletProvider } from '@contexts/WalletProvider'
 import AppBridge from '@shared/AppBridge'
+import Layout from '@shared/Layout'
 import { ROOT_PORTAL_ID } from '@constants/layout'
 import '@styles/globals.css'
 
@@ -21,7 +22,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <WalletProvider>
             <GoogleMapContext>
               <AppBridge>
-                <ModalProvider>{children}</ModalProvider>
+                <ModalProvider>
+                  <Layout>{children}</Layout>
+                </ModalProvider>
               </AppBridge>
             </GoogleMapContext>
           </WalletProvider>

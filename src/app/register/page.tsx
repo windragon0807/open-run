@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-
 import Register from '@components/register/Register'
 
 export default function RegisterPage() {

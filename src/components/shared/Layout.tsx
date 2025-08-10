@@ -1,19 +1,8 @@
-'use client'
+import { ReactNode } from 'react'
 
-import clsx from 'clsx'
-import { CSSProperties, ReactNode } from 'react'
-
-export default function Layout({
-  children,
-  className,
-  style,
-}: {
-  children: ReactNode
-  className?: string
-  style?: CSSProperties
-}) {
+export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <main className={clsx('h-dvh w-dvw', className)} style={{ ...style }}>
+    <main className='h-dvh w-dvw'>
       <section className='mx-auto h-full w-full max-w-tablet overflow-hidden'>{children}</section>
     </main>
   )

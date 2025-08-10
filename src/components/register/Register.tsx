@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useAppStore } from '@store/app'
 import { RegisterStep, UserRegister } from '@type/register'
-import Layout from '@shared/Layout'
 import ArrowLeftIcon from '@icons/ArrowLeftIcon'
 import { useRegister } from '@apis/users/register/mutation'
 import { colors } from '@styles/colors'
@@ -60,59 +59,54 @@ export default function Register() {
   }
 
   return (
-    <Layout className={step === 0 ? 'bg-gradient-primary-white' : 'bg-gray-lighten'}>
-      <section className='relative flex h-full w-full max-w-tablet flex-col items-center'>
-        {step === 0 ? (
-          <button
-            className={clsx('absolute left-0 top-0 z-[10] h-60 pl-16', isApp && 'top-50')}
-            onClick={handlePrevious}>
-            <ArrowLeftIcon size={40} color={colors.white} />
-          </button>
-        ) : null}
-        {step === 0 ? <Welcome /> : null}
+    <section
+      className={clsx(
+        'relative flex h-full w-full max-w-tablet flex-col items-center',
+        step === 0 ? 'bg-gradient-primary-white' : 'bg-gray-lighten',
+      )}>
+      {step === 0 ? (
+        <button className={clsx('absolute left-0 top-0 z-[10] h-60 pl-16', isApp && 'top-50')} onClick={handlePrevious}>
+          <ArrowLeftIcon size={40} color={colors.white} />
+        </button>
+      ) : null}
+      {step === 0 ? <Welcome /> : null}
 
-        {step > 0 ? <Header step={step} onBackIconClick={handlePrevious} onSkipTextClick={() => setStep(4)} /> : null}
-        {step === 1 ? (
-          <Nickname
-            nickname={data.nickname}
-            setNickname={(value) => {
-              setData((prev) => ({ ...prev, nickname: value }))
-            }}
-            isValid={isValid}
-            setIsValid={setIsValid}
-          />
-        ) : null}
+      {step > 0 ? <Header step={step} onBackIconClick={handlePrevious} onSkipTextClick={() => setStep(4)} /> : null}
+      {step === 1 ? (
+        <Nickname
+          nickname={data.nickname}
+          setNickname={(value) => {
+            setData((prev) => ({ ...prev, nickname: value }))
+          }}
+          isValid={isValid}
+          setIsValid={setIsValid}
+        />
+      ) : null}
 
-        {step === 2 ? (
-          <Pace
-            pace={data.runningPace ?? ''}
-            setPace={(value) => setData((prev) => ({ ...prev, runningPace: value }))}
-          />
-        ) : null}
+      {step === 2 ? (
+        <Pace pace={data.runningPace ?? ''} setPace={(value) => setData((prev) => ({ ...prev, runningPace: value }))} />
+      ) : null}
 
-        {step === 3 ? (
-          <Frequency
-            frequency={data.runningFrequency}
-            setFrequency={(value) => setData((prev) => ({ ...prev, runningFrequency: value }))}
-          />
-        ) : null}
+      {step === 3 ? (
+        <Frequency
+          frequency={data.runningFrequency}
+          setFrequency={(value) => setData((prev) => ({ ...prev, runningFrequency: value }))}
+        />
+      ) : null}
 
-        {step === 4 ? <Onboarding nickname={data.nickname} /> : null}
+      {step === 4 ? <Onboarding nickname={data.nickname} /> : null}
 
-        <section
-          className={clsx(
-            'absolute left-1/2 w-full max-w-tablet -translate-x-1/2 px-16',
-            isApp ? 'bottom-56' : 'bottom-40',
-          )}>
-          <BottomButton
-            onClick={step === 4 ? handleSubmit : handleNext}
-            disabled={닉네임스텝에서버튼이비활성화상태인가}>
-            {step === 0 ? '시작하기' : null}
-            {step === 1 || step === 2 || step === 3 ? '다음' : null}
-            {step === 4 ? '홈으로' : null}
-          </BottomButton>
-        </section>
+      <section
+        className={clsx(
+          'absolute left-1/2 w-full max-w-tablet -translate-x-1/2 px-16',
+          isApp ? 'bottom-56' : 'bottom-40',
+        )}>
+        <BottomButton onClick={step === 4 ? handleSubmit : handleNext} disabled={닉네임스텝에서버튼이비활성화상태인가}>
+          {step === 0 ? '시작하기' : null}
+          {step === 1 || step === 2 || step === 3 ? '다음' : null}
+          {step === 4 ? '홈으로' : null}
+        </BottomButton>
       </section>
-    </Layout>
+    </section>
   )
 }
