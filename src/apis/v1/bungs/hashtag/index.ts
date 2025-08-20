@@ -8,7 +8,7 @@ export type RequestType = {
   limit?: number
 }
 
-type ResponseType = PaginationResponse<Array<BungInfo>>
+export type ResponseType = PaginationResponse<Array<BungInfo>>
 
 export function searchBungByHashtag(request: RequestType): Promise<ResponseType> {
   return http.get('/v1/bungs/hashtag', { params: request })

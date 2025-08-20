@@ -1,6 +1,6 @@
 export type BungInfo = {
   bungId: string
-  mainImage: string | null
+  mainImage: string
   name: string
   description: string
   location: string
@@ -11,7 +11,7 @@ export type BungInfo = {
   distance: number
   pace: string
   memberNumber: number
-  currentMemberNumber: number
+  currentMemberCount: number
   hasAfterRun: boolean
   afterRunDescription: string
   hashtags: string[]
