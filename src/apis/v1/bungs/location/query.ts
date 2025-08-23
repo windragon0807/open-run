@@ -6,6 +6,8 @@ export function searchBungByLocationQueryOptions(request: RequestType, options?:
   return queryOptions({
     queryKey: ['searchBungByLocation', request] as const,
     queryFn: () => searchBungByLocation(request),
+    staleTime: 1000 * 60 * 5, // 5분
+    gcTime: 1000 * 60 * 5, // 5분
     ...options,
   })
 }

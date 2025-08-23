@@ -6,6 +6,8 @@ export function searchBungByNicknameQueryOptions(request: RequestType, options?:
   return queryOptions({
     queryKey: ['searchBungByNickname', request] as const,
     queryFn: () => searchBungByNickname(request),
+    staleTime: 1000 * 60 * 5, // 5분
+    gcTime: 1000 * 60 * 5, // 5분
     ...options,
   })
 }

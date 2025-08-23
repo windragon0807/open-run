@@ -6,6 +6,8 @@ export function searchBungByHashtagQueryOptions(request: RequestType, options?: 
   return queryOptions({
     queryKey: ['searchBungByHashtag', request] as const,
     queryFn: () => searchBungByHashtag(request),
+    staleTime: 1000 * 60 * 5, // 5분
+    gcTime: 1000 * 60 * 5, // 5분
     ...options,
   })
 }
