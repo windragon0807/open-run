@@ -1,9 +1,15 @@
 'use client'
 
+import { useQueryClient } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { useUserStore } from '@store/user'
+import { WeekCount } from '@type/register'
 import Input from '@shared/Input'
 import NumberInput from '@shared/NumberInput'
+import { useRegister } from '@apis/v1/users/mutation'
+import { USERINFO_QUERY_KEY } from '@apis/v1/users/query'
+import { padStart } from '@utils/string'
 
 type FormValues = {
   nickname: string
@@ -13,14 +19,16 @@ type FormValues = {
 }
 
 export default function Form() {
+  const router = useRouter()
+  const queryClient = useQueryClient()
   const { userInfo } = useUserStore()
   const { paceMinute, paceSecond } = parseRunningPace(userInfo.runningPace)
 
   const {
     register,
-    handleSubmit,
     watch,
     formState: { errors },
+    handleSubmit,
   } = useForm<FormValues>({
     mode: 'onChange',
     defaultValues: {
@@ -30,6 +38,23 @@ export default function Form() {
       frequency: userInfo.runningFrequency,
     },
   })
+
+  const { mutate: updateUser } = useRegister()
+  const onSubmit = (data: FormValues) => {
+    updateUser(
+      {
+        nickname: data.nickname,
+        runningPace: `${padStart(data.paceMinute)}\'${padStart(data.paceSecond)}\"`,
+        runningFrequency: data.frequency as WeekCount,
+      },
+      {
+        onSuccess: () => {
+          router.replace('/profile')
+          queryClient.invalidateQueries({ queryKey: [USERINFO_QUERY_KEY] })
+        },
+      },
+    )
+  }
 
   return (
     <section className='px-16'>
@@ -88,7 +113,11 @@ export default function Form() {
         />
       </div>
 
-      <button className='h-56 w-full rounded-8 bg-primary text-16 font-bold text-white'>업데이트</button>
+      <button
+        className='h-56 w-full rounded-8 bg-primary text-16 font-bold text-white'
+        onClick={handleSubmit(onSubmit)}>
+        업데이트
+      </button>
     </section>
   )
 }
