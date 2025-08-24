@@ -5,7 +5,7 @@ import { useModal } from '@contexts/ModalProvider'
 import { BungMember } from '@type/bung'
 import Checkbox from '@shared/Checkbox'
 import { Dimmed, Popup } from '@shared/Modal'
-import { useDropoutMember } from '@apis/bungs/dropoutMember/mutation'
+import { useDropoutMember } from '@apis/v1/bungs/[bungId]/members/[userId]/mutation'
 import { MODAL_KEY } from '@constants/modal'
 
 export default function ConfirmDropoutModal({ member }: { member: BungMember }) {

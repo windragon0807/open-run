@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Input from '@shared/Input'
 import useDebounce from '@hooks/useDebounce'
-import { useHashtagsMutation } from '@apis/bungs/fetchHashtags/query'
+import { useHashtagsMutation } from '@apis/v1/bungs/hashtags/query'
 
 export default function HashTagSearch({ onTagClick }: { onTagClick?: (tag: string) => void }) {
   const [inputValue, setInputValue] = useState('')
@@ -34,7 +34,7 @@ export default function HashTagSearch({ onTagClick }: { onTagClick?: (tag: strin
         {recommendHashTags.map((tag) => (
           <li
             key={tag}
-            className='text-black block cursor-pointer py-10 pl-16 text-14 hover:text-primary'
+            className='block cursor-pointer py-10 pl-16 text-14 text-black hover:text-primary'
             onClick={() => {
               onTagClick?.(tag.replace(' (직접 입력)', ''))
               setInputValue('')

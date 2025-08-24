@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { checkExistNickname } from '@apis/users/checkExistNickname/mutation'
+import { checkExistNickname } from '@apis/v1/users/nickname/exist'
 import { NicknameValidState } from '../types'
 
 const NICKNAME_EXIST_CHK_DELAY = 500

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation'
 import { useModal } from '@contexts/ModalProvider'
 import { Dimmed, Popup } from '@shared/Modal'
-import { useDeleteUser } from '@apis/v1/users/mutate'
+import { useDeleteUser } from '@apis/v1/users/mutation'
 import { MODAL_KEY } from '@constants/modal'
 
 export default function DeleteUserModal() {

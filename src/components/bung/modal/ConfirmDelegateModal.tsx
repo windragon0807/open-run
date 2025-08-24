@@ -3,7 +3,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { useModal } from '@contexts/ModalProvider'
 import { BungMember } from '@type/bung'
 import { Dimmed, Popup } from '@shared/Modal'
-import { useDelegateOwner } from '@apis/bungs/delegateOwner/mutation'
+import { useDelegateOwner } from '@apis/v1/bungs/[bungId]/change-owner/mutation'
 import { MODAL_KEY } from '@constants/modal'
 
 export default function ConfirmDelegateModal({ member, onSuccess }: { member: BungMember; onSuccess: () => void }) {

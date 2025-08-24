@@ -5,7 +5,7 @@ import { useModal } from '@contexts/ModalProvider'
 import { BungMember } from '@type/bung'
 import { BottomSheet, Dimmed } from '@shared/Modal'
 import BrokenXIcon from '@icons/BrokenXIcon'
-import { useSendMemberLike } from '@apis/bungs/sendMemberLike/mutation'
+import { useSendMemberLike } from '@apis/v1/users/feedback/mutation'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 

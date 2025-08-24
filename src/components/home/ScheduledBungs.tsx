@@ -3,7 +3,7 @@ import ErrorFallback from '@shared/Error'
 import Skeleton from '@shared/Skeleton'
 import Spacing from '@shared/Spacing'
 import withBoundary from '@shared/withBoundary'
-import { useMyBungsQuery } from '@apis/bungs/fetchMyBungs/query'
+import { useMyBungsQuery } from '@apis/v1/bungs/my-bungs/query'
 import BungCard from './BungCard'
 import CreateBungButton from './CreateBungButton'
 

@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
 import { useUserStore } from '@store/user'
-import { useUserInfo } from '@apis/users/fetchUserInfo/query'
+import { useUserInfo } from '@apis/v1/users/query'
 
 export default function AuthGuard({ children }: { children: ReactNode }) {
   const router = useRouter()

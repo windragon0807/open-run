@@ -3,7 +3,7 @@ import Link from 'next/link'
 import ErrorFallback from '@shared/Error'
 import Skeleton from '@shared/Skeleton'
 import withBoundary from '@shared/withBoundary'
-import { useBungsQuery } from '@apis/bungs/fetchBungs/query'
+import { useBungsQuery } from '@apis/v1/bungs/query'
 import RecommendationCard from './RecommendationCard'
 
 export default function Recommendation() {

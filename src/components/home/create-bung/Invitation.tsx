@@ -12,8 +12,8 @@ import BrokenXIcon from '@icons/BrokenXIcon'
 import CheckIcon from '@icons/CheckIcon'
 import MagnifierIcon from '@icons/MagnifierIcon'
 import useDebounce from '@hooks/useDebounce'
-import { fetchSuggestion } from '@apis/users/fetchSuggestion/query'
-import { useSearchByNicknameMutation } from '@apis/users/searchByNickname/query'
+import { useSearchByNicknameMutation } from '@apis/v1/users/nickname/query'
+import { fetchSuggestion } from '@apis/v1/users/suggestion'
 import { colors } from '@styles/colors'
 
 export default function Invitation() {

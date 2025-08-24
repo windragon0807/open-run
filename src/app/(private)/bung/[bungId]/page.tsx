@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { Suspense } from 'react'
 import BungDetails from '@components/bung/BungDetails'
 import Skeleton from '@shared/Skeleton'
-import { fetchBungDetail } from '@apis/bungs/fetchBungDetails/api'
+import { fetchBungDetail } from '@apis/v1/bungs/[bungId]'
 
 type Props = {
   params: {
