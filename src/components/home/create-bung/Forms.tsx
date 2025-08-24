@@ -340,11 +340,11 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         <div className='relative mb-16 flex flex-col gap-8'>
           <FormTitle required>참가 인원</FormTitle>
           <NumberInput
-            placeholder='3명 이상 입력하세요'
+            placeholder='2명 이상 입력하세요'
             error={errors.memberNumber?.message}
             {...register('memberNumber', {
               required: '필수 항목입니다',
-              min: { value: 3, message: '3명 이상으로 입력하세요' },
+              min: { value: 2, message: '2명 이상으로 입력하세요' },
               max: { value: 300, message: '300명 이하로 입력하세요' },
             })}
           />

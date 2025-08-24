@@ -69,10 +69,10 @@ export default function BungDetails({ details }: { details: BungInfo }) {
   const formattedTime = timerFormat({ days, hours, minutes, seconds })
 
   const handleBungComplete = () => {
-    if (details.memberList.length < 3) {
+    if (details.memberList.length < 2) {
       showModal({
         key: MODAL_KEY.TOAST,
-        component: <ToastModal mode='error' message='벙 참여 인원이 3명 미만입니다.' />,
+        component: <ToastModal mode='error' message='벙 참여 인원이 2명 미만입니다.' />,
       })
       return
     }
