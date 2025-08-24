@@ -1,6 +1,6 @@
 'use client'
 
-import { EventAchievementType } from '@/types/achievement'
+import { EventAchievementType } from '@type/achievement'
 import { EventBannerItem } from './EventBannerItem'
 import { useEventBannerSlider } from './useEventBannerSlider'
 

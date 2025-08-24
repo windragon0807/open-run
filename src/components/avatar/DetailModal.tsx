@@ -1,8 +1,8 @@
 'use client'
 
-import { useModal } from '@/contexts/ModalProvider'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useModal } from '@contexts/ModalProvider'
 import { Rarity } from '@type/avatar'
 import PrimaryButton from '@shared/PrimaryButton'
 import BrokenXIcon from '@icons/BrokenXIcon'

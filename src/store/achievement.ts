@@ -1,5 +1,5 @@
-import { EventAchievementType, RegularAchievementType, RepeatAchievementType } from '@/types/achievement'
 import { create } from 'zustand'
+import { EventAchievementType, RegularAchievementType, RepeatAchievementType } from '@type/achievement'
 
 /**
  * 도전과제 스토어 상태 인터페이스

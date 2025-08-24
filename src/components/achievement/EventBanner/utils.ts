@@ -1,5 +1,5 @@
-import { EventAchievementType } from '@/types/achievement'
-import type { AchievementStatus } from '@/types/achievement'
+import { EventAchievementType } from '@type/achievement'
+import type { AchievementStatus } from '@type/achievement'
 
 /**
  * 서브 도전과제 타입

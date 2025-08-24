@@ -1,5 +1,5 @@
-import { useModal } from '@/contexts/ModalProvider'
 import Image from 'next/image'
+import { useModal } from '@contexts/ModalProvider'
 import { Avatar, SubCategory, WearingAvatar } from '@type/avatar'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
@@ -78,7 +78,7 @@ export default function AvatarList({
                   className='object-contain'
                 />
                 {/* Skewed New Label */}
-                <div className='border-black absolute bottom-0 left-[50%] flex h-20 -translate-x-[50%] -skew-x-[10deg] transform items-center justify-center gap-4 rounded-lg border-2 bg-secondary px-8'>
+                <div className='absolute bottom-0 left-[50%] flex h-20 -translate-x-[50%] -skew-x-[10deg] transform items-center justify-center gap-4 rounded-lg border-2 border-black bg-secondary px-8'>
                   <span className='text-12 font-[900]'>NEW</span>
                 </div>
               </div>

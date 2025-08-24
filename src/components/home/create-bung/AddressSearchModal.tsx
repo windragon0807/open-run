@@ -1,7 +1,7 @@
-import { Dimmed } from '@/components/shared/Modal'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { useModal } from '@contexts/ModalProvider'
+import { Dimmed } from '@shared/Modal'
 import BrokenXIcon from '@icons/BrokenXIcon'
 import useDebounce from '@hooks/useDebounce'
 import useGeolocation from '@hooks/useGeolocation'

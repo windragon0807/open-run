@@ -1,5 +1,5 @@
-import { EventAchievementType } from '@/types/achievement'
-import type { AchievementStatus } from '@/types/achievement'
+import { EventAchievementType } from '@type/achievement'
+import type { AchievementStatus } from '@type/achievement'
 
 /**
  * 이벤트 배너 리스트 Props

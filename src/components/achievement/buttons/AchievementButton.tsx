@@ -1,6 +1,6 @@
 'use client'
 
-import { AchievementStatus } from '@/types/achievement'
+import { AchievementStatus } from '@type/achievement'
 
 /**
  * 도전과제 버튼 타입

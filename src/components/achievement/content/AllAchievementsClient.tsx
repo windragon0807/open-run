@@ -1,7 +1,7 @@
 'use client'
 
-import { useAchievementStore } from '@/store/achievement'
 import { useEffect } from 'react'
+import { useAchievementStore } from '@store/achievement'
 import { AchievementBanner } from '../AchievementBanner'
 import EventBanner from '../EventBanner'
 

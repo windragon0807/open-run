@@ -1,7 +1,7 @@
 'use client'
 
-import { EventAchievementType } from '@/types/achievement'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { EventAchievementType } from '@type/achievement'
 
 /** 자동으로 이벤트 배너를 슬라이드 시키는 간격 */
 const AUTO_SLIDE_INTERVAL = 5000
