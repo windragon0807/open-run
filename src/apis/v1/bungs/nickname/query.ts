@@ -1,16 +1,6 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import { QueryOptions, UseInfiteQueryOptions } from '@type/react-query'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { UseInfiteQueryOptions } from '@type/react-query'
 import { RequestType, ResponseType, searchBungByNickname } from './index'
-
-export function useSearchBungByNickname(request: RequestType, options?: QueryOptions<ResponseType>) {
-  return useQuery({
-    queryKey: ['searchBungByNickname', request] as const,
-    queryFn: () => searchBungByNickname(request),
-    staleTime: 1000 * 60 * 5, // 5분
-    gcTime: 1000 * 60 * 5, // 5분
-    ...options,
-  })
-}
 
 export function useInfiniteSearchBungByNickname(request: RequestType, options?: UseInfiteQueryOptions<ResponseType>) {
   return useInfiniteQuery({

@@ -8,9 +8,9 @@ import Input from '@shared/Input'
 import ArrowRightIcon from '@icons/ArrowRightIcon'
 import ThumbIcon from '@icons/ThumbIcon'
 import useDebounce from '@hooks/useDebounce'
-import { useInfiniteSearchBungByHashtag, useSearchBungByHashtag } from '@apis/v1/bungs/hashtag/query'
-import { useInfiniteSearchBungByLocation, useSearchBungByLocation } from '@apis/v1/bungs/location/query'
-import { useInfiniteSearchBungByNickname, useSearchBungByNickname } from '@apis/v1/bungs/nickname/query'
+import { useInfiniteSearchBungByHashtag } from '@apis/v1/bungs/hashtag/query'
+import { useInfiniteSearchBungByLocation } from '@apis/v1/bungs/location/query'
+import { useInfiniteSearchBungByNickname } from '@apis/v1/bungs/nickname/query'
 import { formatDate } from '@utils/time'
 import { colors } from '@styles/colors'
 
@@ -65,22 +65,22 @@ export default function ExploreSearch({ onCancelButtonClick }: { onCancelButtonC
 
 function SearchTotal({ searchKeyword, setSelectedTab }: { searchKeyword: string; setSelectedTab: (tab: Tab) => void }) {
   const isKeywordValid = searchKeyword !== '' && searchKeyword.length >= 2
-  const { data: memberList } = useSearchBungByNickname(
-    { nickname: searchKeyword, page: 0, limit: 10 },
+  const { data: memberListData } = useInfiniteSearchBungByNickname(
+    { nickname: searchKeyword },
     { enabled: isKeywordValid },
   )
-  const { data: hashtagList } = useSearchBungByHashtag(
-    { hashtag: searchKeyword, page: 0, limit: 10 },
+  const { data: hashtagListData } = useInfiniteSearchBungByHashtag(
+    { hashtag: searchKeyword },
     { enabled: isKeywordValid },
   )
-  const { data: locationList } = useSearchBungByLocation(
-    { location: searchKeyword, page: 0, limit: 10 },
+  const { data: locationListData } = useInfiniteSearchBungByLocation(
+    { location: searchKeyword },
     { enabled: isKeywordValid },
   )
 
   if (!isKeywordValid) return null
 
-  const isSuccess = memberList != null && hashtagList != null && locationList != null
+  const isSuccess = memberListData != null && hashtagListData != null && locationListData != null
   if (!isSuccess)
     return (
       <div>
@@ -93,11 +93,14 @@ function SearchTotal({ searchKeyword, setSelectedTab }: { searchKeyword: string;
       </div>
     )
 
-  const hasResult = memberList.data.length > 0 || hashtagList.data.length > 0 || locationList.data.length > 0
+  const memberList = memberListData.pages.flatMap((page) => page.data)
+  const hashtagList = hashtagListData.pages.flatMap((page) => page.data)
+  const locationList = locationListData.pages.flatMap((page) => page.data)
+  const hasResult = memberList.length > 0 || hashtagList.length > 0 || locationList.length > 0
 
   return hasResult ? (
     <>
-      {memberList.data.length > 0 && (
+      {memberList.length > 0 && (
         <>
           <button className='mb-8 flex w-full items-center justify-between' onClick={() => setSelectedTab('멤버')}>
             <span className='text-16 font-bold'>
@@ -106,14 +109,14 @@ function SearchTotal({ searchKeyword, setSelectedTab }: { searchKeyword: string;
             <ArrowRightIcon size={24} color={colors.black.darken} />
           </button>
           <div className='mb-32 flex flex-col gap-8'>
-            {memberList.data.slice(0, 4).map((item, index) => (
+            {memberList.slice(0, 4).map((item, index) => (
               <ExploreResult key={index} mode='member' searchKeyword={searchKeyword} {...item} />
             ))}
           </div>
         </>
       )}
 
-      {hashtagList.data.length > 0 && (
+      {hashtagList.length > 0 && (
         <>
           <button className='mb-8 flex w-full items-center justify-between'>
             <span className='text-16 font-bold'>
@@ -122,14 +125,14 @@ function SearchTotal({ searchKeyword, setSelectedTab }: { searchKeyword: string;
             <ArrowRightIcon size={24} color={colors.black.darken} />
           </button>
           <div className='mb-32 flex flex-col gap-8'>
-            {hashtagList.data.slice(0, 4).map((item, index) => (
+            {hashtagList.slice(0, 4).map((item, index) => (
               <ExploreResult key={index} mode='hashtag' searchKeyword={searchKeyword} {...item} />
             ))}
           </div>
         </>
       )}
 
-      {locationList.data.length > 0 && (
+      {locationList.length > 0 && (
         <>
           <button className='mb-8 flex w-full items-center justify-between'>
             <span className='text-16 font-bold'>
@@ -138,7 +141,7 @@ function SearchTotal({ searchKeyword, setSelectedTab }: { searchKeyword: string;
             <ArrowRightIcon size={24} color={colors.black.darken} />
           </button>
           <div className='flex flex-col gap-8'>
-            {locationList.data.slice(0, 4).map((item, index) => (
+            {locationList.slice(0, 4).map((item, index) => (
               <ExploreResult key={index} mode='location' searchKeyword={searchKeyword} {...item} />
             ))}
           </div>
@@ -238,7 +241,7 @@ function SearchMember({ searchKeyword }: { searchKeyword: string }) {
 function SearchHashtag({ searchKeyword }: { searchKeyword: string }) {
   const isKeywordValid = searchKeyword !== '' && searchKeyword.length >= 2
   const {
-    data: memberList,
+    data: hashtagList,
     isSuccess,
     fetchNextPage,
     hasNextPage,
@@ -268,18 +271,16 @@ function SearchHashtag({ searchKeyword }: { searchKeyword: string }) {
       </div>
     )
 
-  const list = memberList.pages.flatMap((page) => page.data)
+  const list = hashtagList.pages.flatMap((page) => page.data)
   return list.length > 0 ? (
     <>
       <p className='mb-8 text-16 font-bold'>
         <span className='text-primary'>#{searchKeyword}</span> 해시태그가 달린 모임
       </p>
       <div className='mb-32 flex flex-col gap-8'>
-        {memberList.pages
-          .flatMap((page) => page.data)
-          .map((item, index) => (
-            <ExploreResult key={index} mode='hashtag' searchKeyword={searchKeyword} {...item} />
-          ))}
+        {list.map((item, index) => (
+          <ExploreResult key={index} mode='hashtag' searchKeyword={searchKeyword} {...item} />
+        ))}
       </div>
       {isFetchingNextPage && (
         <ul className='flex flex-col gap-8'>
@@ -298,7 +299,7 @@ function SearchHashtag({ searchKeyword }: { searchKeyword: string }) {
 function SearchLocation({ searchKeyword }: { searchKeyword: string }) {
   const isKeywordValid = searchKeyword !== '' && searchKeyword.length >= 2
   const {
-    data: memberList,
+    data: locationList,
     isSuccess,
     fetchNextPage,
     hasNextPage,
@@ -328,18 +329,16 @@ function SearchLocation({ searchKeyword }: { searchKeyword: string }) {
       </div>
     )
 
-  const list = memberList.pages.flatMap((page) => page.data)
+  const list = locationList.pages.flatMap((page) => page.data)
   return list.length > 0 ? (
     <>
       <p className='mb-8 text-16 font-bold'>
         <span className='text-primary'>#{searchKeyword}</span>에서 열리는 러닝
       </p>
       <div className='mb-32 flex flex-col gap-8'>
-        {memberList.pages
-          .flatMap((page) => page.data)
-          .map((item, index) => (
-            <ExploreResult key={index} mode='hashtag' searchKeyword={searchKeyword} {...item} />
-          ))}
+        {list.map((item, index) => (
+          <ExploreResult key={index} mode='hashtag' searchKeyword={searchKeyword} {...item} />
+        ))}
       </div>
       {isFetchingNextPage && (
         <ul className='flex flex-col gap-8'>
