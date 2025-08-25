@@ -9,9 +9,11 @@ import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
 import { Avatar, SelectedCategory, WearingAvatar } from '@type/avatar'
 import AvatarComponent from '@shared/Avatar'
+import ResetIcon from '@icons/ResetIcon'
 import { cropSquareImage } from '@utils/image'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
+import ArrowLeftIcon from '../icons/ArrowLeftIcon'
 import AvatarCaptureModal from './AvatarCaptureModal'
 import AvatarList from './AvatarList'
 import Category from './Category'
@@ -80,9 +82,7 @@ export default function AvatarPage({
       {/* 헤더 */}
       <header className='relative z-20 flex h-60 w-full items-center justify-center bg-white px-5'>
         <button className='absolute left-16' onClick={() => router.back()}>
-          <svg width='24' height='24' viewBox='0 0 24 24' fill='none'>
-            <path d='M11.4 12L16 7.4L14.6 6L8.6 12L14.6 18L16 16.6L11.4 12Z' fill={colors.black.darken} />
-          </svg>
+          <ArrowLeftIcon size={24} color={colors.black.darken} />
         </button>
         <h1 className='text-16 font-bold text-black'>아바타 변경</h1>
         <button className='absolute right-16' onClick={handleCapture}>
@@ -119,12 +119,7 @@ export default function AvatarPage({
             <button
               className='absolute bottom-8 right-8 flex aspect-square w-[40px] items-center justify-center rounded-full bg-white'
               onClick={handleReset}>
-              <svg width={24} height={24} viewBox='0 0 24 24'>
-                <path
-                  className='fill-black-darken'
-                  d='M11 20.45C8.98333 20.2 7.3125 19.3208 5.9875 17.8125C4.6625 16.3042 4 14.5333 4 12.5C4 11.4 4.21667 10.3458 4.65 9.3375C5.08333 8.32917 5.7 7.45 6.5 6.7L7.925 8.125C7.29167 8.69167 6.8125 9.35 6.4875 10.1C6.1625 10.85 6 11.65 6 12.5C6 13.9667 6.46667 15.2625 7.4 16.3875C8.33333 17.5125 9.53333 18.2 11 18.45V20.45ZM13 20.45V18.45C14.45 18.1833 15.6458 17.4917 16.5875 16.375C17.5292 15.2583 18 13.9667 18 12.5C18 10.8333 17.4167 9.41667 16.25 8.25C15.0833 7.08333 13.6667 6.5 12 6.5H11.925L13.025 7.6L11.625 9L8.125 5.5L11.625 2L13.025 3.4L11.925 4.5H12C14.2333 4.5 16.125 5.275 17.675 6.825C19.225 8.375 20 10.2667 20 12.5C20 14.5167 19.3375 16.2792 18.0125 17.7875C16.6875 19.2958 15.0167 20.1833 13 20.45Z'
-                />
-              </svg>
+              <ResetIcon />
             </button>
           </div>
         </section>
