@@ -3,9 +3,9 @@
 import clsx from 'clsx'
 import Spacing from '@shared/Spacing'
 import CalendarIcon from '@icons/CalendarIcon'
-import CrownIcon from '@icons/CrownIcon'
 import PlaceIcon from '@icons/PlaceIcon'
 import RunnerIcon from '@icons/RunnerIcon'
+import { BoxedCrownIcon } from '@icons/crown'
 import useTimer from '@hooks/useTimer'
 import { formatDate, timerFormat } from '@utils/time'
 import { colors } from '@styles/colors'
@@ -41,7 +41,7 @@ export default function BungCard({
       style={{
         backgroundImage: `${벙이시작되었는가 ? 'linear-gradient(90deg, rgba(0, 0, 0, 0.00) 0%, rgba(224, 251, 96, 0.50) 100%), ' : ''}url(${backgroundImageUrl})`,
       }}>
-      {isBungOwner ? <CrownIcon className='absolute right-16 top-16' size={24} color={colors.white} /> : null}
+      {isBungOwner ? <BoxedCrownIcon className='absolute right-16 top-16' size={24} color={colors.white} /> : null}
       <span
         className={clsx(
           'text-16 font-black italic',

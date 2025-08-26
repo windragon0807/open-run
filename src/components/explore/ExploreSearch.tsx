@@ -6,7 +6,7 @@ import { useInView } from 'react-intersection-observer'
 import { useAppStore } from '@store/app'
 import Input from '@shared/Input'
 import ArrowRightIcon from '@icons/ArrowRightIcon'
-import ThumbIcon from '@icons/ThumbIcon'
+import { FilledThumbIcon } from '@icons/thumb'
 import useDebounce from '@hooks/useDebounce'
 import { useInfiniteSearchBungByHashtag } from '@apis/v1/bungs/hashtag/query'
 import { useInfiniteSearchBungByLocation } from '@apis/v1/bungs/location/query'
@@ -210,7 +210,7 @@ function SearchMember({ searchKeyword }: { searchKeyword: string }) {
           <div className='ml-12'>
             <p className='mb-2 text-20 font-bold'>{targetMember.nickname}</p>
             <p className='flex items-center gap-4 font-jost text-16 font-black italic'>
-              <ThumbIcon size={16} color={colors.black.DEFAULT} />
+              <FilledThumbIcon size={16} color={colors.black.DEFAULT} />
               <span>{300}</span>
             </p>
           </div>

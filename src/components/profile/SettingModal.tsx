@@ -6,9 +6,11 @@ import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
 import { BottomSheet, Dimmed } from '@shared/Modal'
 import BrokenXIcon from '@icons/BrokenXIcon'
+import { MailIcon } from '@icons/mail'
 import useLogout from '@hooks/useLogout'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
+import ArrowRightIcon from '../icons/ArrowRightIcon'
 import DeleteUserModal from './DeleteUserModal'
 
 export default function SettingModal() {
@@ -30,7 +32,7 @@ export default function SettingModal() {
         <section className={clsx('px-16', isApp ? 'pb-40' : 'pb-16')}>
           <MenuButton
             label='회원 정보 수정'
-            rightNode={<RightArrowIcon />}
+            rightNode={<ArrowRightIcon size={16} color={colors.black.darken} />}
             onClick={() => {
               router.push('/profile/modify-user')
               closeModal(MODAL_KEY.SETTING)
@@ -39,7 +41,7 @@ export default function SettingModal() {
           {isApp && (
             <MenuButton
               label='알림 설정'
-              rightNode={<RightArrowIcon />}
+              rightNode={<ArrowRightIcon size={16} color={colors.black.darken} />}
               onClick={() => {
                 router.push('/profile/set-notification')
                 closeModal(MODAL_KEY.SETTING)
@@ -53,12 +55,7 @@ export default function SettingModal() {
                 href='mailto:devteam@openrun.com'
                 className='flex items-center gap-4 rounded-10 border border-gray bg-gray-lighten px-8 py-2 text-12'>
                 <span className='text-12'>devteam@openrun.com</span>
-                <svg width='16' height='16' viewBox='0 0 16 16'>
-                  <path
-                    className='fill-black-darken'
-                    d='M14.6663 12.667H5.33325V11.334H13.3333V5.86719L7.99927 9.33398L2.66626 5.86719V8.66699H1.33325V3.33398H14.6663V12.667ZM8.00024 7.74316L12.7327 4.66699H3.26587L8.00024 7.74316Z'
-                  />
-                </svg>
+                <MailIcon size={16} color={colors.black.darken} />
               </Link>
             }
           />
@@ -102,16 +99,5 @@ function MenuButton({
       <span className='text-14 font-bold'>{label}</span>
       {rightNode}
     </button>
-  )
-}
-
-function RightArrowIcon() {
-  return (
-    <svg width='16' height='16' viewBox='0 0 16 16'>
-      <path
-        className='fill-black-darken'
-        d='M8.39992 8L5.33325 4.93333L6.26659 4L10.2666 8L6.26659 12L5.33325 11.0667L8.39992 8Z'
-      />
-    </svg>
   )
 }

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useModal } from '@contexts/ModalProvider'
 import { Dimmed } from '@shared/Modal'
 import BrokenXIcon from '@icons/BrokenXIcon'
+import TargetIcon from '@icons/TargetIcon'
 import useDebounce from '@hooks/useDebounce'
 import useGeolocation from '@hooks/useGeolocation'
 import { ResponseType } from '@apis/maps/places'
@@ -118,12 +119,7 @@ export default function AddressSearchModal({ onComplete }: { onComplete: (addres
                     disabled={location == null || isReverseGeocodingLoading}
                     onClick={handleCurrentLocationClick}>
                     <span className='text-14'>현재 위치</span>
-                    <svg width={16} height={16} viewBox='0 0 16 16'>
-                      <path
-                        className='fill-black-darken'
-                        d='M8.00037 1.33301C11.567 1.33318 14.4789 4.13399 14.6576 7.65625L14.6664 7.99902C14.6664 11.5658 11.8656 14.4787 8.34314 14.6572L8.00037 14.666C7.77524 14.666 7.55276 14.6546 7.33337 14.6328V11.333H8.66638V13.29C11.0787 12.9892 12.9894 11.0784 13.2904 8.66602H11.3334V7.33301H13.2904C12.9895 4.92046 11.079 3.00876 8.66638 2.70801V4.66602H7.33337V2.70801C4.92103 3.00903 3.01026 4.92067 2.70935 7.33301H4.66638V8.66602H1.36658C1.34479 8.44668 1.33337 8.22409 1.33337 7.99902L1.34216 7.65625C1.51505 4.24764 4.24803 1.51478 7.65662 1.3418L8.00037 1.33301Z'
-                      />
-                    </svg>
+                    <TargetIcon size={16} color={colors.black.darken} />
                   </button>
                   <span className='mb-8 text-14 font-bold'>검색 팁</span>
                   <span className='text-14 text-gray-darker'>도로명 + 건물번호</span>

@@ -9,6 +9,8 @@ import { Weather } from '@type/weather'
 import AddressClipboard from '@shared/AddressClipboard'
 import Avatar from '@shared/Avatar'
 import BellIcon from '@icons/BellIcon'
+import CopyClipboardIcon from '@icons/CopyClipboardIcon'
+import UpperClothIcon from '@icons/UpperClothIcon'
 import useGeolocation from '@hooks/useGeolocation'
 import { useReverseGeocoding } from '@apis/maps/reverse-geocoding/query'
 import { useWearingAvatar } from '@apis/nfts/fetchWearingAvatar/query'
@@ -110,12 +112,7 @@ export default function Header() {
                       {(address) => (
                         <div className='flex cursor-pointer items-center gap-6'>
                           <span className='text-10 text-white'>{address}</span>
-                          <svg className='-translate-y-1' width={12} height={12} viewBox='0 0 10 10'>
-                            <path
-                              className='fill-white'
-                              d='M7.91699 1.45801H2.91699V0.625H8.75V7.70801H7.91699V1.45801ZM1.25 9.375V2.29199H7.08301V9.375H1.25Z'
-                            />
-                          </svg>
+                          <CopyClipboardIcon className='-translate-y-1' size={12} color={colors.white} />
                         </div>
                       )}
                     </AddressClipboard>
@@ -186,12 +183,7 @@ export default function Header() {
                   {(address) => (
                     <div className='flex cursor-pointer items-center gap-6'>
                       <span className='text-10 text-white'>{address}</span>
-                      <svg className='-translate-y-1' width={12} height={12} viewBox='0 0 10 10'>
-                        <path
-                          className='fill-white'
-                          d='M7.91699 1.45801H2.91699V0.625H8.75V7.70801H7.91699V1.45801ZM1.25 9.375V2.29199H7.08301V9.375H1.25Z'
-                        />
-                      </svg>
+                      <CopyClipboardIcon className='-translate-y-1' size={12} color={colors.white} />
                     </div>
                   )}
                 </AddressClipboard>
@@ -232,12 +224,7 @@ function AvatarButton({ onClick }: { onClick?: () => void }) {
     <button
       className='flex aspect-square w-40 items-center justify-center rounded-full bg-black-darken/10'
       onClick={onClick}>
-      <svg width={16} height={16} viewBox='0 0 16 16'>
-        <path
-          className='fill-white'
-          d='M15.4998 7.25L12.7732 9.125V14.001H3.22729V9.125L0.499756 7.25L3.90894 2H5.74976C5.74976 2.59664 5.98712 3.16888 6.40894 3.59082C6.83084 4.01272 7.4031 4.24993 7.99976 4.25C8.59649 4.25 9.16861 4.01277 9.59058 3.59082C10.0125 3.16885 10.2498 2.59675 10.2498 2H12.0906L15.4998 7.25Z'
-        />
-      </svg>
+      <UpperClothIcon size={16} color={colors.white} />
     </button>
   )
 }
