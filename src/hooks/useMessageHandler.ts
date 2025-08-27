@@ -1,10 +1,13 @@
 import { useEffect } from 'react'
+import { useAppStore } from '@store/app'
 import { BridgeMessage } from '@shared/AppBridge'
 
 type MessageHandler = (parsedMessage: BridgeMessage<any>) => void
 
 export const useMessageHandler = (messageHandler: MessageHandler) => {
+  const { isApp } = useAppStore()
   useEffect(() => {
+    if (!isApp) return
     const onMessageHandler = (event: MessageEvent) => {
       try {
         const parsedMessage = JSON.parse(event.data)
@@ -22,5 +25,5 @@ export const useMessageHandler = (messageHandler: MessageHandler) => {
       window.removeEventListener('message', onMessageHandler as EventListener)
       document.removeEventListener('message', onMessageHandler as EventListener)
     }
-  }, [messageHandler])
+  }, [messageHandler, isApp])
 }

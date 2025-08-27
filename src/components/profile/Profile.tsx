@@ -195,7 +195,7 @@ function CompletedBung({ title, location, date }: { title: string; location: str
   return (
     <div className='flex w-full items-center justify-between rounded-8 bg-white p-16'>
       <div className='flex gap-16'>
-        <div className='size-40 place-content-center place-items-center rounded-8 bg-gray-lighten'>
+        <div className='flex size-40 items-center justify-center rounded-8 bg-gray-lighten'>
           <OutlinedThumbIcon size={16} color={colors.black.darken} />
         </div>
 
