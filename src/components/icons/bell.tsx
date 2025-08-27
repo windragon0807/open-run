@@ -1,6 +1,6 @@
 import { IconProps } from '@type/icon'
 
-export default function BellIcon({ size, color, className }: IconProps) {
+export function BellIcon({ size, color, className }: IconProps) {
   return (
     <svg className={className} width={size} height={size} viewBox='0 0 27 27' fill='none'>
       <path

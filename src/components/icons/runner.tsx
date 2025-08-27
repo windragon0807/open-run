@@ -1,6 +1,6 @@
 import { IconProps } from '@type/icon'
 
-export default function RunnerIcon({ size, color, className }: IconProps) {
+export function RunnerIcon({ size, color, className }: IconProps) {
   return (
     <svg className={className} width={size} height={size} viewBox='0 0 16 16' fill='none'>
       <path

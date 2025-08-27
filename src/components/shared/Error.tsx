@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import WarningIcon from '@icons/WarningIcon'
+import { WarningIcon } from '@icons/warning'
 
 export default function Error({ type }: { type: 'small' | 'medium' | 'large' }) {
   if (type === 'small') {

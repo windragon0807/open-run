@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { useModal } from '@contexts/ModalProvider'
 import { Avatar, SubCategory, WearingAvatar } from '@type/avatar'
-import InfoIcon from '@icons/InfoIcon'
+import { InfoIcon } from '@icons/info'
 import { MODAL_KEY } from '@constants/modal'
 import DetailModal from './DetailModal'
 import RarityIcon from './shared/RarityIcon'

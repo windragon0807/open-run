@@ -1,6 +1,6 @@
 import Spacing from '@shared/Spacing'
-import CalendarIcon from '@icons/CalendarIcon'
-import PlaceIcon from '@icons/PlaceIcon'
+import { CalendarIcon } from '@icons/calendar'
+import { PlaceIcon } from '@icons/place'
 import { formatDate } from '@utils/time'
 import { colors } from '@styles/colors'
 import Avatar from './Avatar'

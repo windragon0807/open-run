@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { useAppStore } from '@store/app'
 import { RegisterStep } from '@type/register'
-import ArrowLeftIcon from '@icons/ArrowLeftIcon'
+import { ArrowLeftIcon } from '@icons/arrow'
 import { colors } from '@styles/colors'
 
 export default function Header({

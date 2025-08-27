@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
 import { BottomSheet, Dimmed } from '@shared/Modal'
-import BrokenXIcon from '@icons/BrokenXIcon'
+import { BrokenXIcon } from '@icons/x'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 

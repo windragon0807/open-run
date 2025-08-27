@@ -1,6 +1,6 @@
 import { IconProps } from '@type/icon'
 
-export default function RandomIcon({ size, color, className }: IconProps) {
+export function RandomIcon({ size, color, className }: IconProps) {
   return (
     <svg className={className} width={size} height={size} viewBox='0 0 24 24' fill='none'>
       <path

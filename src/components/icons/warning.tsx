@@ -1,6 +1,6 @@
 import { IconProps } from '@type/icon'
 
-export default function WarningIcon({ size, className }: Omit<IconProps, 'color'>) {
+export function WarningIcon({ size, className }: Omit<IconProps, 'color'>) {
   return (
     <svg className={className} width={size} height={size} viewBox='0 0 24 24' fill='none'>
       <path

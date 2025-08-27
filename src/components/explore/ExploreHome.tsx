@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { useAppStore } from '@store/app'
 import Recommendation from '@components/home/Recommendation'
-import MagnifierIcon from '@icons/MagnifierIcon'
+import { MagnifierIcon } from '@icons/magnifier'
 import { colors } from '@styles/colors'
 
 export default function ExploreHome({ onSearchButtonClick }: { onSearchButtonClick: () => void }) {

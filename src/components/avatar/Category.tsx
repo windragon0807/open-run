@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { ElementType, useState } from 'react'
+import { ElementType } from 'react'
 import { MainCategory, SelectedCategory, SubCategory } from '@type/avatar'
 import {
   AccessoriesIcon,
@@ -10,7 +10,7 @@ import {
   LowerClothingIcon,
   SkinIcon,
   UpperClothingIcon,
-} from './icons'
+} from '@icons/avatar'
 
 const categoryList: {
   mainCategory: MainCategory
@@ -77,7 +77,7 @@ export default function Category({
                 onClick={() => setSelectedCategory({ ...selectedCategory, subCategory: null })}>
                 전체
               </motion.button>
-              <div className='border-gray ml-4 mr-4 h-16 w-1 border-l' />
+              <div className='ml-4 mr-4 h-16 w-1 border-l border-gray' />
               {subCategoryList.map((subItem) => (
                 <motion.button
                   key={subItem.subCategory}

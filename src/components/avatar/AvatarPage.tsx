@@ -9,11 +9,12 @@ import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
 import { Avatar, SelectedCategory, WearingAvatar } from '@type/avatar'
 import AvatarComponent from '@shared/Avatar'
-import ResetIcon from '@icons/ResetIcon'
+import { ArrowLeftIcon } from '@icons/arrow'
+import { TransparentOpenrunIcon } from '@icons/openrun'
+import { ResetIcon } from '@icons/reset'
 import { cropSquareImage } from '@utils/image'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
-import ArrowLeftIcon from '../icons/ArrowLeftIcon'
 import AvatarCaptureModal from './AvatarCaptureModal'
 import AvatarList from './AvatarList'
 import Category from './Category'
@@ -95,18 +96,11 @@ export default function AvatarPage({
         <section className='z-10 w-full bg-white px-16 shadow-floating-primary'>
           <div className='relative mb-16 flex h-248 w-full justify-center rounded-16 bg-black-darken'>
             {/* 오픈런 아이콘 */}
-            <svg
+            <TransparentOpenrunIcon
               className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'
-              width={160}
-              height={160}
-              viewBox='0 0 160 160'>
-              <g opacity={0.1}>
-                <path
-                  className='fill-white'
-                  d='M98.5714 133.333H0L7.30159 97.7771H98.5714C108.653 97.7771 116.825 89.8177 116.825 79.9993C116.825 70.181 108.653 62.2216 98.5714 62.2216H62.0635C51.9821 62.2216 43.8095 70.181 43.8095 79.9993C43.8095 81.217 43.9352 82.4061 44.1747 83.5549H7.42135C7.34193 82.3797 7.30159 81.1941 7.30159 79.9993C7.30159 50.5442 31.8193 26.666 62.0635 26.666H98.5714C128.816 26.666 153.333 50.5442 153.333 79.9993C153.333 109.455 128.816 133.333 98.5714 133.333Z'
-                />
-              </g>
-            </svg>
+              size={160}
+              color={colors.white}
+            />
 
             {/* 아바타 이미지 */}
             <AvatarComponent

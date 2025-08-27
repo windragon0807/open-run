@@ -9,13 +9,13 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
 import AddressClipboard from '@shared/AddressClipboard'
-import CopyClipboardIcon from '@icons/CopyClipboardIcon'
-import FlagIcon from '@icons/FlagIcon'
-import SettingIcon from '@icons/SettingIcon'
-import StarIcon from '@icons/StarIcon'
-import UpperClothIcon from '@icons/UpperClothIcon'
+import { CopyClipboardIcon } from '@icons/clipboard'
 import { CrownIcon } from '@icons/crown'
+import { FilledFlagIcon } from '@icons/flag'
+import { SettingIcon } from '@icons/setting'
+import { StarIcon } from '@icons/star'
 import { FilledThumbIcon, OutlinedThumbIcon } from '@icons/thumb'
+import { UpperClothIcon } from '@icons/upper-cloth'
 import { useUserInfo } from '@apis/v1/users/query'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
@@ -72,7 +72,7 @@ export default function Profile() {
           />
           <Record
             className='flex-1'
-            icon={<FlagIcon size={16} color={colors.black.DEFAULT} />}
+            icon={<FilledFlagIcon size={16} color={colors.black.DEFAULT} />}
             value={120}
             title='획득한 NFT'
           />

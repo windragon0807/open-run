@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import Link from 'next/link'
 import Form from '@components/profile/modify-user/Form'
-import ArrowLeftIcon from '@icons/ArrowLeftIcon'
+import { ArrowLeftIcon } from '@icons/arrow'
 import { colors } from '@styles/colors'
 
 export default function Page() {

@@ -11,15 +11,14 @@ import { useUserStore } from '@store/user'
 import { BungInfo } from '@type/bung'
 import PrimaryButton from '@shared/PrimaryButton'
 import ToastModal from '@shared/ToastModal'
-import ArrowLeftIcon from '@icons/ArrowLeftIcon'
-import ArrowRightIcon from '@icons/ArrowRightIcon'
-import CalendarIcon from '@icons/CalendarIcon'
-import ChangeOwnerIcon from '@icons/ChangeOwnerIcon'
-import PencilIcon from '@icons/PencilIcon'
-import PersonIcon from '@icons/PersonIcon'
-import PlaceIcon from '@icons/PlaceIcon'
-import RunnerIcon from '@icons/RunnerIcon'
-import WastebasketIcon from '@icons/WastebasketIcon'
+import { ArrowLeftIcon, ArrowRightIcon } from '@icons/arrow'
+import { BinIcon } from '@icons/bin'
+import { CalendarIcon } from '@icons/calendar'
+import { ChangeOwnerIcon } from '@icons/change-owner'
+import { PencilIcon } from '@icons/pencil'
+import { FilledPersonIcon } from '@icons/person'
+import { PlaceIcon } from '@icons/place'
+import { RunnerIcon } from '@icons/runner'
 import useTimer from '@hooks/useTimer'
 import { useCompleteBung } from '@apis/v1/bungs/[bungId]/complete/mutation'
 import { useJoinBung } from '@apis/v1/bungs/[bungId]/join/mutation'
@@ -69,6 +68,18 @@ export default function BungDetails({ details }: { details: BungInfo }) {
   const formattedTime = timerFormat({ days, hours, minutes, seconds })
 
   const handleBungComplete = () => {
+    showModal({
+      key: MODAL_KEY.BUNG_COMPLETE,
+      component: (
+        <BungCompleteModal
+          imageUrl={details.mainImage as string}
+          title={details.name}
+          location={details.location}
+          memberList={details.memberList.filter((member) => member.userId !== userInfo!.userId)}
+        />
+      ),
+    })
+
     if (details.memberList.length < 2) {
       showModal({
         key: MODAL_KEY.TOAST,
@@ -168,7 +179,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
                 onClick={() =>
                   showModal({ key: MODAL_KEY.DELETE_BUNG, component: <DeleteBungModal bungId={details.bungId} /> })
                 }>
-                <WastebasketIcon size={24} color={colors.white} />
+                <BinIcon size={24} color={colors.white} />
               </button>
             </>
           )}
@@ -229,7 +240,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
 
             {/* 벙 참여 인원 및 남은 자리 */}
             <div className='mb-24 flex items-center gap-8'>
-              <PersonIcon size={16} color={colors.black.DEFAULT} />
+              <FilledPersonIcon size={16} color={colors.black.DEFAULT} />
               <div className='flex items-center gap-4'>
                 <span className='text-14 text-black'>{`${참여인원수} / ${details.memberNumber}`}</span>
                 <span className='rounded-4 bg-pink/10 px-4 py-2 text-12 font-bold text-pink'>{`${details.memberNumber - 참여인원수}자리 남았어요`}</span>

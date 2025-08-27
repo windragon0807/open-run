@@ -1,4 +1,4 @@
-export default function InfoIcon() {
+export function InfoIcon() {
   return (
     <svg width='24' height='24' viewBox='0 0 24 24' fill='none'>
       <circle className='fill-gray-lighten stroke-gray' cx='12.0002' cy='12' r='9.5' />

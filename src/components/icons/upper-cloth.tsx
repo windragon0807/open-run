@@ -1,6 +1,6 @@
 import { IconProps } from '@type/icon'
 
-export default function UpperClothIcon({ size, color, className }: IconProps) {
+export function UpperClothIcon({ size, color, className }: IconProps) {
   return (
     <svg className={className} width={size} height={size} viewBox='0 0 16 16'>
       <path

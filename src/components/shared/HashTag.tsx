@@ -1,4 +1,4 @@
-import BrokenXIcon from '@icons/BrokenXIcon'
+import { BrokenXIcon } from '@icons/x'
 import { colors } from '@styles/colors'
 
 export default function HashTag({ label, onCloseButtonClick }: { label: string; onCloseButtonClick: () => void }) {

@@ -2,10 +2,10 @@
 
 import clsx from 'clsx'
 import Spacing from '@shared/Spacing'
-import CalendarIcon from '@icons/CalendarIcon'
-import PlaceIcon from '@icons/PlaceIcon'
-import RunnerIcon from '@icons/RunnerIcon'
+import { CalendarIcon } from '@icons/calendar'
 import { BoxedCrownIcon } from '@icons/crown'
+import { PlaceIcon } from '@icons/place'
+import { RunnerIcon } from '@icons/runner'
 import useTimer from '@hooks/useTimer'
 import { formatDate, timerFormat } from '@utils/time'
 import { colors } from '@styles/colors'

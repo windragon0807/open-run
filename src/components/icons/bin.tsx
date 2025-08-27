@@ -1,6 +1,6 @@
 import { IconProps } from '@type/icon'
 
-export default function WastebasketIcon({ size, color, className }: IconProps) {
+export function BinIcon({ size, color, className }: IconProps) {
   return (
     <svg className={className} width={size} height={size} viewBox='0 0 24 24' fill={color}>
       <path d='M14.5714 3V3.9H18V5.7H6V3.9H9.42857V3H14.5714Z' />

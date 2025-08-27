@@ -1,6 +1,6 @@
 import { IconProps } from '@type/icon'
 
-export default function ChangeOwnerIcon({ size, color, className }: IconProps) {
+export function ChangeOwnerIcon({ size, color, className }: IconProps) {
   return (
     <svg className={className} width={size} height={size} viewBox='0 0 24 24' fill='none'>
       <path
