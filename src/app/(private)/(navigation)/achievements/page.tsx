@@ -1,8 +1,7 @@
 import { Metadata } from 'next'
-import AchievementPage from '@components/achievement'
 
 export default async function Page() {
-  return <AchievementPage />
+  return <div>test</div>
 }
 
 export const metadata: Metadata = {

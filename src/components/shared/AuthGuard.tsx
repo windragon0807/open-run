@@ -40,7 +40,6 @@ function useCheckAddress() {
   const { isApp } = useAppStore()
   const appAddress = useAppCheckAddress()
   const browserAddress = useBrowserCheckAddress()
-  console.log(appAddress, browserAddress)
 
   return isApp ? appAddress : browserAddress
 }
