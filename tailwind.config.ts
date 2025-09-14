@@ -57,6 +57,10 @@ const config: Config = {
         'gradient-bottom-navigation': 'linear-gradient(180deg, rgba(222, 226, 230, 0.00) 0%, #DEE2E6 70%)',
         'gradient-weather':
           'linear-gradient(180deg, #586587 0%, rgba(248, 249, 250, 0.00) 75%, rgba(248, 249, 250, 0.00) 100%)',
+        'gradient-achievement-gift':
+          'linear-gradient(180deg, rgba(74, 92, 239, 0.5) 0%, rgba(255, 255, 255, 0.5) 100%)',
+        'gradient-achievement-gray':
+          'linear-gradient(180deg, rgba(88, 101, 135, 0.2) 0%, rgba(222, 226, 230, 0.2) 100%)',
       },
       boxShadow: {
         'floating-primary': '0px 0px 16px 0px rgba(74, 92, 239, 0.20)',
@@ -76,7 +80,7 @@ const config: Config = {
     },
   },
   plugins: [
-    function ({ addUtilities }: { addUtilities: Function }) {
+    function ({ addUtilities, addVariant }: { addUtilities: Function; addVariant: Function }) {
       addUtilities({
         '.scrollbar-hide': {
           '-ms-overflow-style': 'none',
@@ -86,6 +90,9 @@ const config: Config = {
           },
         },
       })
+
+      // app: variant 추가 - 앱 환경일 때 적용
+      addVariant('app', '.app &')
     },
   ],
 }

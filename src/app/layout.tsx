@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Jost } from 'next/font/google'
+import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import GoogleMapContext from '@contexts/GoogleMapContext'
 import { ModalProvider } from '@contexts/ModalProvider'
 import ReactQueryProvider from '@contexts/ReactQueryProvider'
@@ -21,11 +22,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ReactQueryProvider>
           <WalletProvider>
             <GoogleMapContext>
-              <AppBridge>
-                <ModalProvider>
-                  <Layout>{children}</Layout>
-                </ModalProvider>
-              </AppBridge>
+              <NuqsAdapter>
+                <AppBridge>
+                  <ModalProvider>
+                    <Layout>{children}</Layout>
+                  </ModalProvider>
+                </AppBridge>
+              </NuqsAdapter>
             </GoogleMapContext>
           </WalletProvider>
         </ReactQueryProvider>

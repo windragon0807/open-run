@@ -1340,6 +1340,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@standard-schema/spec@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@standard-schema/spec@npm:1.0.0"
+  checksum: a1ab9a8bdc09b5b47aa8365d0e0ec40cc2df6437be02853696a0e377321653b0d3ac6f079a8c67d5ddbe9821025584b1fb71d9cc041a6666a96f1fadf2ece15f
+  languageName: node
+  linkType: hard
+
 "@swc/helpers@npm:0.5.15":
   version: 0.5.15
   resolution: "@swc/helpers@npm:0.5.15"
@@ -3697,10 +3704,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eruda@npm:^3.4.1":
-  version: 3.4.1
-  resolution: "eruda@npm:3.4.1"
-  checksum: 815e86c708f494ee3e36dabc5bb75b6a5ac35bc2bd212b25dbe5b5527b1c0b116f03c7659b0186dd915f26e2380e1eae7e51ce79582991703bac45ed6788e043
+"eruda@npm:^3.4.3":
+  version: 3.4.3
+  resolution: "eruda@npm:3.4.3"
+  checksum: 59b328b38b9953ee5da5d8c9264c27d2dd7cf8fac06fb3e8ff2a9b2ce53d7cb79e07f4dbec12e233fe8353fc64df35aac7f2b5a03d5fc91d98d707c8b2559ed9
   languageName: node
   linkType: hard
 
@@ -6493,6 +6500,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nuqs@npm:^2.6.0":
+  version: 2.6.0
+  resolution: "nuqs@npm:2.6.0"
+  dependencies:
+    "@standard-schema/spec": "npm:1.0.0"
+  peerDependencies:
+    "@remix-run/react": ">=2"
+    "@tanstack/react-router": ^1
+    next: ">=14.2.0"
+    react: ">=18.2.0 || ^19.0.0-0"
+    react-router: ^6 || ^7
+    react-router-dom: ^6 || ^7
+  peerDependenciesMeta:
+    "@remix-run/react":
+      optional: true
+    "@tanstack/react-router":
+      optional: true
+    next:
+      optional: true
+    react-router:
+      optional: true
+    react-router-dom:
+      optional: true
+  checksum: b97647fc26cdcb34ae562befdea0bc663660be117715b31ffd7189ffcbed3b432818d48b98ccb503e1064cb9c4e674d8fdfeb0b78e88a27064cf2d978ee4f04a
+  languageName: node
+  linkType: hard
+
 "obj-multiplex@npm:^1.0.0":
   version: 1.0.0
   resolution: "obj-multiplex@npm:1.0.0"
@@ -6691,7 +6725,7 @@ __metadata:
     concurrently: "npm:^8.2.2"
     date-fns: "npm:^3.6.0"
     date-fns-tz: "npm:^3.2.0"
-    eruda: "npm:^3.4.1"
+    eruda: "npm:^3.4.3"
     eslint: "npm:^8"
     eslint-config-next: "npm:^15.5.3"
     eslint-config-prettier: "npm:^9.1.0"
@@ -6699,6 +6733,7 @@ __metadata:
     fuse.js: "npm:^7.0.0"
     html2canvas: "npm:^1.4.1"
     next: "npm:^15.5.3"
+    nuqs: "npm:^2.6.0"
     pino-pretty: "npm:^13.0.0"
     postcss: "npm:^8.4.33"
     prettier: "npm:^3.3.2"

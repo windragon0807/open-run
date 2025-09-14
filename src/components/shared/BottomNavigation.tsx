@@ -44,11 +44,11 @@ export default function BottomNavigation() {
           <RoundedPlusIcon size={36} />
         </button>
         <IconLink
-          href='/achievements'
+          href='/achievements?list=progress&category=normal'
           icon={
             <OutlinedFlagIcon
               size={24}
-              color={pathname === '/achievements' ? colors.black.darken : colors.gray.DEFAULT}
+              color={pathname.includes('/achievements') ? colors.black.darken : colors.gray.DEFAULT}
             />
           }
           label='도전과제'
@@ -67,7 +67,7 @@ export default function BottomNavigation() {
 
 function IconLink({ href, icon, label }: { href: string; icon: ReactNode; label: string }) {
   const pathname = usePathname()
-  const isActive = pathname === href
+  const isActive = pathname === href || (href.includes('achievements') && pathname.includes('achievements'))
   return (
     <Link className='flex h-full flex-1 flex-col items-center justify-center' href={href}>
       {icon}

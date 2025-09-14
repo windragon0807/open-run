@@ -24,15 +24,21 @@ export default function AppBridge({ children }: { children: ReactNode }) {
 
   /* 앱 여부 설정 */
   useEffect(() => {
-    if (!isApp) return
     setIsApp(isApp)
+
+    // 앱 환경일 때 body에 app 클래스 추가
+    if (isApp) {
+      document.body.classList.add('app')
+    } else {
+      document.body.classList.remove('app')
+    }
 
     if (process.env.NODE_ENV === 'development') {
       import('eruda').then((eruda) => {
         eruda.default.init()
       })
     }
-  }, [isApp])
+  }, [isApp, setIsApp])
 
   return children
 }
