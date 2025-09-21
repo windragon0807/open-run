@@ -1,6 +1,6 @@
-import { colors } from '@/styles/colors'
 import Image from 'next/image'
 import { ReactNode } from 'react'
+import { colors } from '@styles/colors'
 
 export default function CircularProgress({
   progress,
@@ -55,7 +55,7 @@ export default function CircularProgress({
 
 export function RandomGiftImage() {
   return (
-    <div className='bg-gradient-achievement-gift flex size-48 items-center justify-center rounded-full'>
+    <div className='flex size-48 items-center justify-center rounded-full bg-gradient-achievement-gift'>
       <Image src='/images/achievement/img_gift.png' alt='gift' width={40} height={40} />
     </div>
   )
@@ -76,7 +76,7 @@ export function QuestionMarkImage() {
 
 export function RepeatImage() {
   return (
-    <div className='bg-gradient-achievement-gray flex size-48 items-center justify-center rounded-full'>
+    <div className='flex size-48 items-center justify-center rounded-full bg-gradient-achievement-gray'>
       <svg width='32' height='32' viewBox='0 0 32 32' fill='none'>
         <path
           d='M18.5996 21.818C18.5662 21.7932 18.4375 21.7803 18.4375 21.7751C18.4375 21.7751 17.1648 22.0024 16.4585 22.0024C12.9697 22.0024 10.1908 19.2624 9.86477 15.8922H11.7472C11.932 15.8922 12.0999 15.7763 12.1774 15.6088C12.2068 15.545 12.2212 15.473 12.2212 15.4056C12.2212 15.2956 12.1826 15.1841 12.1084 15.0968L6.99055 9.06799C6.90078 8.96229 6.76903 8.9007 6.63024 8.90039C6.49145 8.90009 6.35939 8.95922 6.26901 9.06462L1.11342 15.0928C0.993015 15.2334 0.96544 15.4399 1.04326 15.6078C1.12047 15.7757 1.28868 15.8922 1.47374 15.8922H3.31819C3.57494 22.9391 9.3721 28.3869 16.4463 28.454C16.7879 28.4574 18.4378 28.3079 18.4378 28.3079C18.4378 28.3079 18.5126 28.2819 18.5144 28.2819C18.6305 28.2647 18.7059 28.1792 18.7059 28.0616L18.7442 22.008C18.7442 21.9329 18.6593 21.8627 18.5996 21.818Z'

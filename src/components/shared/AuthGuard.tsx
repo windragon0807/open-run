@@ -1,6 +1,5 @@
 'use client'
 
-import { MESSAGE } from '@/constants/app'
 import { redirect, useRouter } from 'next/navigation'
 import { ReactNode, useEffect, useState } from 'react'
 import { useAccount } from 'wagmi'
@@ -8,6 +7,7 @@ import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
 import { useMessageHandler } from '@hooks/useMessageHandler'
 import { useUserInfo } from '@apis/v1/users/query'
+import { MESSAGE } from '@constants/app'
 import { postMessageToRN } from './AppBridge'
 
 export default function AuthGuard({ children }: { children: ReactNode }) {

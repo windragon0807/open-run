@@ -12,5 +12,5 @@ export async function middleware(request: NextRequest) {
 
 // 미들웨어를 적용할 경로 설정
 export const config = {
-  matcher: ['/', '/avatar', '/bung/:bungId', '/explore', '/explore', '/achievements'],
+  matcher: ['/', '/avatar', '/bung/:bungId', '/explore', '/explore', '/challenges'],
 }

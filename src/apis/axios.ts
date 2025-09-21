@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosHeaders, AxiosRequestConfig, AxiosResponse } from 'axios'
-
 import { COOKIE } from '@constants/cookie'
 
 /**
@@ -32,7 +31,8 @@ http.interceptors.request.use(async (request) => {
   if (typeof window === 'undefined') {
     /* At Server Component */
     const { cookies } = await import('next/headers')
-    token = cookies().get(COOKIE.ACCESSTOKEN)?.value
+    const cookieStore = await cookies()
+    token = cookieStore.get(COOKIE.ACCESSTOKEN)?.value
   } else {
     /* At Client Component */
     const { getCookie } = await import('@utils/cookie')

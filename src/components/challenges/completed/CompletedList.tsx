@@ -1,6 +1,11 @@
+import ErrorFallback from '@shared/Error'
+import withBoundary from '@shared/withBoundary'
+import { fetchCompletedChallengeList } from '@apis/v1/challenges/completed'
 import CategoryReward from './CategoryReward'
 
-export default function CompletedList() {
+async function CompletedList() {
+  await fetchCompletedChallengeList()
+
   return (
     <section className='w-full px-16'>
       <article className='grid w-full grid-cols-[60px_1fr_70px] place-items-center gap-8 rounded-8 bg-white px-16 py-10'>
@@ -16,3 +21,18 @@ export default function CompletedList() {
     </section>
   )
 }
+
+export default withBoundary(CompletedList, {
+  onLoading: (
+    <section className='flex flex-col gap-8 p-16'>
+      <div className='h-80 w-full animate-pulse rounded bg-gray' />
+      <div className='h-80 w-full animate-pulse rounded bg-gray' />
+      <div className='h-80 w-full animate-pulse rounded bg-gray' />
+    </section>
+  ),
+  onError: (
+    <div className='pt-60'>
+      <ErrorFallback type='medium' />
+    </div>
+  ),
+})

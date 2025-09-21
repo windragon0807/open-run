@@ -1,11 +1,10 @@
 'use client'
 
-import clsx from 'clsx'
 import { motion } from 'framer-motion'
 import { ReactNode, useState } from 'react'
 import { InfoIcon } from '@icons/info'
 
-export default function NormalItem({
+export default function GeneralItem({
   progressNode,
   title,
   description,
