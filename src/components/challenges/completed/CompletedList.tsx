@@ -1,4 +1,4 @@
-import ErrorFallback from '@shared/Error'
+import ErrorFallback from '@shared/ErrorFallback'
 import withBoundary from '@shared/withBoundary'
 import { fetchCompletedChallengeList } from '@apis/v1/challenges/completed'
 import CategoryReward from './CategoryReward'
@@ -31,8 +31,8 @@ export default withBoundary(CompletedList, {
     </section>
   ),
   onError: (
-    <div className='pt-60'>
+    <section className='pt-60'>
       <ErrorFallback type='medium' />
-    </div>
+    </section>
   ),
 })

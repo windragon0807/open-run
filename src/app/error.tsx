@@ -1,11 +1,11 @@
 'use client'
 
-import Error from '@shared/Error'
+import ErrorFallback from '@shared/ErrorFallback'
 
 export default function ErrorPage() {
   return (
     <section className='h-screen w-screen'>
-      <Error type='large' />
+      <ErrorFallback type='large' />
     </section>
   )
 }

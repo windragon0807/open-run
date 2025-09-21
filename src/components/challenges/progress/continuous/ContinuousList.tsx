@@ -1,4 +1,4 @@
-import ErrorFallback from '@shared/Error'
+import ErrorFallback from '@shared/ErrorFallback'
 import withBoundary from '@shared/withBoundary'
 import { ArrowRightIcon } from '@icons/arrow'
 import { fetchContinuousChallengeList } from '@apis/v1/challenges/continuous'
@@ -36,8 +36,8 @@ export default withBoundary(ContinuousList, {
     </section>
   ),
   onError: (
-    <div className='pt-60'>
+    <section className='pt-60'>
       <ErrorFallback type='medium' />
-    </div>
+    </section>
   ),
 })

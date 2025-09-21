@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import ErrorFallback from '@shared/Error'
+import ErrorFallback from '@shared/ErrorFallback'
 import Skeleton from '@shared/Skeleton'
 import withBoundary from '@shared/withBoundary'
 import { useBungsQuery } from '@apis/v1/bungs/query'

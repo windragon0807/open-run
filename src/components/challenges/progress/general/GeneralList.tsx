@@ -1,4 +1,4 @@
-import ErrorFallback from '@shared/Error'
+import ErrorFallback from '@shared/ErrorFallback'
 import withBoundary from '@shared/withBoundary'
 import { fetchGeneralChallengeList } from '@apis/v1/challenges/general'
 import CircularProgress, { QuestionMarkImage, RandomGiftImage } from '../CircularProgress'
@@ -33,8 +33,8 @@ export default withBoundary(GeneralList, {
     </section>
   ),
   onError: (
-    <div className='pt-60'>
+    <section className='pt-60'>
       <ErrorFallback type='medium' />
-    </div>
+    </section>
   ),
 })

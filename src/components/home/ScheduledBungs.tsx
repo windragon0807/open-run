@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import ErrorFallback from '@shared/Error'
+import ErrorFallback from '@shared/ErrorFallback'
 import Skeleton from '@shared/Skeleton'
 import Spacing from '@shared/Spacing'
 import withBoundary from '@shared/withBoundary'

@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { WarningIcon } from '@icons/warning'
 
-export default function Error({ type }: { type: 'small' | 'medium' | 'large' }) {
+export default function ErrorFallback({ type }: { type: 'small' | 'medium' | 'large' }) {
   if (type === 'small') {
     return (
       <div className='flex size-full items-center gap-4'>
