@@ -1,13 +1,13 @@
 import ErrorFallback from '@shared/ErrorFallback'
 import withBoundary from '@shared/withBoundary'
 import { ArrowRightIcon } from '@icons/arrow'
-import { fetchContinuousChallengeList } from '@apis/v1/challenges/continuous'
+// import { fetchContinuousChallengeList } from '@apis/v1/challenges/continuous'
 import { colors } from '@styles/colors'
-import CircularProgress, { QuestionMarkImage, RandomGiftImage } from '../CircularProgress'
+import CircularProgress, { RandomGiftImage } from '../CircularProgress'
 import RewardStatus from '../RewardStatus'
 
 async function ContinuousList() {
-  await fetchContinuousChallengeList()
+  // await fetchContinuousChallengeList()
 
   return (
     <section className='p-16'>

@@ -44,7 +44,7 @@ export default function BottomNavigation() {
           <RoundedPlusIcon size={36} />
         </button>
         <IconLink
-          href='/challenges?list=progress&category=normal'
+          href='/challenges?list=progress&category=general'
           icon={
             <OutlinedFlagIcon
               size={24}

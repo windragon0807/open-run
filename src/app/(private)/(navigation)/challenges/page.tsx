@@ -1,18 +1,36 @@
 import { Metadata } from 'next'
-import StatusList from '@components/challenges/StatusList'
-import StatusTab from '@components/challenges/StatusTab'
+import { CategoryType, ListType } from '@type/challenge'
+import ListTab from '@components/challenges/ListTab'
 import CompletedList from '@components/challenges/completed/CompletedList'
-import ProgressList from '@components/challenges/progress/ProgressList'
+import CategoryTab from '@components/challenges/progress/CategoryTab'
+import ContinuousList from '@components/challenges/progress/continuous/ContinuousList'
+import GeneralList from '@components/challenges/progress/general/GeneralList'
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    list: ListType
+    category?: CategoryType
+  }>
+}) {
+  const { list, category } = await searchParams
+
   return (
     <section className='h-full w-full bg-gray-lighten'>
       <div className='h-full pt-32 app:pt-72'>
         <header className='mb-32 flex items-center justify-between px-24'>
           <h1 className='text-28 font-bold'>도전 과제</h1>
-          <StatusTab />
+          <ListTab />
         </header>
-        <StatusList progress={<ProgressList />} completed={<CompletedList />} />
+        {list === 'progress' ? (
+          <>
+            <CategoryTab />
+            {category === 'general' ? <GeneralList /> : <ContinuousList />}
+          </>
+        ) : (
+          <CompletedList />
+        )}
       </div>
     </section>
   )

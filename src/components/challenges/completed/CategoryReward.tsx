@@ -1,9 +1,8 @@
 import clsx from 'clsx'
 import Image from 'next/image'
+import { CategoryType } from '@type/challenge'
 
-type Category = 'normal' | 'repeat' | 'event'
-
-export default function CategoryReward({ category }: { category: Category }) {
+export default function CategoryReward({ category }: { category: CategoryType }) {
   return (
     <article className='relative flex size-60 items-center justify-center'>
       <Category category={category} />
@@ -14,7 +13,7 @@ export default function CategoryReward({ category }: { category: Category }) {
   )
 }
 
-function Category({ category }: { category: Category }) {
+function Category({ category }: { category: CategoryType }) {
   return (
     <span
       className={clsx(
@@ -23,9 +22,9 @@ function Category({ category }: { category: Category }) {
       )}>
       {(() => {
         switch (category) {
-          case 'normal':
+          case 'general':
             return '일반'
-          case 'repeat':
+          case 'continuous':
             return '반복'
           case 'event':
             return '이벤트'

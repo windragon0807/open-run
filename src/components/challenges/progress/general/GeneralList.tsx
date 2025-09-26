@@ -1,7 +1,7 @@
 import ErrorFallback from '@shared/ErrorFallback'
 import withBoundary from '@shared/withBoundary'
 import { fetchGeneralChallengeList } from '@apis/v1/challenges/general'
-import CircularProgress, { QuestionMarkImage, RandomGiftImage } from '../CircularProgress'
+import CircularProgress, { RandomGiftImage } from '../CircularProgress'
 import RewardStatus from '../RewardStatus'
 import GeneralItem from './GeneralItem'
 

@@ -2,26 +2,30 @@
 
 import clsx from 'clsx'
 import { motion } from 'framer-motion'
-import { useQueryState } from 'nuqs'
-import { useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { ListType } from '@type/challenge'
 import { OutlinedFlagIcon } from '@icons/flag'
 import { colors } from '@styles/colors'
 
-export default function StatusTab() {
-  const [selectedTab, setSelectedTab] = useQueryState('list', { defaultValue: '' })
-  const [_, setSelectedCategory] = useQueryState('category', { defaultValue: '' })
+export default function ListTab() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const selectedTab = (searchParams.get('list') as ListType) || ''
 
   const handleToggle = () => {
-    setSelectedTab(selectedTab === 'progress' ? 'completed' : 'progress')
-  }
+    const newTab = selectedTab === 'progress' ? 'completed' : 'progress'
+    const newCategory = newTab === 'progress' ? 'general' : ''
 
-  useEffect(() => {
-    if (selectedTab === 'progress') {
-      setSelectedCategory('normal')
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('list', newTab)
+    if (newCategory) {
+      params.set('category', newCategory)
     } else {
-      setSelectedCategory(null)
+      params.delete('category')
     }
-  }, [selectedTab])
+
+    router.push(`?${params.toString()}`)
+  }
 
   return (
     <button className='relative inline-flex h-34 items-center rounded-full shadow-floating-primary'>
