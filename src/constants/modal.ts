@@ -15,4 +15,5 @@ export const MODAL_KEY = {
   REWARD: 'reward',
   SETTING: 'setting',
   DELETE_USER: 'delete-user',
+  DONT_WORRY: 'dont-worry',
 } as const
