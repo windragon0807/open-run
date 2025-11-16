@@ -5,12 +5,13 @@ import Skeleton from '@shared/Skeleton'
 import { fetchBungDetail } from '@apis/v1/bungs/[bungId]'
 
 type Props = {
-  params: {
+  params: Promise<{
     bungId: string
-  }
+  }>
 }
 
-export default async function Page({ params: { bungId } }: Props) {
+export default async function Page({ params }: Props) {
+  const { bungId } = await params
   return (
     <Suspense fallback={<LoadingFallback />}>
       <BungDetailPage bungId={bungId} />
@@ -23,7 +24,8 @@ async function BungDetailPage({ bungId }: { bungId: string }) {
   return <BungDetails details={bungDetail.data} />
 }
 
-export async function generateMetadata({ params: { bungId } }: Props): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { bungId } = await params
   const bungDetail = await fetchBungDetail({ bungId })
   return {
     title: bungDetail.data.name,
