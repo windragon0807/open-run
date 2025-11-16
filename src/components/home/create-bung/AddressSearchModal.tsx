@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { useModal } from '@contexts/ModalProvider'
@@ -85,13 +86,15 @@ export default function AddressSearchModal({ onComplete }: { onComplete: (addres
         <div className='h-full w-full'>
           <header className='relative mb-16 flex h-60 w-full items-center'>
             <h2 className='w-full text-center font-bold'>주소검색</h2>
-            <button className='absolute right-12' onClick={() => closeModal(MODAL_KEY.ADDRESS_SEARCH)}>
+            <button
+              className='absolute right-8 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
+              onClick={() => closeModal(MODAL_KEY.ADDRESS_SEARCH)}>
               <BrokenXIcon size={24} color={colors.black.DEFAULT} />
             </button>
           </header>
 
           <div className='h-[calc(100%-76px)] px-24'>
-            <div className='mb-8 flex items-center gap-16'>
+            <div className='mb-8 flex items-center gap-4'>
               <input
                 className='flex-1 rounded-8 border border-gray p-12 text-16 focus:border-primary focus:outline-none'
                 type='text'
@@ -102,7 +105,7 @@ export default function AddressSearchModal({ onComplete }: { onComplete: (addres
               />
               {search.length > 0 && (
                 <button
-                  className='text-14'
+                  className='translate-x-8 rounded-8 px-8 py-4 text-14 active-press-duration active:scale-95 active:bg-gray/50'
                   onClick={() => {
                     setSearch('')
                     setSuggestions([])
@@ -115,7 +118,7 @@ export default function AddressSearchModal({ onComplete }: { onComplete: (addres
               {suggestions.length === 0 ? (
                 <div className='flex flex-col'>
                   <button
-                    className='mb-24 flex h-32 w-full items-center justify-center gap-4 rounded-8 bg-gray-lighten disabled:text-gray-darker'
+                    className='mb-24 flex h-32 w-full items-center justify-center gap-4 rounded-8 bg-gray-lighten active-press-duration active:scale-95 active:bg-gray/50 disabled:text-gray-darker'
                     disabled={location == null || isReverseGeocodingLoading}
                     onClick={handleCurrentLocationClick}>
                     <span className='text-14'>현재 위치</span>
@@ -141,7 +144,10 @@ export default function AddressSearchModal({ onComplete }: { onComplete: (addres
                   {suggestions.map(({ placeId, mainAddress, secondaryAddress }) => (
                     <li
                       key={placeId}
-                      className='flex cursor-pointer flex-col p-8'
+                      className={clsx(
+                        'group flex cursor-pointer flex-col p-8',
+                        selectedSuggestionPlaceId === null && 'rounded-8 active-press-duration active:bg-gray/50',
+                      )}
                       onClick={() => {
                         if (selectedSuggestionPlaceId === placeId) {
                           setSelectedSuggestionPlaceId(null)
@@ -149,15 +155,20 @@ export default function AddressSearchModal({ onComplete }: { onComplete: (addres
                           setSelectedSuggestionPlaceId(placeId)
                         }
                       }}>
-                      <div className='flex items-center justify-between gap-8'>
+                      <div
+                        className={clsx(
+                          'flex items-center justify-between gap-8',
+                          selectedSuggestionPlaceId === null && 'active-press-duration group-active:scale-95',
+                        )}>
                         <div className='flex flex-col'>
                           <span className='text-14'>{renderHighlightKeyword(mainAddress, search)}</span>
                           <span className='text-14 text-gray-darker'>{secondaryAddress}</span>
                         </div>
                         {selectedSuggestionPlaceId === placeId && (
                           <button
-                            className='flex-shrink-0 rounded-20 bg-black-darken px-18 py-4 text-14 text-white'
-                            onClick={() => {
+                            className='flex-shrink-0 rounded-20 bg-black-darken px-18 py-4 text-14 text-white active-press-duration active:scale-90 active:bg-black-darken/80'
+                            onClick={(e) => {
+                              e.stopPropagation()
                               onComplete(`${secondaryAddress} ${mainAddress}`)
                               closeModal(MODAL_KEY.ADDRESS_SEARCH)
                             }}>

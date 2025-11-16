@@ -23,7 +23,9 @@ export default function SettingModal() {
     <Dimmed onClick={() => closeModal(MODAL_KEY.SETTING)}>
       <BottomSheet>
         <header className='mb-16 flex h-60 w-full items-center justify-center'>
-          <button className='absolute left-16' onClick={() => closeModal(MODAL_KEY.SETTING)}>
+          <button
+            className='absolute left-16 -translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
+            onClick={() => closeModal(MODAL_KEY.SETTING)}>
             <BrokenXIcon size={24} color={colors.black.DEFAULT} />
           </button>
           <span className='text-16 font-bold text-black-darken'>설정</span>
@@ -95,9 +97,13 @@ function MenuButton({
   onClick?: () => void
 }) {
   return (
-    <button className={clsx('flex w-full items-center justify-between px-8 py-24', className)} onClick={onClick}>
-      <span className='text-14 font-bold'>{label}</span>
-      {rightNode}
+    <button
+      className={clsx('group w-full rounded-8 px-8 py-24 active-press-duration active:bg-gray/30', className)}
+      onClick={onClick}>
+      <div className='flex items-center justify-between gap-8 active-press-duration group-active:scale-95'>
+        <span className='text-14 font-bold'>{label}</span>
+        {rightNode}
+      </div>
     </button>
   )
 }

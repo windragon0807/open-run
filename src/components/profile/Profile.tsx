@@ -50,7 +50,7 @@ export default function Profile() {
         <h4 className='mb-4 text-center text-16 font-bold'>{data?.data.nickname}</h4>
         <AddressClipboard>
           {(address) => (
-            <div className='mx-auto mb-8 flex w-fit cursor-pointer items-center gap-8 rounded-16 bg-white px-16 py-4'>
+            <div className='mx-auto mb-8 flex w-fit cursor-pointer items-center gap-8 rounded-16 bg-white px-16 py-4 active-press-duration active:scale-95 active:bg-gray/30'>
               <span className='text-14'>{address}</span>
               <CopyClipboardIcon size={16} color={colors.black.DEFAULT} />
             </div>
@@ -125,7 +125,7 @@ export default function Profile() {
 
 function AvatarButton() {
   return (
-    <button className='flex h-40 w-40 items-center justify-center rounded-full bg-black-darken/10'>
+    <button className='flex h-40 w-40 items-center justify-center rounded-full bg-black-darken/10 active-press-duration active:scale-90 active:bg-black-darken/20'>
       <UpperClothIcon size={16} color={colors.white} />
     </button>
   )
@@ -133,7 +133,9 @@ function AvatarButton() {
 
 function SettingButton({ onClick }: { onClick?: () => void }) {
   return (
-    <button className='flex h-40 w-40 items-center justify-center rounded-full bg-black-darken/10' onClick={onClick}>
+    <button
+      className='flex h-40 w-40 items-center justify-center rounded-full bg-black-darken/10 active-press-duration active:scale-90 active:bg-black-darken/20'
+      onClick={onClick}>
       <SettingIcon size={16} color={colors.white} />
     </button>
   )
@@ -206,7 +208,9 @@ function CompletedBung({ title, location, date }: { title: string; location: str
         </div>
       </div>
 
-      <button className='rounded-8 bg-black-darken px-11 py-10 text-14 font-bold text-white'>피드백 남기기</button>
+      <button className='rounded-8 bg-black-darken px-11 py-10 text-14 font-bold text-white active-press-duration active:scale-95 active:bg-black-darken/80'>
+        피드백 남기기
+      </button>
     </div>
   )
 }

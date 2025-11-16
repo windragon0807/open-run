@@ -37,7 +37,7 @@ export default function BottomNavigation() {
           label='탐색'
         />
         <button
-          className='flex h-full flex-1 items-center justify-center'
+          className='group flex h-full flex-1 items-center justify-center'
           onClick={() => {
             showModal({ key: MODAL_KEY.CREATE_BUNG, component: <CreateBung /> })
           }}>
@@ -69,9 +69,11 @@ function IconLink({ href, icon, label }: { href: string; icon: ReactNode; label:
   const pathname = usePathname()
   const isActive = pathname === href || (href.includes('challenges') && pathname.includes('challenges'))
   return (
-    <Link className='flex h-full flex-1 flex-col items-center justify-center' href={href}>
-      {icon}
-      <span className={clsx('text-10 font-medium', isActive ? 'text-black-darken' : 'text-gray')}>{label}</span>
+    <Link className='flex h-full flex-1 items-center justify-center' href={href}>
+      <div className='flex flex-col items-center justify-center rounded-8 px-8 py-4 active-press-duration active:scale-90 active:bg-gray/50'>
+        {icon}
+        <span className={clsx('text-10 font-medium', isActive ? 'text-black-darken' : 'text-gray')}>{label}</span>
+      </div>
     </Link>
   )
 }

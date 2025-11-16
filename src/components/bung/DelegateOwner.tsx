@@ -3,6 +3,7 @@
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useMemo } from 'react'
 import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
 import { BungMember } from '@type/bung'
@@ -15,7 +16,7 @@ import { colors } from '@styles/colors'
 import ConfirmDelegateModal from './modal/ConfirmDelegateModal'
 
 export default function DelegateOwner({ memberList }: { memberList: BungMember[] }) {
-  const filteredMemberList = memberList.filter(({ owner }) => !owner)
+  const filteredMemberList = useMemo(() => memberList.filter(({ owner }) => !owner), [memberList])
 
   const router = useRouter()
   const { isApp } = useAppStore()
@@ -25,7 +26,9 @@ export default function DelegateOwner({ memberList }: { memberList: BungMember[]
   return (
     <section className={clsx('h-full w-full bg-gray-lighten', isApp && 'pt-50')} onClick={(e) => e.stopPropagation()}>
       <header className='relative flex h-60 w-full items-center justify-center'>
-        <button className='absolute left-16' onClick={() => router.back()}>
+        <button
+          className='absolute left-16 -translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
+          onClick={() => router.back()}>
           <ArrowLeftIcon size={24} color={colors.black.darken} />
         </button>
         <span className='text-16 font-bold text-black'>벙주 넘기기</span>
@@ -72,7 +75,7 @@ export default function DelegateOwner({ memberList }: { memberList: BungMember[]
                 <span className='text-14 font-bold text-black-darken'>{member.nickname}</span>
               </div>
               <button
-                className='rounded-12 bg-black-darken px-13 py-4 text-12 text-white'
+                className='rounded-12 bg-black-darken px-13 py-4 text-12 text-white active-press-duration active:scale-95 active:bg-black-darken/80'
                 onClick={() =>
                   showModal({
                     key: MODAL_KEY.CONFIRM_DELEGATE,

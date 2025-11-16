@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-export default function NextButton({
+export default function BottomButton({
   children,
   disabled,
   onClick,
@@ -11,7 +11,7 @@ export default function NextButton({
 }) {
   return (
     <button
-      className='disabled:bg-gray h-59 w-full rounded-8 bg-primary text-16 font-bold text-white'
+      className='h-59 w-full rounded-8 bg-primary text-16 font-bold text-white active-press-duration active:scale-95 active:bg-primary-darken disabled:bg-gray'
       disabled={disabled}
       onClick={onClick}>
       {children}

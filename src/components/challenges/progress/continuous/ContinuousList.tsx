@@ -11,7 +11,7 @@ async function ContinuousList() {
 
   return (
     <section className='p-16'>
-      <button className='grid w-full grid-cols-[60px_1fr_auto] place-items-center gap-8 rounded-8 bg-white px-16 py-10'>
+      <button className='grid w-full grid-cols-[60px_1fr_auto] place-items-center gap-8 rounded-8 bg-white px-16 py-10 active-press-duration active:scale-95 active:bg-gray/30'>
         <CircularProgress progress={40} total={100}>
           <RandomGiftImage />
         </CircularProgress>

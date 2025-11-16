@@ -20,7 +20,7 @@ export default function CreateBung() {
         <header className='relative flex h-60 w-full items-center justify-center px-16'>
           <span className='text-16 font-bold'>{step === 'create' ? '벙 만들기' : '멤버 초대'}</span>
           <button
-            className='absolute right-16'
+            className='absolute right-12 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
             onClick={() => {
               closeModal(MODAL_KEY.CREATE_BUNG)
             }}>

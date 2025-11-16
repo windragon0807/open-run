@@ -9,7 +9,7 @@ export default function Page() {
     <>
       <header className='relative mb-24 flex h-60 w-full items-center justify-center'>
         <Link href='/profile' className='absolute left-16'>
-          <button>
+          <button className='-translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'>
             <ArrowLeftIcon size={24} color={colors.black.darken} />
           </button>
         </Link>

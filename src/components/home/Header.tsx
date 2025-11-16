@@ -67,6 +67,78 @@ export default function Header() {
 
   return (
     <>
+      {/* 기존 Header */}
+      <header
+        ref={headerRef}
+        className={clsx(isApp && 'pt-[64px]', currentWeather == null && 'animate-pulse')}
+        style={{
+          background: currentWeather
+            ? getWeatherData(currentWeather.weather).background
+            : weatherData.clouds.background.morning,
+        }}>
+        <section className='flex h-[200px] w-full justify-between'>
+          <div className='relative flex w-[176px] flex-shrink-0 items-end justify-end'>
+            {currentWeather && (
+              <Image
+                className='object-cover'
+                src={getWeatherData(currentWeather.weather).image}
+                alt='Weather Image'
+                fill
+                priority
+                sizes='(max-width: 768px) 100vw, 176px'
+              />
+            )}
+            {wearingAvatar && <Avatar className='absolute h-200 w-160' {...wearingAvatar} />}
+
+            <div className={clsx('absolute left-16', isApp ? 'top-0' : 'top-8')}>
+              <AvatarButton onClick={() => router.push('/avatar')} />
+            </div>
+            <div className='absolute bottom-8 left-12'>
+              <SkewedLikeLabel like={300} />
+            </div>
+          </div>
+
+          <div className='flex flex-col'>
+            <div className='m-[8px_20px_16px] flex items-center justify-end gap-8'>
+              <div className='flex flex-col items-end'>
+                <span className='text-20 font-bold text-white'>{userInfo?.nickname}</span>
+                <AddressClipboard>
+                  {(address) => (
+                    <div className='flex -translate-y-2 translate-x-4 cursor-pointer items-center gap-6 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/20'>
+                      <span className='text-10 text-white'>{address}</span>
+                      <CopyClipboardIcon className='-translate-y-1' size={12} color={colors.white} />
+                    </div>
+                  )}
+                </AddressClipboard>
+              </div>
+              <button className='rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/20'>
+                <BellIcon className='-translate-y-1 translate-x-2' size={24} color={colors.white} />
+              </button>
+            </div>
+            <div
+              className='relative mr-32 flex w-[152px] flex-1 cursor-pointer flex-col items-center'
+              onClick={() => {
+                refetch()
+              }}>
+              <div className='absolute z-0 h-full w-full rounded-[80px_80px_0_0] bg-gradient-weather opacity-30' />
+              {isReverseGeocodeLoading ? (
+                <div className='mt-24 h-16 w-80 animate-pulse rounded-10 bg-gray' />
+              ) : (
+                <span className='z-10 mt-24 text-12 text-white'>{reverseGeocode.split(' ').slice(1, 3).join(' ')}</span>
+              )}
+              {isCurrentWeatherLoading ? (
+                <div className='mt-19 h-30 w-122 animate-pulse rounded-10 bg-gray' />
+              ) : (
+                <span className='z-10 mt-4 flex items-center gap-8 font-jost text-40 font-bold tracking-wide text-white'>
+                  <Image src={getWeatherData(currentWeather.weather).icon} alt='Weather Icon' width={41} height={24} />
+                  {Math.floor(currentWeather.temperature)}°
+                </span>
+              )}
+            </div>
+          </div>
+        </section>
+      </header>
+
       <AnimatePresence>
         {!isHeaderVisible && (
           <motion.div
@@ -105,20 +177,20 @@ export default function Header() {
               </div>
 
               <div className='flex flex-col'>
-                <div className='m-[8px_24px_10px] flex items-center justify-end gap-12'>
+                <div className='m-[8px_20px_10px] flex items-center justify-end gap-8'>
                   <div className='flex flex-col items-end'>
                     <span className='text-16 font-bold text-white'>{userInfo?.nickname}</span>
                     <AddressClipboard>
                       {(address) => (
-                        <div className='flex cursor-pointer items-center gap-6'>
+                        <div className='flex -translate-y-2 translate-x-4 cursor-pointer items-center gap-6 rounded-8 p-4 active-press-duration active:scale-95 active:bg-gray/20'>
                           <span className='text-10 text-white'>{address}</span>
                           <CopyClipboardIcon className='-translate-y-1' size={12} color={colors.white} />
                         </div>
                       )}
                     </AddressClipboard>
                   </div>
-                  <button className='-translate-y-2'>
-                    <BellIcon size={24} color={colors.white} />
+                  <button className='rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/20'>
+                    <BellIcon className='-translate-y-1 translate-x-2' size={24} color={colors.white} />
                   </button>
                 </div>
 
@@ -143,78 +215,6 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* 기존 Header */}
-      <header
-        ref={headerRef}
-        className={clsx(isApp && 'pt-[64px]', currentWeather == null && 'animate-pulse')}
-        style={{
-          background: currentWeather
-            ? getWeatherData(currentWeather.weather).background
-            : weatherData.clouds.background.morning,
-        }}>
-        <section className='flex h-[200px] w-full justify-between'>
-          <div className='relative flex w-[176px] flex-shrink-0 items-end justify-end'>
-            {currentWeather && (
-              <Image
-                className='object-cover'
-                src={getWeatherData(currentWeather.weather).image}
-                alt='Weather Image'
-                fill
-                priority
-                sizes='(max-width: 768px) 100vw, 176px'
-              />
-            )}
-            {wearingAvatar && <Avatar className='absolute h-200 w-160' {...wearingAvatar} />}
-
-            <div className={clsx('absolute left-16', isApp ? 'top-0' : 'top-8')}>
-              <AvatarButton onClick={() => router.push('/avatar')} />
-            </div>
-            <div className='absolute bottom-8 left-12'>
-              <SkewedLikeLabel like={300} />
-            </div>
-          </div>
-
-          <div className='flex flex-col'>
-            <div className='m-[8px_24px_16px] flex items-center justify-end gap-12'>
-              <div className='flex flex-col items-end'>
-                <span className='text-20 font-bold text-white'>{userInfo?.nickname}</span>
-                <AddressClipboard>
-                  {(address) => (
-                    <div className='flex cursor-pointer items-center gap-6'>
-                      <span className='text-10 text-white'>{address}</span>
-                      <CopyClipboardIcon className='-translate-y-1' size={12} color={colors.white} />
-                    </div>
-                  )}
-                </AddressClipboard>
-              </div>
-              <button className='-translate-y-2'>
-                <BellIcon size={24} color={colors.white} />
-              </button>
-            </div>
-            <div
-              className='relative mr-32 flex w-[152px] flex-1 cursor-pointer flex-col items-center'
-              onClick={() => {
-                refetch()
-              }}>
-              <div className='absolute z-0 h-full w-full rounded-[80px_80px_0_0] bg-gradient-weather opacity-30' />
-              {isReverseGeocodeLoading ? (
-                <div className='mt-24 h-16 w-80 animate-pulse rounded-10 bg-gray' />
-              ) : (
-                <span className='z-10 mt-24 text-12 text-white'>{reverseGeocode.split(' ').slice(1, 3).join(' ')}</span>
-              )}
-              {isCurrentWeatherLoading ? (
-                <div className='mt-19 h-30 w-122 animate-pulse rounded-10 bg-gray' />
-              ) : (
-                <span className='z-10 mt-4 flex items-center gap-8 font-jost text-40 font-bold tracking-wide text-white'>
-                  <Image src={getWeatherData(currentWeather.weather).icon} alt='Weather Icon' width={41} height={24} />
-                  {Math.floor(currentWeather.temperature)}°
-                </span>
-              )}
-            </div>
-          </div>
-        </section>
-      </header>
     </>
   )
 }
@@ -222,7 +222,7 @@ export default function Header() {
 function AvatarButton({ onClick }: { onClick?: () => void }) {
   return (
     <button
-      className='flex aspect-square w-40 items-center justify-center rounded-full bg-black-darken/10'
+      className='flex aspect-square w-40 items-center justify-center rounded-full bg-black-darken/10 active-press-duration active:scale-90 active:bg-gray/20'
       onClick={onClick}>
       <UpperClothIcon size={16} color={colors.white} />
     </button>

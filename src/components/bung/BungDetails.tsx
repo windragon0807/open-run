@@ -149,12 +149,16 @@ export default function BungDetails({ details }: { details: BungInfo }) {
           isApp && 'top-50',
         )}
         onClick={handleScrollToTop}>
-        <button onClick={() => router.push('/')}>
+        <button
+          className='-translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-white/10'
+          onClick={() => router.push('/')}>
           <ArrowLeftIcon size={24} color={colors.white} />
         </button>
-        <div className='flex items-center gap-12'>
+        <div className='flex items-center gap-4'>
           {벙에참여한멤버인가 && (
-            <button className='text-14 text-white' onClick={handleExit}>
+            <button
+              className='translate-x-8 rounded-8 px-8 py-4 text-14 text-white active-press-duration active:scale-90 active:bg-white/10'
+              onClick={handleExit}>
               참여 취소
             </button>
           )}
@@ -162,6 +166,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
             <>
               {/** 벙 수정 */}
               <button
+                className='rounded-8 p-4 active-press-duration active:scale-95 active:bg-white/10'
                 onClick={() =>
                   showModal({ key: MODAL_KEY.MODIFY_BUNG, component: <ModifyBungModal details={details} /> })
                 }>
@@ -169,6 +174,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
               </button>
               {/** 벙주 넘기기 */}
               <button
+                className='rounded-8 p-4 active-press-duration active:scale-90 active:bg-white/10'
                 onClick={() =>
                   router.push(`/bung/${bungId}/delegate-owner?memberList=${JSON.stringify(details.memberList)}`)
                 }>
@@ -176,6 +182,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
               </button>
               {/** 벙 삭제 */}
               <button
+                className='rounded-8 p-4 active-press-duration active:scale-90 active:bg-white/10'
                 onClick={() =>
                   showModal({ key: MODAL_KEY.DELETE_BUNG, component: <DeleteBungModal bungId={details.bungId} /> })
                 }>
@@ -255,7 +262,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
                       : '러닝 시작 전, 벙주의 안내에 따라\n참여 인증을 해주세요'}
                   </p>
                   <button
-                    className='rounded-8 bg-black-darken px-14 py-10 text-14 font-bold text-white disabled:bg-gray disabled:text-white'
+                    className='rounded-8 bg-black-darken px-14 py-10 text-14 font-bold text-white active-press-duration active:scale-90 active:bg-black-darken/80 disabled:bg-gray disabled:text-white'
                     disabled={현재유저의벙참여정보?.participationStatus === true}
                     onClick={() => {
                       showModal({
@@ -273,7 +280,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
                   </button>
                 </div>
                 <button
-                  className='flex h-32 w-full items-center justify-between rounded-8 bg-gray-lighten px-16'
+                  className='flex h-32 w-full items-center justify-between rounded-8 bg-gray-lighten px-16 active-press-duration active:scale-95 active:bg-gray/50'
                   onClick={() => {
                     showModal({
                       key: MODAL_KEY.WHY_CERTIFICATION,
@@ -286,7 +293,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
                 {벙에참여한벙주인가 && (
                   <>
                     <button
-                      className='mt-16 h-56 w-full rounded-8 bg-black-darken text-16 font-bold text-white disabled:bg-gray disabled:text-white'
+                      className='mt-16 h-56 w-full rounded-8 bg-black-darken text-16 font-bold text-white active-press-duration active:scale-95 active:bg-black-darken/80 disabled:bg-gray disabled:text-white'
                       disabled={벙이진행중인가 === false}
                       onClick={handleBungComplete}>
                       벙 완료
@@ -317,7 +324,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
               <span className='text-16 font-bold text-black-darken'>{참여인원수}명이 함께 뛸 예정이에요</span>
               {벙에참여한벙주인가 && (
                 <button
-                  className='text-14 font-normal text-black-darken'
+                  className='translate-x-8 rounded-8 px-8 py-4 text-14 font-normal text-black-darken active-press-duration active:scale-90 active:bg-gray/50'
                   onClick={() =>
                     router.push(`/bung/${bungId}/manage-members?memberList=${JSON.stringify(details.memberList)}`)
                   }>

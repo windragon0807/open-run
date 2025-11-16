@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { ReactNode } from 'react'
 
 export default function PrimaryButton({
@@ -16,7 +17,10 @@ export default function PrimaryButton({
   return (
     <button
       type={type}
-      className={`disabled:bg-gray flex h-56 w-full items-center justify-center rounded-8 bg-primary disabled:text-gray-lighten ${className}`}
+      className={clsx(
+        'flex h-56 w-full items-center justify-center rounded-8 bg-primary active-press-duration active:scale-95 active:bg-primary-darken disabled:bg-gray disabled:text-gray-lighten',
+        className,
+      )}
       disabled={disabled}
       onClick={onClick}>
       <span className='text-16 font-bold text-white'>{children}</span>

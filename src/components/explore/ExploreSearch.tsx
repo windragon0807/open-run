@@ -33,7 +33,9 @@ export default function ExploreSearch({ onCancelButtonClick }: { onCancelButtonC
     <section className={clsx('h-full', isApp && 'pt-50')}>
       <div className='flex items-center gap-8 px-16 py-24'>
         <Input ref={inputRef} placeholder='벙 검색' value={searchKeyword} setValue={setSearchKeyword} />
-        <button className='flex-shrink-0 px-8 text-14' onClick={onCancelButtonClick}>
+        <button
+          className='flex-shrink-0 rounded-8 px-8 py-4 text-14 active-press-duration active:scale-90 active:bg-gray/50'
+          onClick={onCancelButtonClick}>
           취소
         </button>
       </div>

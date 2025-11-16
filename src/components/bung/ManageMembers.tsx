@@ -23,7 +23,9 @@ export default function ManageMembers({ memberList }: { memberList: BungMember[]
   return (
     <section className={clsx('h-full w-full bg-gray-lighten', isApp && 'pt-50')}>
       <header className='relative flex h-60 w-full items-center justify-center'>
-        <button className='absolute left-16' onClick={() => router.back()}>
+        <button
+          className='absolute left-16 -translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
+          onClick={() => router.back()}>
           <ArrowLeftIcon size={24} color={colors.black.darken} />
         </button>
         <span className='text-16 font-bold text-black'>멤버 관리</span>
@@ -62,7 +64,7 @@ export default function ManageMembers({ memberList }: { memberList: BungMember[]
               </div>
               {member.owner === false && (
                 <button
-                  className='rounded-12 bg-pink px-13 py-4 text-12 text-white'
+                  className='rounded-12 bg-pink px-13 py-4 text-12 text-white active-press-duration active:scale-95 active:bg-pink/80'
                   onClick={() => {
                     showModal({
                       key: MODAL_KEY.CONFIRM_DROPOUT,

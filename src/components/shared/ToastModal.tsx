@@ -47,7 +47,7 @@ export default function ToastModal({ mode, message }: { mode: 'success' | 'error
               </div>
               <span className='text-16 font-bold text-white'>{message}</span>
             </div>
-            <button onClick={handleExitComplete}>
+            <button className='active-press-duration active:scale-90' onClick={handleExitComplete}>
               <BrokenXIcon size={24} color={colors.white} />
             </button>
           </div>

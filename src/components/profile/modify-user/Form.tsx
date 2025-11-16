@@ -114,7 +114,7 @@ export default function Form() {
       </div>
 
       <button
-        className='h-56 w-full rounded-8 bg-primary text-16 font-bold text-white'
+        className='h-56 w-full rounded-8 bg-primary text-16 font-bold text-white active-press-duration active:scale-95 active:bg-primary-darken'
         onClick={handleSubmit(onSubmit)}>
         업데이트
       </button>

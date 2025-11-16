@@ -32,7 +32,9 @@ export default function GeneralItem({
         <p className='flex w-full items-center justify-between gap-8 justify-self-start text-left text-14 font-bold'>
           {title}
           {description && (
-            <button className='flex-shrink-0' onClick={() => setIsOpen((prev) => !prev)}>
+            <button
+              className='flex-shrink-0 active-press-duration active:scale-90'
+              onClick={() => setIsOpen((prev) => !prev)}>
               <InfoIcon />
             </button>
           )}

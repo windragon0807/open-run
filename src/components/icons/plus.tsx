@@ -3,7 +3,12 @@ import { IconProps } from '@type/icon'
 export function RoundedPlusIcon({ size }: IconProps) {
   return (
     <svg width={size} height={size} viewBox='0 0 36 36'>
-      <rect className='fill-gray-lighten' width={size} height={size} rx='18' />
+      <rect
+        className='fill-white active-press-duration group-active:fill-gray-lighten'
+        width={size}
+        height={size}
+        rx='18'
+      />
       <path
         className='fill-gray-darken'
         fillRule='evenodd'

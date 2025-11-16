@@ -155,8 +155,8 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
         <section className='relative mx-auto mb-32 h-184 w-full'>
           <Image className='rounded-8' src={watch('imageUrl')} alt='Random Thumbnail Image' fill />
           <button
+            className='absolute bottom-16 right-16 rounded-4 bg-primary p-8 active-press-duration active:scale-90 active:bg-primary-darken'
             type='button'
-            className='absolute bottom-16 right-16 rounded-4 bg-primary p-8'
             onClick={() => nextImage({ onChange: (imageUrl) => setValue('imageUrl', imageUrl) })}>
             <RandomIcon size={24} color={colors.white} />
           </button>
@@ -188,8 +188,8 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
               <Input className='disabled:bg-gray' placeholder='주소 검색' value={watch('location')} disabled />
             </div>
             <button
+              className='h-40 w-80 place-items-center rounded-8 bg-primary text-14 font-semibold text-white active-press-duration active:scale-95 active:bg-primary-darken'
               type='button'
-              className='h-40 w-80 place-items-center rounded-8 bg-primary text-14 font-semibold text-white'
               onClick={() => {
                 showModal({
                   key: MODAL_KEY.ADDRESS_SEARCH,
@@ -213,12 +213,17 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
           <FormTitle required>시작 일시</FormTitle>
           <div className='flex w-full gap-8'>
             <Button
-              className={clsx('pl-16', 시작날짜를선택했는가 ? 'border-primary bg-primary/10' : 'bg-white')}
+              className={clsx(
+                'pl-16',
+                시작날짜를선택했는가
+                  ? 'border-primary bg-primary/10'
+                  : 'bg-white active-press-duration active:scale-95 active:bg-gray/50',
+              )}
               onClick={() => {
                 setDatePickerOpen((prev) => !prev)
                 if (isTimePickerOpen) setTimePickerOpen(false)
               }}>
-              <CalendarIcon size={16} color={시작날짜를선택했는가 ? colors.primary : colors.black.DEFAULT} />
+              <CalendarIcon size={16} color={시작날짜를선택했는가 ? colors.primary.DEFAULT : colors.black.DEFAULT} />
               <p className={시작날짜를선택했는가 ? 'text-primary' : 'text-black'}>
                 {시작날짜를선택했는가
                   ? formatDate({ date: watch('startDate') as Date, formatStr: 'yyyy년 M월 d일' })
@@ -226,12 +231,17 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
               </p>
             </Button>
             <Button
-              className={clsx('pl-16', 시작시간을선택했는가 ? 'border-primary bg-primary/10' : 'bg-white')}
+              className={clsx(
+                'pl-16',
+                시작시간을선택했는가
+                  ? 'border-primary bg-primary/10'
+                  : 'bg-white active-press-duration active:scale-95 active:bg-gray/50',
+              )}
               onClick={() => {
                 setTimePickerOpen((prev) => !prev)
                 if (isDatePickerOpen) setDatePickerOpen(false)
               }}>
-              <ClockIcon size={16} color={시작시간을선택했는가 ? colors.primary : colors.black.DEFAULT} />
+              <ClockIcon size={16} color={시작시간을선택했는가 ? colors.primary.DEFAULT : colors.black.DEFAULT} />
               <p className={시작시간을선택했는가 ? 'text-primary' : 'text-black'}>
                 {시작시간을선택했는가 ? (watch('startTime') as string).replace(':', ' : ') : '시간 선택'}
               </p>

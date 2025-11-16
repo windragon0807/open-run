@@ -82,11 +82,15 @@ export default function AvatarPage({
     <article className={clsx('h-full w-full bg-white', isApp && 'pt-50')}>
       {/* 헤더 */}
       <header className='relative z-20 flex h-60 w-full items-center justify-center bg-white px-5'>
-        <button className='absolute left-16' onClick={() => router.back()}>
+        <button
+          className='absolute left-16 -translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
+          onClick={() => router.back()}>
           <ArrowLeftIcon size={24} color={colors.black.darken} />
         </button>
         <h1 className='text-16 font-bold text-black'>아바타 변경</h1>
-        <button className='absolute right-16' onClick={handleCapture}>
+        <button
+          className='absolute right-16 translate-x-8 rounded-8 px-8 py-4 active-press-duration active:scale-90 active:bg-gray/50'
+          onClick={handleCapture}>
           <span className='text-14 text-black'>저장</span>
         </button>
       </header>
@@ -111,7 +115,7 @@ export default function AvatarPage({
 
             {/* 초기화 버튼 */}
             <button
-              className='absolute bottom-8 right-8 flex aspect-square w-[40px] items-center justify-center rounded-full bg-white'
+              className='absolute bottom-8 right-8 flex aspect-square w-[40px] items-center justify-center rounded-full bg-white active-press-duration active:scale-90 active:bg-white/90'
               onClick={handleReset}>
               <ResetIcon />
             </button>

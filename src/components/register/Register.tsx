@@ -65,8 +65,14 @@ export default function Register() {
         step === 0 ? 'bg-gradient-primary-white' : 'bg-gray-lighten',
       )}>
       {step === 0 ? (
-        <button className={clsx('absolute left-0 top-0 z-[10] h-60 pl-16', isApp && 'top-50')} onClick={handlePrevious}>
-          <ArrowLeftIcon size={40} color={colors.white} />
+        <button
+          className={clsx('group absolute left-0 top-0 z-[10] ml-16 h-60', isApp && 'top-50')}
+          onClick={handlePrevious}>
+          <ArrowLeftIcon
+            className='rounded-8 active-press-duration group-active:scale-90 group-active:bg-primary-darken/20'
+            size={40}
+            color={colors.white}
+          />
         </button>
       ) : null}
       {step === 0 ? <Welcome /> : null}

@@ -97,7 +97,9 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
       <BottomSheet fullSize>
         <header className='relative flex h-60 w-full items-center justify-center px-16'>
           <span className='text-16 font-bold'>벙 수정</span>
-          <button className='absolute right-16' onClick={() => closeModal(MODAL_KEY.MODIFY_BUNG)}>
+          <button
+            className='absolute right-16 translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
+            onClick={() => closeModal(MODAL_KEY.MODIFY_BUNG)}>
             <BrokenXIcon size={24} color={colors.black.DEFAULT} />
           </button>
         </header>
@@ -108,7 +110,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
               <Image className='rounded-8' src={watch('mainImage')} alt='Thumbnail Image' fill />
               <button
                 type='button'
-                className='absolute bottom-16 right-16 rounded-4 bg-primary p-8'
+                className='absolute bottom-16 right-16 rounded-4 bg-primary p-8 active-press-duration active:scale-90 active:bg-primary-darken'
                 onClick={() => nextImage({ onChange: (imageUrl) => setValue('mainImage', imageUrl) })}>
                 <RandomIcon size={24} color={colors.white} />
               </button>

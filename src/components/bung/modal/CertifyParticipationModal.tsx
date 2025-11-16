@@ -58,7 +58,9 @@ export default function CertifyParticipationModal({ bungId, lat, lng }: { bungId
     <Dimmed onClick={() => closeModal(MODAL_KEY.CERTIFY_PARTICIPATION)}>
       <BottomSheet className='px-16'>
         <header className='flex h-60 w-full items-center justify-center'>
-          <button className='absolute left-16' onClick={() => closeModal(MODAL_KEY.CERTIFY_PARTICIPATION)}>
+          <button
+            className='absolute left-16 -translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
+            onClick={() => closeModal(MODAL_KEY.CERTIFY_PARTICIPATION)}>
             <BrokenXIcon size={24} color={colors.black.DEFAULT} />
           </button>
           <span className='text-16 font-bold text-black-darken'>참여 인증</span>

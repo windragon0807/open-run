@@ -49,11 +49,15 @@ export default function BungCompleteModal({
     <Dimmed onClick={() => closeModal(MODAL_KEY.BUNG_COMPLETE)}>
       <BottomSheet fullSize>
         <header className='relative mb-16 flex h-60 w-full items-center justify-center px-16'>
-          <button className='absolute left-16' onClick={() => closeModal(MODAL_KEY.BUNG_COMPLETE)}>
+          <button
+            className='absolute left-16 -translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
+            onClick={() => closeModal(MODAL_KEY.BUNG_COMPLETE)}>
             <BrokenXIcon size={24} color={colors.black.DEFAULT} />
           </button>
           <span className='text-16 font-bold'>벙 완료!</span>
-          <button className='absolute right-16' onClick={handleSaveButton}>
+          <button
+            className='absolute right-16 translate-x-8 rounded-8 px-8 py-4 active-press-duration active:scale-90 active:bg-gray/50'
+            onClick={handleSaveButton}>
             <span className='text-14 text-black-darken'>저장</span>
           </button>
         </header>
@@ -79,8 +83,8 @@ export default function BungCompleteModal({
             />
             <div className='flex flex-col gap-4'>
               <p className='whitespace-wrap text-16 font-bold text-black-darken'>{title}</p>
-              <div className='flex items-center gap-4'>
-                <PlaceIcon size={16} color={colors.black.darken} />
+              <div className='flex gap-4'>
+                <PlaceIcon className='translate-y-2' size={16} color={colors.black.darken} />
                 <span className='whitespace-wrap text-14 text-black-darken'>{location}</span>
               </div>
             </div>
@@ -112,7 +116,7 @@ export default function BungCompleteModal({
                     )
                   }}>
                   {checkedUserIdList.includes(member.userId) ? (
-                    <FilledThumbIcon className='inline -translate-y-[2px]' size={24} color={colors.primary} />
+                    <FilledThumbIcon className='inline -translate-y-[2px]' size={24} color={colors.primary.DEFAULT} />
                   ) : (
                     <OutlinedThumbIcon className='inline -translate-y-[2px]' size={24} color={colors.gray.darken} />
                   )}

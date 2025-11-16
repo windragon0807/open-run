@@ -10,7 +10,9 @@ export default function DontWorryModal() {
     <Dimmed onClick={() => closeModal(MODAL_KEY.DONT_WORRY)}>
       <BottomSheet>
         <header className='flex h-60 w-full items-center justify-center'>
-          <button className='absolute left-16' onClick={() => closeModal(MODAL_KEY.DONT_WORRY)}>
+          <button
+            className='absolute left-14 rounded-8 p-2 active-press-duration active:scale-90 active:bg-gray/50'
+            onClick={() => closeModal(MODAL_KEY.DONT_WORRY)}>
             <BrokenXIcon size={24} color={colors.black.DEFAULT} />
           </button>
           <span className='text-16 font-bold'>월렛 로그인, 안심하고 진행하세요!</span>

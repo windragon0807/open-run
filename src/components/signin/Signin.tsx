@@ -101,7 +101,7 @@ function SignInBrowser() {
 function SmartWalletLoginButton({ isLoading, onClick }: { isLoading: boolean; onClick?: () => void }) {
   return (
     <button
-      className='relative flex h-56 w-full items-center justify-center gap-8 rounded-8 bg-primary hover:bg-primary/90'
+      className='relative flex h-56 w-full items-center justify-center gap-8 rounded-8 bg-primary active-press-duration active:scale-95 active:bg-primary-darken'
       disabled={isLoading}
       onClick={onClick}>
       <span className='absolute -top-16 rounded-12 border border-primary bg-white px-12 py-4 text-12 font-semibold'>
@@ -118,7 +118,7 @@ function DontWorryGuide() {
   const { showModal } = useModal()
   return (
     <button
-      className='flex h-32 w-full items-center justify-center gap-4 rounded-8 bg-white'
+      className='flex h-32 w-full items-center justify-center gap-4 rounded-8 bg-white active-press-duration active:scale-95 active:bg-gray/30'
       onClick={() => showModal({ key: MODAL_KEY.DONT_WORRY, component: <DontWorryModal /> })}>
       <svg width='16' height='16' viewBox='0 0 16 16' fill='none'>
         <circle

@@ -12,7 +12,7 @@ export default function RewardStatus({ progress, total }: { progress: number; to
   }
 
   return (
-    <button className='h-40 w-70 rounded-8 bg-primary hover:bg-primary/80'>
+    <button className='h-40 w-70 rounded-8 bg-primary active-press-duration active:scale-95 active:bg-primary-darken'>
       <span className='text-14 font-bold text-white'>보상 받기</span>
     </button>
   )

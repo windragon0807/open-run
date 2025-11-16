@@ -19,12 +19,18 @@ export default function Header({
   return (
     <header className={clsx('absolute flex h-60 w-full items-center bg-gray-lighten px-16', isApp && 'top-50')}>
       <div className='flex w-full items-center justify-between'>
-        <button onClick={onBackIconClick}>
-          <ArrowLeftIcon size={40} color={colors.black.darkest} />
+        <button className='group' onClick={onBackIconClick}>
+          <ArrowLeftIcon
+            className='rounded-8 active-press-duration group-active:scale-90 group-active:bg-gray/50'
+            size={40}
+            color={colors.black.darkest}
+          />
         </button>
         {건너뛰기버튼이보이는단계인가 ? (
-          <button onClick={onSkipTextClick}>
-            <span className='mr-8 text-14'>건너뛰기</span>
+          <button
+            className='rounded-8 px-8 py-4 active-press-duration active:scale-95 active:bg-gray/50'
+            onClick={onSkipTextClick}>
+            <span className='text-14'>건너뛰기</span>
           </button>
         ) : null}
       </div>

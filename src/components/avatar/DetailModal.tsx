@@ -34,7 +34,9 @@ export default function DetailModal({
           onClick={(e) => e.stopPropagation()}>
           <header className='relative mb-16 flex h-60 w-full items-center justify-center'>
             <span className='text-16 font-bold'>NFT 아이템</span>
-            <button className='absolute right-18' onClick={() => closeModal(MODAL_KEY.AVATAR_DETAIL)}>
+            <button
+              className='absolute right-18 translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
+              onClick={() => closeModal(MODAL_KEY.AVATAR_DETAIL)}>
               <BrokenXIcon size={24} color={colors.black.DEFAULT} />
             </button>
           </header>

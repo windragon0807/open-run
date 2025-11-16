@@ -46,12 +46,12 @@ export default function ConfirmDelegateModal({ member, onSuccess }: { member: Bu
           </div>
           <div className='flex w-full gap-8'>
             <button
-              className={`h-56 flex-1 rounded-8 bg-black-darkest text-16 font-bold text-white`}
+              className='h-56 flex-1 rounded-8 bg-black-darkest text-16 font-bold text-white active-press-duration active:scale-90 active:bg-black-darkest/80'
               onClick={handleDelegate}>
               확인
             </button>
             <button
-              className='h-56 flex-1 rounded-8 bg-white text-16 font-bold text-black-darken'
+              className='h-56 flex-1 rounded-8 bg-white text-16 font-bold text-black-darken active-press-duration active:scale-90 active:bg-gray/50'
               onClick={() => closeModal(MODAL_KEY.CONFIRM_DELEGATE)}>
               취소
             </button>

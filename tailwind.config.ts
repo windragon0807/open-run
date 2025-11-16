@@ -89,10 +89,16 @@ const config: Config = {
             display: 'none',
           },
         },
+        '.active-press-duration': {
+          transition: 'all 150ms ease-in-out',
+        },
       })
 
       // app: variant 추가 - 앱 환경일 때 적용
       addVariant('app', '.app &')
+      
+      // group-active: variant 추가 - group 요소가 active 상태일 때 하위 요소에 적용
+      addVariant('group-active', ':merge(.group):active &')
     },
   ],
 }

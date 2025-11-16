@@ -1,5 +1,8 @@
 export const colors = {
-  primary: 'hsl(233, 84%, 61%)', // #4A5CEF
+  primary: {
+    DEFAULT: 'hsl(233, 84%, 61%)', // #4A5CEF
+    darken: 'hsl(233, 84%, 51%)', // #2C3DC8
+  },
   secondary: 'hsl(70, 95%, 68%)', // #E0FB60
 
   white: 'hsl(0, 0%, 100%)', // #fff

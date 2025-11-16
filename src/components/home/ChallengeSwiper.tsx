@@ -58,7 +58,9 @@ export default function ChallengeSwiper() {
       className='!pb-30 !pt-16'>
       {mockData.map((item, index) => (
         <SwiperSlide key={`swiper-slide-${index}`}>
-          <div className='flex h-[92px] w-full items-center gap-8 rounded-8 bg-white p-16 shadow-floating-primary'>
+          <div
+            role='button'
+            className='flex h-[92px] w-full cursor-pointer items-center gap-8 rounded-8 bg-white p-16 shadow-floating-primary active-press-duration active:scale-95 active:bg-gray/30'>
             <div className='flex aspect-square w-[60px] items-center justify-center rounded-8 bg-gray-lighten'>
               <Image src='/temp/nft_home_challenge.png' alt='' width={52} height={52} />
             </div>
