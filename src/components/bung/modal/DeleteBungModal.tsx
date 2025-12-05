@@ -38,12 +38,12 @@ export default function DeleteBungModal({ bungId }: { bungId: string }) {
           </div>
           <div className='flex w-full gap-8'>
             <button
-              className='h-56 flex-1 rounded-8 bg-pink/20 text-16 font-bold text-pink active-press-duration active:scale-95 active:bg-pink/30'
+              className='active:scale-98 h-56 flex-1 rounded-8 bg-pink/20 text-16 font-bold text-pink active-press-duration active:bg-pink/30'
               onClick={handleDeleteBung}>
               삭제
             </button>
             <button
-              className='h-56 flex-1 rounded-8 bg-white text-16 font-bold text-black-darken active-press-duration active:scale-90 active:bg-gray/50'
+              className='active:scale-98 h-56 flex-1 rounded-8 bg-white text-16 font-bold text-black-darken active-press-duration active:bg-gray/50'
               onClick={() => closeModal(MODAL_KEY.DELETE_BUNG)}>
               취소
             </button>

@@ -166,7 +166,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
             <>
               {/** 벙 수정 */}
               <button
-                className='rounded-8 p-4 active-press-duration active:scale-95 active:bg-white/10'
+                className='rounded-8 p-4 active-press-duration active:scale-90 active:bg-white/10'
                 onClick={() =>
                   showModal({ key: MODAL_KEY.MODIFY_BUNG, component: <ModifyBungModal details={details} /> })
                 }>
@@ -280,7 +280,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
                   </button>
                 </div>
                 <button
-                  className='flex h-32 w-full items-center justify-between rounded-8 bg-gray-lighten px-16 active-press-duration active:scale-95 active:bg-gray/50'
+                  className='active:scale-98 flex h-32 w-full items-center justify-between rounded-8 bg-gray-lighten px-16 active-press-duration active:bg-gray/50'
                   onClick={() => {
                     showModal({
                       key: MODAL_KEY.WHY_CERTIFICATION,
@@ -293,7 +293,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
                 {벙에참여한벙주인가 && (
                   <>
                     <button
-                      className='mt-16 h-56 w-full rounded-8 bg-black-darken text-16 font-bold text-white active-press-duration active:scale-95 active:bg-black-darken/80 disabled:bg-gray disabled:text-white'
+                      className='active:scale-98 mt-16 h-56 w-full rounded-8 bg-black-darken text-16 font-bold text-white active-press-duration active:bg-black-darken/80 disabled:bg-gray disabled:text-white'
                       disabled={벙이진행중인가 === false}
                       onClick={handleBungComplete}>
                       벙 완료

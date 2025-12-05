@@ -75,7 +75,7 @@ export default function DelegateOwner({ memberList }: { memberList: BungMember[]
                 <span className='text-14 font-bold text-black-darken'>{member.nickname}</span>
               </div>
               <button
-                className='rounded-12 bg-black-darken px-13 py-4 text-12 text-white active-press-duration active:scale-95 active:bg-black-darken/80'
+                className='active:scale-98 rounded-12 bg-black-darken px-13 py-4 text-12 text-white active-press-duration active:bg-black-darken/80'
                 onClick={() =>
                   showModal({
                     key: MODAL_KEY.CONFIRM_DELEGATE,

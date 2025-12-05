@@ -11,16 +11,18 @@ async function ContinuousList() {
 
   return (
     <section className='p-16'>
-      <button className='grid w-full grid-cols-[60px_1fr_auto] place-items-center gap-8 rounded-8 bg-white px-16 py-10 active-press-duration active:scale-95 active:bg-gray/30'>
-        <CircularProgress progress={40} total={100}>
-          <RandomGiftImage />
-        </CircularProgress>
-        <p className='flex w-full items-center justify-between gap-8 justify-self-start text-left text-14 font-bold'>
-          광화문 광장에서 1km 달리기
-        </p>
-        <div className='flex items-center gap-4'>
-          <RewardStatus progress={4} total={10} />
-          <ArrowRightIcon size={16} color={colors.black.darkest} />
+      <button className='group w-full rounded-8 bg-white px-16 py-10 active-press-duration active:bg-gray/30'>
+        <div className='group-active:scale-98 grid grid-cols-[60px_1fr_auto] place-items-center gap-8 active-press-duration'>
+          <CircularProgress progress={40} total={100}>
+            <RandomGiftImage />
+          </CircularProgress>
+          <p className='flex w-full items-center justify-between gap-8 justify-self-start text-left text-14 font-bold'>
+            광화문 광장에서 1km 달리기
+          </p>
+          <div className='flex items-center gap-4'>
+            <RewardStatus progress={4} total={10} />
+            <ArrowRightIcon size={16} color={colors.black.darkest} />
+          </div>
         </div>
       </button>
     </section>

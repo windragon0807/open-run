@@ -64,7 +64,7 @@ export default function ManageMembers({ memberList }: { memberList: BungMember[]
               </div>
               {member.owner === false && (
                 <button
-                  className='rounded-12 bg-pink px-13 py-4 text-12 text-white active-press-duration active:scale-95 active:bg-pink/80'
+                  className='active:scale-98 rounded-12 bg-pink px-13 py-4 text-12 text-white active-press-duration active:bg-pink/80'
                   onClick={() => {
                     showModal({
                       key: MODAL_KEY.CONFIRM_DROPOUT,

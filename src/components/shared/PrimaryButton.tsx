@@ -18,7 +18,7 @@ export default function PrimaryButton({
     <button
       type={type}
       className={clsx(
-        'flex h-56 w-full items-center justify-center rounded-8 bg-primary active-press-duration active:scale-95 active:bg-primary-darken disabled:bg-gray disabled:text-gray-lighten',
+        'active:scale-98 flex h-56 w-full items-center justify-center rounded-8 bg-primary active-press-duration active:bg-primary-darken disabled:bg-gray disabled:text-gray-lighten',
         className,
       )}
       disabled={disabled}

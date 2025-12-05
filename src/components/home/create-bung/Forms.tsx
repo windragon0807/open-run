@@ -188,7 +188,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
               <Input className='disabled:bg-gray' placeholder='주소 검색' value={watch('location')} disabled />
             </div>
             <button
-              className='h-40 w-80 place-items-center rounded-8 bg-primary text-14 font-semibold text-white active-press-duration active:scale-95 active:bg-primary-darken'
+              className='active:scale-98 h-40 w-80 place-items-center rounded-8 bg-primary text-14 font-semibold text-white active-press-duration active:bg-primary-darken'
               type='button'
               onClick={() => {
                 showModal({
@@ -217,7 +217,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
                 'pl-16',
                 시작날짜를선택했는가
                   ? 'border-primary bg-primary/10'
-                  : 'bg-white active-press-duration active:scale-95 active:bg-gray/50',
+                  : 'active:scale-98 bg-white active-press-duration active:bg-gray/50',
               )}
               onClick={() => {
                 setDatePickerOpen((prev) => !prev)
@@ -235,7 +235,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
                 'pl-16',
                 시작시간을선택했는가
                   ? 'border-primary bg-primary/10'
-                  : 'bg-white active-press-duration active:scale-95 active:bg-gray/50',
+                  : 'active:scale-98 bg-white active-press-duration active:bg-gray/50',
               )}
               onClick={() => {
                 setTimePickerOpen((prev) => !prev)

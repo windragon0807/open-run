@@ -11,7 +11,7 @@ export default function BottomButton({
 }) {
   return (
     <button
-      className='h-59 w-full rounded-8 bg-primary text-16 font-bold text-white active-press-duration active:scale-95 active:bg-primary-darken disabled:bg-gray'
+      className='active:scale-98 h-59 w-full rounded-8 bg-primary text-16 font-bold text-white active-press-duration active:bg-primary-darken disabled:bg-gray'
       disabled={disabled}
       onClick={onClick}>
       {children}

@@ -35,7 +35,7 @@ export default function BungCard({
   return (
     <article
       className={clsx(
-        'relative mx-auto h-184 w-full max-w-[500px] rounded-8 bg-cover bg-center p-16 text-white shadow-lg active-press-duration active:scale-95',
+        'active:scale-98 relative mx-auto h-184 w-full max-w-[500px] rounded-8 bg-cover bg-center p-16 text-white shadow-lg active-press-duration',
         벙이시작되었는가 && 'border-3 border-secondary',
       )}
       style={{

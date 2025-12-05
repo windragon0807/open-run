@@ -100,7 +100,7 @@ function MenuButton({
     <button
       className={clsx('group w-full rounded-8 px-8 py-24 active-press-duration active:bg-gray/30', className)}
       onClick={onClick}>
-      <div className='flex items-center justify-between gap-8 active-press-duration group-active:scale-95'>
+      <div className='group-active:scale-98 flex items-center justify-between gap-8 active-press-duration'>
         <span className='text-14 font-bold'>{label}</span>
         {rightNode}
       </div>

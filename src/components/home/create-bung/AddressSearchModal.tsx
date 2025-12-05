@@ -118,7 +118,7 @@ export default function AddressSearchModal({ onComplete }: { onComplete: (addres
               {suggestions.length === 0 ? (
                 <div className='flex flex-col'>
                   <button
-                    className='mb-24 flex h-32 w-full items-center justify-center gap-4 rounded-8 bg-gray-lighten active-press-duration active:scale-95 active:bg-gray/50 disabled:text-gray-darker'
+                    className='active:scale-98 mb-24 flex h-32 w-full items-center justify-center gap-4 rounded-8 bg-gray-lighten active-press-duration active:bg-gray/50 disabled:text-gray-darker'
                     disabled={location == null || isReverseGeocodingLoading}
                     onClick={handleCurrentLocationClick}>
                     <span className='text-14'>현재 위치</span>
