@@ -30,7 +30,7 @@ export default function AuthGuard({ children }: { children: ReactNode }) {
   }
 
   if (address === null) {
-    redirect('/signin')
+    // redirect('/signin')
   }
 
   return children

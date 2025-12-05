@@ -44,27 +44,23 @@ export default function BungCard({
       {isBungOwner ? <BoxedCrownIcon className='absolute right-16 top-16' size={24} color={colors.white} /> : null}
       <span
         className={clsx(
-          'text-16 font-black italic',
+          'mb-8 inline-flex text-16 font-black italic',
           벙이시작되었는가 && 'animate-pulse font-jost font-black text-secondary',
         )}>
         {벙이시작되었는가 ? 'Run Started!' : formattedTime}
       </span>
-      <Spacing size={8} />
-      <p className='truncate text-16 font-bold text-white'>{title}</p>
-      <Spacing size={8} />
-      <div className='flex gap-6'>
+      <p className='mb-8 truncate text-16 font-bold text-white'>{title}</p>
+      <div className='mb-2 flex gap-6'>
         <PlaceIcon className='flex-shrink-0 translate-y-2' size={16} color={colors.white} />
         <span className='text-14'>{place}</span>
       </div>
-      <Spacing size={2} />
-      <div className='flex items-center gap-6'>
+      <div className='mb-2 flex items-center gap-6'>
         <CalendarIcon size={16} color={colors.white} />
         <span className='text-14'>{formattedDate}</span>
       </div>
-      <Spacing size={2} />
       <div className='flex items-center gap-6'>
         <RunnerIcon size={16} color={colors.white} />
-        <span className='text-14'>
+        <span className='font-jost text-14'>
           {distance}km {pace}
         </span>
       </div>

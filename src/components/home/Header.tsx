@@ -2,7 +2,6 @@ import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
 import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
 import { Weather } from '@type/weather'
@@ -18,12 +17,10 @@ import { useCurrentWeather } from '@apis/weather/query'
 import addDelimiter from '@utils/addDelimiter'
 import { colors } from '@styles/colors'
 
-export default function Header() {
+export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: boolean }) {
   const { isApp } = useAppStore()
   const router = useRouter()
   const { userInfo } = useUserStore()
-  const headerRef = useRef<HTMLDivElement>(null)
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true)
 
   const { data: wearingAvatar } = useWearingAvatar()
   const { location, refetch } = useGeolocation()
@@ -36,186 +33,164 @@ export default function Header() {
     { enabled: location != null },
   )
 
-  // Intersection Observer를 사용하여 Header가 화면에서 사라지는 것을 감지
-  useEffect(() => {
-    const headerElement = headerRef.current
-    if (!headerElement) {
-      return
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          // Header가 화면에서 사라지면 상태를 false로 변경
-          setIsHeaderVisible(entry.isIntersecting)
-        })
-      },
-      {
-        threshold: 0.5,
-      },
-    )
-
-    observer.observe(headerElement)
-
-    return () => {
-      observer.disconnect()
-    }
-  }, [setIsHeaderVisible])
-
   const isReverseGeocodeLoading = location == null || reverseGeocode == null
   const isCurrentWeatherLoading = location == null || currentWeather == null
 
   return (
-    <>
-      {/* 기존 Header */}
-      <header
-        ref={headerRef}
-        className={clsx(isApp && 'pt-[64px]', currentWeather == null && 'animate-pulse')}
-        style={{
-          background: currentWeather
-            ? getWeatherData(currentWeather.weather).background
-            : weatherData.clouds.background.morning,
-        }}>
-        <section className='flex h-[200px] w-full justify-between'>
-          <div className='relative flex w-[176px] flex-shrink-0 items-end justify-end'>
-            {currentWeather && (
-              <Image
-                className='object-cover'
-                src={getWeatherData(currentWeather.weather).image}
-                alt='Weather Image'
-                fill
-                priority
-                sizes='(max-width: 768px) 100vw, 176px'
-              />
-            )}
-            {wearingAvatar && <Avatar className='absolute h-200 w-160' {...wearingAvatar} />}
-
-            <div className={clsx('absolute left-16', isApp ? 'top-0' : 'top-8')}>
-              <AvatarButton onClick={() => router.push('/avatar')} />
-            </div>
-            <div className='absolute bottom-8 left-12'>
-              <SkewedLikeLabel like={300} />
-            </div>
-          </div>
-
-          <div className='flex flex-col'>
-            <div className='m-[8px_20px_16px] flex items-center justify-end gap-8'>
-              <div className='flex flex-col items-end'>
-                <span className='text-20 font-bold text-white'>{userInfo?.nickname}</span>
-                <AddressClipboard>
-                  {(address) => (
-                    <div className='flex -translate-y-2 translate-x-4 cursor-pointer items-center gap-6 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/20'>
-                      <span className='text-10 text-white'>{address}</span>
-                      <CopyClipboardIcon className='-translate-y-1' size={12} color={colors.white} />
-                    </div>
-                  )}
-                </AddressClipboard>
-              </div>
-              <button className='rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/20'>
-                <BellIcon className='-translate-y-1 translate-x-2' size={24} color={colors.white} />
-              </button>
-            </div>
-            <div
-              className='relative mr-32 flex w-[152px] flex-1 cursor-pointer flex-col items-center'
-              onClick={() => {
-                refetch()
-              }}>
-              <div className='absolute z-0 h-full w-full rounded-[80px_80px_0_0] bg-gradient-weather opacity-30' />
-              {isReverseGeocodeLoading ? (
-                <div className='mt-24 h-16 w-80 animate-pulse rounded-10 bg-gray' />
-              ) : (
-                <span className='z-10 mt-24 text-12 text-white'>{reverseGeocode.split(' ').slice(1, 3).join(' ')}</span>
+    <AnimatePresence>
+      {!isSmallHeaderActive ? (
+        <motion.header
+          initial={{ height: 100, opacity: 0 }}
+          animate={{ height: 200, opacity: 1 }}
+          exit={{ height: 100, opacity: 0 }}
+          transition={{ duration: 0.2, ease: 'easeInOut' }}
+          className={clsx(
+            'fixed left-0 right-0 top-0 z-10 overflow-hidden',
+            isApp && 'pt-[64px]',
+            currentWeather == null && 'animate-pulse',
+          )}
+          style={{
+            background: currentWeather
+              ? getWeatherData(currentWeather.weather).background
+              : weatherData.clouds.background.morning,
+          }}>
+          <section className='flex h-[200px] w-full justify-between'>
+            <div className='relative flex w-[176px] flex-shrink-0 items-end justify-end'>
+              {currentWeather && (
+                <Image
+                  className='object-cover'
+                  src={getWeatherData(currentWeather.weather).image}
+                  alt='Weather Image'
+                  fill
+                  priority
+                  sizes='(max-width: 768px) 100vw, 176px'
+                />
               )}
-              {isCurrentWeatherLoading ? (
-                <div className='mt-19 h-30 w-122 animate-pulse rounded-10 bg-gray' />
-              ) : (
-                <span className='z-10 mt-4 flex items-center gap-8 font-jost text-40 font-bold tracking-wide text-white'>
-                  <Image src={getWeatherData(currentWeather.weather).icon} alt='Weather Icon' width={41} height={24} />
-                  {Math.floor(currentWeather.temperature)}°
-                </span>
-              )}
-            </div>
-          </div>
-        </section>
-      </header>
+              {wearingAvatar && <Avatar className='absolute h-200 w-160' {...wearingAvatar} />}
 
-      <AnimatePresence>
-        {!isHeaderVisible && (
-          <motion.div
-            initial={{ y: -90, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -90, opacity: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className={clsx('fixed left-0 right-0 top-0 z-50 mx-auto w-full max-w-tablet', isApp && 'pt-[64px]')}
-            style={{
-              background: `${
-                currentWeather
-                  ? getWeatherData(currentWeather.weather).background
-                  : weatherData.clouds.background.morning
-              }, linear-gradient(to bottom, white 80%, transparent 100%)`,
-            }}>
-            <section className='flex h-[90px] w-full justify-between'>
-              <div className='relative flex w-[118px] flex-shrink-0 items-end justify-end'>
-                {currentWeather && (
-                  <Image
-                    className='absolute object-cover'
-                    src={getWeatherData(currentWeather.weather).image}
-                    alt='Weather Image'
-                    width={80}
-                    height={90}
-                    priority
-                  />
-                )}
-                {wearingAvatar && <Avatar className='absolute h-90 w-68' {...wearingAvatar} />}
-
-                <div className={clsx('absolute left-16', isApp ? 'top-0' : 'top-8')}>
-                  <AvatarButton onClick={() => router.push('/avatar')} />
-                </div>
-                <div className='absolute bottom-8 left-8'>
-                  <SkewedLikeLabel like={300} />
-                </div>
+              <div className={clsx('absolute left-16', isApp ? 'top-0' : 'top-8')}>
+                <AvatarButton onClick={() => router.push('/avatar')} />
               </div>
+              <div className='absolute bottom-8 left-12'>
+                <SkewedLikeLabel like={300} />
+              </div>
+            </div>
 
-              <div className='flex flex-col'>
-                <div className='m-[8px_20px_10px] flex items-center justify-end gap-8'>
-                  <div className='flex flex-col items-end'>
-                    <span className='text-16 font-bold text-white'>{userInfo?.nickname}</span>
-                    <AddressClipboard>
-                      {(address) => (
-                        <div className='flex -translate-y-2 translate-x-4 cursor-pointer items-center gap-6 rounded-8 p-4 active-press-duration active:scale-95 active:bg-gray/20'>
-                          <span className='text-10 text-white'>{address}</span>
-                          <CopyClipboardIcon className='-translate-y-1' size={12} color={colors.white} />
-                        </div>
-                      )}
-                    </AddressClipboard>
-                  </div>
-                  <button className='rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/20'>
-                    <BellIcon className='-translate-y-1 translate-x-2' size={24} color={colors.white} />
-                  </button>
+            <div className='flex flex-col'>
+              <div className='m-[8px_20px_16px] flex items-center justify-end gap-8'>
+                <div className='flex flex-col items-end'>
+                  <span className='text-20 font-bold text-white'>{userInfo?.nickname}</span>
+                  <AddressClipboard>
+                    {(address) => (
+                      <div className='flex -translate-y-2 translate-x-4 cursor-pointer items-center gap-6 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/20'>
+                        <span className='text-10 text-white'>{address}</span>
+                        <CopyClipboardIcon className='-translate-y-1' size={12} color={colors.white} />
+                      </div>
+                    )}
+                  </AddressClipboard>
                 </div>
-
-                {isReverseGeocodeLoading || isCurrentWeatherLoading ? (
-                  <div className='relative mr-24 flex h-[28px] w-[160px] animate-pulse rounded-full bg-[#586587] bg-opacity-30' />
+                <button className='rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/20'>
+                  <BellIcon className='-translate-y-1 translate-x-2' size={24} color={colors.white} />
+                </button>
+              </div>
+              <div
+                className='relative mr-32 flex w-[152px] flex-1 cursor-pointer flex-col items-center'
+                onClick={() => {
+                  refetch()
+                }}>
+                <div className='absolute z-0 h-full w-full rounded-[80px_80px_0_0] bg-gradient-weather opacity-30' />
+                {isReverseGeocodeLoading ? (
+                  <div className='mt-24 h-16 w-80 animate-pulse rounded-10 bg-gray' />
                 ) : (
-                  <div className='relative mr-24 flex h-[28px] w-[160px] items-center justify-center gap-5 rounded-full bg-[#586587] bg-opacity-30'>
+                  <span className='z-10 mt-24 text-12 text-white'>
+                    {reverseGeocode.split(' ').slice(1, 3).join(' ')}
+                  </span>
+                )}
+                {isCurrentWeatherLoading ? (
+                  <div className='mt-19 h-30 w-122 animate-pulse rounded-10 bg-gray' />
+                ) : (
+                  <span className='z-10 mt-4 flex items-center gap-8 font-jost text-40 font-bold tracking-wide text-white'>
                     <Image
                       src={getWeatherData(currentWeather.weather).icon}
                       alt='Weather Icon'
-                      width={20}
-                      height={20}
+                      width={41}
+                      height={24}
                     />
-                    <span className='font-jost text-16 font-bold text-white'>
-                      {Math.floor(currentWeather.temperature)}°
-                    </span>
-                    <span className='text-12 text-white'>{reverseGeocode.split(' ')[1]}</span>
-                  </div>
+                    {Math.floor(currentWeather.temperature)}°
+                  </span>
                 )}
               </div>
-            </section>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+            </div>
+          </section>
+        </motion.header>
+      ) : (
+        <motion.div
+          initial={{ y: -90, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -90, opacity: 0 }}
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
+          className={clsx('fixed left-0 right-0 top-0 z-50 mx-auto w-full max-w-tablet', isApp && 'pt-[64px]')}
+          style={{
+            background: `${
+              currentWeather ? getWeatherData(currentWeather.weather).background : weatherData.clouds.background.morning
+            }, linear-gradient(to bottom, white 80%, transparent 100%)`,
+          }}>
+          <section className='flex h-[90px] w-full justify-between'>
+            <div className='relative flex w-[118px] flex-shrink-0 items-end justify-end'>
+              {currentWeather && (
+                <Image
+                  className='absolute object-cover'
+                  src={getWeatherData(currentWeather.weather).image}
+                  alt='Weather Image'
+                  width={80}
+                  height={90}
+                  priority
+                />
+              )}
+              {wearingAvatar && <Avatar className='absolute h-90 w-68' {...wearingAvatar} />}
+
+              <div className={clsx('absolute left-16', isApp ? 'top-0' : 'top-8')}>
+                <AvatarButton onClick={() => router.push('/avatar')} />
+              </div>
+              <div className='absolute bottom-8 left-8'>
+                <SkewedLikeLabel like={300} />
+              </div>
+            </div>
+
+            <div className='flex flex-col'>
+              <div className='m-[8px_20px_10px] flex items-center justify-end gap-8'>
+                <div className='flex flex-col items-end'>
+                  <span className='text-16 font-bold text-white'>{userInfo?.nickname}</span>
+                  <AddressClipboard>
+                    {(address) => (
+                      <div className='flex -translate-y-2 translate-x-4 cursor-pointer items-center gap-6 rounded-8 p-4 active-press-duration active:scale-95 active:bg-gray/20'>
+                        <span className='text-10 text-white'>{address}</span>
+                        <CopyClipboardIcon className='-translate-y-1' size={12} color={colors.white} />
+                      </div>
+                    )}
+                  </AddressClipboard>
+                </div>
+                <button className='rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/20'>
+                  <BellIcon className='-translate-y-1 translate-x-2' size={24} color={colors.white} />
+                </button>
+              </div>
+
+              {isReverseGeocodeLoading || isCurrentWeatherLoading ? (
+                <div className='relative mr-24 flex h-[28px] w-[160px] animate-pulse rounded-full bg-[#586587] bg-opacity-30' />
+              ) : (
+                <div className='relative mr-24 flex h-[28px] w-[160px] items-center justify-center gap-5 rounded-full bg-[#586587] bg-opacity-30'>
+                  <Image src={getWeatherData(currentWeather.weather).icon} alt='Weather Icon' width={20} height={20} />
+                  <span className='font-jost text-16 font-bold text-white'>
+                    {Math.floor(currentWeather.temperature)}°
+                  </span>
+                  <span className='text-12 text-white'>{reverseGeocode.split(' ')[1]}</span>
+                </div>
+              )}
+            </div>
+          </section>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
 
