@@ -24,7 +24,7 @@ function Category({ category }: { category: CategoryType }) {
         switch (category) {
           case 'general':
             return '일반'
-          case 'continuous':
+          case 'repetitive':
             return '반복'
           case 'event':
             return '이벤트'

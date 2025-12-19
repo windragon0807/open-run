@@ -3,8 +3,8 @@ import { CategoryType, ListType } from '@type/challenge'
 import ListTab from '@components/challenges/ListTab'
 import CompletedList from '@components/challenges/completed/CompletedList'
 import CategoryTab from '@components/challenges/progress/CategoryTab'
-import ContinuousList from '@components/challenges/progress/continuous/ContinuousList'
 import GeneralList from '@components/challenges/progress/general/GeneralList'
+import RepetitiveList from '@components/challenges/progress/repetitive/RepetitiveList'
 
 export default async function Page({
   searchParams,
@@ -26,7 +26,7 @@ export default async function Page({
         {list === 'progress' ? (
           <>
             <CategoryTab />
-            {category === 'general' ? <GeneralList /> : <ContinuousList />}
+            {category === 'general' ? <GeneralList /> : <RepetitiveList />}
           </>
         ) : (
           <CompletedList />

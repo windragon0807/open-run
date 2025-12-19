@@ -11,7 +11,7 @@ export default function CategoryTab() {
 
   const categoryList: Array<{ category: CategoryType; label: string }> = [
     { category: 'general', label: '일반' },
-    { category: 'continuous', label: '반복' },
+    { category: 'repetitive', label: '반복' },
   ]
 
   const handleCategoryChange = (category: CategoryType) => {

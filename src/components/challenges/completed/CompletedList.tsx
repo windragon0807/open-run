@@ -4,7 +4,7 @@ import { fetchCompletedChallengeList } from '@apis/v1/challenges/completed'
 import CategoryReward from './CategoryReward'
 
 async function CompletedList() {
-  await fetchCompletedChallengeList()
+  // await fetchCompletedChallengeList()
 
   return (
     <section className='w-full px-16'>

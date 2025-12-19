@@ -1,18 +1,19 @@
 import ErrorFallback from '@shared/ErrorFallback'
 import withBoundary from '@shared/withBoundary'
 import { ArrowRightIcon } from '@icons/arrow'
-// import { fetchContinuousChallengeList } from '@apis/v1/challenges/continuous'
+import { fetchRepetitiveChallengeList } from '@apis/v1/challenges/repetitive'
 import { colors } from '@styles/colors'
 import CircularProgress, { RandomGiftImage } from '../CircularProgress'
 import RewardStatus from '../RewardStatus'
 
-async function ContinuousList() {
-  // await fetchContinuousChallengeList()
+async function RepetitiveList() {
+  const response = await fetchRepetitiveChallengeList()
+  console.log(response)
 
   return (
     <section className='p-16'>
       <button className='group w-full rounded-8 bg-white px-16 py-10 active-press-duration active:bg-gray/30'>
-        <div className='group-active:scale-98 grid grid-cols-[60px_1fr_auto] place-items-center gap-8 active-press-duration'>
+        <div className='grid grid-cols-[60px_1fr_auto] place-items-center gap-8 active-press-duration group-active:scale-98'>
           <CircularProgress progress={40} total={100}>
             <RandomGiftImage />
           </CircularProgress>
@@ -29,7 +30,7 @@ async function ContinuousList() {
   )
 }
 
-export default withBoundary(ContinuousList, {
+export default withBoundary(RepetitiveList, {
   onLoading: (
     <section className='flex flex-col gap-8 p-16'>
       <div className='h-80 w-full animate-pulse rounded bg-gray' />

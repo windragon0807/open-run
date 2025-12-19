@@ -6,20 +6,28 @@ import RewardStatus from '../RewardStatus'
 import GeneralItem from './GeneralItem'
 
 async function GeneralList() {
-  await fetchGeneralChallengeList()
+  const response = await fetchGeneralChallengeList()
+  const challenges = Array.isArray(response.data) ? response.data : [response.data]
 
   return (
-    <section className='p-16'>
-      <GeneralItem
-        progressNode={
-          <CircularProgress progress={40} total={100}>
-            <RandomGiftImage />
-          </CircularProgress>
-        }
-        title='광화문 광장에서 1km 달리기'
-        description='광화문 광장에서 1km 달리기 광화문 광장에서 1km 달리기'
-        rewardStatusNode={<RewardStatus progress={4} total={10} />}
-      />
+    <section className='flex h-[calc(100%-102px)] flex-col gap-8 overflow-y-auto p-16 pb-120'>
+      {challenges.map((challenge) => {
+        const progressPercent = Math.round(challenge.progressStat)
+
+        return (
+          <GeneralItem
+            key={challenge.userChallengeId}
+            progressNode={
+              <CircularProgress progress={progressPercent} total={100}>
+                <RandomGiftImage />
+              </CircularProgress>
+            }
+            title={challenge.challengeName}
+            description={challenge.challengeDescription}
+            rewardStatusNode={<RewardStatus progress={challenge.currentCount} total={challenge.conditionCount} />}
+          />
+        )
+      })}
     </section>
   )
 }
