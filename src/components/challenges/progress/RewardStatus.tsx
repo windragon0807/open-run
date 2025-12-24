@@ -1,7 +1,7 @@
 'use client'
 
 export default function RewardStatus({ progress, total }: { progress: number; total: number }) {
-  if (progress !== total) {
+  if (progress < total) {
     return (
       <div className='flex h-40 w-70 items-center justify-center rounded-8 bg-gray-lighten'>
         <span className='text-14 text-gray-darken'>
@@ -12,7 +12,7 @@ export default function RewardStatus({ progress, total }: { progress: number; to
   }
 
   return (
-    <button className='active:scale-98 h-40 w-70 rounded-8 bg-primary active-press-duration active:bg-primary-darken'>
+    <button className='h-40 w-70 rounded-8 bg-primary active-press-duration active:scale-98 active:bg-primary-darken'>
       <span className='text-14 font-bold text-white'>보상 받기</span>
     </button>
   )

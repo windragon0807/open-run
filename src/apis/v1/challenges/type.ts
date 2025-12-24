@@ -15,3 +15,19 @@ export type ChallengeInfo = {
   accomplished: boolean
   nftCompleted: boolean
 }
+
+export type RepetitiveChallengeDetail = {
+  challengeId: number
+  challengeName: string
+  challengeDescription: string
+  challengeTrees: Array<{
+    userChallengeId: number | null
+    completedDate: string | null
+    nftCompleted: boolean
+    currentCount: number
+    currentProgress: number
+    stageId: number
+    stageNumber: number
+    conditionAsCount: number
+  }>
+}

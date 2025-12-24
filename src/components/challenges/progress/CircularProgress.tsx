@@ -5,10 +5,12 @@ import { colors } from '@styles/colors'
 export default function CircularProgress({
   progress,
   total,
+  circleColor = 'gray-lighten',
   children,
 }: {
   progress: number
   total: number
+  circleColor?: 'gray-lighten' | 'gray'
   children: ReactNode
 }) {
   const size = 60
@@ -26,9 +28,9 @@ export default function CircularProgress({
           cy={size / 2}
           r={radius}
           stroke='currentColor'
-          strokeWidth={3}
+          strokeWidth={2}
           fill='none'
-          className='text-gray-lighten'
+          className={`text-${circleColor}`}
         />
 
         {/* 진행률 원 */}
@@ -37,7 +39,7 @@ export default function CircularProgress({
           cy={size / 2}
           r={radius}
           stroke='currentColor'
-          strokeWidth={3}
+          strokeWidth={2}
           fill='none'
           strokeDasharray={strokeDasharray}
           strokeDashoffset={strokeDashoffset}
@@ -63,7 +65,7 @@ export function RandomGiftImage() {
 
 export function QuestionMarkImage() {
   return (
-    <div className='bg-gradient-achievement-question-mark flex size-48 items-center justify-center rounded-full'>
+    <div className='flex size-48 items-center justify-center rounded-full bg-gradient-achievement-gray'>
       <svg width='32' height='32' viewBox='0 0 32 32' fill='none'>
         <path
           d='M13.2192 19.6243V19.1689C13.2192 18.1252 13.3023 17.2935 13.4685 16.6736C13.6347 16.0538 13.8808 15.5572 14.2068 15.1841C14.5329 14.8046 14.9324 14.463 15.4055 14.1594C15.8146 13.8937 16.179 13.6376 16.4986 13.3909C16.8247 13.1442 17.0804 12.8817 17.2658 12.6034C17.4575 12.3251 17.5534 12.0089 17.5534 11.6546C17.5534 11.3384 17.4767 11.0601 17.3233 10.8197C17.1699 10.5794 16.9621 10.3928 16.7 10.26C16.4379 10.1271 16.147 10.0607 15.8274 10.0607C15.4822 10.0607 15.1626 10.1398 14.8685 10.2979C14.5808 10.456 14.3475 10.6743 14.1685 10.9526C13.9959 11.2309 13.9096 11.5534 13.9096 11.9203H9C9.01279 10.5288 9.33242 9.39975 9.9589 8.53321C10.5854 7.66034 11.4164 7.02151 12.4521 6.6167C13.4877 6.20557 14.6256 6 15.8658 6C17.2338 6 18.4548 6.19924 19.5288 6.59772C20.6027 6.98988 21.4498 7.58444 22.0699 8.3814C22.69 9.17204 23 10.1619 23 11.351C23 12.1164 22.8658 12.79 22.5973 13.3719C22.3352 13.9475 21.9676 14.4567 21.4945 14.8994C21.0279 15.3359 20.4813 15.7343 19.8548 16.0949C19.3945 16.3605 19.0078 16.6357 18.6945 16.9203C18.3813 17.1986 18.1447 17.518 17.9849 17.8786C17.8251 18.2328 17.7452 18.6629 17.7452 19.1689V19.6243H13.2192ZM15.5589 26C14.8174 26 14.1813 25.7438 13.6507 25.2315C13.1265 24.7128 12.8676 24.0835 12.874 23.3435C12.8676 22.6224 13.1265 22.0057 13.6507 21.4934C14.1813 20.981 14.8174 20.7249 15.5589 20.7249C16.2621 20.7249 16.8822 20.981 17.4192 21.4934C17.9626 22.0057 18.2374 22.6224 18.2438 23.3435C18.2374 23.8368 18.1064 24.2859 17.8507 24.6907C17.6014 25.0892 17.2753 25.4086 16.8726 25.649C16.4699 25.883 16.032 26 15.5589 26Z'

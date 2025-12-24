@@ -1,7 +1,7 @@
 import ErrorFallback from '@shared/ErrorFallback'
 import withBoundary from '@shared/withBoundary'
 import { fetchGeneralChallengeList } from '@apis/v1/challenges/general'
-import CircularProgress, { RandomGiftImage } from '../CircularProgress'
+import CircularProgress, { QuestionMarkImage, RandomGiftImage } from '../CircularProgress'
 import RewardStatus from '../RewardStatus'
 import GeneralItem from './GeneralItem'
 
@@ -19,7 +19,7 @@ async function GeneralList() {
             key={challenge.userChallengeId}
             progressNode={
               <CircularProgress progress={progressPercent} total={100}>
-                <RandomGiftImage />
+                {progressPercent !== 100 ? <QuestionMarkImage /> : <RandomGiftImage />}
               </CircularProgress>
             }
             title={challenge.challengeName}
