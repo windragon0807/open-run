@@ -19,6 +19,8 @@ export default function CircularProgress({
   const strokeDasharray = circumference
   const strokeDashoffset = circumference - (progress / total) * circumference
 
+  const circleColorClass = circleColor === 'gray-lighten' ? 'text-gray-lighten' : 'text-gray'
+
   return (
     <div className='relative inline-flex items-center justify-center'>
       <svg width={size} height={size} className='-rotate-90 transform'>
@@ -30,7 +32,7 @@ export default function CircularProgress({
           stroke='currentColor'
           strokeWidth={2}
           fill='none'
-          className={`text-${circleColor}`}
+          className={circleColorClass}
         />
 
         {/* 진행률 원 */}

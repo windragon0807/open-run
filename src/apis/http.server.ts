@@ -68,8 +68,7 @@ export const http = {
       console.info(
         `\n${colors.green}${colors.bright}[API Response]:${colors.reset} ${colors.cyan}${requestUrl}${colors.reset}`,
       )
-      console.info(data)
-      console.info('')
+      console.info(data, '\n')
 
       return data
     } catch (error) {

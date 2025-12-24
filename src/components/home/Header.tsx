@@ -41,7 +41,7 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
       {!isSmallHeaderActive ? (
         <motion.header
           initial={{ height: 100, opacity: 0 }}
-          animate={{ height: 200, opacity: 1 }}
+          animate={{ height: isApp ? 264 : 200, opacity: 1 }}
           exit={{ height: 100, opacity: 0 }}
           transition={{ duration: 0.2, ease: 'easeInOut' }}
           className={clsx(
