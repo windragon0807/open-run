@@ -13,7 +13,6 @@ import { useSmartWalletLogin } from '@apis/v1/users/login/smart_wallet/mutation'
 import { removeCookie } from '@utils/cookie'
 import { MESSAGE } from '@constants/app'
 import { COOKIE } from '@constants/cookie'
-import { colors } from '@styles/colors'
 import DontWorryModal from './DontWorryModal'
 
 export default function Signin() {
@@ -32,6 +31,10 @@ function SignInApp() {
         break
 
       case MESSAGE.RESPONSE_SMART_WALLET_CONNECT_ERROR:
+        setIsLoading(false)
+        break
+
+      case MESSAGE.WALLET_MODAL_CLOSED:
         setIsLoading(false)
         break
     }
