@@ -18,6 +18,13 @@ export type BridgeMessage<T = unknown> = {
   data: T
 }
 
+export type VibrationMessage = {
+  type: MESSAGE.REQUEST_VIBRATION
+  data: {
+    vibrationType: string
+  }
+}
+
 export default function AppBridge({ children }: { children: ReactNode }) {
   const { setIsApp, setInsets } = useAppStore()
   const isApp = checkIsApp()

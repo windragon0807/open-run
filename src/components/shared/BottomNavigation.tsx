@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ReactNode } from 'react'
 import { useModal } from '@contexts/ModalProvider'
-import { useAppStore } from '@store/app'
 import { ExploreIcon } from '@icons/explore'
 import { OutlinedFlagIcon } from '@icons/flag'
 import { OpenrunIcon } from '@icons/openrun'
@@ -13,14 +12,14 @@ import { OutlinedPersonIcon } from '@icons/person'
 import { RoundedPlusIcon } from '@icons/plus'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
-import { MESSAGE } from '@constants/app'
-import { postMessageToRN } from '../shared/AppBridge'
+import { VIBRATION_TYPE } from '@constants/app'
+import { useVibration } from '@hooks/useVibration'
 import CreateBung from '../home/create-bung/CreateBung'
 
 export default function BottomNavigation() {
   const pathname = usePathname()
-  const { isApp } = useAppStore()
   const { showModal } = useModal()
+  const vibrate = useVibration()
   return (
     <footer
       className={clsx(
@@ -40,16 +39,7 @@ export default function BottomNavigation() {
         <button
           className='group flex h-full flex-1 items-center justify-center'
           onClick={() => {
-            // 앱 환경일 때 진동 메시지 전송
-            console.log('🔘 [Web] Button clicked, isApp:', isApp)
-            if (isApp) {
-              console.log('📱 [Web] Sending vibration request to native app')
-              postMessageToRN({
-                type: MESSAGE.REQUEST_VIBRATION,
-              })
-            } else {
-              console.log('🌐 [Web] Not in app environment, skipping vibration')
-            }
+            vibrate(VIBRATION_TYPE.IMPACT_MEDIUM)
             showModal({ key: MODAL_KEY.CREATE_BUNG, component: <CreateBung /> })
           }}>
           <RoundedPlusIcon size={36} />
@@ -78,16 +68,11 @@ export default function BottomNavigation() {
 
 function IconLink({ href, icon, label }: { href: string; icon: ReactNode; label: string }) {
   const pathname = usePathname()
-  const { isApp } = useAppStore()
+  const vibrate = useVibration()
   const isActive = pathname === href || (href.includes('challenges') && pathname.includes('challenges'))
   
   const handleClick = () => {
-    // 앱 환경일 때 진동 메시지 전송
-    if (isApp) {
-      postMessageToRN({
-        type: MESSAGE.REQUEST_VIBRATION,
-      })
-    }
+    vibrate(VIBRATION_TYPE.SELECTION)
   }
   
   return (
