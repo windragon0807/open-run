@@ -1,5 +1,4 @@
 import { ReactNode, useEffect, useState } from 'react'
-import CopyToClipboard from 'react-copy-to-clipboard'
 import { useAccount } from 'wagmi'
 import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
@@ -50,17 +49,22 @@ function AddressClipboardBrowser({ children }: Props) {
 function CommonComponent({ address, children }: { address: string; children: (address: string) => ReactNode }) {
   const { showModal } = useModal()
 
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(address)
+      showModal({
+        key: MODAL_KEY.TOAST,
+        component: <ToastModal mode='success' message='주소가 복사되었습니다.' />,
+      })
+    } catch (error) {
+      console.error('복사 실패:', error)
+    }
+  }
+
   return (
-    <CopyToClipboard
-      text={address}
-      onCopy={() =>
-        showModal({
-          key: MODAL_KEY.TOAST,
-          component: <ToastModal mode='success' message='주소가 복사되었습니다.' />,
-        })
-      }>
+    <div onClick={handleCopy} style={{ cursor: 'pointer' }}>
       {children(formatAddress(address))}
-    </CopyToClipboard>
+    </div>
   )
 }
 
