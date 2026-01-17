@@ -270,7 +270,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
 
             {/** 수정 완료 버튼 */}
             <PrimaryButton type='submit' className={isApp ? 'mb-60' : 'mb-40'}>
-              {isPending ? <LoadingLogo color={colors.secondary} className='mx-auto' /> : '수정 완료'}
+              {isPending ? <LoadingLogo className='mx-auto' /> : '수정 완료'}
             </PrimaryButton>
           </form>
         </section>

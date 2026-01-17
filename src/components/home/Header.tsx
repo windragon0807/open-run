@@ -40,9 +40,9 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
     <AnimatePresence>
       {!isSmallHeaderActive ? (
         <motion.header
-          initial={{ height: 100, opacity: 0 }}
-          animate={{ height: isApp ? 264 : 200, opacity: 1 }}
-          exit={{ height: 100, opacity: 0 }}
+          initial={{ height: 100 }}
+          animate={{ height: isApp ? 264 : 200 }}
+          exit={{ height: 100 }}
           transition={{ duration: 0.2, ease: 'easeInOut' }}
           className={clsx(
             'fixed left-0 right-0 top-0 z-10 overflow-hidden',

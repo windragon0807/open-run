@@ -108,7 +108,7 @@ function SmartWalletLoginButton({ isLoading, onClick }: { isLoading: boolean; on
         NFT 보상을 받기 위한 전용 월렛이 필요해요
       </span>
       <span className='text-16 font-bold text-white'>
-        {isLoading ? <LoadingLogo color={colors.white} className='mx-auto' /> : '월렛 만들고 시작하기'}
+        {isLoading ? <LoadingLogo className='translate-y-[3px] mx-auto' /> : '월렛 만들고 시작하기'}
       </span>
     </button>
   )

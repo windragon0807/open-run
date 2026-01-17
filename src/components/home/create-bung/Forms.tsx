@@ -416,7 +416,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
 
         {/** 벙 만들기 버튼 */}
         <PrimaryButton type='submit' className={isApp ? 'mb-60' : 'mb-40'}>
-          {isPending ? <LoadingLogo color={colors.secondary} className='mx-auto' /> : '벙 만들기'}
+          {isPending ? <LoadingLogo className='mx-auto' /> : '벙 만들기'}
         </PrimaryButton>
       </form>
     </section>
