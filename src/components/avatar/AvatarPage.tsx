@@ -1,12 +1,10 @@
 'use client'
 
-import clsx from 'clsx'
 import html2canvas from 'html2canvas'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 import { useModal } from '@contexts/ModalProvider'
-import { useAppStore } from '@store/app'
 import { Avatar, SelectedCategory, WearingAvatar } from '@type/avatar'
 import AvatarComponent from '@shared/Avatar'
 import { ArrowLeftIcon } from '@icons/arrow'
@@ -26,7 +24,6 @@ export default function AvatarPage({
   avatarList: Avatar[]
   wearingAvatar: WearingAvatar
 }) {
-  const { isApp } = useAppStore()
   const router = useRouter()
   const { showModal } = useModal()
 
@@ -79,7 +76,7 @@ export default function AvatarPage({
   }
 
   return (
-    <article className={clsx('h-full w-full bg-white', isApp && 'pt-50')}>
+    <article className='h-full w-full bg-white app:pt-50'>
       {/* 헤더 */}
       <header className='relative z-20 flex h-60 w-full items-center justify-center bg-white px-5'>
         <button

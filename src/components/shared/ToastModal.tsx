@@ -2,14 +2,12 @@ import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { useModal } from '@contexts/ModalProvider'
-import { useAppStore } from '@store/app'
 import { CheckIcon } from '@icons/check'
 import { BrokenXIcon } from '@icons/x'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 
 export default function ToastModal({ mode, message }: { mode: 'success' | 'error'; message: string }) {
-  const { isApp } = useAppStore()
   const [isOpen, setIsOpen] = useState(true)
   const { closeModal } = useModal()
 
@@ -28,10 +26,7 @@ export default function ToastModal({ mode, message }: { mode: 'success' | 'error
     <AnimatePresence onExitComplete={handleExitComplete}>
       {isOpen && (
         <motion.div
-          className={clsx(
-            'fixed left-0 right-0 z-modal mx-auto h-[56px] rounded-16 px-16',
-            isApp ? 'bottom-40' : 'bottom-24',
-          )}
+          className='fixed left-0 right-0 z-modal mx-auto h-[56px] rounded-16 px-16 bottom-24 app:bottom-40'
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}

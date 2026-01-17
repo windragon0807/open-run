@@ -24,8 +24,7 @@ export default function BottomNavigation() {
   return (
     <footer
       className={clsx(
-        'fixed bottom-0 left-0 right-0 z-[999] flex justify-center bg-gradient-bottom-navigation px-16 pt-16',
-        isApp ? 'pb-40' : 'pb-24',
+        'fixed bottom-0 left-0 right-0 z-[999] flex justify-center bg-gradient-bottom-navigation px-16 pt-16 pb-24 app:pb-40',
       )}>
       <div className='flex h-56 w-full max-w-[328px] items-center justify-between rounded-28 bg-white px-[9px]'>
         <IconLink

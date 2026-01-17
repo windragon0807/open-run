@@ -1,5 +1,3 @@
-import clsx from 'clsx'
-import { useAppStore } from '@store/app'
 import { WeekCount } from '@type/register'
 import NumberDial from '../pace/NumberDial'
 import { useNumberDial } from '../pace/hooks/useNumberDial'
@@ -11,7 +9,6 @@ export default function Frequency({
   frequency?: WeekCount
   setFrequency: (frequency: WeekCount) => void
 }) {
-  const { isApp } = useAppStore()
   const {
     value,
     handleTouchStart,
@@ -29,7 +26,7 @@ export default function Frequency({
   })
 
   return (
-    <section className={clsx('flex flex-col items-center', isApp ? 'pt-174' : 'pt-124')}>
+    <section className='flex flex-col items-center pt-124 app:pt-174'>
       <p className='text-center text-28'>얼마나 자주 뛰시나요?</p>
       <p className='mb-40 text-center text-28 font-bold text-primary'>나의 일주일 러닝 횟수는</p>
 

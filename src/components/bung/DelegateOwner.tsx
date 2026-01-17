@@ -1,11 +1,9 @@
 'use client'
 
-import clsx from 'clsx'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useMemo } from 'react'
 import { useModal } from '@contexts/ModalProvider'
-import { useAppStore } from '@store/app'
 import { BungMember } from '@type/bung'
 import Input from '@shared/Input'
 import { ArrowLeftIcon } from '@icons/arrow'
@@ -19,12 +17,11 @@ export default function DelegateOwner({ memberList }: { memberList: BungMember[]
   const filteredMemberList = useMemo(() => memberList.filter(({ owner }) => !owner), [memberList])
 
   const router = useRouter()
-  const { isApp } = useAppStore()
   const { showModal } = useModal()
   const { search, setSearch, filteredList } = useFushSearch(filteredMemberList, 'nickname')
 
   return (
-    <section className={clsx('h-full w-full bg-gray-lighten', isApp && 'pt-50')} onClick={(e) => e.stopPropagation()}>
+    <section className='h-full w-full bg-gray-lighten app:pt-50' onClick={(e) => e.stopPropagation()}>
       <header className='relative flex h-60 w-full items-center justify-center'>
         <button
           className='absolute left-16 -translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'

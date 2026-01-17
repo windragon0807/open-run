@@ -3,7 +3,6 @@
 import clsx from 'clsx'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useAppStore } from '@store/app'
 import { RegisterStep, UserRegister } from '@type/register'
 import { ArrowLeftIcon } from '@icons/arrow'
 import { useRegister } from '@apis/v1/users/mutation'
@@ -19,7 +18,6 @@ import Welcome from './welcome'
 
 export default function Register() {
   const route = useRouter()
-  const { isApp } = useAppStore()
   const { mutate: register } = useRegister()
 
   const [data, setData] = useState<UserRegister>({
@@ -66,7 +64,7 @@ export default function Register() {
       )}>
       {step === 0 ? (
         <button
-          className={clsx('group absolute left-0 top-0 z-[10] ml-16 h-60', isApp && 'top-50')}
+          className='group absolute left-0 top-0 z-[10] ml-16 h-60 app:top-50'
           onClick={handlePrevious}>
           <ArrowLeftIcon
             className='rounded-8 active-press-duration group-active:scale-90 group-active:bg-primary-darken/20'
@@ -102,11 +100,7 @@ export default function Register() {
 
       {step === 4 ? <Onboarding nickname={data.nickname} /> : null}
 
-      <section
-        className={clsx(
-          'absolute left-1/2 w-full max-w-tablet -translate-x-1/2 px-16',
-          isApp ? 'bottom-56' : 'bottom-40',
-        )}>
+      <section className='absolute left-1/2 w-full max-w-tablet -translate-x-1/2 px-16 bottom-40 app:bottom-56'>
         <BottomButton onClick={step === 4 ? handleSubmit : handleNext} disabled={닉네임스텝에서버튼이비활성화상태인가}>
           {step === 0 ? '시작하기' : null}
           {step === 1 || step === 2 || step === 3 ? '다음' : null}

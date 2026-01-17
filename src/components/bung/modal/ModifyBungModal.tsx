@@ -3,7 +3,6 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { useModal } from '@contexts/ModalProvider'
-import { useAppStore } from '@store/app'
 import { BungInfo } from '@type/bung'
 import AlertModal from '@shared/AlertModal'
 import HashTag from '@shared/HashTag'
@@ -38,7 +37,6 @@ type FormValues = {
 
 export default function ModifyBungModal({ details }: { details: BungInfo }) {
   const router = useRouter()
-  const { isApp } = useAppStore()
   const { showModal, closeModal } = useModal()
   const { mutate: modifyBung, isPending } = useModifyBung()
   const 참여중인멤버수 = details.memberList.length
@@ -269,7 +267,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
             </div>
 
             {/** 수정 완료 버튼 */}
-            <PrimaryButton type='submit' className={isApp ? 'mb-60' : 'mb-40'}>
+            <PrimaryButton type='submit' className='mb-40 app:mb-60'>
               {isPending ? <LoadingLogo className='mx-auto' /> : '수정 완료'}
             </PrimaryButton>
           </form>

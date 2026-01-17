@@ -45,8 +45,7 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
           exit={{ height: 100 }}
           transition={{ duration: 0.2, ease: 'easeInOut' }}
           className={clsx(
-            'fixed left-0 right-0 top-0 z-10 overflow-hidden',
-            isApp && 'pt-[64px]',
+            'fixed left-0 right-0 top-0 z-10 overflow-hidden app:pt-[64px]',
             currentWeather == null && 'animate-pulse',
           )}
           style={{
@@ -68,7 +67,7 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
               )}
               {wearingAvatar && <Avatar className='absolute h-200 w-160' {...wearingAvatar} />}
 
-              <div className={clsx('absolute left-16', isApp ? 'top-0' : 'top-8')}>
+              <div className={clsx('absolute left-16 top-8 app:top-0')}>
                 <AvatarButton onClick={() => router.push('/avatar')} />
               </div>
               <div className='absolute bottom-8 left-12'>
@@ -129,7 +128,7 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: -90, opacity: 0 }}
           transition={{ duration: 0.3, ease: 'easeInOut' }}
-          className={clsx('fixed left-0 right-0 top-0 z-50 mx-auto w-full max-w-tablet', isApp && 'pt-[64px]')}
+          className={clsx('fixed left-0 right-0 top-0 z-50 mx-auto w-full max-w-tablet app:pt-[64px]')}
           style={{
             background: `${
               currentWeather ? getWeatherData(currentWeather.weather).background : weatherData.clouds.background.morning
@@ -149,7 +148,7 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
               )}
               {wearingAvatar && <Avatar className='absolute h-90 w-68' {...wearingAvatar} />}
 
-              <div className={clsx('absolute left-16', isApp ? 'top-0' : 'top-8')}>
+              <div className={clsx('absolute left-16 top-8 app:top-0')}>
                 <AvatarButton onClick={() => router.push('/avatar')} />
               </div>
               <div className='absolute bottom-8 left-8'>

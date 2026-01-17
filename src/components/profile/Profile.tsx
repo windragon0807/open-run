@@ -7,7 +7,6 @@ import 'swiper/css'
 import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { useModal } from '@contexts/ModalProvider'
-import { useAppStore } from '@store/app'
 import AddressClipboard from '@shared/AddressClipboard'
 import { CopyClipboardIcon } from '@icons/clipboard'
 import { CrownIcon } from '@icons/crown'
@@ -22,13 +21,12 @@ import { colors } from '@styles/colors'
 import SettingModal from './SettingModal'
 
 export default function Profile() {
-  const { isApp } = useAppStore()
   const { data } = useUserInfo()
   const { showModal } = useModal()
 
   return (
     <section className='h-full w-full bg-gray-lighten'>
-      <div className={clsx('h-full px-24', isApp ? 'pt-72' : 'pt-32')}>
+      <div className='h-full px-24 pt-32 app:pt-72'>
         <header className='mb-12 flex items-center justify-between'>
           <h1 className='text-28 font-bold'>프로필</h1>
           <div className='flex items-center gap-8'>

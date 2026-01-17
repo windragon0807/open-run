@@ -6,7 +6,6 @@ import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import { Fragment, useRef } from 'react'
 import { useModal } from '@contexts/ModalProvider'
-import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
 import { BungInfo } from '@type/bung'
 import PrimaryButton from '@shared/PrimaryButton'
@@ -38,7 +37,6 @@ export default function BungDetails({ details }: { details: BungInfo }) {
 
   const router = useRouter()
   const { bungId } = useParams<{ bungId: string }>()
-  const { isApp } = useAppStore()
   const { showModal } = useModal()
   const { userInfo } = useUserStore()
   const { mutate: completeBung } = useCompleteBung()
@@ -144,10 +142,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
   return (
     <section className='relative h-full w-full'>
       <header
-        className={clsx(
-          'absolute flex h-60 w-full cursor-pointer items-center justify-between px-16',
-          isApp && 'top-50',
-        )}
+        className='absolute flex h-60 w-full cursor-pointer items-center justify-between px-16 app:top-50'
         onClick={handleScrollToTop}>
         <button
           className='-translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-white/10'
@@ -193,7 +188,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
         </div>
       </header>
       <div
-        className={clsx('w-full bg-cover', isApp ? 'h-240' : 'h-200')}
+        className='w-full bg-cover h-200 app:h-240'
         style={{ backgroundImage: `url(${details.mainImage})` }}
       />
 
@@ -368,7 +363,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
           </div>
 
           {/* 해시태그 */}
-          <div className={clsx('flex flex-wrap gap-8 px-16', isApp ? 'mb-100' : 'mb-80')}>
+          <div className='flex flex-wrap gap-8 px-16 mb-80 app:mb-100'>
             {details.hashtags.map((label) => (
               <HashTag key={label} label={label} />
             ))}

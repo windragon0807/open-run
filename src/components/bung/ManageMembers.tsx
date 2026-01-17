@@ -1,10 +1,8 @@
 'use client'
 
-import clsx from 'clsx'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useModal } from '@contexts/ModalProvider'
-import { useAppStore } from '@store/app'
 import { BungMember } from '@type/bung'
 import Input from '@shared/Input'
 import { ArrowLeftIcon } from '@icons/arrow'
@@ -16,12 +14,11 @@ import ConfirmDropoutModal from './modal/ConfirmDropoutModal'
 
 export default function ManageMembers({ memberList }: { memberList: BungMember[] }) {
   const router = useRouter()
-  const { isApp } = useAppStore()
   const { showModal } = useModal()
   const { search, setSearch, filteredList } = useFushSearch(memberList, 'nickname')
 
   return (
-    <section className={clsx('h-full w-full bg-gray-lighten', isApp && 'pt-50')}>
+    <section className='h-full w-full bg-gray-lighten app:pt-50'>
       <header className='relative flex h-60 w-full items-center justify-center'>
         <button
           className='absolute left-16 -translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'

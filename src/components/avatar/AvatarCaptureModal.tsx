@@ -1,7 +1,5 @@
-import clsx from 'clsx'
 import Image from 'next/image'
 import { useModal } from '@contexts/ModalProvider'
-import { useAppStore } from '@store/app'
 import { BottomSheet, Dimmed } from '@shared/Modal'
 import { BrokenXIcon } from '@icons/x'
 import { MODAL_KEY } from '@constants/modal'
@@ -9,7 +7,6 @@ import { colors } from '@styles/colors'
 
 export default function AvatarCaptureModal({ imgData }: { imgData: string }) {
   const { closeModal } = useModal()
-  const { isApp } = useAppStore()
 
   const downloadImage = () => {
     const link = document.createElement('a')
@@ -27,11 +24,7 @@ export default function AvatarCaptureModal({ imgData }: { imgData: string }) {
           </button>
           <span className='text-16 font-bold text-black-darken'>아바타 캡쳐</span>
         </header>
-        <section
-          className={clsx(
-            'flex h-full w-full flex-col items-center justify-center gap-24 px-24 pt-20',
-            isApp ? 'pb-50' : 'pb-40',
-          )}>
+        <section className='flex h-full w-full flex-col items-center justify-center gap-24 px-24 pt-20 pb-40 app:pb-50'>
           <div className='relative flex aspect-square w-216 flex-col items-center justify-center rounded-10 border border-gray-darken'>
             <Image src={imgData} alt='아바타 캡쳐' fill className='absolute object-contain' />
             <div className='absolute bottom-0 left-0 right-0 top-0 rounded-[50%] border border-primary/50' />

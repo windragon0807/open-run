@@ -3,7 +3,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { useAppStore } from '@store/app'
 import Input from '@shared/Input'
 import { ArrowRightIcon } from '@icons/arrow'
 import { FilledThumbIcon } from '@icons/thumb'
@@ -17,7 +16,6 @@ import { colors } from '@styles/colors'
 type Tab = '전체' | '멤버' | '해시태그' | '위치'
 
 export default function ExploreSearch({ onCancelButtonClick }: { onCancelButtonClick: () => void }) {
-  const { isApp } = useAppStore()
   const inputRef = useRef<HTMLInputElement>(null)
   const [selectedTab, setSelectedTab] = useState<Tab>('전체')
   const tabList: Tab[] = ['전체', '멤버', '해시태그', '위치']
@@ -30,7 +28,7 @@ export default function ExploreSearch({ onCancelButtonClick }: { onCancelButtonC
   }, [])
 
   return (
-    <section className={clsx('h-full', isApp && 'pt-50')}>
+    <section className='h-full app:pt-50'>
       <div className='flex items-center gap-8 px-16 py-24'>
         <Input ref={inputRef} placeholder='벙 검색' value={searchKeyword} setValue={setSearchKeyword} />
         <button

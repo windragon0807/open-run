@@ -1,11 +1,8 @@
-import clsx from 'clsx'
 import Image from 'next/image'
-import { useAppStore } from '@store/app'
 
 export default function Onboarding({ nickname }: { nickname: string }) {
-  const { isApp } = useAppStore()
   return (
-    <section className={clsx('flex flex-col items-center', isApp ? 'pt-174' : 'pt-124')}>
+    <section className='flex flex-col items-center pt-124 app:pt-174'>
       <p className='text-center text-28'>
         <strong>{nickname}</strong> 님
       </p>
