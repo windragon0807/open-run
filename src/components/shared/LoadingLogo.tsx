@@ -3,11 +3,7 @@ import { motion } from 'framer-motion'
 
 export default function LoadingLogo({ className }: { className?: string }) {
   return (
-    <div
-      className={clsx(
-        'relative flex items-center justify-center overflow-hidden w-[250px] h-[22px]',
-        className,
-      )}>
+    <div className={clsx('relative flex h-[22px] w-[250px] items-center justify-center overflow-hidden', className)}>
       <motion.svg
         width='30'
         height='22'

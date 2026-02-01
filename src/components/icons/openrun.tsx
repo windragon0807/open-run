@@ -25,3 +25,18 @@ export function TransparentOpenrunIcon({ size, color, className }: IconProps) {
     </svg>
   )
 }
+
+export function BackgroundOpenrunIcon({ size = 154, color, className }: IconProps) {
+  const aspectRatio = 154 / 107
+  const width = size
+  const height = size / aspectRatio
+
+  return (
+    <svg className={className} width={width} height={height} viewBox='0 0 154 107' fill='none'>
+      <path
+        d='M98.5714 106.667H0L7.30159 71.1111H98.5714C108.653 71.1111 116.825 63.1517 116.825 53.3333C116.825 43.5149 108.653 35.5556 98.5714 35.5556H62.0635C51.9821 35.5556 43.8095 43.5149 43.8095 53.3333C43.8095 54.551 43.9352 55.7401 44.1747 56.8889H7.42135C7.34193 55.7137 7.30159 54.5281 7.30159 53.3333C7.30159 23.8781 31.8193 0 62.0635 0H98.5714C128.816 0 153.333 23.8781 153.333 53.3333C153.333 82.7885 128.816 106.667 98.5714 106.667Z'
+        fill={color}
+      />
+    </svg>
+  )
+}

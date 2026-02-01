@@ -1,5 +1,5 @@
 export type IconProps = {
-  size: number
+  size?: number
   color?: string
   className?: string
 }
