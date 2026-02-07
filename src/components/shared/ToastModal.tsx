@@ -7,19 +7,33 @@ import { BrokenXIcon } from '@icons/x'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 
-export default function ToastModal({ mode, message }: { mode: 'success' | 'error'; message: string }) {
+type ToastModalProps = {
+  mode: 'success' | 'error'
+  message: string
+  actionLabel?: string
+  onAction?: () => void
+}
+
+export default function ToastModal({ mode, message, actionLabel, onAction }: ToastModalProps) {
   const [isOpen, setIsOpen] = useState(true)
   const { closeModal } = useModal()
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsOpen(false)
-    }, 2000)
-    return () => clearTimeout(timer)
-  }, [])
+    if (!actionLabel) {
+      const timer = setTimeout(() => {
+        setIsOpen(false)
+      }, 2000)
+      return () => clearTimeout(timer)
+    }
+  }, [actionLabel])
 
   const handleExitComplete = () => {
     closeModal(MODAL_KEY.TOAST)
+  }
+
+  const handleAction = () => {
+    setIsOpen(false)
+    onAction?.()
   }
 
   return (
@@ -42,9 +56,15 @@ export default function ToastModal({ mode, message }: { mode: 'success' | 'error
               </div>
               <span className='text-16 font-bold text-white'>{message}</span>
             </div>
-            <button className='active-press-duration active:scale-90' onClick={handleExitComplete}>
-              <BrokenXIcon size={24} color={colors.white} />
-            </button>
+            {actionLabel ? (
+              <button className='shrink-0 active-press-duration active:scale-90' onClick={handleAction}>
+                <span className='text-14 font-bold text-secondary'>{actionLabel}</span>
+              </button>
+            ) : (
+              <button className='active-press-duration active:scale-90' onClick={handleExitComplete}>
+                <BrokenXIcon size={24} color={colors.white} />
+              </button>
+            )}
           </div>
         </motion.div>
       )}

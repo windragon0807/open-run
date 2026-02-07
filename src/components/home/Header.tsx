@@ -1,9 +1,11 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
+import { WearingAvatar } from '@type/avatar'
 import { Weather } from '@type/weather'
 import AddressClipboard from '@shared/AddressClipboard'
 import Avatar from '@shared/Avatar'
@@ -12,7 +14,7 @@ import { CopyClipboardIcon } from '@icons/clipboard'
 import { UpperClothIcon } from '@icons/upper-cloth'
 import useGeolocation from '@hooks/useGeolocation'
 import { useReverseGeocoding } from '@apis/maps/reverse-geocoding/query'
-import { useWearingAvatar } from '@apis/nfts/fetchWearingAvatar/query'
+import { getWearingAvatar } from '@utils/avatar-storage'
 import { useCurrentWeather } from '@apis/weather/query'
 import addDelimiter from '@utils/addDelimiter'
 import { colors } from '@styles/colors'
@@ -20,9 +22,15 @@ import { colors } from '@styles/colors'
 export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: boolean }) {
   const { isApp } = useAppStore()
   const router = useRouter()
+  const pathname = usePathname()
   const { userInfo } = useUserStore()
 
-  const { data: wearingAvatar } = useWearingAvatar()
+  const [wearingAvatar, setWearingAvatar] = useState<WearingAvatar | null>(null)
+
+  // 페이지 이동 시 (아바타 페이지에서 돌아올 때 등) localStorage에서 최신 데이터 반영
+  useEffect(() => {
+    setWearingAvatar(getWearingAvatar())
+  }, [pathname])
   const { location, refetch } = useGeolocation()
   const { data: reverseGeocode } = useReverseGeocoding(
     { lat: location?.lat ?? 0, lng: location?.lng ?? 0 },

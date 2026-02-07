@@ -3,7 +3,7 @@
 import html2canvas from 'html2canvas'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useModal } from '@contexts/ModalProvider'
 import { Avatar, SelectedCategory, WearingAvatar } from '@type/avatar'
 import AvatarComponent from '@shared/Avatar'
@@ -11,28 +11,52 @@ import { ArrowLeftIcon } from '@icons/arrow'
 import { TransparentOpenrunIcon } from '@icons/openrun'
 import { ResetIcon } from '@icons/reset'
 import { cropSquareImage } from '@utils/image'
+import { getAvatarList, getWearingAvatar, saveWearingAvatar } from '@utils/avatar-storage'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 import AvatarCaptureModal from './AvatarCaptureModal'
 import AvatarList from './AvatarList'
 import Category from './Category'
 
-export default function AvatarPage({
-  avatarList,
-  wearingAvatar,
-}: {
-  avatarList: Avatar[]
-  wearingAvatar: WearingAvatar
-}) {
+export default function AvatarPage() {
   const router = useRouter()
   const { showModal } = useModal()
 
   const avatarRef = useRef<HTMLDivElement>(null)
-  const [selectedAvatar, setSelectedAvatar] = useState<WearingAvatar>(wearingAvatar)
+  const [avatarList, setAvatarList] = useState<Avatar[]>([])
+  const [selectedAvatar, setSelectedAvatar] = useState<WearingAvatar>({
+    upperClothing: null,
+    lowerClothing: null,
+    fullSet: null,
+    footwear: null,
+    face: null,
+    skin: null,
+    hair: null,
+    accessories: {
+      'head-accessories': null,
+      'ear-accessories': null,
+      'body-accessories': null,
+      'eye-accessories': null,
+    },
+  })
   const [selectedCategory, setSelectedCategory] = useState<SelectedCategory>({
     mainCategory: 'upperClothing',
     subCategory: null,
   })
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  // localStorage에서 데이터 로드
+  useEffect(() => {
+    setAvatarList(getAvatarList())
+    setSelectedAvatar(getWearingAvatar())
+    setIsLoaded(true)
+  }, [])
+
+  // 아바타 변경 시 localStorage에 자동 저장
+  useEffect(() => {
+    if (!isLoaded) return
+    saveWearingAvatar(selectedAvatar)
+  }, [selectedAvatar, isLoaded])
 
   const filteredAvatarList = avatarList.filter((avatar) => {
     if (selectedCategory.mainCategory === avatar.mainCategory) {
@@ -73,6 +97,16 @@ export default function AvatarPage({
       key: MODAL_KEY.AVATAR_CAPTURE,
       component: <AvatarCaptureModal imgData={circularImgData} />,
     })
+  }
+
+  if (!isLoaded) {
+    return (
+      <article className='h-full w-full bg-white app:pt-50'>
+        <header className='relative z-20 flex h-60 w-full items-center justify-center bg-white px-5'>
+          <h1 className='text-16 font-bold text-black'>아바타 변경</h1>
+        </header>
+      </article>
+    )
   }
 
   return (

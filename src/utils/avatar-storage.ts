@@ -1,24 +1,10 @@
-import { Avatar } from '@type/avatar'
-import { ApiResponse } from '@apis/axios'
+import { Avatar, WearingAvatar } from '@type/avatar'
 
-type ResponseType = ApiResponse<Avatar[]>
+const AVATAR_LIST_KEY = 'openrun-avatar-list'
+const WEARING_AVATAR_KEY = 'openrun-wearing-avatar'
 
-export function fetchNftList(): Promise<ResponseType> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        message: 'success',
-        data: mockData,
-      })
-    }, 100)
-  })
-}
-
-/**
- * TODO 썸네일 이미지 URL 추가
- * TODO 머리의 경우 앞, 뒤 따로 URL 추가
- */
-const mockData: ResponseType['data'] = [
+/** 기본 아바타 리스트 (보유 아이템) */
+const DEFAULT_AVATAR_LIST: Avatar[] = [
   // Body Accessories 10개
   {
     id: '00001',
@@ -609,3 +595,138 @@ const mockData: ResponseType['data'] = [
     link: '',
   },
 ]
+
+/** 기본 착용 아바타 */
+const DEFAULT_WEARING_AVATAR: WearingAvatar = {
+  fullSet: null,
+  upperClothing: {
+    id: '00053',
+    imageUrl: '/temp/avatar/upperClothing/nft_upperClothing_1.png',
+    thumbnailUrl: '/temp/avatar/upperClothing/nft_upperClothing_1.png',
+    rarity: 'common',
+    name: 'upperClothing_1',
+    mainCategory: 'upperClothing',
+    subCategory: null,
+    link: '',
+  },
+  lowerClothing: {
+    id: '00041',
+    imageUrl: '/temp/avatar/lowerClothing/nft_lowerClothing_1.png',
+    thumbnailUrl: '/temp/avatar/lowerClothing/nft_lowerClothing_1.png',
+    rarity: 'common',
+    name: 'lowerClothing_1',
+    mainCategory: 'lowerClothing',
+    subCategory: null,
+    link: '',
+  },
+  footwear: {
+    id: '00036',
+    imageUrl: '/temp/avatar/footwear/nft_footwear_1.png',
+    thumbnailUrl: '/temp/avatar/footwear/nft_footwear_1.png',
+    rarity: 'common',
+    name: 'footwear_1',
+    mainCategory: 'footwear',
+    subCategory: null,
+    link: '',
+  },
+  face: {
+    id: '00032',
+    imageUrl: '/temp/avatar/face/nft_face_2.png',
+    thumbnailUrl: '/temp/avatar/face/nft_face_2.png',
+    rarity: 'common',
+    name: 'face_2',
+    mainCategory: 'face',
+    subCategory: null,
+    link: '',
+  },
+  skin: null,
+  hair: {
+    id: '00058',
+    imageUrl: ['/temp/avatar/hair/front/nft_hair_front_1.png', '/temp/avatar/hair/back/nft_hair_back_1.png'],
+    thumbnailUrl: '/temp/avatar/hair/front/nft_hair_front_1.png',
+    rarity: 'common',
+    name: 'hair_1',
+    mainCategory: 'hair',
+    subCategory: null,
+    link: '',
+  },
+  accessories: {
+    'head-accessories': {
+      id: '00021',
+      imageUrl: '/temp/avatar/accessories/head-accessories/nft_head_accessory_1.png',
+      thumbnailUrl: '/temp/avatar/accessories/head-accessories/nft_head_accessory_1.png',
+      rarity: 'common',
+      name: 'head_accessory_1',
+      mainCategory: 'accessories',
+      subCategory: 'head-accessories',
+      link: '',
+    },
+    'eye-accessories': null,
+    'ear-accessories': {
+      id: '00011',
+      imageUrl: '/temp/avatar/accessories/ear-accessories/nft_ear_accessory_1.png',
+      thumbnailUrl: '/temp/avatar/accessories/ear-accessories/nft_ear_accessory_1.png',
+      rarity: 'common',
+      name: 'ear_accessory_1',
+      mainCategory: 'accessories',
+      subCategory: 'ear-accessories',
+      link: '',
+    },
+    'body-accessories': {
+      id: '00001',
+      imageUrl: '/temp/avatar/accessories/body-accessories/nft_body_accessory_1.png',
+      thumbnailUrl: '/temp/avatar/accessories/body-accessories/nft_body_accessory_1.png',
+      rarity: 'common',
+      name: 'body_accessory_1',
+      mainCategory: 'accessories',
+      subCategory: 'body-accessories',
+      link: '',
+    },
+  },
+}
+
+/** localStorage에서 아바타 리스트 가져오기 (없으면 기본값 세팅 후 반환) */
+export function getAvatarList(): Avatar[] {
+  if (typeof window === 'undefined') return DEFAULT_AVATAR_LIST
+
+  const stored = localStorage.getItem(AVATAR_LIST_KEY)
+  if (stored) {
+    try {
+      return JSON.parse(stored) as Avatar[]
+    } catch {
+      // 파싱 실패 시 기본값으로 초기화
+    }
+  }
+
+  localStorage.setItem(AVATAR_LIST_KEY, JSON.stringify(DEFAULT_AVATAR_LIST))
+  return DEFAULT_AVATAR_LIST
+}
+
+/** localStorage에서 착용 중인 아바타 가져오기 (없으면 기본값 세팅 후 반환) */
+export function getWearingAvatar(): WearingAvatar {
+  if (typeof window === 'undefined') return DEFAULT_WEARING_AVATAR
+
+  const stored = localStorage.getItem(WEARING_AVATAR_KEY)
+  if (stored) {
+    try {
+      return JSON.parse(stored) as WearingAvatar
+    } catch {
+      // 파싱 실패 시 기본값으로 초기화
+    }
+  }
+
+  localStorage.setItem(WEARING_AVATAR_KEY, JSON.stringify(DEFAULT_WEARING_AVATAR))
+  return DEFAULT_WEARING_AVATAR
+}
+
+/** localStorage에 착용 중인 아바타 저장 */
+export function saveWearingAvatar(avatar: WearingAvatar): void {
+  if (typeof window === 'undefined') return
+  localStorage.setItem(WEARING_AVATAR_KEY, JSON.stringify(avatar))
+}
+
+/** localStorage에 아바타 리스트 저장 */
+export function saveAvatarList(list: Avatar[]): void {
+  if (typeof window === 'undefined') return
+  localStorage.setItem(AVATAR_LIST_KEY, JSON.stringify(list))
+}

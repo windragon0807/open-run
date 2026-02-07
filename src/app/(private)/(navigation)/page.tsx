@@ -24,7 +24,7 @@ export default function Page() {
     <div className='relative h-full bg-gray-lighten'>
       <Header isSmallHeaderActive={isSmallHeaderActive} />
       <section ref={scrollRef} className='h-full overflow-y-auto pb-96 pt-200 app:pt-[264px]'>
-        <ChallengeSwiper />
+        {/* <ChallengeSwiper /> */}
         <Spacing size={8} />
         <ScheduledBungs />
         <Spacing size={40} />
