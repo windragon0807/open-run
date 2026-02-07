@@ -66,18 +66,6 @@ export default function BungDetails({ details }: { details: BungInfo }) {
   const formattedTime = timerFormat({ days, hours, minutes, seconds })
 
   const handleBungComplete = () => {
-    showModal({
-      key: MODAL_KEY.BUNG_COMPLETE,
-      component: (
-        <BungCompleteModal
-          imageUrl={details.mainImage as string}
-          title={details.name}
-          location={details.location}
-          memberList={details.memberList.filter((member) => member.userId !== userInfo!.userId)}
-        />
-      ),
-    })
-
     if (details.memberList.length < 2) {
       showModal({
         key: MODAL_KEY.TOAST,
@@ -187,10 +175,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
           )}
         </div>
       </header>
-      <div
-        className='w-full bg-cover h-200 app:h-240'
-        style={{ backgroundImage: `url(${details.mainImage})` }}
-      />
+      <div className='h-200 w-full bg-cover app:h-240' style={{ backgroundImage: `url(${details.mainImage})` }} />
 
       <motion.section
         style={{ y: translateY }}
@@ -275,7 +260,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
                   </button>
                 </div>
                 <button
-                  className='active:scale-98 flex h-32 w-full items-center justify-between rounded-8 bg-gray-lighten px-16 active-press-duration active:bg-gray/50'
+                  className='flex h-32 w-full items-center justify-between rounded-8 bg-gray-lighten px-16 active-press-duration active:scale-98 active:bg-gray/50'
                   onClick={() => {
                     showModal({
                       key: MODAL_KEY.WHY_CERTIFICATION,
@@ -288,7 +273,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
                 {벙에참여한벙주인가 && (
                   <>
                     <button
-                      className='active:scale-98 mt-16 h-56 w-full rounded-8 bg-black-darken text-16 font-bold text-white active-press-duration active:bg-black-darken/80 disabled:bg-gray disabled:text-white'
+                      className='mt-16 h-56 w-full rounded-8 bg-black-darken text-16 font-bold text-white active-press-duration active:scale-98 active:bg-black-darken/80 disabled:bg-gray disabled:text-white'
                       disabled={벙이진행중인가 === false}
                       onClick={handleBungComplete}>
                       벙 완료
@@ -363,7 +348,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
           </div>
 
           {/* 해시태그 */}
-          <div className='flex flex-wrap gap-8 px-16 mb-80 app:mb-100'>
+          <div className='mb-80 flex flex-wrap gap-8 px-16 app:mb-100'>
             {details.hashtags.map((label) => (
               <HashTag key={label} label={label} />
             ))}
