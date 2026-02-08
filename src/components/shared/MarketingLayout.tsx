@@ -1,5 +1,6 @@
 'use client'
 
+import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
 import { useCallback, useEffect, useRef, useState } from 'react'
@@ -51,6 +52,7 @@ export default function MarketingLayout() {
   const handleBackgroundClick = () => {
     if (!canClickToReveal) return // 로딩 끝나고 목업이 30%까지 올라온 뒤에만 동작
     hasClickedRef.current = true
+    setCanClickToReveal(false) // 바운스 애니메이션 중단
     setIsMockupAnimating(true)
     setMockupY('0%')
   }
@@ -74,8 +76,7 @@ export default function MarketingLayout() {
   return (
     <div
       ref={containerRef}
-      className='relative z-0 flex h-full w-full flex-col items-center'
-      onClick={handleBackgroundClick}>
+      className='relative z-0 flex h-full w-full flex-col items-center'>
       {/* 1) 첫 번째 배경(그라데이션): 두 번째 등장 시 서서히 사라짐 */}
       <motion.div
         className='absolute inset-0 z-0 bg-gradient-primary-white'
@@ -165,15 +166,20 @@ export default function MarketingLayout() {
       </AnimatePresence>
 
       {/* iPhone Mockup - iframe 로드 후 30%까지 올라옴, 클릭 시 0%로 (GPU 레이어·paint containment으로 버벅임 최소화) */}
+      {/* 30% 도달 후 바운스 반복으로 클릭 유도 */}
       <motion.div
-        className='absolute z-20'
+        className={clsx(
+          'absolute z-20',
+          canClickToReveal && !isRevealed && 'cursor-pointer transition-[filter] duration-300 hover:drop-shadow-[0_0_30px_rgba(255,255,255,0.6)]',
+        )}
+        onClick={handleBackgroundClick}
         initial={{ y: '100%' }}
-        animate={{ y: mockupY }}
-        transition={{
-          type: 'tween',
-          duration: mockupY === '0%' ? 0.5 : 0.7,
-          ease: [0.25, 0.1, 0.25, 1],
-        }}
+        animate={canClickToReveal && !isRevealed ? { y: ['30%', '28%', '30%'] } : { y: mockupY }}
+        transition={
+          canClickToReveal && !isRevealed
+            ? { duration: 1.2, repeat: Infinity, ease: 'easeInOut' }
+            : { type: 'tween', duration: mockupY === '0%' ? 0.5 : 0.7, ease: [0.25, 0.1, 0.25, 1] }
+        }
         onAnimationComplete={handleMockupAnimationComplete}
         style={{
           height: '100vh',
@@ -212,6 +218,9 @@ export default function MarketingLayout() {
               }}
             />
           )}
+
+          {/* reveal 전: iframe 위 투명 오버레이로 클릭 가로채기 / reveal 후: 제거하여 iframe 조작 허용 */}
+          {!isRevealed && <div className='absolute inset-0 z-10' />}
         </div>
       </motion.div>
     </div>
