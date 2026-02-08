@@ -28,7 +28,7 @@ export default function ExploreSearch({ onCancelButtonClick }: { onCancelButtonC
   }, [])
 
   return (
-    <section className='h-full app:pt-50'>
+    <section className='h-full bg-white app:pt-50'>
       <div className='flex items-center gap-8 px-16 py-24'>
         <Input ref={inputRef} placeholder='벙 검색' value={searchKeyword} setValue={setSearchKeyword} />
         <button
