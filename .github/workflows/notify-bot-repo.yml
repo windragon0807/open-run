@@ -1,0 +1,42 @@
+name: Notify Bot Repo on Frontend Change
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**"
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check for meaningful changes
+        id: check
+        run: |
+          CHANGED=$(git diff --name-only HEAD~1 HEAD -- 'src/' \
+            ':!src/**/*.css' \
+            ':!src/**/*.test.*' \
+            ':!src/**/*.spec.*' | wc -l)
+          echo "changed_count=$CHANGED" >> $GITHUB_OUTPUT
+
+      - name: Trigger bot repo doc-sync
+        if: steps.check.outputs.changed_count != '0'
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.BOT_REPO_PAT }}" \
+            https://api.github.com/repos/windragon0807/open-run-smartbot/dispatches \
+            -d '{
+              "event_type": "frontend-changed",
+              "client_payload": {
+                "before": "${{ github.event.before }}",
+                "after": "${{ github.sha }}",
+                "repo": "${{ github.repository }}"
+              }
+            }'

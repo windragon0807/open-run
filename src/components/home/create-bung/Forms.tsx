@@ -353,7 +353,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
             {...register('memberNumber', {
               required: '필수 항목입니다',
               min: { value: 2, message: '2명 이상으로 입력하세요' },
-              max: { value: 300, message: '300명 이하로 입력하세요' },
+              max: { value: 500, message: '500명 이하로 입력하세요' },
             })}
           />
         </div>
