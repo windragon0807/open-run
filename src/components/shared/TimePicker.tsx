@@ -1,7 +1,8 @@
-import { MouseEvent, TouchEvent, useCallback, useRef, useState } from 'react'
+import { useState } from 'react'
 import { padStart } from '@utils/string'
 import { currentDate } from '@utils/time'
 import { colors } from '@styles/colors'
+import { useChainScroll } from '@hooks/useChainScroll'
 
 // [00, 01, 02, ..., 23]
 const hours = Array.from({ length: 24 }, (_, i) => padStart(i))
@@ -55,6 +56,10 @@ const getNarrowTime = () => {
   }
 }
 
+const ITEM_HEIGHT = 40
+const VISIBLE_SLOTS = 3
+const CENTER_Y = (ITEM_HEIGHT * VISIBLE_SLOTS - ITEM_HEIGHT) / 2
+
 function Picker({
   options,
   initialValue,
@@ -68,118 +73,42 @@ function Picker({
     throw new Error('initialValue must be included in options')
   }
 
-  const length = options.length
-  const itemHeight = 40
-
-  const [value, setValue] = useState(initialValue)
-  const touchStartY = useRef<number | null>(null)
-  const mouseStartY = useRef<number | null>(null)
-  const currentPositionY = useRef<number>(0)
-
-  /** 터치 및 마우스 이동 */
-  const handleMove = useCallback(
-    (clientY: number) => {
-      const startY = touchStartY.current ?? mouseStartY.current
-      if (startY != null) {
-        const diff = startY - clientY // 이동 방향 (diff > 0: 아래로, diff < 0: 위로)
-        currentPositionY.current += diff
-
-        const updown = Math.round(currentPositionY.current / 64) // 정수값은 터치 민감도 조절에 사용
-        if (updown !== 0) {
-          const currentIndex = options.indexOf(value)
-          let index = currentIndex + updown
-          if (index < 0) {
-            index = length - 1
-          } else if (index > length - 1) {
-            index = 0
-          }
-          setValue(options[index])
-          onChange(options[index])
-          currentPositionY.current = 0 // 위치 초기화
-        }
-
-        if (touchStartY.current !== null) {
-          touchStartY.current = clientY
-        }
-        if (mouseStartY.current !== null) {
-          mouseStartY.current = clientY
-        }
-      }
-    },
-    [value], // eslint-disable-line react-hooks/exhaustive-deps
-  )
-
-  /** 터치 시작 */
-  const handleTouchStart = useCallback((e: TouchEvent<HTMLDivElement>) => {
-    touchStartY.current = e.touches[0].clientY
-  }, [])
-
-  /** 마우스 다운 */
-  const handleMouseDown = useCallback((e: MouseEvent<HTMLDivElement>) => {
-    mouseStartY.current = e.clientY
-  }, [])
-
-  /** 터치 이동 */
-  const handleTouchMove = useCallback(
-    (e: TouchEvent<HTMLDivElement>) => {
-      handleMove(e.touches[0].clientY)
-    },
-    [handleMove],
-  )
-
-  /** 마우스 이동 */
-  const handleMouseMove = useCallback(
-    (e: MouseEvent<HTMLDivElement>) => {
-      handleMove(e.clientY)
-    },
-    [handleMove],
-  )
-
-  /** 터치 및 마우스 종료 */
-  const handleEnd = useCallback(() => {
-    touchStartY.current = null
-    mouseStartY.current = null
-    currentPositionY.current = 0
-  }, [])
-
-  const getDisplayOptions = (current: string, options: string[]) => {
-    const currentIndex = options.indexOf(current)
-
-    const displayOptions = []
-    for (let i = -1; i <= 1; i++) {
-      let index = currentIndex + i
-      if (index < 0) {
-        index = length + index
-      } else if (index >= length) {
-        index = index - length
-      }
-      displayOptions.push(options[index])
-    }
-
-    return displayOptions
-  }
+  const { centerIndex, subPixelOffset, containerRef, handlers } = useChainScroll({
+    totalItems: options.length,
+    itemHeight: ITEM_HEIGHT,
+    wrap: true,
+    initialIndex: options.indexOf(initialValue),
+    onChange: (index) => onChange(options[index]),
+  })
 
   return (
     <div
-      className='relative flex cursor-move touch-none select-none flex-col overflow-hidden'
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleEnd}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleEnd}
-      style={{ height: itemHeight * 3 }}>
-      {getDisplayOptions(value, options).map((option, index) => (
-        <div
-          key={index}
-          className='flex items-center justify-center text-14 font-bold'
-          style={{
-            height: itemHeight,
-            color: Math.abs(index - 1) === 0 ? colors.black.darken : colors.gray.DEFAULT,
-          }}>
-          {option}
-        </div>
-      ))}
+      ref={containerRef}
+      className='relative w-30 cursor-move touch-none select-none overflow-hidden'
+      style={{ height: ITEM_HEIGHT * VISIBLE_SLOTS }}
+      {...handlers}
+    >
+      {Array.from({ length: VISIBLE_SLOTS }, (_, i) => i - 1).map((slot) => {
+        const rawIndex = centerIndex + slot
+        const itemIndex = ((rawIndex % options.length) + options.length) % options.length
+        const yPos = slot * ITEM_HEIGHT - subPixelOffset + CENTER_Y
+        const dist = Math.abs(slot - subPixelOffset / ITEM_HEIGHT)
+        const isSelected = dist < 0.5
+
+        return (
+          <div
+            key={slot}
+            className='absolute flex w-full items-center justify-center text-14 font-bold'
+            style={{
+              transform: `translateY(${yPos}px)`,
+              height: ITEM_HEIGHT,
+              color: isSelected ? colors.black.darken : colors.gray.DEFAULT,
+            }}
+          >
+            {options[itemIndex]}
+          </div>
+        )
+      })}
     </div>
   )
 }

@@ -1,6 +1,6 @@
+import { useState } from 'react'
 import { padStart } from '@utils/string'
-import NumberDial from './NumberDial'
-import { useNumberDial } from './hooks/useNumberDial'
+import ChainPicker from '@shared/ChainPicker'
 
 interface FaceNumberPickerProps {
   defaultValue: string
@@ -19,75 +19,40 @@ export default function FaceNumberPicker({
   minSeconds = 0,
   maxSeconds = 59,
 }: FaceNumberPickerProps) {
-  const {
-    value: minutes,
-    handleTouchStart: handleMinutesTouchStart,
-    handleTouchMove: handleMinutesTouchMove,
-    handleTouchEnd: handleMinutesTouchEnd,
-    handleMouseDown: handleMinutesMouseDown,
-    handleMouseMove: handleMinutesMouseMove,
-    handleMouseUp: handleMinutesMouseUp,
-    handleWheel: handleMinutesWheel,
-  } = useNumberDial({
-    initialValue: parseInt(defaultValue.split("'")[0]),
-    min: minMinutes,
-    max: maxMinutes,
-    onChange: (newMinutes) => onChange(`${padStart(newMinutes)}\'${padStart(seconds)}\"`),
-  })
+  const [minutes, setMinutes] = useState(parseInt(defaultValue.split("'")[0]))
+  const [seconds, setSeconds] = useState(parseInt(defaultValue.split("'")[1]))
 
-  const {
-    value: seconds,
-    handleTouchStart: handleSecondsTouchStart,
-    handleTouchMove: handleSecondsTouchMove,
-    handleTouchEnd: handleSecondsTouchEnd,
-    handleMouseDown: handleSecondsMouseDown,
-    handleMouseMove: handleSecondsMouseMove,
-    handleMouseUp: handleSecondsMouseUp,
-    handleWheel: handleSecondsWheel,
-  } = useNumberDial({
-    initialValue: parseInt(defaultValue.split("'")[1]),
-    min: minSeconds,
-    max: maxSeconds,
-    onChange: (newSeconds) => onChange(`${padStart(minutes)}\'${padStart(newSeconds)}\"`),
-  })
+  const handleMinutesChange = (newMinutes: number) => {
+    setMinutes(newMinutes)
+    onChange(`${padStart(newMinutes)}\'${padStart(seconds)}\"`)
+  }
+
+  const handleSecondsChange = (newSeconds: number) => {
+    setSeconds(newSeconds)
+    onChange(`${padStart(minutes)}\'${padStart(newSeconds)}\"`)
+  }
 
   return (
     <div className='flex items-center justify-center'>
-      {' '}
-      {/* 구분자 간격 조정 */}
-      <div className='relative h-[320px] w-86 touch-none overflow-hidden'>
-        <NumberDial
-          value={minutes}
-          min={minMinutes}
-          max={maxMinutes}
-          handleTouchStart={handleMinutesTouchStart}
-          handleTouchMove={handleMinutesTouchMove}
-          handleTouchEnd={handleMinutesTouchEnd}
-          handleMouseDown={handleMinutesMouseDown}
-          handleMouseMove={handleMinutesMouseMove}
-          handleMouseUp={handleMinutesMouseUp}
-          handleWheel={handleMinutesWheel}
-          digits={2}
-        />
-      </div>
+      <ChainPicker
+        value={minutes}
+        min={minMinutes}
+        max={maxMinutes}
+        onChange={handleMinutesChange}
+        wrap={true}
+        className='w-86'
+      />
       <div className='-ml-2 mb-18 mr-4 touch-none text-center font-pretendard text-40 font-bold italic tracking-tight text-primary'>
         {`'`}
       </div>
-      <div className='relative h-[320px] w-86 touch-none overflow-hidden'>
-        <NumberDial
-          value={seconds}
-          min={minSeconds}
-          max={maxSeconds}
-          handleTouchStart={handleSecondsTouchStart}
-          handleTouchMove={handleSecondsTouchMove}
-          handleTouchEnd={handleSecondsTouchEnd}
-          handleMouseDown={handleSecondsMouseDown}
-          handleMouseMove={handleSecondsMouseMove}
-          handleMouseUp={handleSecondsMouseUp}
-          handleWheel={handleSecondsWheel}
-          digits={2}
-        />
-      </div>
+      <ChainPicker
+        value={seconds}
+        min={minSeconds}
+        max={maxSeconds}
+        onChange={handleSecondsChange}
+        wrap={true}
+        className='w-86'
+      />
       <div className='-ml-4 mb-18 touch-none text-center font-pretendard text-40 font-bold italic tracking-tight text-primary'>
         {`"`}
       </div>
