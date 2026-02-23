@@ -1,12 +1,15 @@
 import Image from 'next/image'
+import { useRef } from 'react'
 import { useModal } from '@contexts/ModalProvider'
-import { BottomSheet, Dimmed } from '@shared/Modal'
+import { BottomSheet, BottomSheetRef, Dimmed } from '@shared/Modal'
 import { BrokenXIcon } from '@icons/x'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 
 export default function AvatarCaptureModal({ imgData }: { imgData: string }) {
   const { closeModal } = useModal()
+  const sheetRef = useRef<BottomSheetRef>(null)
+  const handleClose = () => sheetRef.current?.close()
 
   const downloadImage = () => {
     const link = document.createElement('a')
@@ -16,10 +19,10 @@ export default function AvatarCaptureModal({ imgData }: { imgData: string }) {
   }
 
   return (
-    <Dimmed>
-      <BottomSheet>
+    <Dimmed onClick={handleClose}>
+      <BottomSheet ref={sheetRef} onClose={() => closeModal(MODAL_KEY.AVATAR_CAPTURE)}>
         <header className='flex h-60 w-full items-center justify-center'>
-          <button className='absolute right-16' onClick={() => closeModal(MODAL_KEY.AVATAR_CAPTURE)}>
+          <button className='absolute right-16' onClick={handleClose}>
             <BrokenXIcon size={24} color={colors.black.DEFAULT} />
           </button>
           <span className='text-16 font-bold text-black-darken'>아바타 캡쳐</span>

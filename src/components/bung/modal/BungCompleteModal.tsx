@@ -1,9 +1,9 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useModal } from '@contexts/ModalProvider'
 import { BungMember } from '@type/bung'
-import { BottomSheet, Dimmed } from '@shared/Modal'
+import { BottomSheet, BottomSheetRef, Dimmed } from '@shared/Modal'
 import { PlaceIcon } from '@icons/place'
 import { FilledThumbIcon, OutlinedThumbIcon } from '@icons/thumb'
 import { BrokenXIcon } from '@icons/x'
@@ -24,6 +24,8 @@ export default function BungCompleteModal({
 }) {
   const router = useRouter()
   const { closeModal } = useModal()
+  const sheetRef = useRef<BottomSheetRef>(null)
+  const handleClose = () => sheetRef.current?.close()
   const { mutate: sendMemberLike } = useSendMemberLike()
 
   const [checkedUserIdList, setCheckedUserIdList] = useState<string[]>([])
@@ -46,12 +48,12 @@ export default function BungCompleteModal({
   }
 
   return (
-    <Dimmed onClick={() => closeModal(MODAL_KEY.BUNG_COMPLETE)}>
-      <BottomSheet fullSize>
+    <Dimmed onClick={handleClose}>
+      <BottomSheet ref={sheetRef} onClose={() => closeModal(MODAL_KEY.BUNG_COMPLETE)} fullSize>
         <header className='relative mb-16 flex h-60 w-full items-center justify-center px-16'>
           <button
             className='absolute left-16 -translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
-            onClick={() => closeModal(MODAL_KEY.BUNG_COMPLETE)}>
+            onClick={handleClose}>
             <BrokenXIcon size={24} color={colors.black.DEFAULT} />
           </button>
           <span className='text-16 font-bold'>벙 완료!</span>

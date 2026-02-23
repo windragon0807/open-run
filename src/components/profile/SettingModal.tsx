@@ -1,10 +1,10 @@
 import clsx from 'clsx'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ReactNode } from 'react'
+import { ReactNode, useRef } from 'react'
 import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
-import { BottomSheet, Dimmed } from '@shared/Modal'
+import { BottomSheet, BottomSheetRef, Dimmed } from '@shared/Modal'
 import { ArrowRightIcon } from '@icons/arrow'
 import { MailIcon } from '@icons/mail'
 import { BrokenXIcon } from '@icons/x'
@@ -16,16 +16,18 @@ import DeleteUserModal from './DeleteUserModal'
 export default function SettingModal() {
   const router = useRouter()
   const { closeModal, showModal } = useModal()
+  const sheetRef = useRef<BottomSheetRef>(null)
+  const handleClose = () => sheetRef.current?.close()
   const { logout } = useLogout()
   const { isApp } = useAppStore()
 
   return (
-    <Dimmed onClick={() => closeModal(MODAL_KEY.SETTING)}>
-      <BottomSheet>
+    <Dimmed onClick={handleClose}>
+      <BottomSheet ref={sheetRef} onClose={() => closeModal(MODAL_KEY.SETTING)}>
         <header className='mb-16 flex h-60 w-full items-center justify-center'>
           <button
             className='absolute left-16 -translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
-            onClick={() => closeModal(MODAL_KEY.SETTING)}>
+            onClick={handleClose}>
             <BrokenXIcon size={24} color={colors.black.DEFAULT} />
           </button>
           <span className='text-16 font-bold text-black-darken'>설정</span>

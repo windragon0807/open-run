@@ -1,18 +1,21 @@
+import { useRef } from 'react'
 import { colors } from '@/styles/colors'
 import { useModal } from '@contexts/ModalProvider'
-import { BottomSheet, Dimmed } from '@shared/Modal'
+import { BottomSheet, BottomSheetRef, Dimmed } from '@shared/Modal'
 import { BrokenXIcon } from '@icons/x'
 import { MODAL_KEY } from '@constants/modal'
 
 export default function DontWorryModal() {
   const { closeModal } = useModal()
+  const sheetRef = useRef<BottomSheetRef>(null)
+  const handleClose = () => sheetRef.current?.close()
   return (
-    <Dimmed onClick={() => closeModal(MODAL_KEY.DONT_WORRY)}>
-      <BottomSheet>
+    <Dimmed onClick={handleClose}>
+      <BottomSheet ref={sheetRef} onClose={() => closeModal(MODAL_KEY.DONT_WORRY)}>
         <header className='flex h-60 w-full items-center justify-center'>
           <button
             className='absolute left-14 rounded-8 p-2 active-press-duration active:scale-90 active:bg-gray/50'
-            onClick={() => closeModal(MODAL_KEY.DONT_WORRY)}>
+            onClick={handleClose}>
             <BrokenXIcon size={24} color={colors.black.DEFAULT} />
           </button>
           <span className='text-16 font-bold'>월렛 로그인, 안심하고 진행하세요!</span>

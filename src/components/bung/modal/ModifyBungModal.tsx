@@ -1,6 +1,7 @@
 import { differenceInMinutes } from 'date-fns'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { useModal } from '@contexts/ModalProvider'
 import { BungInfo } from '@type/bung'
@@ -8,7 +9,7 @@ import AlertModal from '@shared/AlertModal'
 import HashTag from '@shared/HashTag'
 import Input from '@shared/Input'
 import LoadingLogo from '@shared/LoadingLogo'
-import { BottomSheet, Dimmed } from '@shared/Modal'
+import { BottomSheet, BottomSheetRef, Dimmed } from '@shared/Modal'
 import NumberInput from '@shared/NumberInput'
 import PrimaryButton from '@shared/PrimaryButton'
 import TextArea from '@shared/TextArea'
@@ -38,6 +39,8 @@ type FormValues = {
 export default function ModifyBungModal({ details }: { details: BungInfo }) {
   const router = useRouter()
   const { showModal, closeModal } = useModal()
+  const sheetRef = useRef<BottomSheetRef>(null)
+  const handleClose = () => sheetRef.current?.close()
   const { mutate: modifyBung, isPending } = useModifyBung()
   const 참여중인멤버수 = details.memberList.length
   const { nextImage } = useThumbnailImage(details.mainImage)
@@ -91,13 +94,13 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
   }
 
   return (
-    <Dimmed onClick={() => closeModal(MODAL_KEY.MODIFY_BUNG)}>
-      <BottomSheet fullSize>
+    <Dimmed onClick={handleClose}>
+      <BottomSheet ref={sheetRef} onClose={() => closeModal(MODAL_KEY.MODIFY_BUNG)} fullSize>
         <header className='relative flex h-60 w-full items-center justify-center px-16'>
           <span className='text-16 font-bold'>벙 수정</span>
           <button
             className='absolute right-16 translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
-            onClick={() => closeModal(MODAL_KEY.MODIFY_BUNG)}>
+            onClick={handleClose}>
             <BrokenXIcon size={24} color={colors.black.DEFAULT} />
           </button>
         </header>

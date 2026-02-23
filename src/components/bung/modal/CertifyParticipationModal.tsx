@@ -1,10 +1,10 @@
 import { AdvancedMarker, Map } from '@vis.gl/react-google-maps'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { memo, useMemo } from 'react'
+import { memo, useRef, useMemo } from 'react'
 import { useModal } from '@contexts/ModalProvider'
 import LoadingLogo from '@shared/LoadingLogo'
-import { BottomSheet, Dimmed } from '@shared/Modal'
+import { BottomSheet, BottomSheetRef, Dimmed } from '@shared/Modal'
 import PrimaryButton from '@shared/PrimaryButton'
 import ToastModal from '@shared/ToastModal'
 import { BrokenXIcon } from '@icons/x'
@@ -21,6 +21,8 @@ export default function CertifyParticipationModal({ bungId, lat, lng }: { bungId
 
   const router = useRouter()
   const { showModal, closeModal } = useModal()
+  const sheetRef = useRef<BottomSheetRef>(null)
+  const handleClose = () => sheetRef.current?.close()
   const { mutate: certifyParticipation } = useCertifyParticipation()
   const { location } = useGeolocation()
 
@@ -52,12 +54,12 @@ export default function CertifyParticipationModal({ bungId, lat, lng }: { bungId
   }
 
   return (
-    <Dimmed onClick={() => closeModal(MODAL_KEY.CERTIFY_PARTICIPATION)}>
-      <BottomSheet className='px-16'>
+    <Dimmed onClick={handleClose}>
+      <BottomSheet ref={sheetRef} onClose={() => closeModal(MODAL_KEY.CERTIFY_PARTICIPATION)} className='px-16'>
         <header className='flex h-60 w-full items-center justify-center'>
           <button
             className='absolute left-16 -translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
-            onClick={() => closeModal(MODAL_KEY.CERTIFY_PARTICIPATION)}>
+            onClick={handleClose}>
             <BrokenXIcon size={24} color={colors.black.DEFAULT} />
           </button>
           <span className='text-16 font-bold text-black-darken'>참여 인증</span>
