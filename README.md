@@ -1,6 +1,6 @@
 # 🏃 OpenRun Frontend
 
-> Web3 기반 러닝 소셜 앱 — 함께 달리고, 챌린지하고, NFT로 보상받는 러닝 커뮤니티
+> 오픈런이란 다양한 사람들과 달리기 모임에 참여하고, NFT 아바타를 획득하여 나만의 개성을 표현할 수 있는 커뮤니티 기반 M2E dApp입니다.
 
 ![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)
