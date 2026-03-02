@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useModal } from '@contexts/ModalProvider'
 import { imageList } from '@store/image'
@@ -28,6 +28,7 @@ import { currentDate, formatDate } from '@utils/time'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 import AddressSearchModal from './AddressSearchModal'
+import type { CreateBungInitialDraft } from './CreateBung'
 
 type FormValues = {
   imageUrl: string
@@ -47,7 +48,7 @@ type FormValues = {
   hashTags: string[]
 }
 
-export default function Forms({ nextStep }: { nextStep: () => void }) {
+export default function Forms({ nextStep, initialDraft }: { nextStep: () => void; initialDraft?: CreateBungInitialDraft }) {
   const router = useRouter()
   const { nextImage } = useThumbnailImage()
   const { showModal } = useModal()
@@ -60,6 +61,25 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
   const { mutateAsync: geocoding } = useGeocoding()
   const 메인페이지벙리스트업데이트 = useRefetchQuery(queryKey)
 
+  const defaultValues = useMemo<FormValues>(() => {
+    const hashTags = Array.isArray(initialDraft?.hashtags) ? initialDraft?.hashtags : []
+    return {
+      imageUrl: imageList[0],
+      bungName: initialDraft?.name ?? initialDraft?.title ?? '',
+      description: initialDraft?.description ?? '',
+      location: initialDraft?.location ?? '',
+      detailedAddress: initialDraft?.detailedAddress ?? '',
+      runningTime: initialDraft?.runningTime != null ? String(initialDraft.runningTime) : '',
+      distance: initialDraft?.distance != null ? String(initialDraft.distance) : '',
+      paceMinute: initialDraft?.paceMinute != null ? String(initialDraft.paceMinute) : '',
+      paceSecond: initialDraft?.paceSecond != null ? String(initialDraft.paceSecond) : '',
+      memberNumber: initialDraft?.memberNumber != null ? String(initialDraft.memberNumber) : '',
+      hasAfterRun: initialDraft?.hasAfterRun ?? false,
+      afterRunDescription: initialDraft?.afterRunDescription ?? '',
+      hashTags,
+    }
+  }, [initialDraft])
+
   const {
     register,
     handleSubmit,
@@ -69,21 +89,7 @@ export default function Forms({ nextStep }: { nextStep: () => void }) {
     clearErrors,
     formState: { errors },
   } = useForm<FormValues>({
-    defaultValues: {
-      imageUrl: imageList[0],
-      bungName: '',
-      description: '',
-      location: '',
-      detailedAddress: '',
-      runningTime: '',
-      distance: '',
-      paceMinute: '',
-      paceSecond: '',
-      memberNumber: '',
-      hasAfterRun: false,
-      afterRunDescription: '',
-      hashTags: [],
-    },
+    defaultValues,
   })
 
   const onSubmit = async (formData: FormValues) => {

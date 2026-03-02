@@ -8,20 +8,24 @@ type Props = {
   params: Promise<{
     bungId: string
   }>
+  searchParams: Promise<{
+    chatAction?: string
+  }>
 }
 
-export default async function Page({ params }: Props) {
+export default async function Page({ params, searchParams }: Props) {
   const { bungId } = await params
+  const { chatAction } = await searchParams
   return (
     <Suspense fallback={<LoadingFallback />}>
-      <BungDetailPage bungId={bungId} />
+      <BungDetailPage bungId={bungId} chatAction={chatAction} />
     </Suspense>
   )
 }
 
-async function BungDetailPage({ bungId }: { bungId: string }) {
+async function BungDetailPage({ bungId, chatAction }: { bungId: string; chatAction?: string }) {
   const bungDetail = await fetchBungDetail({ bungId })
-  return <BungDetails details={bungDetail.data} />
+  return <BungDetails details={bungDetail.data} initialChatAction={chatAction} />
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

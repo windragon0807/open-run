@@ -19,7 +19,7 @@ const jost = Jost({
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='ko'>
-      <body className={`font-pretendard ${jost.variable} touch-none`}>
+      <body suppressHydrationWarning className={`font-pretendard ${jost.variable} touch-none`}>
         <ReactQueryProvider>
           <WalletProvider>
             <GoogleMapContext>

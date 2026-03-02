@@ -4,7 +4,7 @@ import clsx from 'clsx'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
-import { Fragment, useRef } from 'react'
+import { Fragment, useEffect, useRef } from 'react'
 import { useModal } from '@contexts/ModalProvider'
 import { useUserStore } from '@store/user'
 import { BungInfo } from '@type/bung'
@@ -32,7 +32,7 @@ import DeleteBungModal from './modal/DeleteBungModal'
 import ModifyBungModal from './modal/ModifyBungModal'
 import WhyCertificationModal from './modal/WhyCertificationModal'
 
-export default function BungDetails({ details }: { details: BungInfo }) {
+export default function BungDetails({ details, initialChatAction }: { details: BungInfo; initialChatAction?: string }) {
   const 참여인원수 = details.memberList.length
 
   const router = useRouter()
@@ -85,6 +85,7 @@ export default function BungDetails({ details }: { details: BungInfo }) {
             key: MODAL_KEY.BUNG_COMPLETE,
             component: (
               <BungCompleteModal
+                bungId={details.bungId}
                 imageUrl={details.mainImage as string}
                 title={details.name}
                 location={details.location}
@@ -126,6 +127,23 @@ export default function BungDetails({ details }: { details: BungInfo }) {
   const 벙에참여한유저인가 = isParticipated
   const 현재유저의벙참여정보 = details.memberList.find((member) => member.userId === userInfo!.userId)
   const 벙이진행중인가 = days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0
+
+  const hasHandledChatActionRef = useRef(false)
+  useEffect(() => {
+    if (hasHandledChatActionRef.current) return
+    if (initialChatAction !== 'modify') return
+
+    hasHandledChatActionRef.current = true
+    if (!벙에참여한벙주인가) {
+      showModal({
+        key: MODAL_KEY.TOAST,
+        component: <ToastModal mode='error' message='벙주만 수정할 수 있습니다.' />,
+      })
+      return
+    }
+
+    showModal({ key: MODAL_KEY.MODIFY_BUNG, component: <ModifyBungModal details={details} /> })
+  }, [details, initialChatAction, showModal, 벙에참여한벙주인가])
 
   return (
     <section className='relative h-full w-full'>

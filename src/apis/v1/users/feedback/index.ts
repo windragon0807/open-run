@@ -1,6 +1,7 @@
 import http from '@apis/axios'
 
 type RequestType = {
+  bungId: string
   targetUserIds: string[]
 }
 

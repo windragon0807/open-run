@@ -9,12 +9,34 @@ import { colors } from '@styles/colors'
 import Forms from './Forms'
 import Invitation from './Invitation'
 
-export default function CreateBung() {
+export type CreateBungInitialDraft = {
+  name?: string
+  title?: string
+  description?: string
+  location?: string
+  detailedAddress?: string
+  runningTime?: number | string
+  distance?: number | string
+  paceMinute?: number | string
+  paceSecond?: number | string
+  memberNumber?: number | string
+  hasAfterRun?: boolean
+  afterRunDescription?: string
+  hashtags?: string[]
+}
+
+export default function CreateBung({
+  initialStep = 'create',
+  initialDraft,
+}: {
+  initialStep?: 'create' | 'invitation'
+  initialDraft?: CreateBungInitialDraft
+}) {
   const { closeModal } = useModal()
   const sheetRef = useRef<BottomSheetRef>(null)
   const handleClose = () => sheetRef.current?.close()
 
-  const [step, setStep] = useState<'create' | 'invitation'>('create')
+  const [step, setStep] = useState<'create' | 'invitation'>(initialStep)
 
   return (
     <Dimmed onClick={handleClose}>
@@ -33,7 +55,7 @@ export default function CreateBung() {
         </header>
 
         <section className='h-[calc(100%-110px)] overflow-y-auto'>
-          {step === 'create' ? <Forms nextStep={() => setStep('invitation')} /> : <Invitation />}
+          {step === 'create' ? <Forms nextStep={() => setStep('invitation')} initialDraft={initialDraft} /> : <Invitation />}
         </section>
       </BottomSheet>
     </Dimmed>
