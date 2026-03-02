@@ -193,6 +193,12 @@ function navigationOrDefault(proposal: ChatActionProposal): ChatActionNavigation
       prefill: { initialStep: 'invitation' },
     }
   }
+  if (proposal.actionKey === 'challenge.open_page') {
+    return {
+      type: 'route',
+      href: '/challenges',
+    }
+  }
   return undefined
 }
 
@@ -384,6 +390,17 @@ export async function POST(request: NextRequest) {
             type: 'route',
             href: `/bung/${resolved.bungId}?chatAction=modify`,
           },
+        } as ChatExecuteResponse,
+        { status: 200 },
+      )
+    }
+
+    if (proposal.actionKey === 'challenge.open_page') {
+      return NextResponse.json(
+        {
+          status: 'navigated',
+          message: '도전과제 페이지로 이동합니다.',
+          navigation: navigationOrDefault(proposal),
         } as ChatExecuteResponse,
         { status: 200 },
       )
