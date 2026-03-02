@@ -91,10 +91,12 @@ async function callBackend(path: string, method: string, body?: unknown): Promis
   }
 
   const cookieStore = await cookies()
-  const accessToken = cookieStore.get(COOKIE.ACCESSTOKEN)?.value
-  if (!accessToken) {
+  const rawAccessToken = cookieStore.get(COOKIE.ACCESSTOKEN)?.value
+  if (!rawAccessToken) {
     return { ok: false, status: 401, data: { message: '로그인이 필요합니다.' } }
   }
+  const decoded = decodeURIComponent(rawAccessToken)
+  const accessToken = decoded.startsWith('Bearer ') ? decoded : `Bearer ${decoded}`
 
   const headers: Record<string, string> = {
     Authorization: accessToken,
@@ -193,10 +195,109 @@ function navigationOrDefault(proposal: ChatActionProposal): ChatActionNavigation
       prefill: { initialStep: 'invitation' },
     }
   }
+  if (proposal.actionKey === 'home.open_page') {
+    return {
+      type: 'route',
+      href: '/',
+    }
+  }
   if (proposal.actionKey === 'challenge.open_page') {
     return {
       type: 'route',
-      href: '/challenges',
+      href: '/challenges?list=progress&category=general',
+    }
+  }
+  if (proposal.actionKey === 'challenge.progress.open_page') {
+    return {
+      type: 'route',
+      href: '/challenges?list=progress&category=general',
+    }
+  }
+  if (proposal.actionKey === 'challenge.general.open_page') {
+    return {
+      type: 'route',
+      href: '/challenges?list=progress&category=general',
+    }
+  }
+  if (proposal.actionKey === 'challenge.repetitive.open_page') {
+    return {
+      type: 'route',
+      href: '/challenges?list=progress&category=repetitive',
+    }
+  }
+  if (proposal.actionKey === 'challenge.completed.open_page') {
+    return {
+      type: 'route',
+      href: '/challenges?list=completed',
+    }
+  }
+  if (proposal.actionKey === 'avatar.open_page') {
+    return {
+      type: 'route',
+      href: '/avatar',
+    }
+  }
+  if (proposal.actionKey === 'profile.open_page') {
+    return {
+      type: 'route',
+      href: '/profile',
+    }
+  }
+  if (proposal.actionKey === 'profile.modify.open_page') {
+    return {
+      type: 'route',
+      href: '/profile/modify-user',
+    }
+  }
+  if (proposal.actionKey === 'profile.notification.open_page') {
+    return {
+      type: 'route',
+      href: '/profile/set-notification',
+    }
+  }
+  if (proposal.actionKey === 'explore.open_page') {
+    return {
+      type: 'route',
+      href: '/explore',
+    }
+  }
+  if (proposal.actionKey === 'bung.search.open_page') {
+    return {
+      type: 'route',
+      href: '/explore',
+    }
+  }
+  if (proposal.actionKey === 'bung.detail.open_page') {
+    const bungId = asString(proposal.params.bungId)
+    return {
+      type: 'route',
+      href: bungId ? `/bung/${bungId}` : '/explore',
+    }
+  }
+  if (proposal.actionKey === 'bung.manage_members.open_page') {
+    const bungId = asString(proposal.params.bungId)
+    return {
+      type: 'route',
+      href: bungId ? `/bung/${bungId}` : '/profile',
+    }
+  }
+  if (proposal.actionKey === 'bung.delegate_owner.open_page') {
+    const bungId = asString(proposal.params.bungId)
+    return {
+      type: 'route',
+      href: bungId ? `/bung/${bungId}` : '/profile',
+    }
+  }
+  if (proposal.actionKey === 'auth.signin.open_page') {
+    return {
+      type: 'route',
+      href: '/signin',
+    }
+  }
+  if (proposal.actionKey === 'auth.register.open_page') {
+    return {
+      type: 'route',
+      href: '/register',
     }
   }
   return undefined
@@ -395,12 +496,190 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (proposal.actionKey === 'challenge.open_page') {
+    if (
+      proposal.actionKey === 'challenge.open_page' ||
+      proposal.actionKey === 'challenge.progress.open_page' ||
+      proposal.actionKey === 'challenge.general.open_page' ||
+      proposal.actionKey === 'challenge.repetitive.open_page' ||
+      proposal.actionKey === 'challenge.completed.open_page'
+    ) {
+      const messageByAction: Record<string, string> = {
+        'challenge.open_page': '도전과제 페이지로 이동합니다.',
+        'challenge.progress.open_page': '진행 중 도전과제 페이지로 이동합니다.',
+        'challenge.general.open_page': '일반 도전과제 페이지로 이동합니다.',
+        'challenge.repetitive.open_page': '반복 도전과제 페이지로 이동합니다.',
+        'challenge.completed.open_page': '완료 도전과제 페이지로 이동합니다.',
+      }
       return NextResponse.json(
         {
           status: 'navigated',
-          message: '도전과제 페이지로 이동합니다.',
+          message: messageByAction[proposal.actionKey] ?? '도전과제 페이지로 이동합니다.',
           navigation: navigationOrDefault(proposal),
+        } as ChatExecuteResponse,
+        { status: 200 },
+      )
+    }
+
+    if (proposal.actionKey === 'home.open_page') {
+      return NextResponse.json(
+        {
+          status: 'navigated',
+          message: '홈 화면으로 이동합니다.',
+          navigation: navigationOrDefault(proposal),
+        } as ChatExecuteResponse,
+        { status: 200 },
+      )
+    }
+
+    if (proposal.actionKey === 'avatar.open_page') {
+      return NextResponse.json(
+        {
+          status: 'navigated',
+          message: '아바타 페이지로 이동합니다.',
+          navigation: navigationOrDefault(proposal),
+        } as ChatExecuteResponse,
+        { status: 200 },
+      )
+    }
+
+    if (proposal.actionKey === 'profile.open_page') {
+      return NextResponse.json(
+        {
+          status: 'navigated',
+          message: '프로필 페이지로 이동합니다.',
+          navigation: navigationOrDefault(proposal),
+        } as ChatExecuteResponse,
+        { status: 200 },
+      )
+    }
+
+    if (proposal.actionKey === 'profile.modify.open_page') {
+      return NextResponse.json(
+        {
+          status: 'navigated',
+          message: '프로필 정보 수정 페이지로 이동합니다.',
+          navigation: navigationOrDefault(proposal),
+        } as ChatExecuteResponse,
+        { status: 200 },
+      )
+    }
+
+    if (proposal.actionKey === 'profile.notification.open_page') {
+      return NextResponse.json(
+        {
+          status: 'navigated',
+          message: '알림 설정 페이지로 이동합니다.',
+          navigation: navigationOrDefault(proposal),
+        } as ChatExecuteResponse,
+        { status: 200 },
+      )
+    }
+
+    if (proposal.actionKey === 'explore.open_page' || proposal.actionKey === 'bung.search.open_page') {
+      return NextResponse.json(
+        {
+          status: 'navigated',
+          message: proposal.actionKey === 'bung.search.open_page' ? '벙 검색 페이지로 이동합니다.' : '벙 탐색 페이지로 이동합니다.',
+          navigation: navigationOrDefault(proposal),
+        } as ChatExecuteResponse,
+        { status: 200 },
+      )
+    }
+
+    if (proposal.actionKey === 'auth.signin.open_page') {
+      return NextResponse.json(
+        {
+          status: 'navigated',
+          message: '로그인 페이지로 이동합니다.',
+          navigation: navigationOrDefault(proposal),
+        } as ChatExecuteResponse,
+        { status: 200 },
+      )
+    }
+
+    if (proposal.actionKey === 'auth.register.open_page') {
+      return NextResponse.json(
+        {
+          status: 'navigated',
+          message: '회원가입 페이지로 이동합니다.',
+          navigation: navigationOrDefault(proposal),
+        } as ChatExecuteResponse,
+        { status: 200 },
+      )
+    }
+
+    if (proposal.actionKey === 'bung.detail.open_page') {
+      const resolved = await resolveBungId(workingProposal, 'discover')
+      workingProposal = resolved.proposal
+      if (resolved.response) return NextResponse.json(resolved.response, { status: 200 })
+      return NextResponse.json(
+        {
+          status: 'navigated',
+          message: '벙 상세 페이지로 이동합니다.',
+          navigation: {
+            type: 'route',
+            href: `/bung/${resolved.bungId}`,
+          },
+        } as ChatExecuteResponse,
+        { status: 200 },
+      )
+    }
+
+    if (proposal.actionKey === 'bung.manage_members.open_page') {
+      const resolved = await resolveBungId(workingProposal, 'my')
+      workingProposal = resolved.proposal
+      if (resolved.response) return NextResponse.json(resolved.response, { status: 200 })
+
+      const detail = await getBungDetail(String(resolved.bungId))
+      if (!detail) {
+        return NextResponse.json(
+          {
+            status: 'failed',
+            message: '멤버 관리에 필요한 벙 정보를 가져오지 못했습니다.',
+          } as ChatExecuteResponse,
+          { status: 200 },
+        )
+      }
+
+      const memberList = encodeURIComponent(JSON.stringify(detail.memberList ?? []))
+      return NextResponse.json(
+        {
+          status: 'navigated',
+          message: '멤버 관리 페이지로 이동합니다.',
+          navigation: {
+            type: 'route',
+            href: `/bung/${resolved.bungId}/manage-members?memberList=${memberList}`,
+          },
+        } as ChatExecuteResponse,
+        { status: 200 },
+      )
+    }
+
+    if (proposal.actionKey === 'bung.delegate_owner.open_page') {
+      const resolved = await resolveBungId(workingProposal, 'my')
+      workingProposal = resolved.proposal
+      if (resolved.response) return NextResponse.json(resolved.response, { status: 200 })
+
+      const detail = await getBungDetail(String(resolved.bungId))
+      if (!detail) {
+        return NextResponse.json(
+          {
+            status: 'failed',
+            message: '벙주 위임에 필요한 벙 정보를 가져오지 못했습니다.',
+          } as ChatExecuteResponse,
+          { status: 200 },
+        )
+      }
+
+      const memberList = encodeURIComponent(JSON.stringify(detail.memberList ?? []))
+      return NextResponse.json(
+        {
+          status: 'navigated',
+          message: '벙주 위임 페이지로 이동합니다.',
+          navigation: {
+            type: 'route',
+            href: `/bung/${resolved.bungId}/delegate-owner?memberList=${memberList}`,
+          },
         } as ChatExecuteResponse,
         { status: 200 },
       )

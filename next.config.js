@@ -16,6 +16,13 @@ const nextConfig = {
       },
     ],
   },
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      '@react-native-async-storage/async-storage': false,
+    }
+    return config
+  },
   // compiler: {
   //   removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
   // },

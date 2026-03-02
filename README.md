@@ -68,6 +68,18 @@ cp .env.example .env
 yarn dev
 ```
 
+### 챗봇 BFF 회귀 테스트
+
+`/api/chat` 레벨에서 lane/kind/uiHints/권한 처리 회귀를 검사합니다.
+
+```bash
+# frontend dev 서버 실행 상태에서
+yarn chat:smoke
+
+# 반복 검사
+python3 scripts/chat_bff_smoke.py --rounds 2
+```
+
 ### 환경 변수
 
 `.env.example`을 `.env`로 복사한 뒤 실제 값을 입력합니다.
