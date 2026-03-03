@@ -1,16 +1,21 @@
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { imageList } from '@store/image'
 
-export function useThumbnailImage(initialImageUrl?: string | null) {
-  const [imageIndex, setImageIndex] = useState(Number(initialImageUrl?.match(/\d+/)?.[0] || 1))
+export function getNextImageUrl(currentImageUrl?: string | null, images: string[] = imageList) {
+  if (images.length === 0) return ''
 
-  const nextImage = useCallback(({ onChange }: { onChange?: (imageUrl: string) => void }) => {
-    setImageIndex((prevIndex) => {
-      const nextIndex = prevIndex === 13 ? 1 : prevIndex + 1
-      onChange?.(imageList[nextIndex - 1])
-      return nextIndex
-    })
-  }, [])
+  const currentIndex = currentImageUrl ? images.indexOf(currentImageUrl) : -1
+  const nextIndex = ((currentIndex >= 0 ? currentIndex : 0) + 1) % images.length
+  return images[nextIndex]
+}
 
-  return { imageIndex, currentImageUrl: imageList[imageIndex - 1], nextImage }
+export function useThumbnailImage(images: string[] = imageList) {
+  const nextImage = useCallback(
+    (currentImageUrl?: string | null) => {
+      return getNextImageUrl(currentImageUrl, images)
+    },
+    [images],
+  )
+
+  return { nextImage }
 }

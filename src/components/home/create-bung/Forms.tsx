@@ -1,11 +1,11 @@
 import clsx from 'clsx'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useMemo, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useModal } from '@contexts/ModalProvider'
 import { imageList } from '@store/image'
 import Button from '@components/bung/components/Button'
+import BungThumbnailPicker from '@components/bung/components/BungThumbnailPicker'
 import FormTitle from '@components/bung/components/FormTitle'
 import HashTagSearch from '@components/bung/components/HashTagSearch'
 import DatePicker from '@shared/DatePicker'
@@ -18,7 +18,6 @@ import TextArea from '@shared/TextArea'
 import TimePicker from '@shared/TimePicker'
 import { CalendarIcon } from '@icons/calendar'
 import { ClockIcon } from '@icons/clock'
-import { RandomIcon } from '@icons/random'
 import { useRefetchQuery } from '@hooks/useRefetchQuery'
 import { useThumbnailImage } from '@hooks/useThumbnailImage'
 import { useGeocoding } from '@apis/maps/geocoding/mutation'
@@ -151,20 +150,18 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
 
   const 시작날짜를선택했는가 = watch('startDate') != null
   const 시작시간을선택했는가 = watch('startTime') != null
+  const selectedImageUrl = watch('imageUrl')
 
   return (
     <section className='flex w-full flex-col overflow-y-auto px-16'>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/** 랜덤 이미지 선택 */}
-        <section className='relative mx-auto mb-32 h-184 w-full'>
-          <Image className='rounded-8' src={watch('imageUrl')} alt='Random Thumbnail Image' fill />
-          <button
-            className='absolute bottom-16 right-16 rounded-4 bg-primary p-8 active-press-duration active:scale-90 active:bg-primary-darken'
-            type='button'
-            onClick={() => nextImage({ onChange: (imageUrl) => setValue('imageUrl', imageUrl) })}>
-            <RandomIcon size={24} color={colors.white} />
-          </button>
-        </section>
+        <BungThumbnailPicker
+          value={selectedImageUrl}
+          images={imageList}
+          onChange={(imageUrl) => setValue('imageUrl', imageUrl)}
+          onRandom={() => setValue('imageUrl', nextImage(selectedImageUrl))}
+        />
 
         {/** 벙 이름 */}
         <div className='mb-16 flex flex-col gap-8'>

@@ -1,9 +1,9 @@
 import { differenceInMinutes } from 'date-fns'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { useModal } from '@contexts/ModalProvider'
+import { imageList } from '@store/image'
 import { BungInfo } from '@type/bung'
 import AlertModal from '@shared/AlertModal'
 import HashTag from '@shared/HashTag'
@@ -15,7 +15,6 @@ import PrimaryButton from '@shared/PrimaryButton'
 import TextArea from '@shared/TextArea'
 import { CalendarIcon } from '@icons/calendar'
 import { ClockIcon } from '@icons/clock'
-import { RandomIcon } from '@icons/random'
 import { BrokenXIcon } from '@icons/x'
 import { useThumbnailImage } from '@hooks/useThumbnailImage'
 import { useModifyBung } from '@apis/v1/bungs/[bungId]/mutation'
@@ -23,6 +22,7 @@ import { formatDate } from '@utils/time'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 import Button from '../components/Button'
+import BungThumbnailPicker from '../components/BungThumbnailPicker'
 import FormTitle from '../components/FormTitle'
 import HashTagSearch from '../components/HashTagSearch'
 
@@ -43,7 +43,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
   const handleClose = () => sheetRef.current?.close()
   const { mutate: modifyBung, isPending } = useModifyBung()
   const 참여중인멤버수 = details.memberList.length
-  const { nextImage } = useThumbnailImage(details.mainImage)
+  const { nextImage } = useThumbnailImage()
 
   const {
     register,
@@ -59,9 +59,10 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
       hasAfterRun: details.hasAfterRun,
       afterRunDescription: details.afterRunDescription,
       hashTags: details.hashtags,
-      mainImage: details.mainImage || '',
+      mainImage: details.mainImage || imageList[0],
     },
   })
+  const selectedMainImage = watch('mainImage') || imageList[0]
 
   const onSubmit = (formData: FormValues) => {
     if (Number(formData.memberNumber) < 참여중인멤버수) {
@@ -107,15 +108,12 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
 
         <section className='h-[calc(100%-110px)] overflow-y-auto'>
           <form className='flex w-full flex-col overflow-y-auto px-16' onSubmit={handleSubmit(onSubmit)}>
-            <section className='relative mx-auto mb-32 h-184 w-full'>
-              <Image className='rounded-8' src={watch('mainImage')} alt='Thumbnail Image' fill />
-              <button
-                type='button'
-                className='absolute bottom-16 right-16 rounded-4 bg-primary p-8 active-press-duration active:scale-90 active:bg-primary-darken'
-                onClick={() => nextImage({ onChange: (imageUrl) => setValue('mainImage', imageUrl) })}>
-                <RandomIcon size={24} color={colors.white} />
-              </button>
-            </section>
+            <BungThumbnailPicker
+              value={selectedMainImage}
+              images={imageList}
+              onChange={(imageUrl) => setValue('mainImage', imageUrl)}
+              onRandom={() => setValue('mainImage', nextImage(selectedMainImage))}
+            />
 
             {/** 벙 이름 */}
             <div className='mb-16 flex flex-col gap-8'>
