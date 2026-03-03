@@ -17,7 +17,13 @@ export default function Page() {
   })
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
-    setIsSmallHeaderActive(latest >= 50)
+    setIsSmallHeaderActive((prev) => {
+      if (prev) {
+        return latest > 24
+      }
+
+      return latest >= 72
+    })
   })
 
   return (
