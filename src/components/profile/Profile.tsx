@@ -49,7 +49,7 @@ export default function Profile() {
         <AddressClipboard>
           {(address) => (
             <div className='mx-auto mb-8 flex w-fit cursor-pointer items-center gap-8 rounded-16 bg-white px-16 py-4 active-press-duration active:scale-95 active:bg-gray/30'>
-              <span className='text-14'>{address}</span>
+              <span className='font-jost text-14 tracking-[0.035em]'>{address}</span>
               <CopyClipboardIcon size={16} color={colors.black.DEFAULT} />
             </div>
           )}

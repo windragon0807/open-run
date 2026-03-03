@@ -90,7 +90,7 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
                   <AddressClipboard>
                     {(address) => (
                       <div className='flex -translate-y-2 translate-x-4 cursor-pointer items-center gap-6 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/20'>
-                        <span className='text-10 text-white'>{address}</span>
+                        <span className='font-jost text-10 tracking-[0.04em] text-white'>{address}</span>
                         <CopyClipboardIcon className='-translate-y-1' size={12} color={colors.white} />
                       </div>
                     )}
@@ -171,7 +171,7 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
                   <AddressClipboard>
                     {(address) => (
                       <div className='flex -translate-y-2 translate-x-4 cursor-pointer items-center gap-6 rounded-8 p-4 active-press-duration active:scale-95 active:bg-gray/20'>
-                        <span className='text-10 text-white'>{address}</span>
+                        <span className='font-jost text-10 tracking-[0.04em] text-white'>{address}</span>
                         <CopyClipboardIcon className='-translate-y-1' size={12} color={colors.white} />
                       </div>
                     )}
