@@ -103,7 +103,7 @@ export default function MarketingLayout() {
       <AnimatePresence>
         {!isRevealed && (
           <motion.div
-            className='absolute mx-auto flex w-[65%] -translate-y-[25%]'
+            className='absolute mx-auto flex w-[65%] -translate-y-[25%] max-[575px]:hidden'
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={bgTransition}>
@@ -131,7 +131,7 @@ export default function MarketingLayout() {
       <AnimatePresence>
         {isRevealed && (
           <motion.div
-            className='absolute left-80 right-80 top-40 z-10 flex items-start justify-between'
+            className='absolute left-80 right-80 top-40 z-10 flex items-start justify-between max-[575px]:hidden'
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
