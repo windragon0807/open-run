@@ -20,7 +20,7 @@ import addDelimiter from '@utils/addDelimiter'
 import { colors } from '@styles/colors'
 
 export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: boolean }) {
-  const { isApp } = useAppStore()
+  const { isApp, insets } = useAppStore()
   const router = useRouter()
   const pathname = usePathname()
   const { userInfo } = useUserStore()
@@ -46,7 +46,8 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
   const weatherBackground = currentWeather
     ? getWeatherData(currentWeather.weather).background
     : weatherData.clouds.background.morning
-  const headerHeight = isSmallHeaderActive ? (isApp ? 154 : 90) : isApp ? 264 : 200
+  const appTopPadding = insets ? insets.top + 5 : isApp ? 64 : 0
+  const headerHeight = (isSmallHeaderActive ? 90 : 200) + appTopPadding
 
   return (
     <motion.header
@@ -54,7 +55,7 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
       animate={{ height: headerHeight }}
       transition={{ type: 'spring', stiffness: 280, damping: 32, mass: 0.55 }}
       className={clsx(
-        'fixed left-0 right-0 top-0 z-50 overflow-hidden app:pt-[64px]',
+        'fixed left-0 right-0 top-0 z-50 overflow-hidden',
         currentWeather == null && 'animate-pulse',
       )}
       style={{
@@ -69,7 +70,8 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
         className={clsx(
           'absolute inset-x-0 top-0 flex h-[200px] w-full justify-between',
           isSmallHeaderActive && 'pointer-events-none',
-        )}>
+        )}
+        style={{ top: appTopPadding }}>
         <div className='relative flex w-[176px] flex-shrink-0 items-end justify-end'>
           {currentWeather && (
             <Image
@@ -138,7 +140,8 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
         className={clsx(
           'absolute inset-x-0 top-0 flex h-[90px] w-full justify-between',
           !isSmallHeaderActive && 'pointer-events-none',
-        )}>
+        )}
+        style={{ top: appTopPadding }}>
         <div className='relative flex w-[118px] flex-shrink-0 items-end justify-end'>
           {currentWeather && (
             <Image

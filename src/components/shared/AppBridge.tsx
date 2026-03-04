@@ -1,7 +1,6 @@
 'use client'
 
-import { ReactNode, useEffect } from 'react'
-import { WalletProvider } from '@contexts/WalletProvider'
+import { ReactNode, useCallback, useEffect } from 'react'
 import { useAppStore } from '@store/app'
 import { MESSAGE } from '@constants/app'
 
@@ -25,39 +24,94 @@ export type VibrationMessage = {
   }
 }
 
+const extractBridgePayload = (event: MessageEvent): unknown => {
+  const candidate = (event as MessageEvent & { nativeEvent?: { data?: unknown } }).data
+    ?? (event as MessageEvent & { nativeEvent?: { data?: unknown } }).nativeEvent?.data
+
+  if (typeof candidate === 'string') {
+    try {
+      return JSON.parse(candidate)
+    } catch {
+      return null
+    }
+  }
+
+  return candidate
+}
+
 export default function AppBridge({ children }: { children: ReactNode }) {
   const { setIsApp, setInsets } = useAppStore()
-  const isApp = checkIsApp()
+  const setBodyAppClass = useCallback((enabled: boolean) => {
+    document.body.classList.toggle('app', enabled)
+  }, [])
+
+  const markAsApp = useCallback(() => {
+    setIsApp(true)
+    setBodyAppClass(true)
+  }, [setBodyAppClass, setIsApp])
+
+  const markAsBrowser = useCallback(() => {
+    setIsApp(false)
+    setBodyAppClass(false)
+  }, [setBodyAppClass, setIsApp])
+
+  const isBridgeMessageType = useCallback((type: unknown): type is MESSAGE => {
+    return typeof type === 'string' && (Object.values(MESSAGE) as string[]).includes(type)
+  }, [])
 
   /* 앱 여부 설정 */
   useEffect(() => {
-    setIsApp(isApp)
-
-    // 앱 환경일 때 body에 app 클래스 추가
-    if (isApp) {
-      document.body.classList.add('app')
+    if (checkIsApp()) {
+      markAsApp()
     } else {
-      document.body.classList.remove('app')
+      markAsBrowser()
     }
+
+    // iOS WebView에서 bridge 객체 주입 타이밍이 늦는 경우를 보완
+    const pollingInterval = window.setInterval(() => {
+      if (checkIsApp()) {
+        markAsApp()
+        window.clearInterval(pollingInterval)
+      }
+    }, 500)
+    const pollingTimeout = window.setTimeout(() => {
+      window.clearInterval(pollingInterval)
+    }, 10000)
 
     if (process.env.NODE_ENV === 'development') {
       import('eruda').then((eruda) => {
         eruda.default.init()
       })
     }
-  }, [isApp, setIsApp])
+
+    return () => {
+      window.clearInterval(pollingInterval)
+      window.clearTimeout(pollingTimeout)
+    }
+  }, [markAsApp, markAsBrowser])
 
   /* 앱에서 전달되는 메시지 처리 (inset 값 등) */
   useEffect(() => {
-    if (!isApp) return
-
     const handleMessage = (event: MessageEvent) => {
       try {
-        const parsedMessage = JSON.parse(event.data) as BridgeMessage
+        const parsedMessage = extractBridgePayload(event) as Partial<BridgeMessage> | null
+        if (parsedMessage == null) {
+          return
+        }
+
+        if (!isBridgeMessageType(parsedMessage.type)) {
+          return
+        }
+
+        markAsApp()
+
         if (parsedMessage.type === MESSAGE.INSET) {
-          const insetData = parsedMessage.data as { top: number; bottom: number }
+          const insetData = parsedMessage.data as { top?: number; bottom?: number }
+          if (typeof insetData?.top !== 'number' || typeof insetData?.bottom !== 'number') {
+            return
+          }
           console.log('📱 [AppBridge] Received inset values from native app:', insetData)
-          setInsets(insetData)
+          setInsets({ top: insetData.top, bottom: insetData.bottom })
         }
       } catch (error) {
         // 메시지 파싱 실패는 무시 (다른 메시지일 수 있음)
@@ -72,7 +126,7 @@ export default function AppBridge({ children }: { children: ReactNode }) {
       window.removeEventListener('message', handleMessage as EventListener)
       document.removeEventListener('message', handleMessage as EventListener)
     }
-  }, [isApp, setInsets])
+  }, [isBridgeMessageType, markAsApp, setInsets])
 
   return children
 }
@@ -80,9 +134,12 @@ export default function AppBridge({ children }: { children: ReactNode }) {
 export const checkIsApp = () => {
   if (typeof window === 'undefined') return false
 
+  const webkitWindow = window as Window & {
+    webkit?: { messageHandlers?: { ReactNativeWebView?: unknown } }
+  }
   const isReactNativeWebView = !!window.ReactNativeWebView
   const isAndroidWebView = /wv/.test(navigator.userAgent)
-  const isIOSWebView = /(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(navigator.userAgent)
+  const isIOSWebView = !!webkitWindow.webkit?.messageHandlers?.ReactNativeWebView
 
   return isReactNativeWebView || isAndroidWebView || isIOSWebView
 }
