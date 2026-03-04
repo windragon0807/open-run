@@ -153,7 +153,7 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
   const selectedImageUrl = watch('imageUrl')
 
   return (
-    <section className='flex w-full flex-col overflow-y-auto px-16'>
+    <section className='flex w-full flex-col px-16'>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/** 랜덤 이미지 선택 */}
         <BungThumbnailPicker
@@ -392,7 +392,7 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
         </div>
 
         {/** 해시태그 */}
-        <div className='relative mb-80 flex flex-col gap-8'>
+        <div className='relative mb-20 flex flex-col gap-8'>
           <FormTitle>해시태그</FormTitle>
           <div className='flex flex-wrap gap-8'>
             {watch('hashTags').map((label) => (
@@ -416,9 +416,11 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
         </div>
 
         {/** 벙 만들기 버튼 */}
-        <PrimaryButton type='submit' className='mb-40 app:mb-60'>
-          {isPending ? <LoadingLogo className='mx-auto' /> : '벙 만들기'}
-        </PrimaryButton>
+        <div className='pb-[max(64px,env(safe-area-inset-bottom,64px))] app:pb-[max(76px,env(safe-area-inset-bottom,76px))]'>
+          <PrimaryButton type='submit' className='mb-0'>
+            {isPending ? <LoadingLogo className='mx-auto' /> : '벙 만들기'}
+          </PrimaryButton>
+        </div>
       </form>
     </section>
   )
