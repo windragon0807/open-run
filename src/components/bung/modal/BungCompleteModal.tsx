@@ -55,13 +55,13 @@ export default function BungCompleteModal({
       <BottomSheet ref={sheetRef} onClose={() => closeModal(MODAL_KEY.BUNG_COMPLETE)} fullSize>
         <header className='relative mb-16 flex h-60 w-full items-center justify-center px-16'>
           <button
-            className='absolute left-16 -translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
+            className='absolute right-16 translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
             onClick={handleClose}>
             <BrokenXIcon size={24} color={colors.black.DEFAULT} />
           </button>
           <span className='text-16 font-bold'>벙 완료!</span>
           <button
-            className='absolute right-16 translate-x-8 rounded-8 px-8 py-4 active-press-duration active:scale-90 active:bg-gray/50'
+            className='absolute right-56 rounded-8 px-8 py-4 active-press-duration active:scale-90 active:bg-gray/50'
             onClick={handleSaveButton}>
             <span className='text-14 text-black-darken'>저장</span>
           </button>

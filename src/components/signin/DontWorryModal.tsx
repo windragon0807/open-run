@@ -14,7 +14,7 @@ export default function DontWorryModal() {
       <BottomSheet ref={sheetRef} onClose={() => closeModal(MODAL_KEY.DONT_WORRY)}>
         <header className='flex h-60 w-full items-center justify-center'>
           <button
-            className='absolute left-14 rounded-8 p-2 active-press-duration active:scale-90 active:bg-gray/50'
+            className='absolute right-14 rounded-8 p-2 active-press-duration active:scale-90 active:bg-gray/50'
             onClick={handleClose}>
             <BrokenXIcon size={24} color={colors.black.DEFAULT} />
           </button>

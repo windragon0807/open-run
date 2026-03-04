@@ -26,7 +26,7 @@ export default function SettingModal() {
       <BottomSheet ref={sheetRef} onClose={() => closeModal(MODAL_KEY.SETTING)}>
         <header className='mb-16 flex h-60 w-full items-center justify-center'>
           <button
-            className='absolute left-16 -translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
+            className='absolute right-16 translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
             onClick={handleClose}>
             <BrokenXIcon size={24} color={colors.black.DEFAULT} />
           </button>
