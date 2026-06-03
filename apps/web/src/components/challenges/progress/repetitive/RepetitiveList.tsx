@@ -32,6 +32,7 @@ async function RepetitiveList() {
                 progress={challenge.currentCount}
                 total={challenge.conditionCount}
                 userChallengeId={challenge.userChallengeId}
+                completedDate={challenge.completedDate}
                 nftCompleted={challenge.nftCompleted}
               />
               <ArrowRightIcon size={16} color={colors.black.darkest} />

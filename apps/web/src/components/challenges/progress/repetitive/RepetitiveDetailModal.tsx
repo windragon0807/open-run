@@ -209,6 +209,7 @@ export default function RepetitiveChallengeDetail({ challengeId }: { challengeId
                               progress={currentProgress}
                               total={targetCount}
                               userChallengeId={stage.userChallengeId}
+                              completedDate={stage.completedDate}
                               nftCompleted={stage.nftCompleted}
                             />
                           </div>

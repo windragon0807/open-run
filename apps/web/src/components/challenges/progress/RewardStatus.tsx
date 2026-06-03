@@ -6,12 +6,14 @@ import { useStartMintJobMutation } from '@apis/v1/nft/mint-jobs/mutation'
 import { MODAL_KEY } from '@constants/modal'
 import { useModal } from '@contexts/ModalProvider'
 import { Rarity } from '@type/avatar'
+import type { ApiDateTime } from '@utils/api'
 import RewardsModal from '../rewards/RewardsModal'
 
 type RewardStatusProps = {
   progress: number
   total: number
   userChallengeId: number | null
+  completedDate?: ApiDateTime
   nftCompleted?: boolean
 }
 
@@ -19,6 +21,7 @@ export default function RewardStatus({
   progress,
   total,
   userChallengeId,
+  completedDate,
   nftCompleted = false,
 }: RewardStatusProps) {
   const router = useRouter()
@@ -43,6 +46,16 @@ export default function RewardStatus({
     return (
       <div className='flex h-40 w-70 items-center justify-center rounded-8 bg-gray-lighten'>
         <span className='text-14 font-bold text-gray-darken'>완료</span>
+      </div>
+    )
+  }
+
+  if (completedDate == null) {
+    return (
+      <div className='flex h-40 w-70 items-center justify-center rounded-8 bg-gray-lighten'>
+        <span className='text-14 text-gray-darken'>
+          <span className='font-bold text-primary'>{progress}</span>/{total}
+        </span>
       </div>
     )
   }

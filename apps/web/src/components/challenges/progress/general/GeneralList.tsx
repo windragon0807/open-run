@@ -29,6 +29,7 @@ async function GeneralList() {
                 progress={challenge.currentCount}
                 total={challenge.conditionCount}
                 userChallengeId={challenge.userChallengeId}
+                completedDate={challenge.completedDate}
                 nftCompleted={challenge.nftCompleted}
               />
             )}
