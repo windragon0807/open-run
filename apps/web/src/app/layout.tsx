@@ -7,7 +7,6 @@ import ReactQueryProvider from '@contexts/ReactQueryProvider'
 import { WalletProvider } from '@contexts/WalletProvider'
 import AppBridge from '@shared/AppBridge'
 import Layout from '@shared/Layout'
-import MintListener from '@components/challenges/rewards/MintListener'
 import '@styles/globals.css'
 
 const jost = Jost({
@@ -25,7 +24,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <NuqsAdapter>
                 <AppBridge>
                   <ModalProvider>
-                    <MintListener />
                     <Layout>{children}</Layout>
                   </ModalProvider>
                 </AppBridge>

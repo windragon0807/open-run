@@ -1,8 +1,8 @@
 import { Metadata } from 'next'
-import MintJobNotifications from '@components/notifications/MintJobNotifications'
+import Notifications from '@components/notifications/Notifications'
 
 export default function Page() {
-  return <MintJobNotifications />
+  return <Notifications />
 }
 
 export const metadata: Metadata = {

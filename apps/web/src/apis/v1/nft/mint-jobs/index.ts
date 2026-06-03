@@ -24,7 +24,6 @@ export type NftMintJob = {
 }
 
 export type MintJobResponseType = ApiResponse<NftMintJob>
-export type MintJobsResponseType = ApiResponse<NftMintJob[]>
 
 export type StartMintJobRequestType = {
   userChallengeId: number
@@ -32,8 +31,4 @@ export type StartMintJobRequestType = {
 
 export function startMintJob({ userChallengeId }: StartMintJobRequestType): Promise<MintJobResponseType> {
   return http.post('/v1/nft/mint-jobs', null, { params: { userChallengeId } })
-}
-
-export function getMyMintJobs(): Promise<MintJobsResponseType> {
-  return http.get('/v1/nft/mint-jobs/me')
 }
