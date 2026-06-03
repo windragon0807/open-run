@@ -1,8 +1,10 @@
 import http from '@apis/axios'
-import { ApiResponse } from '@apis/type'
+import type { ApiResponse } from '@apis/type'
+import type { ApiDateTime } from '@utils/api'
+
+export type { ApiDateTime } from '@utils/api'
 
 export type NftMintJobStatus = 'PENDING' | 'MINTING' | 'SUCCESS' | 'FAILED'
-export type ApiDateTime = string | number[] | null
 
 export type NftMintJob = {
   mintJobId: number

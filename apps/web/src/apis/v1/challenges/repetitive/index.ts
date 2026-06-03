@@ -2,14 +2,14 @@
 
 import { http } from '@apis/http.server'
 import { PaginationResponse } from '@apis/type'
-import { ChallengeInfo } from '../type'
+import type { ChallengeInfo } from '../type'
 
 type RequestType = {
   page?: number
   limit?: number
 }
 
-type ResponseType = PaginationResponse<ChallengeInfo>
+type ResponseType = PaginationResponse<ChallengeInfo[]>
 
 export async function fetchRepetitiveChallengeList(params?: RequestType): Promise<ResponseType> {
   return http.get({

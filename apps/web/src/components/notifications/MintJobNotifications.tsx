@@ -4,9 +4,10 @@ import clsx from 'clsx'
 import { useRouter } from 'next/navigation'
 import { ArrowLeftIcon } from '@icons/arrow'
 import { colors } from '@styles/colors'
-import { ApiDateTime, NftMintJob, NftMintJobStatus } from '@apis/v1/nft/mint-jobs'
+import type { NftMintJob, NftMintJobStatus } from '@apis/v1/nft/mint-jobs'
 import { useStartMintJobMutation } from '@apis/v1/nft/mint-jobs/mutation'
 import { useMyMintJobsQuery } from '@apis/v1/nft/mint-jobs/query'
+import { parseApiDateTime } from '@utils/api'
 import { formatDate } from '@utils/time'
 
 export default function MintJobNotifications() {
@@ -118,48 +119,14 @@ function isActiveMintJob(mintJob: NftMintJob) {
   return mintJob.status === 'PENDING' || mintJob.status === 'MINTING'
 }
 
-function formatMintJobDate(date: ApiDateTime) {
-  const parsedDate = parseMintJobDate(date)
+function formatMintJobDate(date: NftMintJob['updatedAt']) {
+  const parsedDate = parseApiDateTime(date)
 
   if (parsedDate == null) {
     return '시간 정보 없음'
   }
 
   return formatDate({ date: parsedDate, formatStr: 'M월 d일 a h:mm' })
-}
-
-function parseMintJobDate(date: ApiDateTime) {
-  if (date == null) {
-    return null
-  }
-
-  if (Array.isArray(date)) {
-    const [year, month, day, hour = 0, minute = 0, second = 0, nano = 0] = date
-
-    if (year == null || month == null || day == null) {
-      return null
-    }
-
-    return toValidDate(new Date(Date.UTC(year, month - 1, day, hour, minute, second, Math.floor(nano / 1_000_000))))
-  }
-
-  const trimmedDate = date.trim()
-
-  if (trimmedDate.length === 0) {
-    return null
-  }
-
-  const normalizedDate = hasTimezone(trimmedDate) ? trimmedDate : `${trimmedDate.replace(' ', 'T')}Z`
-
-  return toValidDate(new Date(normalizedDate))
-}
-
-function hasTimezone(date: string) {
-  return /(?:z|[+-]\d{2}:?\d{2})$/i.test(date)
-}
-
-function toValidDate(date: Date) {
-  return Number.isNaN(date.getTime()) ? null : date
 }
 
 const MINT_JOB_STATUS_META: Record<NftMintJobStatus, { label: string; className: string }> = {

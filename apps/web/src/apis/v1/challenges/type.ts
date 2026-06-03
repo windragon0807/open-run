@@ -1,15 +1,21 @@
+import type { ApiDateTime } from '@utils/api'
+
+export type ChallengeType = 'tuto' | 'normal' | 'hidden' | 'repetitive'
+export type CompletedType = 'date' | 'place' | 'wearing' | 'pace' | 'count'
+export type NftRarity = 'common' | 'rare' | 'epic'
+
 export type ChallengeInfo = {
   challengeId: number
   userChallengeId: number
   challengeName: string
-  completedDate: string | null
+  completedDate: ApiDateTime
   challengeDescription: string
   currentCount: number
   conditionCount: number
-  conditionDate: string | null
+  conditionDate: ApiDateTime
   conditionText: string | null
-  challengeType: string
-  completedType: string
+  challengeType: ChallengeType
+  completedType: CompletedType
   stageCount: number
   progressStat: number
   accomplished: boolean
@@ -22,7 +28,7 @@ export type RepetitiveChallengeDetail = {
   challengeDescription: string
   challengeTrees: Array<{
     userChallengeId: number | null
-    completedDate: string | null
+    completedDate: ApiDateTime
     nftCompleted: boolean
     currentCount: number
     currentProgress: number
@@ -30,4 +36,27 @@ export type RepetitiveChallengeDetail = {
     stageNumber: number
     conditionAsCount: number
   }>
+}
+
+export type CompletedChallengeWithNft = {
+  challengeId: number
+  userChallengeId: number
+  challengeName: string
+  challengeDescription: string
+  completedDate: ApiDateTime
+  challengeType: ChallengeType
+  completedType: CompletedType
+  stageCount: number
+  currentCount: number
+  conditionCount: number
+  nft: {
+    tokenId: string | null
+    transactionHash: string | null
+    name: string | null
+    description: string | null
+    image: string | null
+    category: string | null
+    rarity: NftRarity | null
+    mintedAt: ApiDateTime
+  } | null
 }

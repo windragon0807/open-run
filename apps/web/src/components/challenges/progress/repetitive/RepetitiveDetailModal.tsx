@@ -6,6 +6,7 @@ import { useModal } from '@contexts/ModalProvider'
 import { BottomSheet, BottomSheetRef, Dimmed } from '@shared/Modal'
 import { BrokenXIcon } from '@icons/x'
 import { useRepetitiveChallengeDetail } from '@apis/v1/challenges/repetitive/[challengeId]/query'
+import type { ApiDateTime } from '@utils/api'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 import RewardStatus from '../RewardStatus'
@@ -20,7 +21,7 @@ type Stage = {
   nftCompleted: boolean
   userChallengeId: number | null
   stageNumber: number
-  completedDate: string | null
+  completedDate: ApiDateTime
 }
 
 export default function RepetitiveChallengeDetail({ challengeId }: { challengeId: number }) {
@@ -29,6 +30,7 @@ export default function RepetitiveChallengeDetail({ challengeId }: { challengeId
   const handleClose = () => sheetRef.current?.close()
   const { data: details, isLoading, error } = useRepetitiveChallengeDetail({ challengeId })
   const challenge = details?.data
+  const challengeName = challenge?.challengeName ?? '반복 도전과제'
 
   // 전체 진행 횟수 계산 (최소 한 개 이상의 currentCount가 존재)
   const totalCurrentCount = useMemo(() => {
@@ -70,7 +72,7 @@ export default function RepetitiveChallengeDetail({ challengeId }: { challengeId
     <Dimmed onClick={handleClose}>
       <BottomSheet ref={sheetRef} onClose={() => closeModal(MODAL_KEY.REPETITIVE_CHALLENGE_DETAIL)} fullSize>
         <header className='relative flex h-60 w-full items-center justify-center px-16'>
-          {isLoading ? <HeaderTitleSkeleton /> : <span className='text-16 font-bold'>{challenge?.challengeName}</span>}
+          {isLoading ? <HeaderTitleSkeleton /> : <span className='text-16 font-bold'>{challengeName}</span>}
           <button
             className='absolute right-12 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
             onClick={handleClose}>

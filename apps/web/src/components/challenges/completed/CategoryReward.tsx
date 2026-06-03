@@ -1,13 +1,21 @@
 import clsx from 'clsx'
 import Image from 'next/image'
-import { CategoryType } from '@type/challenge'
+import type { CategoryType } from '@type/challenge'
 
-export default function CategoryReward({ category }: { category: CategoryType }) {
+export default function CategoryReward({
+  category,
+  imageSrc = '/temp/nft_achievement_reward.png',
+  imageAlt = 'category reward',
+}: {
+  category: CategoryType
+  imageSrc?: string
+  imageAlt?: string
+}) {
   return (
     <article className='relative flex size-60 items-center justify-center'>
       <Category category={category} />
       <div className='flex size-48 items-center justify-center rounded-full bg-gradient-achievement-gray'>
-        <Image src='/temp/nft_achievement_reward.png' alt='category reward' width={32} height={32} />
+        <Image src={imageSrc} alt={imageAlt} width={32} height={32} className='object-contain' />
       </div>
     </article>
   )

@@ -7,7 +7,7 @@ import GeneralItem from './GeneralItem'
 
 async function GeneralList() {
   const response = await fetchGeneralChallengeList()
-  const challenges = Array.isArray(response.data) ? response.data : [response.data]
+  const challenges = response.data
 
   return (
     <section className='flex h-[calc(100%-102px)] flex-col gap-8 overflow-y-auto p-16 pb-120'>
