@@ -6,7 +6,7 @@ export type NftRarity = 'common' | 'rare' | 'epic'
 
 export type ChallengeInfo = {
   challengeId: number
-  userChallengeId: number
+  userChallengeId: number | null
   challengeName: string
   completedDate: ApiDateTime
   challengeDescription: string

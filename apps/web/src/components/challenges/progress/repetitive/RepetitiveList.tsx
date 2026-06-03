@@ -17,7 +17,10 @@ async function RepetitiveList() {
         const progressPercent = Math.round(challenge.progressStat)
 
         return (
-          <RepetitiveItem key={challenge.userChallengeId} challengeId={challenge.challengeId}>
+          <RepetitiveItem
+            key={challenge.userChallengeId || `challenge-${challenge.challengeId}`}
+            challengeId={challenge.challengeId}
+          >
             <CircularProgress progress={progressPercent} total={100}>
               {progressPercent !== 100 ? <RepeatImage /> : <RandomGiftImage />}
             </CircularProgress>

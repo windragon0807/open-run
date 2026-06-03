@@ -16,7 +16,7 @@ async function GeneralList() {
 
         return (
           <GeneralItem
-            key={challenge.userChallengeId}
+            key={challenge.userChallengeId || `challenge-${challenge.challengeId}`}
             progressNode={
               <CircularProgress progress={progressPercent} total={100}>
                 {progressPercent !== 100 ? <QuestionMarkImage /> : <RandomGiftImage />}
