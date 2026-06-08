@@ -58,7 +58,7 @@ export default function AdminPage() {
   const { disconnect } = useDisconnect()
   const [activeMenu, setActiveMenu] = useState<AdminMenuKey>('grant')
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null)
-  const [selectedNftItemId, setSelectedNftItemId] = useState<number | null>(null)
+  const [selectedTokenId, setSelectedTokenId] = useState<string | null>(null)
   const [selectedCategoryKey, setSelectedCategoryKey] = useState<AdminCategoryFilterKey>('all')
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [grantResult, setGrantResult] = useState<AdminNftGrantResult | null>(null)
@@ -93,8 +93,8 @@ export default function AdminPage() {
     [adminUsers, selectedUserId],
   )
   const selectedItem = useMemo(
-    () => nftAvatarItems.find((item) => item.nftItemId === selectedNftItemId) ?? null,
-    [nftAvatarItems, selectedNftItemId],
+    () => nftAvatarItems.find((item) => item.tokenId === selectedTokenId) ?? null,
+    [nftAvatarItems, selectedTokenId],
   )
   const usersErrorMessage = getErrorMessage(adminUsersQuery.error)
   const listErrorMessage = getErrorMessage(nftAvatarItemsQuery.error)
@@ -105,7 +105,7 @@ export default function AdminPage() {
 
     const request: GrantAdminNftAvatarItemRequest = {
       recipientAddress: selectedUser.blockchainAddress,
-      nftItemId: selectedItem.nftItemId,
+      tokenId: selectedItem.tokenId,
     }
 
     grantMutation.mutate(request, {
@@ -195,14 +195,14 @@ export default function AdminPage() {
               ) : (
                 <NftItemGrid
                   items={filteredNftAvatarItems}
-                  selectedNftItemId={selectedNftItemId}
+                  selectedTokenId={selectedTokenId}
                   emptyMessage={
                     selectedCategoryKey === 'all'
                       ? '부여 가능한 NFT Item이 없습니다.'
                       : '선택한 카테고리에 부여 가능한 NFT Item이 없습니다.'
                   }
                   onSelect={(item) => {
-                    setSelectedNftItemId(item.nftItemId)
+                    setSelectedTokenId(item.tokenId)
                     setGrantResult(null)
                   }}
                 />
@@ -459,12 +459,12 @@ function ComingSoonPanel({ title }: { title: string }) {
 
 function NftItemGrid({
   items,
-  selectedNftItemId,
+  selectedTokenId,
   emptyMessage,
   onSelect,
 }: {
   items: AdminNftAvatarItem[]
-  selectedNftItemId: number | null
+  selectedTokenId: string | null
   emptyMessage: string
   onSelect: (item: AdminNftAvatarItem) => void
 }) {
@@ -475,11 +475,11 @@ function NftItemGrid({
   return (
     <div className='grid grid-cols-2 gap-8 md:grid-cols-4 lg:grid-cols-5'>
       {items.map((item) => {
-        const selected = item.nftItemId === selectedNftItemId
+        const selected = item.tokenId === selectedTokenId
 
         return (
           <button
-            key={item.nftItemId}
+            key={item.tokenId}
             type='button'
             className={clsx(
               'active:scale-98 flex flex-col gap-8 rounded-8 border p-10 text-left active-press-duration',
@@ -499,7 +499,7 @@ function NftItemGrid({
               <div className='min-w-0'>
                 <NftItemName item={item} iconSize={18} textClassName='text-13 font-bold text-black' />
                 <p className='truncate font-jost text-11 text-gray-darkest'>
-                  #{item.nftItemId} / {getCategoryLabel(item)}
+                  #{item.tokenId} / {getCategoryLabel(item)}
                 </p>
               </div>
             </div>
