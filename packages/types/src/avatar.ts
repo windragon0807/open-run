@@ -12,7 +12,7 @@ export type Rarity = 'common' | 'rare' | 'epic'
 
 export type Avatar = {
   id: string
-  nftItemId?: number
+  /** ERC-1155 token id (string). 절대 숫자로 파싱하지 마세요 — MAX_SAFE_INTEGER를 초과할 수 있습니다. */
   tokenId?: string | null
   balance?: string | null
   imageUrl: string | string[] | null
@@ -21,8 +21,6 @@ export type Avatar = {
   name: string
   mainCategory: MainCategory
   subCategory: SubCategory | null
-  storageKey?: string | null
-  thumbnailStorageKey?: string | null
   link?: string
 }
 
