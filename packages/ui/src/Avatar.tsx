@@ -4,10 +4,22 @@ import { Avatar as AvatarItem, WearingAvatar } from '@openrun/types'
 
 type Props = WearingAvatar & {
   className?: string
+  sizes?: string
 }
 
 const Avatar = forwardRef<HTMLDivElement, Props>(function Avatar(
-  { className, hair, fullSet, upperClothing, lowerClothing, footwear, face, skin, accessories },
+  {
+    className,
+    sizes = '(max-width: 768px) 100vw, 33vw',
+    hair,
+    fullSet,
+    upperClothing,
+    lowerClothing,
+    footwear,
+    face,
+    skin,
+    accessories,
+  },
   ref,
 ) {
   const hairImageUrls = getImageUrls(hair)
@@ -23,26 +35,26 @@ const Avatar = forwardRef<HTMLDivElement, Props>(function Avatar(
 
   return (
     <div ref={ref} className={className}>
-      {hairImageUrls[1] && <Parts src={hairImageUrls[1]} alt='뒷머리' />}
-      <Parts src={skinImageUrl} alt='피부' />
-      <Parts src='/images/avatars/avatar_default_body.png' alt='아바타' />
-      {hairImageUrls[0] && <Parts src={hairImageUrls[0]} alt='앞머리' />}
-      <Parts src={faceImageUrl} alt='얼굴' />
-      {headAccessoryImageUrl && <Parts src={headAccessoryImageUrl} alt='머리 악세서리' />}
-      {eyeAccessoryImageUrl && <Parts src={eyeAccessoryImageUrl} alt='눈 악세서리' />}
-      {earAccessoryImageUrl && <Parts src={earAccessoryImageUrl} alt='귀 악세서리' />}
-      {footwearImageUrl && <Parts src={footwearImageUrl} alt='신발' />}
-      {lowerClothingImageUrl && <Parts src={lowerClothingImageUrl} alt='하의' />}
-      {upperClothingImageUrl && <Parts src={upperClothingImageUrl} alt='상의' />}
-      {bodyAccessoryImageUrl && <Parts src={bodyAccessoryImageUrl} alt='몸 악세서리' />}
+      {hairImageUrls[1] && <Parts src={hairImageUrls[1]} alt='뒷머리' sizes={sizes} />}
+      <Parts src={skinImageUrl} alt='피부' sizes={sizes} />
+      <Parts src='/images/avatars/avatar_default_body.png' alt='아바타' sizes={sizes} />
+      {hairImageUrls[0] && <Parts src={hairImageUrls[0]} alt='앞머리' sizes={sizes} />}
+      <Parts src={faceImageUrl} alt='얼굴' sizes={sizes} />
+      {headAccessoryImageUrl && <Parts src={headAccessoryImageUrl} alt='머리 악세서리' sizes={sizes} />}
+      {eyeAccessoryImageUrl && <Parts src={eyeAccessoryImageUrl} alt='눈 악세서리' sizes={sizes} />}
+      {earAccessoryImageUrl && <Parts src={earAccessoryImageUrl} alt='귀 악세서리' sizes={sizes} />}
+      {footwearImageUrl && <Parts src={footwearImageUrl} alt='신발' sizes={sizes} />}
+      {lowerClothingImageUrl && <Parts src={lowerClothingImageUrl} alt='하의' sizes={sizes} />}
+      {upperClothingImageUrl && <Parts src={upperClothingImageUrl} alt='상의' sizes={sizes} />}
+      {bodyAccessoryImageUrl && <Parts src={bodyAccessoryImageUrl} alt='몸 악세서리' sizes={sizes} />}
     </div>
   )
 })
 
 export default memo(Avatar)
 
-function Parts({ src, alt }: { src: string; alt: string }) {
-  return <Image className='object-contain' src={src} alt={alt} priority fill sizes='(max-width: 768px) 100vw, 33vw' />
+function Parts({ src, alt, sizes }: { src: string; alt: string; sizes: string }) {
+  return <Image className='object-contain' src={src} alt={alt} priority fill sizes={sizes} />
 }
 
 function getPrimaryImageUrl(avatar: AvatarItem | null): string | null {

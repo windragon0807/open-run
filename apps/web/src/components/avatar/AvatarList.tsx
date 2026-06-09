@@ -1,12 +1,11 @@
-import Image from 'next/image'
 import { useModal } from '@contexts/ModalProvider'
 import { Avatar, SubCategory, WearingAvatar } from '@type/avatar'
 import { InfoIcon } from '@icons/info'
 import { MODAL_KEY } from '@constants/modal'
+import { getAvatarPreviewImageUrl } from '@utils/avatarImage'
 import DetailModal from './DetailModal'
+import AvatarThumbnail from './AvatarThumbnail'
 import RarityIcon from './shared/RarityIcon'
-
-const FALLBACK_PREVIEW_IMAGE_URL = '/images/avatars/avatar_default_body.png'
 
 export default function AvatarList({
   avatarList,
@@ -71,14 +70,7 @@ export default function AvatarList({
               }`}
               onClick={() => handleAvatarSelect(avatar)}>
               <div className='relative aspect-square w-full max-w-80'>
-                <Image
-                  alt='아바타 파츠'
-                  src={getPreviewImageUrl(avatar)}
-                  loading='lazy'
-                  fill
-                  sizes='(max-width: 768px) 100vw, 33vw'
-                  className='object-contain'
-                />
+                <AvatarThumbnail avatar={avatar} />
                 {/* Skewed New Label */}
                 <div className='absolute bottom-0 left-[50%] flex h-20 -translate-x-[50%] -skew-x-[10deg] transform items-center justify-center gap-4 rounded-lg border-2 border-black bg-secondary px-8'>
                   <span className='text-12 font-[900]'>NEW</span>
@@ -99,7 +91,7 @@ export default function AvatarList({
                     component: (
                       <DetailModal
                         serialNumber={avatar.id}
-                        imageSrc={getPreviewImageUrl(avatar)}
+                        imageSrc={getAvatarPreviewImageUrl(avatar)}
                         rarity={avatar.rarity}
                         category={avatar.mainCategory}
                         name={avatar.name}
@@ -120,14 +112,4 @@ export default function AvatarList({
       )}
     </section>
   )
-}
-
-function getPreviewImageUrl(avatar: Avatar): string {
-  if (avatar.thumbnailUrl) return avatar.thumbnailUrl
-
-  if (Array.isArray(avatar.imageUrl)) {
-    return avatar.imageUrl.find((imageUrl) => imageUrl != null && imageUrl !== '') ?? FALLBACK_PREVIEW_IMAGE_URL
-  }
-
-  return avatar.imageUrl ?? FALLBACK_PREVIEW_IMAGE_URL
 }

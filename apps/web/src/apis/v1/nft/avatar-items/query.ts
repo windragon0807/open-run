@@ -9,11 +9,21 @@ import {
 
 export const OWNED_NFT_AVATAR_ITEMS_QUERY_KEY = ['nftAvatarItems', 'me'] as const
 export const WEARING_NFT_AVATAR_QUERY_KEY = ['nftAvatarItems', 'wearing', 'me'] as const
+export const OWNED_NFT_AVATAR_ITEMS_STALE_TIME_MS = 1000 * 60 * 5
+export const OWNED_NFT_AVATAR_ITEMS_GC_TIME_MS = 1000 * 60 * 10
+
+export function getOwnedNftAvatarItemsQueryOptions() {
+  return {
+    queryKey: OWNED_NFT_AVATAR_ITEMS_QUERY_KEY,
+    queryFn: fetchOwnedNftAvatarItems,
+    staleTime: OWNED_NFT_AVATAR_ITEMS_STALE_TIME_MS,
+    gcTime: OWNED_NFT_AVATAR_ITEMS_GC_TIME_MS,
+  }
+}
 
 export function useOwnedNftAvatarItemsQuery(options?: QueryOptions<OwnedNftAvatarItemsResponse>) {
   return useQuery({
-    queryKey: OWNED_NFT_AVATAR_ITEMS_QUERY_KEY,
-    queryFn: fetchOwnedNftAvatarItems,
+    ...getOwnedNftAvatarItemsQueryOptions(),
     ...options,
   })
 }
@@ -30,8 +40,7 @@ export function useWearingNftAvatarQuery(options?: QueryOptions<WearingNftAvatar
 
 export function useSuspenseOwnedNftAvatarItemsQuery() {
   return useSuspenseQuery({
-    queryKey: OWNED_NFT_AVATAR_ITEMS_QUERY_KEY,
-    queryFn: fetchOwnedNftAvatarItems,
+    ...getOwnedNftAvatarItemsQueryOptions(),
   })
 }
 

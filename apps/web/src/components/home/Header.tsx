@@ -10,17 +10,20 @@ import Avatar from '@shared/Avatar'
 import { BellIcon } from '@icons/bell'
 import { CopyClipboardIcon } from '@icons/clipboard'
 import { UpperClothIcon } from '@icons/upper-cloth'
+import { useAvatarPageWarmup } from '@hooks/useAvatarPageWarmup'
 import useGeolocation from '@hooks/useGeolocation'
 import { useReverseGeocoding } from '@apis/maps/reverse-geocoding/query'
 import { useWearingNftAvatarQuery } from '@apis/v1/nft/avatar-items/query'
 import { useCurrentWeather } from '@apis/weather/query'
 import addDelimiter from '@utils/addDelimiter'
 import { colors } from '@styles/colors'
+import AvatarImageWarmup from '../avatar/AvatarImageWarmup'
 
 export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: boolean }) {
   const { isApp, insets } = useAppStore()
   const router = useRouter()
   const { userInfo } = useUserStore()
+  const { warmupAvatarPage, warmupImageUrls } = useAvatarPageWarmup()
 
   const { data: wearingAvatar } = useWearingNftAvatarQuery()
   const { location, refetch } = useGeolocation()
@@ -55,6 +58,21 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
           ? `${weatherBackground}, linear-gradient(to bottom, white 80%, transparent 100%)`
           : weatherBackground,
       }}>
+      <AvatarImageWarmup
+        imageUrls={warmupImageUrls.previewImageUrls}
+        width={80}
+        height={80}
+        sizes='80px'
+        limit={12}
+      />
+      <AvatarImageWarmup
+        imageUrls={warmupImageUrls.wearableImageUrls}
+        width={216}
+        height={270}
+        sizes='216px'
+        limit={9}
+      />
+
       <motion.section
         initial={false}
         animate={{ opacity: isSmallHeaderActive ? 0 : 1, y: isSmallHeaderActive ? -18 : 0 }}
@@ -75,10 +93,13 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
               sizes='(max-width: 768px) 100vw, 176px'
             />
           )}
-          {wearingAvatar?.data && <Avatar className='absolute h-200 w-160' {...wearingAvatar.data} />}
+          {wearingAvatar?.data && <Avatar className='absolute h-200 w-160' sizes='160px' {...wearingAvatar.data} />}
 
           <div className={clsx('absolute left-16 top-8 app:top-0')}>
-            <AvatarButton onClick={() => router.push('/avatar')} />
+            <AvatarButton
+              onPointerDown={warmupAvatarPage}
+              onClick={() => router.push('/avatar')}
+            />
           </div>
           <div className='absolute bottom-8 left-12'>
             <SkewedLikeLabel like={300} />
@@ -147,10 +168,13 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
               priority
             />
           )}
-          {wearingAvatar?.data && <Avatar className='absolute h-90 w-68' {...wearingAvatar.data} />}
+          {wearingAvatar?.data && <Avatar className='absolute h-90 w-68' sizes='68px' {...wearingAvatar.data} />}
 
           <div className={clsx('absolute left-16 top-8 app:top-0')}>
-            <AvatarButton onClick={() => router.push('/avatar')} />
+            <AvatarButton
+              onPointerDown={warmupAvatarPage}
+              onClick={() => router.push('/avatar')}
+            />
           </div>
           <div className='absolute bottom-8 left-8'>
             <SkewedLikeLabel like={300} />
@@ -192,10 +216,17 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
   )
 }
 
-function AvatarButton({ onClick }: { onClick?: () => void }) {
+function AvatarButton({
+  onClick,
+  onPointerDown,
+}: {
+  onClick?: () => void
+  onPointerDown?: () => void
+}) {
   return (
     <button
       className='flex aspect-square w-40 items-center justify-center rounded-full bg-black-darken/10 active-press-duration active:scale-90 active:bg-gray/20'
+      onPointerDown={onPointerDown}
       onClick={onClick}>
       <UpperClothIcon size={16} color={colors.white} />
     </button>

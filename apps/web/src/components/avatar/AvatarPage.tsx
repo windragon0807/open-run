@@ -11,6 +11,7 @@ import ToastModal from '@shared/ToastModal'
 import { ArrowLeftIcon } from '@icons/arrow'
 import { TransparentOpenrunIcon } from '@icons/openrun'
 import { ResetIcon } from '@icons/reset'
+import { useAvatarCategoryWarmupImageUrls } from '@hooks/useAvatarCategoryWarmupImageUrls'
 import { BUNGS_QUERY_KEY } from '@apis/v1/bungs/query'
 import { SaveWearingNftAvatarRequest } from '@apis/v1/nft/avatar-items'
 import { useSaveWearingNftAvatarWithProfileImageMutation } from '@apis/v1/nft/avatar-items/mutation'
@@ -21,8 +22,10 @@ import {
 } from '@apis/v1/nft/avatar-items/query'
 import { USERINFO_QUERY_KEY } from '@apis/v1/users/query'
 import { MODAL_KEY } from '@constants/modal'
+import { getSelectedCategoryAvatarItems } from '@utils/avatarImage'
 import { colors } from '@styles/colors'
 import AvatarList from './AvatarList'
+import AvatarImageWarmup from './AvatarImageWarmup'
 import Category from './Category'
 
 const PROFILE_IMAGE_SIZE = 512
@@ -66,14 +69,8 @@ export default function AvatarPage() {
   }, [wearingAvatar])
 
   const avatarList = ownedAvatarItems?.data ?? []
-
-  const filteredAvatarList = avatarList.filter((avatar) => {
-    if (selectedCategory.mainCategory === avatar.mainCategory) {
-      if (selectedCategory.subCategory === null) return true
-      return selectedCategory.subCategory === avatar.subCategory
-    }
-    return false
-  })
+  const filteredAvatarList = getSelectedCategoryAvatarItems(avatarList, selectedCategory)
+  const categoryWarmupImageUrls = useAvatarCategoryWarmupImageUrls(avatarList, selectedCategory)
 
   const handleReset = () => {
     setSelectedAvatar(EMPTY_WEARING_AVATAR)
@@ -115,6 +112,19 @@ export default function AvatarPage() {
 
   return (
     <article className='h-full w-full bg-white app:pt-50'>
+      <AvatarImageWarmup
+        imageUrls={categoryWarmupImageUrls.previewImageUrls}
+        width={80}
+        height={80}
+        sizes='80px'
+      />
+      <AvatarImageWarmup
+        imageUrls={categoryWarmupImageUrls.wearableImageUrls}
+        width={216}
+        height={270}
+        sizes='216px'
+      />
+
       {/* 헤더 */}
       <header className='relative z-20 flex h-60 w-full items-center justify-center bg-white px-5'>
         <button
@@ -146,6 +156,7 @@ export default function AvatarPage() {
             <AvatarComponent
               ref={avatarRef}
               className='absolute top-16 h-270 w-216 flex-shrink-0'
+              sizes='216px'
               {...selectedAvatar}
             />
 
