@@ -7,18 +7,18 @@ export type OwnedNftAvatarItemsResponse = ApiResponse<Avatar[]>
 export type WearingNftAvatarResponse = ApiResponse<WearingAvatar>
 
 export type SaveWearingNftAvatarRequest = {
-  fullSet: number | null
-  upperClothing: number | null
-  lowerClothing: number | null
-  footwear: number | null
-  face: number | null
-  skin: number | null
-  hair: number | null
+  fullSet: string | null
+  upperClothing: string | null
+  lowerClothing: string | null
+  footwear: string | null
+  face: string | null
+  skin: string | null
+  hair: string | null
   accessories: {
-    'head-accessories': number | null
-    'eye-accessories': number | null
-    'ear-accessories': number | null
-    'body-accessories': number | null
+    'head-accessories': string | null
+    'eye-accessories': string | null
+    'ear-accessories': string | null
+    'body-accessories': string | null
   }
 }
 

@@ -11,14 +11,12 @@ export type AdminMe = {
 }
 
 export type AdminNftAvatarItem = {
-  nftItemId: number
   tokenId: string
   name: string
   category: string
   mainCategory: MainCategory
   subCategory: SubCategory | null
   rarity: Rarity
-  thumbnailStorageKey: string
   thumbnailUrl: string | null
 }
 
@@ -30,12 +28,12 @@ export type AdminUser = {
 
 export type GrantAdminNftAvatarItemRequest = {
   recipientAddress: string
-  nftItemId: number
+  /** ERC-1155 token id (string, required). 숫자로 파싱하지 마세요. */
+  tokenId: string
 }
 
 export type AdminNftGrantResult = {
   recipientAddress: string
-  nftItemId: number
   tokenId: string
   transactionHash: string
 }

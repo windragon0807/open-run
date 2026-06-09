@@ -229,25 +229,25 @@ function showToast(
 
 function toSaveWearingAvatarRequest(avatar: WearingAvatar): SaveWearingNftAvatarRequest {
   return {
-    fullSet: getNftItemId(avatar.fullSet),
-    upperClothing: getNftItemId(avatar.upperClothing),
-    lowerClothing: getNftItemId(avatar.lowerClothing),
-    footwear: getNftItemId(avatar.footwear),
-    face: getNftItemId(avatar.face),
-    skin: getNftItemId(avatar.skin),
-    hair: getNftItemId(avatar.hair),
+    fullSet: getTokenId(avatar.fullSet),
+    upperClothing: getTokenId(avatar.upperClothing),
+    lowerClothing: getTokenId(avatar.lowerClothing),
+    footwear: getTokenId(avatar.footwear),
+    face: getTokenId(avatar.face),
+    skin: getTokenId(avatar.skin),
+    hair: getTokenId(avatar.hair),
     accessories: {
-      'head-accessories': getNftItemId(avatar.accessories['head-accessories']),
-      'eye-accessories': getNftItemId(avatar.accessories['eye-accessories']),
-      'ear-accessories': getNftItemId(avatar.accessories['ear-accessories']),
-      'body-accessories': getNftItemId(avatar.accessories['body-accessories']),
+      'head-accessories': getTokenId(avatar.accessories['head-accessories']),
+      'eye-accessories': getTokenId(avatar.accessories['eye-accessories']),
+      'ear-accessories': getTokenId(avatar.accessories['ear-accessories']),
+      'body-accessories': getTokenId(avatar.accessories['body-accessories']),
     },
   }
 }
 
-function getNftItemId(avatar: Avatar | null): number | null {
+/** token id는 ERC-1155 id(string)입니다. 숫자로 파싱하지 말고 string 그대로 전달합니다. */
+function getTokenId(avatar: Avatar | null): string | null {
   if (avatar == null) return null
 
-  const nftItemId = avatar.nftItemId ?? Number(avatar.id)
-  return Number.isFinite(nftItemId) ? nftItemId : null
+  return avatar.tokenId ?? avatar.id ?? null
 }
