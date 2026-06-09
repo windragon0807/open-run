@@ -126,7 +126,7 @@ export default function useGeolocation() {
         // 개발 환경에서 특정 에러 처리
         if (process.env.NODE_ENV === 'development' && !isApp) {
           const errorMessage = err instanceof Error ? err.message : String(err)
-          if (errorMessage.includes('POSITION_UNAVAILABLE')) {
+          if (errorMessage.includes('POSITION_UNAVAILABLE') || errorMessage.includes('[위치 정보 사용 불가]')) {
             console.warn('개발 환경에서는 에러 발생 시 임시 위치 정보 권한 허용')
             setIsGeolocationPermissionGranted(true)
             // 기본 위치(서울시청)로 설정

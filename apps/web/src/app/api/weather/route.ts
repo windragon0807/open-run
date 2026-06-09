@@ -21,14 +21,13 @@ export async function GET(request: NextRequest) {
 
   try {
     /**
-     * https://openweathermap.org/api/one-call-3
+     * https://openweathermap.org/current
      * units=metric : 섭씨 온도로 변환
      */
-    const url = new URL('https://api.openweathermap.org/data/3.0/onecall')
+    const url = new URL('https://api.openweathermap.org/data/2.5/weather')
     url.searchParams.append('lat', lat)
     url.searchParams.append('lon', lng)
     url.searchParams.append('appid', process.env.OPENWEATHER_API_KEY)
-    url.searchParams.append('exclude', 'hourly,daily,minutely,alerts')
     url.searchParams.append('units', 'metric')
 
     const response = await fetch(url.toString())
@@ -39,8 +38,8 @@ export async function GET(request: NextRequest) {
     /** https://openweathermap.org/weather-conditions */
     const data: ResponseType = await response.json()
     const result = {
-      weather: getWeather(data.current.weather[0].id),
-      temperature: data.current.temp,
+      weather: getWeather(data.weather[0].id),
+      temperature: data.main.temp,
     }
 
     return NextResponse.json(result)
@@ -50,32 +49,15 @@ export async function GET(request: NextRequest) {
 }
 
 type ResponseType = {
-  current: {
-    clouds: number
-    dew_point: number
-    dt: string
-    feels_like: number
-    humidity: number
-    pressure: number
-    snow: { '1h': number }
-    sunrise: number
-    sunset: number
+  weather: Array<{
+    id: number
+    main: string /* 날씨 */
+    description: string
+    icon: string
+  }>
+  main: {
     temp: number /* 온도 */
-    uvi: number
-    visibility: Number
-    weather: Array<{
-      id: number
-      main: string /* 날씨 */
-      description: string
-      icon: string
-    }>
-    wind_deg: number
-    wind_speed: number
   }
-  lat: number
-  lon: number
-  timezone: string
-  timezone_offset: number
 }
 
 /**
