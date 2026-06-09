@@ -1,14 +1,9 @@
-import ErrorFallback from '@shared/ErrorFallback'
-import withBoundary from '@shared/withBoundary'
-import { fetchGeneralChallengeList } from '@apis/v1/challenges/general'
+import type { ChallengeInfo } from '@apis/v1/challenges/type'
 import CircularProgress, { QuestionMarkImage, RandomGiftImage } from '../CircularProgress'
 import RewardStatus from '../RewardStatus'
 import GeneralItem from './GeneralItem'
 
-async function GeneralList() {
-  const response = await fetchGeneralChallengeList()
-  const challenges = response.data
-
+export default function GeneralList({ challenges }: { challenges: ChallengeInfo[] }) {
   return (
     <section className='flex h-[calc(100%-102px)] flex-col gap-8 overflow-y-auto p-16 pb-120'>
       {challenges.map((challenge) => {
@@ -39,18 +34,3 @@ async function GeneralList() {
     </section>
   )
 }
-
-export default withBoundary(GeneralList, {
-  onLoading: (
-    <section className='flex flex-col gap-8 p-16'>
-      <div className='h-80 w-full animate-pulse rounded bg-gray' />
-      <div className='h-80 w-full animate-pulse rounded bg-gray' />
-      <div className='h-80 w-full animate-pulse rounded bg-gray' />
-    </section>
-  ),
-  onError: (
-    <section className='pt-60'>
-      <ErrorFallback type='medium' />
-    </section>
-  ),
-})

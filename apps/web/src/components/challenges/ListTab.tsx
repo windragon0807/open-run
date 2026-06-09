@@ -1,21 +1,36 @@
 'use client'
 
 import clsx from 'clsx'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { ListType } from '@type/challenge'
 import { OutlinedFlagIcon } from '@icons/flag'
 import { colors } from '@styles/colors'
 
-export default function ListTab() {
+type ListTabProps = {
+  selectedTab?: ListType
+  onTabChange?: (tab: ListType) => void
+}
+
+export default function ListTab({ selectedTab: controlledSelectedTab, onTabChange }: ListTabProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const selectedTab = (searchParams.get('list') as ListType) || ''
+  const shouldReduceMotion = useReducedMotion()
+  const selectedTab = getSelectedTab(searchParams.get('list'))
+  const [optimisticTab, setOptimisticTab] = useState<ListType>(selectedTab)
+  const currentTab = controlledSelectedTab ?? optimisticTab
+
+  useEffect(() => {
+    setOptimisticTab(selectedTab)
+  }, [selectedTab])
 
   const handleToggle = () => {
-    const newTab = selectedTab === 'progress' ? 'completed' : 'progress'
+    const newTab = currentTab === 'progress' ? 'completed' : 'progress'
     const newCategory = newTab === 'progress' ? 'general' : ''
 
+    setOptimisticTab(newTab)
+    onTabChange?.(newTab)
     const params = new URLSearchParams(searchParams.toString())
     params.set('list', newTab)
     if (newCategory) {
@@ -24,46 +39,53 @@ export default function ListTab() {
       params.delete('category')
     }
 
-    router.push(`?${params.toString()}`)
+    router.push(`?${params.toString()}`, { scroll: false })
   }
 
   return (
-    <button className='relative inline-flex h-34 items-center rounded-full shadow-floating-primary'>
+    <button
+      className='h-34 shadow-floating-primary relative isolate inline-flex items-center rounded-full'
+      aria-pressed={currentTab === 'progress'}
+      onClick={handleToggle}
+      type='button'
+    >
       {/* 배경 애니메이션 */}
       <motion.div
-        className='absolute top-2 h-30 rounded-full bg-black'
+        className='h-30 absolute top-2 z-0 rounded-full bg-black'
         initial={false}
         animate={{
-          x: selectedTab === 'progress' ? 0 : 76,
-          width: selectedTab === 'progress' ? 76 : 43,
+          x: currentTab === 'progress' ? 0 : 76,
+          width: currentTab === 'progress' ? 76 : 43,
         }}
-        transition={{
-          type: 'spring',
-          stiffness: 300,
-          damping: 30,
-        }}
+        transition={shouldReduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 300, damping: 30 }}
       />
 
-      <div className='relative rounded-full transition-colors' onClick={handleToggle}>
+      <div className='relative z-10 rounded-full transition-colors'>
         <div
           className={clsx(
             'flex items-center gap-2 px-10 py-5',
-            selectedTab === 'progress' ? 'text-white' : 'text-gray-darken',
-          )}>
-          <OutlinedFlagIcon size={16} color={selectedTab === 'progress' ? colors.white : colors.gray.darken} />
+            currentTab === 'progress' ? 'text-white' : 'text-gray-darken',
+          )}
+        >
+          <OutlinedFlagIcon size={16} color={currentTab === 'progress' ? colors.white : colors.gray.darken} />
           <span className='text-14 font-bold'>진행 중</span>
         </div>
       </div>
 
-      <div className='relative rounded-full transition-colors' onClick={handleToggle}>
+      <div className='relative z-10 rounded-full transition-colors'>
         <div
           className={clsx(
             'flex items-center gap-8 px-10 py-5',
-            selectedTab === 'completed' ? 'text-white' : 'text-gray-darken',
-          )}>
+            currentTab === 'completed' ? 'text-white' : 'text-gray-darken',
+          )}
+        >
           <span className='text-14 font-bold'>완료</span>
         </div>
       </div>
     </button>
   )
+}
+
+function getSelectedTab(list: string | null): ListType {
+  return list === 'progress' ? 'progress' : 'completed'
 }

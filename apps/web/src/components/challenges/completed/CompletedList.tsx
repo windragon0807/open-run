@@ -1,26 +1,16 @@
-import ErrorFallback from '@shared/ErrorFallback'
-import withBoundary from '@shared/withBoundary'
-import { fetchCompletedChallengeWithNftList } from '@apis/v1/challenges/completed'
 import type { ChallengeType, CompletedChallengeWithNft } from '@apis/v1/challenges/type'
 import type { CategoryType } from '@type/challenge'
 import { parseApiDateTime } from '@utils/api'
 import { formatDate } from '@utils/time'
 import CategoryReward from './CategoryReward'
 
-async function CompletedList() {
-  const response = await fetchCompletedChallengeWithNftList()
-  const challenges = response.data
-
+export default function CompletedList({ challenges }: { challenges: CompletedChallengeWithNft[] }) {
   return (
     <section className='flex h-[calc(100%-102px)] w-full flex-col gap-8 overflow-y-auto px-16 pb-120'>
       {challenges.length === 0 ? (
-        <p className='mt-80 text-center text-14 leading-20 text-gray-darken'>
-          아직 완료한 도전과제가 없어요
-        </p>
+        <p className='mt-80 text-center text-14 leading-20 text-gray-darken'>아직 완료한 도전과제가 없어요</p>
       ) : (
-        challenges.map((challenge) => (
-          <CompletedItem key={challenge.userChallengeId} challenge={challenge} />
-        ))
+        challenges.map((challenge) => <CompletedItem key={challenge.userChallengeId} challenge={challenge} />)
       )}
     </section>
   )
@@ -57,18 +47,3 @@ function toCategory(challengeType: ChallengeType): CategoryType {
   if (challengeType === 'repetitive') return 'repetitive'
   return 'event'
 }
-
-export default withBoundary(CompletedList, {
-  onLoading: (
-    <section className='flex flex-col gap-8 p-16'>
-      <div className='h-80 w-full animate-pulse rounded bg-gray' />
-      <div className='h-80 w-full animate-pulse rounded bg-gray' />
-      <div className='h-80 w-full animate-pulse rounded bg-gray' />
-    </section>
-  ),
-  onError: (
-    <section className='pt-60'>
-      <ErrorFallback type='medium' />
-    </section>
-  ),
-})
