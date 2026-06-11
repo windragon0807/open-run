@@ -108,7 +108,7 @@ export default function BungCompleteModal({
                   />
                   <div className='flex items-center gap-4'>
                     <span className='text-14 font-bold text-black-darken'>{member.nickname}</span>
-                    {member.owner && <Image src='/images/icon_crown.png' alt='Crown Icon' width={16} height={18} />}
+                    {member.owner && <Image src='/images/icon_crown.png' alt='Crown Icon' width={16} height={16} />}
                   </div>
                 </div>
 

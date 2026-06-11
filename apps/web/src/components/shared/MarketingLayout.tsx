@@ -145,6 +145,7 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
                   src='/images/marketing/img_logo.png'
                   alt='OpenRun Logo'
                   fill
+                  sizes='180px'
                   className='object-contain'
                   priority
                 />
@@ -172,6 +173,7 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
                 src='/images/marketing/img_logo.png'
                 alt='OpenRun Logo'
                 fill
+                sizes='100px'
                 className='object-contain object-left-top'
               />
             </div>
@@ -218,6 +220,8 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
           src='/images/marketing/img_mockup_iphone.png'
           alt='iPhone Mockup'
           fill
+          // 컨테이너가 height: 100vh, aspect-ratio 430/932 → 렌더 너비는 약 46vh
+          sizes='46vh'
           className='object-contain'
           priority
         />

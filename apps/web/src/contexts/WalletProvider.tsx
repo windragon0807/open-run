@@ -33,7 +33,9 @@ createAppKit({
   metadata: {
     name: 'Open Run',
     description: 'Open Run App',
-    url: 'https://open-run.vercel.app',
+    // metadata.url이 실제 페이지 origin과 다르면 WalletConnect가 경고하고 일부 지갑이 연결을 거부할 수 있다.
+    // localhost/preview/production 어디서든 현재 origin을 그대로 사용한다. (모듈이 SSR에서도 평가되므로 window 가드 필요)
+    url: typeof window !== 'undefined' ? window.location.origin : 'https://open-run.vercel.app',
     icons: [],
   },
 })

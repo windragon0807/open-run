@@ -40,6 +40,9 @@ export default function AvatarImageWarmup({
           width={width}
           height={height}
           sizes={sizes}
+          // 전역 preflight(img { height: auto })가 고유 비율이 제각각인 NFT 이미지의 height를
+          // 바꿔 next/image 경고를 낸다. 보이지 않는 프리로드라 비율 보존이 필요 없으니 크기를 고정한다.
+          style={{ width, height }}
           loading='eager'
           fetchPriority='low'
         />

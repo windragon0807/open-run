@@ -140,7 +140,9 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
               <div className='mt-19 h-30 w-122 animate-pulse rounded-10 bg-gray' />
             ) : (
               <span className='z-10 mt-4 flex items-center gap-8 font-jost text-40 font-bold tracking-wide text-white'>
-                <Image src={getWeatherData(currentWeather.weather).icon} alt='Weather Icon' width={41} height={24} />
+                {/* 아이콘 원본이 40x40 정사각이라 비율이 다른 width/height를 주면
+                    preflight(img { height: auto })가 height만 바꿔 next/image 경고가 발생한다 */}
+                <Image src={getWeatherData(currentWeather.weather).icon} alt='Weather Icon' width={41} height={41} />
                 {Math.floor(currentWeather.temperature)}°
               </span>
             )}
@@ -159,8 +161,10 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
         style={{ top: appTopPadding }}>
         <div className='relative flex w-[118px] flex-shrink-0 items-end justify-end'>
           {currentWeather && (
+            // 원본(176x200) 비율상 height가 90.9px로 계산돼 height 속성(90)과 어긋나며 next/image 경고가 난다.
+            // CSS로 양쪽 크기를 고정해 선언 크기 그대로 렌더하고 object-cover로 비율 차이를 흡수한다.
             <Image
-              className='absolute object-cover'
+              className='absolute h-90 w-80 object-cover'
               src={getWeatherData(currentWeather.weather).image}
               alt='Weather Image'
               width={80}
