@@ -56,6 +56,11 @@ const nextConfig = {
       },
     ],
   },
+  turbopack: {
+    resolveAlias: {
+      '@react-native-async-storage/async-storage': './src/shims/empty.ts',
+    },
+  },
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),

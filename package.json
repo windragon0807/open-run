@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "engines": {
-    "node": ">=20"
+    "node": ">=20.9.0"
   },
   "workspaces": [
     "apps/*",
@@ -16,6 +16,10 @@
     "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "5.101.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.7",
+    "eslint-config-prettier": "^9.1.0",
     "turbo": "^2.3.0"
   },
   "resolutions": {

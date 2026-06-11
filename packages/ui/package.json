@@ -19,12 +19,12 @@
     "framer-motion": "^11.0.6"
   },
   "peerDependencies": {
-    "next": "^15.0.0",
+    "next": "^16.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@types/react": "^18",
+    "@types/react": "^19",
     "typescript": "^5"
   }
 }
