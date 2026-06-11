@@ -1,7 +1,6 @@
 'use client'
 
 import clsx from 'clsx'
-import { AxiosError } from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useRef, useState } from 'react'
@@ -14,7 +13,9 @@ import {
 } from '@apis/v1/admin'
 import { useGrantAdminNftAvatarItemMutation } from '@apis/v1/admin/mutation'
 import { useAdminNftAvatarItemsQuery, useAdminUsersQuery } from '@apis/v1/admin/query'
-import { ApiResponse, COOKIE, removeCookie } from '@openrun/api-client'
+import { COOKIE } from '@openrun/api-client/constants'
+import { removeCookie } from '@openrun/api-client/cookie'
+import { getApiErrorMessage } from '@openrun/api-client/error'
 import { MainCategory, SubCategory } from '@openrun/types'
 import { RarityIcon } from '@openrun/ui'
 import { LoadingLogo } from '@openrun/ui'
@@ -645,6 +646,5 @@ function formatAddress(address: string) {
 function getErrorMessage(error: Error | null): string | null {
   if (!error) return null
 
-  const axiosError = error as AxiosError<ApiResponse<unknown>>
-  return axiosError.response?.data.message ?? error.message
+  return getApiErrorMessage(error) ?? error.message
 }

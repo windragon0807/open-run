@@ -1,6 +1,6 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions, useQuery } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import Input from '@shared/Input'
@@ -14,6 +14,14 @@ import { useSearchByNicknameMutation } from '@apis/v1/users/nickname/query'
 import { fetchSuggestion } from '@apis/v1/users/suggestion'
 import { colors } from '@styles/colors'
 
+const suggestionQueries = {
+  list: () =>
+    queryOptions({
+      queryKey: ['/users/suggestion'] as const,
+      queryFn: () => fetchSuggestion({ page: 0, limit: 10 }),
+    }),
+}
+
 export default function Invitation() {
   const { mutate: searchByNickname, data: searchedList } = useSearchByNicknameMutation()
   const [selectedMembers, setSelectedMembers] = useState<
@@ -24,10 +32,7 @@ export default function Invitation() {
   >([])
 
   /* 멤버 추천 관련 */
-  const { data: suggestionList } = useQuery({
-    queryKey: ['/users/suggestion'],
-    queryFn: () => fetchSuggestion({ page: 0, limit: 10 }),
-  })
+  const { data: suggestionList } = useQuery(suggestionQueries.list())
 
   const renderSuggestionList = () => {
     if (suggestionList == null) return null

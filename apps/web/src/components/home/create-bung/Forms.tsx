@@ -22,7 +22,7 @@ import { useRefetchQuery } from '@hooks/useRefetchQuery'
 import { useThumbnailImage } from '@hooks/useThumbnailImage'
 import { useGeocoding } from '@apis/maps/geocoding/mutation'
 import { useCreateBung } from '@apis/v1/bungs/mutation'
-import { queryKey } from '@apis/v1/bungs/my-bungs/query'
+import { myBungsQueries } from '@apis/v1/bungs/my-bungs/query'
 import { currentDate, formatDate } from '@utils/time'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
@@ -58,7 +58,7 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
 
   const { mutateAsync: createBung, isPending } = useCreateBung()
   const { mutateAsync: geocoding } = useGeocoding()
-  const 메인페이지벙리스트업데이트 = useRefetchQuery(queryKey)
+  const 메인페이지벙리스트업데이트 = useRefetchQuery(myBungsQueries.all())
 
   const defaultValues = useMemo<FormValues>(() => {
     const hashTags = Array.isArray(initialDraft?.hashtags) ? initialDraft?.hashtags : []

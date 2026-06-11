@@ -1,11 +1,15 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { queryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { FetchBungsRequestType, fetchBungs } from './index'
 
-export const BUNGS_QUERY_KEY = 'fetchBungs'
+export const bungsQueries = {
+  all: () => ['fetchBungs'] as const,
+  list: (request: FetchBungsRequestType) =>
+    queryOptions({
+      queryKey: [...bungsQueries.all(), request] as const,
+      queryFn: () => fetchBungs(request),
+    }),
+}
 
 export function useBungsQuery(request: FetchBungsRequestType) {
-  return useSuspenseQuery({
-    queryKey: [BUNGS_QUERY_KEY, request],
-    queryFn: () => fetchBungs(request),
-  })
+  return useSuspenseQuery(bungsQueries.list(request))
 }

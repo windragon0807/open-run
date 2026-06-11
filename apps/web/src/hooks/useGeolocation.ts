@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions, useQuery } from '@tanstack/react-query'
 import { useEffect, useRef } from 'react'
 import { useAppStore } from '@store/app'
 import { usePermissionStore } from '@store/permission'
@@ -107,12 +107,7 @@ export default function useGeolocation() {
   const messageHandlerRef = useRef<((event: MessageEvent) => void) | null>(null)
 
   // React Query를 사용한 위치 정보 캐싱
-  const {
-    data: location,
-    isLoading,
-    error,
-    refetch,
-  } = useQuery({
+  const geolocationQueryOptions = queryOptions({
     queryKey: ['geolocation'],
     queryFn: async (): Promise<Geolocation> => {
       try {
@@ -147,6 +142,12 @@ export default function useGeolocation() {
     refetchOnWindowFocus: false, // 윈도우 포커스 시 자동 재요청 비활성화
     refetchOnReconnect: true, // 네트워크 재연결 시 재요청 활성화
   })
+  const {
+    data: location,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery(geolocationQueryOptions)
 
   // 앱 환경에서 메시지 핸들러 정리
   useEffect(() => {

@@ -1,26 +1,44 @@
-import { useQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
+import { queryOptions, useQuery } from '@tanstack/react-query'
+import { useEffect, useRef } from 'react'
 import { QueryOptions } from '@type/react-query'
 import { FetchUserInfoResponseType, fetchUserInfo } from './index'
 
-export const USERINFO_QUERY_KEY = 'fetchUserInfo'
+export const userQueries = {
+  all: () => ['fetchUserInfo'] as const,
+  me: () =>
+    queryOptions({
+      queryKey: userQueries.all(),
+      queryFn: fetchUserInfo,
+      staleTime: Infinity,
+      gcTime: Infinity,
+    }),
+}
 
-export function useUserInfo(options?: QueryOptions<FetchUserInfoResponseType>) {
-  const { onSuccess, ...queryOptions } = options ?? {}
+type UseUserInfoOptions = QueryOptions<ReturnType<typeof userQueries.me>> & {
+  onSuccess?: (data: FetchUserInfoResponseType) => void
+}
+
+export function useUserInfo(options?: UseUserInfoOptions) {
+  const { onSuccess, ...queryOptionOverrides } = options ?? {}
+  const onSuccessRef = useRef(onSuccess)
+  const handledDataUpdatedAtRef = useRef(0)
 
   const query = useQuery({
-    queryKey: [USERINFO_QUERY_KEY],
-    queryFn: fetchUserInfo,
-    staleTime: Infinity,
-    gcTime: Infinity,
-    ...queryOptions,
+    ...userQueries.me(),
+    ...queryOptionOverrides,
   })
 
   useEffect(() => {
-    if (query.data) {
-      onSuccess?.(query.data)
-    }
-  }, [query.data])
+    onSuccessRef.current = onSuccess
+  }, [onSuccess])
+
+  useEffect(() => {
+    if (!query.data) return
+    if (query.dataUpdatedAt === handledDataUpdatedAtRef.current) return
+
+    handledDataUpdatedAtRef.current = query.dataUpdatedAt
+    onSuccessRef.current?.(query.data)
+  }, [query.data, query.dataUpdatedAt])
 
   return query
 }

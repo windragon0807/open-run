@@ -1,15 +1,11 @@
-import { InfiniteData, UseInfiniteQueryOptions, UseQueryOptions } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
-
-export type QueryOptions<T> = Omit<UseQueryOptions<T>, 'queryKey' | 'queryFn'> & {
-  onSuccess?: (data: T) => void
-  onError?: (error: AxiosError<T>) => void
+type QueryOptionSource = {
+  queryKey: unknown
+  queryFn?: unknown
 }
 
-export type UseInfiteQueryOptions<T> = Omit<
-  UseInfiniteQueryOptions<T, AxiosError<T>, InfiniteData<T>>,
+export type QueryOptions<TOptions extends QueryOptionSource> = Omit<TOptions, 'queryKey' | 'queryFn'>
+
+export type UseInfiteQueryOptions<TOptions extends QueryOptionSource> = Omit<
+  TOptions,
   'queryKey' | 'queryFn' | 'getNextPageParam' | 'getPreviousPageParam' | 'initialPageParam'
-> & {
-  onSuccess?: (data: T) => void
-  onError?: (error: AxiosError<T>) => void
-}
+>

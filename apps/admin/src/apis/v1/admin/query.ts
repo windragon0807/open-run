@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions, useQuery } from '@tanstack/react-query'
 import { QueryOptions } from '@openrun/types'
 import {
   AdminChallengeResponse,
@@ -15,59 +15,84 @@ import {
   fetchAdminUsers,
 } from './index'
 
-export const ADMIN_ME_QUERY_KEY = ['admin', 'me'] as const
-export const ADMIN_USERS_QUERY_KEY = ['admin', 'users'] as const
-export const ADMIN_NFT_AVATAR_ITEMS_QUERY_KEY = ['admin', 'nftAvatarItems'] as const
-export const ADMIN_NFT_AVATAR_TRY_ON_ITEMS_QUERY_KEY = ['admin', 'nftAvatarTryOnItems'] as const
-export const ADMIN_CHALLENGES_QUERY_KEY = ['admin', 'challenges'] as const
-export const ADMIN_CHALLENGE_QUERY_KEY = (challengeId: number) => ['admin', 'challenges', challengeId] as const
+export const adminQueries = {
+  me: () =>
+    queryOptions({
+      queryKey: ['admin', 'me'] as const,
+      queryFn: fetchAdminMe,
+      staleTime: Infinity,
+      gcTime: Infinity,
+    }),
+  users: () =>
+    queryOptions({
+      queryKey: ['admin', 'users'] as const,
+      queryFn: fetchAdminUsers,
+    }),
+  nftAvatarItems: () =>
+    queryOptions({
+      queryKey: ['admin', 'nftAvatarItems'] as const,
+      queryFn: fetchAdminNftAvatarItems,
+    }),
+  nftAvatarTryOnItems: () =>
+    queryOptions({
+      queryKey: ['admin', 'nftAvatarTryOnItems'] as const,
+      queryFn: fetchAdminNftAvatarTryOnItems,
+    }),
+  challenges: () =>
+    queryOptions({
+      queryKey: ['admin', 'challenges'] as const,
+      queryFn: fetchAdminChallenges,
+    }),
+  challenge: (challengeId: number) =>
+    queryOptions({
+      queryKey: ['admin', 'challenges', challengeId] as const,
+      queryFn: () => fetchAdminChallenge(challengeId),
+    }),
+}
 
-export function useAdminMeQuery(options?: QueryOptions<AdminMeResponse>) {
+export function useAdminMeQuery(options?: QueryOptions<ReturnType<typeof adminQueries.me>>) {
   return useQuery({
-    queryKey: ADMIN_ME_QUERY_KEY,
-    queryFn: fetchAdminMe,
-    staleTime: Infinity,
-    gcTime: Infinity,
+    ...adminQueries.me(),
     ...options,
   })
 }
 
-export function useAdminNftAvatarItemsQuery(options?: QueryOptions<AdminNftAvatarItemsResponse>) {
+export function useAdminNftAvatarItemsQuery(options?: QueryOptions<ReturnType<typeof adminQueries.nftAvatarItems>>) {
   return useQuery({
-    queryKey: ADMIN_NFT_AVATAR_ITEMS_QUERY_KEY,
-    queryFn: fetchAdminNftAvatarItems,
+    ...adminQueries.nftAvatarItems(),
     ...options,
   })
 }
 
-export function useAdminNftAvatarTryOnItemsQuery(options?: QueryOptions<AdminNftAvatarTryOnItemsResponse>) {
+export function useAdminNftAvatarTryOnItemsQuery(
+  options?: QueryOptions<ReturnType<typeof adminQueries.nftAvatarTryOnItems>>,
+) {
   return useQuery({
-    queryKey: ADMIN_NFT_AVATAR_TRY_ON_ITEMS_QUERY_KEY,
-    queryFn: fetchAdminNftAvatarTryOnItems,
+    ...adminQueries.nftAvatarTryOnItems(),
     ...options,
   })
 }
 
-export function useAdminUsersQuery(options?: QueryOptions<AdminUsersResponse>) {
+export function useAdminUsersQuery(options?: QueryOptions<ReturnType<typeof adminQueries.users>>) {
   return useQuery({
-    queryKey: ADMIN_USERS_QUERY_KEY,
-    queryFn: fetchAdminUsers,
+    ...adminQueries.users(),
     ...options,
   })
 }
 
-export function useAdminChallengesQuery(options?: QueryOptions<AdminChallengesResponse>) {
+export function useAdminChallengesQuery(options?: QueryOptions<ReturnType<typeof adminQueries.challenges>>) {
   return useQuery({
-    queryKey: ADMIN_CHALLENGES_QUERY_KEY,
-    queryFn: fetchAdminChallenges,
+    ...adminQueries.challenges(),
     ...options,
   })
 }
 
-export function useAdminChallengeQuery(challengeId: number, options?: QueryOptions<AdminChallengeResponse>) {
+export function useAdminChallengeQuery(
+  challengeId: number,
+  options?: QueryOptions<ReturnType<typeof adminQueries.challenge>>,
+) {
   return useQuery({
-    queryKey: ADMIN_CHALLENGE_QUERY_KEY(challengeId),
-    queryFn: () => fetchAdminChallenge(challengeId),
+    ...adminQueries.challenge(challengeId),
     ...options,
   })
 }

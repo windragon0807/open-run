@@ -8,7 +8,7 @@ import { WeekCount } from '@type/register'
 import Input from '@shared/Input'
 import NumberInput from '@shared/NumberInput'
 import { useRegister } from '@apis/v1/users/mutation'
-import { USERINFO_QUERY_KEY } from '@apis/v1/users/query'
+import { userQueries } from '@apis/v1/users/query'
 import { padStart } from '@utils/string'
 
 type FormValues = {
@@ -50,7 +50,7 @@ export default function Form() {
       {
         onSuccess: () => {
           router.replace('/profile')
-          queryClient.invalidateQueries({ queryKey: [USERINFO_QUERY_KEY] })
+          queryClient.invalidateQueries({ queryKey: userQueries.me().queryKey })
         },
       },
     )

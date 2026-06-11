@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions, useQuery } from '@tanstack/react-query'
 import { QueryOptions } from '@type/react-query'
 import { CHALLENGE_LIST_GC_TIME_MS, CHALLENGE_LIST_STALE_TIME_MS } from '../general/query'
 import {
@@ -7,17 +7,23 @@ import {
   fetchRepetitiveChallengeList,
 } from './index'
 
-export const REPETITIVE_CHALLENGE_LIST_QUERY_KEY = ['challenges', 'repetitive'] as const
+export const repetitiveChallengeQueries = {
+  all: () => ['challenges', 'repetitive'] as const,
+  list: (request?: RepetitiveChallengeListRequest) =>
+    queryOptions({
+      queryKey: [...repetitiveChallengeQueries.all(), request] as const,
+      queryFn: () => fetchRepetitiveChallengeList(request),
+      staleTime: CHALLENGE_LIST_STALE_TIME_MS,
+      gcTime: CHALLENGE_LIST_GC_TIME_MS,
+    }),
+}
 
 export function useRepetitiveChallengeListQuery(
   request?: RepetitiveChallengeListRequest,
-  options?: QueryOptions<RepetitiveChallengeListResponse>,
+  options?: QueryOptions<ReturnType<typeof repetitiveChallengeQueries.list>>,
 ) {
   return useQuery({
-    queryKey: [...REPETITIVE_CHALLENGE_LIST_QUERY_KEY, request] as const,
-    queryFn: () => fetchRepetitiveChallengeList(request),
-    staleTime: CHALLENGE_LIST_STALE_TIME_MS,
-    gcTime: CHALLENGE_LIST_GC_TIME_MS,
+    ...repetitiveChallengeQueries.list(request),
     ...options,
   })
 }

@@ -12,15 +12,15 @@ import { ArrowLeftIcon } from '@icons/arrow'
 import { TransparentOpenrunIcon } from '@icons/openrun'
 import { ResetIcon } from '@icons/reset'
 import { useAvatarCategoryWarmupImageUrls } from '@hooks/useAvatarCategoryWarmupImageUrls'
-import { BUNGS_QUERY_KEY } from '@apis/v1/bungs/query'
+import { bungsQueries } from '@apis/v1/bungs/query'
 import { SaveWearingNftAvatarRequest } from '@apis/v1/nft/avatar-items'
 import { useSaveWearingNftAvatarWithProfileImageMutation } from '@apis/v1/nft/avatar-items/mutation'
 import {
-  WEARING_NFT_AVATAR_QUERY_KEY,
+  nftAvatarQueries,
   useSuspenseOwnedNftAvatarItemsQuery,
   useSuspenseWearingNftAvatarQuery,
 } from '@apis/v1/nft/avatar-items/query'
-import { USERINFO_QUERY_KEY } from '@apis/v1/users/query'
+import { userQueries } from '@apis/v1/users/query'
 import { MODAL_KEY } from '@constants/modal'
 import { getSelectedCategoryAvatarItems } from '@utils/avatarImage'
 import { colors } from '@styles/colors'
@@ -95,9 +95,9 @@ export default function AvatarPage() {
       setSelectedAvatar(data)
 
       await Promise.all([
-        queryClient.invalidateQueries({ queryKey: WEARING_NFT_AVATAR_QUERY_KEY }),
-        queryClient.invalidateQueries({ queryKey: [USERINFO_QUERY_KEY] }),
-        queryClient.invalidateQueries({ queryKey: [BUNGS_QUERY_KEY] }),
+        queryClient.invalidateQueries({ queryKey: nftAvatarQueries.wearing().queryKey }),
+        queryClient.invalidateQueries({ queryKey: userQueries.me().queryKey }),
+        queryClient.invalidateQueries({ queryKey: bungsQueries.all() }),
       ])
 
       showToast(showModal, 'success', '아바타 저장 완료!')

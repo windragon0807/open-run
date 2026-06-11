@@ -1,7 +1,6 @@
 'use client'
 
 import clsx from 'clsx'
-import { AxiosError } from 'axios'
 import { useEffect, useMemo, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import {
@@ -17,8 +16,8 @@ import {
   useDeleteAdminChallengeMutation,
   useUpdateAdminChallengeMutation,
 } from '@apis/v1/admin/mutation'
-import { ADMIN_CHALLENGES_QUERY_KEY, useAdminChallengesQuery } from '@apis/v1/admin/query'
-import { ApiResponse } from '@openrun/api-client'
+import { adminQueries, useAdminChallengesQuery } from '@apis/v1/admin/query'
+import { getApiErrorMessage } from '@openrun/api-client/error'
 import { LoadingLogo } from '@openrun/ui'
 
 type SelectedChallengeId = number | 'new' | null
@@ -119,7 +118,7 @@ export default function AdminChallengeContentPanel() {
   }, [selectedChallenge, selectedChallengeId])
 
   const refreshChallenges = () => {
-    queryClient.invalidateQueries({ queryKey: ADMIN_CHALLENGES_QUERY_KEY })
+    queryClient.invalidateQueries({ queryKey: adminQueries.challenges().queryKey })
   }
 
   const handleSubmit = () => {
@@ -678,6 +677,5 @@ function getOptionLabel<OptionValue extends string>(
 function getErrorMessage(error: Error | null): string | null {
   if (!error) return null
 
-  const axiosError = error as AxiosError<ApiResponse<unknown>>
-  return axiosError.response?.data.message ?? error.message
+  return getApiErrorMessage(error) ?? error.message
 }

@@ -3,13 +3,13 @@ import { useModal } from '@contexts/ModalProvider'
 import { Dimmed, Popup } from '@shared/Modal'
 import { useRefetchQuery } from '@hooks/useRefetchQuery'
 import { useDeleteBung } from '@apis/v1/bungs/[bungId]/mutation'
-import { queryKey } from '@apis/v1/bungs/my-bungs/query'
+import { myBungsQueries } from '@apis/v1/bungs/my-bungs/query'
 import { MODAL_KEY } from '@constants/modal'
 
 export default function DeleteBungModal({ bungId }: { bungId: string }) {
   const router = useRouter()
   const { closeModal } = useModal()
-  const 메인페이지벙리스트업데이트 = useRefetchQuery(queryKey)
+  const 메인페이지벙리스트업데이트 = useRefetchQuery(myBungsQueries.all())
   const { mutate: deleteBung } = useDeleteBung()
 
   const handleDeleteBung = () => {

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { OWNED_NFT_AVATAR_ITEMS_QUERY_KEY } from '../avatar-items/query'
+import { nftAvatarQueries } from '../avatar-items/query'
 import { MintJobResponseType, StartMintJobRequestType, startMintJob } from './index'
 
 export function useStartMintJobMutation() {
@@ -10,7 +10,7 @@ export function useStartMintJobMutation() {
     onSuccess: (response) => {
       if (response.data.status !== 'SUCCESS') return
 
-      queryClient.invalidateQueries({ queryKey: OWNED_NFT_AVATAR_ITEMS_QUERY_KEY })
+      queryClient.invalidateQueries({ queryKey: nftAvatarQueries.ownedItems().queryKey })
     },
   })
 }

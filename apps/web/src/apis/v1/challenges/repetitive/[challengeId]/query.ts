@@ -1,9 +1,14 @@
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions, useQuery } from '@tanstack/react-query'
 import { RequestType, fetchRepetitiveChallengeDetail } from './index'
 
+export const repetitiveChallengeDetailQueries = {
+  detail: (request: RequestType) =>
+    queryOptions({
+      queryKey: ['repetitiveChallengeDetail', request] as const,
+      queryFn: () => fetchRepetitiveChallengeDetail(request),
+    }),
+}
+
 export const useRepetitiveChallengeDetail = (request: RequestType) => {
-  return useQuery({
-    queryKey: ['repetitiveChallengeDetail', request],
-    queryFn: () => fetchRepetitiveChallengeDetail(request),
-  })
+  return useQuery(repetitiveChallengeDetailQueries.detail(request))
 }
