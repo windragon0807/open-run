@@ -1,86 +1,90 @@
 'use client'
 
-import clsx from 'clsx'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { ReactNode } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import { useModal } from '@contexts/ModalProvider'
 import { ExploreIcon } from '@icons/explore'
 import { OutlinedFlagIcon } from '@icons/flag'
 import { OpenrunIcon } from '@icons/openrun'
 import { OutlinedPersonIcon } from '@icons/person'
-import { RoundedPlusIcon } from '@icons/plus'
+import { PlusIcon } from '@icons/plus'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 import { VIBRATION_TYPE } from '@constants/app'
 import { useVibration } from '@hooks/useVibration'
 import CreateBung from '../home/create-bung/CreateBung'
+import LiquidTabBar, { LiquidCenterVisual, LiquidTabItem } from './LiquidTabBar'
 
+const TABS: (LiquidTabItem & { href: string; isActive: (pathname: string) => boolean })[] = [
+  {
+    key: 'home',
+    label: '홈',
+    href: '/',
+    isActive: (pathname) => pathname === '/',
+    renderIcon: (color) => <OpenrunIcon size={24} color={color} />,
+  },
+  {
+    key: 'explore',
+    label: '탐색',
+    href: '/explore',
+    isActive: (pathname) => pathname === '/explore',
+    renderIcon: (color) => <ExploreIcon size={24} color={color} />,
+  },
+  {
+    key: 'challenges',
+    label: '도전과제',
+    href: '/challenges?list=progress&category=general',
+    isActive: (pathname) => pathname.includes('/challenges'),
+    renderIcon: (color) => <OutlinedFlagIcon size={24} color={color} />,
+  },
+  {
+    key: 'profile',
+    label: '프로필',
+    href: '/profile',
+    isActive: (pathname) => pathname === '/profile',
+    renderIcon: (color) => <OutlinedPersonIcon size={24} color={color} />,
+  },
+]
+
+/**
+ * Liquid glass 바텀 네비게이션 (인스타그램식 슬라이딩 pill + 드래그 선택 + 스크롤 축소).
+ * 배경 굴절은 Chromium(Chrome/Android WebView) 전용이고,
+ * Safari/iOS WebView는 GlassSurface가 blur 프로스트 글래스로 자동 폴백한다.
+ */
 export default function BottomNavigation() {
   const pathname = usePathname()
+  const router = useRouter()
+  const vibrate = useVibration()
   const { showModal } = useModal()
-  const vibrate = useVibration()
-  return (
-    <footer
-      className={clsx(
-        'fixed bottom-0 left-0 right-0 z-[999] flex justify-center bg-gradient-bottom-navigation px-16 pt-16 pb-24 app:pb-40',
-      )}>
-      <div className='flex h-56 w-full max-w-[328px] items-center justify-between rounded-28 bg-white px-[9px]'>
-        <IconLink
-          href='/'
-          icon={<OpenrunIcon size={24} color={pathname === '/' ? colors.black.darken : colors.gray.DEFAULT} />}
-          label='홈'
-        />
-        <IconLink
-          href='/explore'
-          icon={<ExploreIcon size={24} color={pathname === '/explore' ? colors.black.darken : colors.gray.DEFAULT} />}
-          label='탐색'
-        />
-        <button
-          className='group flex h-full flex-1 items-center justify-center'
-          onClick={() => {
-            vibrate(VIBRATION_TYPE.IMPACT_MEDIUM)
-            showModal({ key: MODAL_KEY.CREATE_BUNG, component: <CreateBung /> })
-          }}>
-          <RoundedPlusIcon size={36} />
-        </button>
-        <IconLink
-          href='/challenges?list=progress&category=general'
-          icon={
-            <OutlinedFlagIcon
-              size={24}
-              color={pathname.includes('/challenges') ? colors.black.darken : colors.gray.DEFAULT}
-            />
-          }
-          label='도전과제'
-        />
-        <IconLink
-          href='/profile'
-          icon={
-            <OutlinedPersonIcon size={24} color={pathname === '/profile' ? colors.black.darken : colors.gray.DEFAULT} />
-          }
-          label='프로필'
-        />
-      </div>
-    </footer>
-  )
-}
 
-function IconLink({ href, icon, label }: { href: string; icon: ReactNode; label: string }) {
-  const pathname = usePathname()
-  const vibrate = useVibration()
-  const isActive = pathname === href || (href.includes('challenges') && pathname.includes('challenges'))
-  
-  const handleClick = () => {
-    vibrate(VIBRATION_TYPE.SELECTION)
-  }
-  
+  const activeIndex = TABS.findIndex((tab) => tab.isActive(pathname))
+
+  // Link 대신 pointer 제스처로 이동하므로 프리페치는 직접 건다
+  useEffect(() => {
+    TABS.forEach((tab) => router.prefetch(tab.href))
+  }, [router])
+
   return (
-    <Link className='flex h-full flex-1 items-center justify-center' href={href} onClick={handleClick}>
-      <div className='flex flex-col items-center justify-center rounded-8 px-8 py-4 active-press-duration active:scale-90 active:bg-gray/50'>
-        {icon}
-        <span className={clsx('text-10 font-medium', isActive ? 'text-black-darken' : 'text-gray')}>{label}</span>
-      </div>
-    </Link>
+    <footer className='fixed bottom-0 left-0 right-0 z-[999] flex justify-center px-16 pb-24 pt-16 app:pb-40'>
+      <LiquidTabBar
+        items={TABS}
+        activeIndex={activeIndex}
+        onTabSelect={(index) => {
+          vibrate(VIBRATION_TYPE.SELECTION)
+          router.push(TABS[index].href)
+        }}
+        onSnap={() => vibrate(VIBRATION_TYPE.SELECTION)}
+        onCenterTap={() => {
+          vibrate(VIBRATION_TYPE.IMPACT_MEDIUM)
+          showModal({ key: MODAL_KEY.CREATE_BUNG, component: <CreateBung /> })
+        }}
+        centerLabel='벙 만들기'
+        centerVisual={
+          <LiquidCenterVisual>
+            <PlusIcon size={20} color={colors.black.darken} />
+          </LiquidCenterVisual>
+        }
+      />
+    </footer>
   )
 }

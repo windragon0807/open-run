@@ -1,0 +1,73 @@
+/* reactbits.dev GlassSurface 스타일 (MIT) — content padding만 0으로 변경 (호출부에서 직접 제어) */
+.glass-surface {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: opacity 0.26s ease-out;
+}
+
+.glass-surface__filter {
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  z-index: -1;
+}
+
+.glass-surface__content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  position: relative;
+  z-index: 1;
+}
+
+.glass-surface--svg {
+  background: hsl(0 0% 100% / var(--glass-frost, 0));
+  backdrop-filter: var(--filter-id, url(#glass-filter)) saturate(var(--glass-saturation, 1));
+  /* 어두운 inset 글로우는 유리 안쪽에 회색 필름을 깔아 탁해 보인다 —
+     인스타식으로 밝은 헤어라인 + 상단 광택 + 깨끗한 외부 그림자만 쓴다 */
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    0 4px 16px rgba(17, 17, 26, 0.06),
+    0 10px 32px rgba(17, 17, 26, 0.07);
+}
+
+/* Safari/Firefox(iOS WebView 포함): backdrop-filter에 SVG 필터를 쓸 수 없어 blur 프로스트로 폴백.
+   굴절만 없을 뿐 frost 농도·채도·헤어라인·그림자는 svg 변형과 동일한 레시피를 쓴다 */
+.glass-surface--fallback {
+  background: hsl(0 0% 100% / var(--glass-frost, 0.25));
+  backdrop-filter: blur(12px) saturate(var(--glass-saturation, 1.8)) brightness(1.05);
+  -webkit-backdrop-filter: blur(12px) saturate(var(--glass-saturation, 1.8)) brightness(1.05);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    0 4px 16px rgba(17, 17, 26, 0.06),
+    0 10px 32px rgba(17, 17, 26, 0.07);
+}
+
+@supports not (backdrop-filter: blur(10px)) {
+  .glass-surface--fallback {
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow:
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.5),
+      inset 0 -1px 0 0 rgba(255, 255, 255, 0.3);
+  }
+
+  .glass-surface--fallback::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: inherit;
+    z-index: -1;
+  }
+}
