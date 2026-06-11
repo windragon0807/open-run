@@ -13,12 +13,12 @@ import {
 import { useModal } from '@contexts/ModalProvider'
 import { useSmartWalletLogin } from '@apis/v1/users/login/smart_wallet/mutation'
 import {
-  COOKIE,
   consumePendingReownSocialProvider,
   hasPendingReownSocialRedirect,
-  removeCookie,
   type ReownSocialProvider,
-} from '@openrun/api-client'
+} from '@openrun/api-client/reownSocialRedirect'
+import { COOKIE } from '@openrun/api-client/constants'
+import { removeCookie } from '@openrun/api-client/cookie'
 import { LoadingLogo } from '@openrun/ui'
 import { MODAL_KEY } from '@constants/modal'
 import WalletLoginBottomSheet from '@components/signin/WalletLoginBottomSheet'

@@ -1,4 +1,4 @@
-import http from '@apis/axios'
+import http from '@apis/http.client'
 import type { ApiResponse } from '@apis/type'
 import type { ApiDateTime } from '@utils/api'
 

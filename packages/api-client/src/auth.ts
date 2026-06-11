@@ -1,4 +1,4 @@
-import http from './client'
+import http from './browser'
 import type { ApiResponse } from './type'
 
 export type SmartWalletLoginRequest = {

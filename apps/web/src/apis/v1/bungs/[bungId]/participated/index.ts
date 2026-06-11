@@ -1,4 +1,4 @@
-import http from '@apis/axios'
+import http from '@apis/http.client'
 
 export type RequestType = {
   bungId: string

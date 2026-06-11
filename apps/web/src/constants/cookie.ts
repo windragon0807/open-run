@@ -1,1 +1,1 @@
-export { COOKIE } from '@openrun/api-client'
+export { COOKIE } from '@openrun/api-client/constants'

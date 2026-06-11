@@ -4,4 +4,4 @@ export {
   hasPendingReownSocialRedirect,
   storePendingReownSocialProvider,
   type ReownSocialProvider,
-} from '@openrun/api-client'
+} from '@openrun/api-client/reownSocialRedirect'

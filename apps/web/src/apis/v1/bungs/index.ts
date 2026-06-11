@@ -1,5 +1,5 @@
 import { BungInfo } from '@type/bung'
-import http from '@apis/axios'
+import http from '@apis/http.client'
 import { PaginationResponse } from '@apis/type'
 
 export type CreateBungRequestType = {

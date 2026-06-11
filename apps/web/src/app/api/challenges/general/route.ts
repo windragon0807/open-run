@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { http } from '@apis/http.server'
+import http from '@apis/http.server'
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
-    const response = await http.get({
-      url: `${process.env.NEXT_PUBLIC_API_SERVER_URL}/v1/challenges/general`,
+    const response = await http.get('/v1/challenges/general', {
       params: Object.fromEntries(searchParams),
     })
 

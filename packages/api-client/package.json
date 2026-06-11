@@ -5,16 +5,26 @@
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./browser": "./src/browser.ts",
+    "./server": "./src/server.ts",
+    "./core": "./src/core.ts",
+    "./constants": "./src/constants.ts",
+    "./error": "./src/error.ts",
+    "./type": "./src/type.ts",
+    "./cookie": "./src/cookie.ts",
+    "./auth": "./src/auth.ts",
+    "./reownSocialRedirect": "./src/reownSocialRedirect.ts"
   },
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "axios": "^1.6.7"
+    "client-only": "^0.0.1",
+    "server-only": "^0.0.1"
   },
   "peerDependencies": {
-    "next": "^15.0.0"
+    "next": "^16.0.0"
   },
   "peerDependenciesMeta": {
     "next": {

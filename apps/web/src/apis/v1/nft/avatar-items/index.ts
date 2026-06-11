@@ -1,5 +1,5 @@
 import { Avatar, WearingAvatar } from '@type/avatar'
-import http from '@apis/axios'
+import http from '@apis/http.client'
 import { ApiResponse } from '@apis/type'
 
 export type OwnedNftAvatarItemsResponse = ApiResponse<Avatar[]>

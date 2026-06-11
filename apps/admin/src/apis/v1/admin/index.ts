@@ -1,5 +1,5 @@
-import http from '@openrun/api-client'
-import { ApiResponse } from '@openrun/api-client'
+import http from '@openrun/api-client/browser'
+import { ApiResponse } from '@openrun/api-client/type'
 import { Avatar, MainCategory, Rarity, SubCategory } from '@openrun/types'
 
 export type AdminChallengeType = 'tuto' | 'normal' | 'hidden' | 'repetitive'

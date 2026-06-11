@@ -1,5 +1,5 @@
 import { BungInfo } from '@type/bung'
-import http from '@apis/axios'
+import http from '@apis/http.client'
 import { ApiResponse } from '@apis/type'
 
 export type BungSearchCategory = 'NAME' | 'MEMBER' | 'HASHTAG' | 'LOCATION'

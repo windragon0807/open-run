@@ -1,12 +1,12 @@
 import { BungInfo } from '@type/bung'
-import http from '@apis/axios'
+import http from '@apis/http.client'
 import { ApiResponse } from '@apis/type'
 
 type FetchBungDetailRequestType = {
   bungId: string
 }
 
-type FetchBungDetailResponseType = ApiResponse<
+export type FetchBungDetailResponseType = ApiResponse<
   Omit<BungInfo, 'startDateTime' | 'endDateTime'> & {
     startDateTime: string
     endDateTime: string

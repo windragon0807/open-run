@@ -1,2 +1,2 @@
-export { smartWalletLogin } from '@openrun/api-client'
-export type { SmartWalletLoginRequest, SmartWalletLoginResponse } from '@openrun/api-client'
+export { smartWalletLogin } from '@openrun/api-client/auth'
+export type { SmartWalletLoginRequest, SmartWalletLoginResponse } from '@openrun/api-client/auth'

@@ -1,6 +1,6 @@
 import { UserRegister } from '@type/register'
 import { UserInfo } from '@type/user'
-import http, { ApiResponse } from '@apis/axios'
+import http, { ApiResponse } from '@apis/http.client'
 
 type RegisterRequestType = UserRegister
 

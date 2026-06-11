@@ -18,7 +18,6 @@
       "@hooks/*": ["src/hooks/*"],
       "@styles/colors": ["../../packages/ui/src/styles/colors"],
       "@styles/*": ["src/styles/*"],
-      "@apis/axios": ["../../packages/api-client/src/client"],
       "@apis/type": ["../../packages/api-client/src/type"],
       "@apis/*": ["src/apis/*"],
       "@utils/*": ["src/utils/*"],

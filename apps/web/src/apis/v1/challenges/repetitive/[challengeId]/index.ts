@@ -1,6 +1,4 @@
-'server-only'
-
-import http from '@apis/axios'
+import http from '@apis/http.client'
 import { ApiResponse } from '@apis/type'
 import { RepetitiveChallengeDetail } from '../../type'
 

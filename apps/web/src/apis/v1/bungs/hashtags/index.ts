@@ -1,4 +1,4 @@
-import http, { ApiResponse } from '@apis/axios'
+import http, { ApiResponse } from '@apis/http.client'
 
 export type RequestType = {
   tag: string
