@@ -2,8 +2,10 @@ import clsx from 'clsx'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { ReactNode } from 'react'
 import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
+import { WearingAvatar } from '@type/avatar'
 import { Weather } from '@type/weather'
 import AddressClipboard from '@shared/AddressClipboard'
 import Avatar from '@shared/Avatar'
@@ -19,9 +21,15 @@ import addDelimiter from '@utils/addDelimiter'
 import { colors } from '@styles/colors'
 import AvatarImageWarmup from '../avatar/AvatarImageWarmup'
 
+type HeaderSize = 'large' | 'small'
+type WeatherSummary = { icon: string; temperature: number }
+
+const FULL_HEADER_HEIGHT = 200
+const SMALL_HEADER_HEIGHT = 90
+const SECTION_FADE = { duration: 0.2, ease: 'easeOut' } as const
+
 export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: boolean }) {
   const { isApp, insets } = useAppStore()
-  const router = useRouter()
   const { userInfo } = useUserStore()
   const { warmupAvatarPage, warmupImageUrls } = useAvatarPageWarmup()
 
@@ -36,35 +44,29 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
     { enabled: location != null },
   )
 
-  const isReverseGeocodeLoading = location == null || reverseGeocode == null
-  const isCurrentWeatherLoading = location == null || currentWeather == null
-  const weatherBackground = currentWeather
-    ? getWeatherData(currentWeather.weather).background
-    : weatherData.clouds.background.morning
+  const weatherAssets = currentWeather ? getWeatherData(currentWeather.weather) : null
+  const weatherBackground = weatherAssets?.background ?? weatherData.clouds.background.morning
+  const addressSummary = location != null && reverseGeocode != null ? reverseGeocode : null
+  const weatherSummary: WeatherSummary | null =
+    location != null && currentWeather != null && weatherAssets != null
+      ? { icon: weatherAssets.icon, temperature: currentWeather.temperature }
+      : null
+
   const appTopPadding = insets ? insets.top + 5 : isApp ? 64 : 0
-  const headerHeight = (isSmallHeaderActive ? 90 : 200) + appTopPadding
+  const headerHeight = (isSmallHeaderActive ? SMALL_HEADER_HEIGHT : FULL_HEADER_HEIGHT) + appTopPadding
 
   return (
     <motion.header
       initial={false}
       animate={{ height: headerHeight }}
       transition={{ type: 'spring', stiffness: 280, damping: 32, mass: 0.55 }}
-      className={clsx(
-        'fixed left-0 right-0 top-0 z-50 overflow-hidden',
-        currentWeather == null && 'animate-pulse',
-      )}
+      className={clsx('fixed left-0 right-0 top-0 z-50 overflow-hidden', currentWeather == null && 'animate-pulse')}
       style={{
         background: isSmallHeaderActive
           ? `${weatherBackground}, linear-gradient(to bottom, white 80%, transparent 100%)`
           : weatherBackground,
       }}>
-      <AvatarImageWarmup
-        imageUrls={warmupImageUrls.previewImageUrls}
-        width={80}
-        height={80}
-        sizes='80px'
-        limit={12}
-      />
+      <AvatarImageWarmup imageUrls={warmupImageUrls.previewImageUrls} width={80} height={80} sizes='80px' limit={12} />
       <AvatarImageWarmup
         imageUrls={warmupImageUrls.wearableImageUrls}
         width={216}
@@ -73,160 +75,205 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
         limit={9}
       />
 
-      <motion.section
-        initial={false}
-        animate={{ opacity: isSmallHeaderActive ? 0 : 1, y: isSmallHeaderActive ? -18 : 0 }}
-        transition={{ duration: 0.2, ease: 'easeOut' }}
-        className={clsx(
-          'absolute inset-x-0 top-0 flex h-[200px] w-full justify-between',
-          isSmallHeaderActive && 'pointer-events-none',
-        )}
-        style={{ top: appTopPadding }}>
-        <div className='relative flex w-[176px] flex-shrink-0 items-end justify-end'>
-          {currentWeather && (
-            <Image
-              className='object-cover'
-              src={getWeatherData(currentWeather.weather).image}
-              alt='Weather Image'
-              fill
-              priority
-              sizes='(max-width: 768px) 100vw, 176px'
-            />
-          )}
-          {wearingAvatar?.data && <Avatar className='absolute h-200 w-160' sizes='160px' {...wearingAvatar.data} />}
-
-          <div className={clsx('absolute left-16 top-8 app:top-0')}>
-            <AvatarButton
-              onPointerDown={warmupAvatarPage}
-              onClick={() => router.push('/avatar')}
-            />
-          </div>
-          <div className='absolute bottom-8 left-12'>
-            <SkewedLikeLabel like={300} />
-          </div>
-        </div>
-
+      <HeaderSection size='large' visible={!isSmallHeaderActive} topPadding={appTopPadding}>
+        <AvatarPane
+          size='large'
+          weatherImage={weatherAssets?.image ?? null}
+          avatar={wearingAvatar?.data}
+          onAvatarWarmup={warmupAvatarPage}
+        />
         <div className='flex flex-col'>
-          <div className='m-[8px_20px_16px] flex items-center justify-end gap-8'>
-            <div className='flex flex-col items-end'>
-              <span className='text-20 font-bold text-white'>{userInfo?.nickname}</span>
-              <AddressClipboard>
-                {(address) => (
-                  <div className='flex -translate-y-2 translate-x-4 cursor-pointer items-center gap-6 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/20'>
-                    <span className='font-jost text-10 tracking-[0.04em] text-white'>{address}</span>
-                    <CopyClipboardIcon className='-translate-y-1' size={12} color={colors.white} />
-                  </div>
-                )}
-              </AddressClipboard>
-            </div>
-            <button
-              className='rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/20'
-              onClick={() => router.push('/notifications')}>
-              <BellIcon className='-translate-y-1 translate-x-2' size={24} color={colors.white} />
-            </button>
-          </div>
-          <div
-            className='relative mr-32 flex w-[152px] flex-1 cursor-pointer flex-col items-center'
-            onClick={() => {
-              refetch()
-            }}>
-            <div className='absolute z-0 h-full w-full rounded-[80px_80px_0_0] bg-gradient-weather opacity-30' />
-            {isReverseGeocodeLoading ? (
-              <div className='mt-24 h-16 w-80 animate-pulse rounded-10 bg-gray' />
-            ) : (
-              <span className='z-10 mt-24 text-12 text-white'>{reverseGeocode.split(' ').slice(1, 3).join(' ')}</span>
-            )}
-            {isCurrentWeatherLoading ? (
-              <div className='mt-19 h-30 w-122 animate-pulse rounded-10 bg-gray' />
-            ) : (
-              <span className='z-10 mt-4 flex items-center gap-8 font-jost text-40 font-bold tracking-wide text-white'>
-                {/* 아이콘 원본이 40x40 정사각이라 비율이 다른 width/height를 주면
-                    preflight(img { height: auto })가 height만 바꿔 next/image 경고가 발생한다 */}
-                <Image src={getWeatherData(currentWeather.weather).icon} alt='Weather Icon' width={41} height={41} />
-                {Math.floor(currentWeather.temperature)}°
-              </span>
-            )}
-          </div>
+          <UserInfoRow size='large' nickname={userInfo?.nickname} />
+          <WeatherDome address={addressSummary} weather={weatherSummary} onRefreshLocation={refetch} />
         </div>
-      </motion.section>
+      </HeaderSection>
 
-      <motion.section
-        initial={false}
-        animate={{ opacity: isSmallHeaderActive ? 1 : 0, y: isSmallHeaderActive ? 0 : -14 }}
-        transition={{ duration: 0.2, ease: 'easeOut' }}
-        className={clsx(
-          'absolute inset-x-0 top-0 flex h-[90px] w-full justify-between',
-          !isSmallHeaderActive && 'pointer-events-none',
-        )}
-        style={{ top: appTopPadding }}>
-        <div className='relative flex w-[118px] flex-shrink-0 items-end justify-end'>
-          {currentWeather && (
-            // 원본(176x200) 비율상 height가 90.9px로 계산돼 height 속성(90)과 어긋나며 next/image 경고가 난다.
-            // CSS로 양쪽 크기를 고정해 선언 크기 그대로 렌더하고 object-cover로 비율 차이를 흡수한다.
-            <Image
-              className='absolute h-90 w-80 object-cover'
-              src={getWeatherData(currentWeather.weather).image}
-              alt='Weather Image'
-              width={80}
-              height={90}
-              priority
-            />
-          )}
-          {wearingAvatar?.data && <Avatar className='absolute h-90 w-68' sizes='68px' {...wearingAvatar.data} />}
-
-          <div className={clsx('absolute left-16 top-8 app:top-0')}>
-            <AvatarButton
-              onPointerDown={warmupAvatarPage}
-              onClick={() => router.push('/avatar')}
-            />
-          </div>
-          <div className='absolute bottom-8 left-8'>
-            <SkewedLikeLabel like={300} />
-          </div>
-        </div>
-
+      <HeaderSection size='small' visible={isSmallHeaderActive} topPadding={appTopPadding}>
+        <AvatarPane
+          size='small'
+          weatherImage={weatherAssets?.image ?? null}
+          avatar={wearingAvatar?.data}
+          onAvatarWarmup={warmupAvatarPage}
+        />
         <div className='flex flex-col'>
-          <div className='m-[8px_20px_10px] flex items-center justify-end gap-8'>
-            <div className='flex flex-col items-end'>
-              <span className='text-16 font-bold text-white'>{userInfo?.nickname}</span>
-              <AddressClipboard>
-                {(address) => (
-                  <div className='flex -translate-y-2 translate-x-4 cursor-pointer items-center gap-6 rounded-8 p-4 active-press-duration active:scale-95 active:bg-gray/20'>
-                    <span className='font-jost text-10 tracking-[0.04em] text-white'>{address}</span>
-                    <CopyClipboardIcon className='-translate-y-1' size={12} color={colors.white} />
-                  </div>
-                )}
-              </AddressClipboard>
-            </div>
-            <button
-              className='rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/20'
-              onClick={() => router.push('/notifications')}>
-              <BellIcon className='-translate-y-1 translate-x-2' size={24} color={colors.white} />
-            </button>
-          </div>
-
-          {isReverseGeocodeLoading || isCurrentWeatherLoading ? (
-            <div className='relative mr-24 flex h-[28px] w-[160px] animate-pulse rounded-full bg-[#586587] bg-opacity-30' />
-          ) : (
-            <div className='relative mr-24 flex h-[28px] w-[160px] items-center justify-center gap-5 rounded-full bg-[#586587] bg-opacity-30'>
-              <Image src={getWeatherData(currentWeather.weather).icon} alt='Weather Icon' width={20} height={20} />
-              <span className='font-jost text-16 font-bold text-white'>{Math.floor(currentWeather.temperature)}°</span>
-              <span className='text-12 text-white'>{reverseGeocode.split(' ')[1]}</span>
-            </div>
-          )}
+          <UserInfoRow size='small' nickname={userInfo?.nickname} />
+          <WeatherPill address={addressSummary} weather={weatherSummary} />
         </div>
-      </motion.section>
+      </HeaderSection>
     </motion.header>
   )
 }
 
-function AvatarButton({
-  onClick,
-  onPointerDown,
+const SECTION_STYLE = {
+  large: { height: 'h-[200px]', hiddenY: -18 },
+  small: { height: 'h-[90px]', hiddenY: -14 },
+} as const
+
+function HeaderSection({
+  size,
+  visible,
+  topPadding,
+  children,
 }: {
-  onClick?: () => void
-  onPointerDown?: () => void
+  size: HeaderSize
+  visible: boolean
+  topPadding: number
+  children: ReactNode
 }) {
+  const style = SECTION_STYLE[size]
+
+  return (
+    <motion.section
+      initial={false}
+      animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : style.hiddenY }}
+      transition={SECTION_FADE}
+      className={clsx(
+        'absolute inset-x-0 flex w-full justify-between',
+        style.height,
+        !visible && 'pointer-events-none',
+      )}
+      style={{ top: topPadding }}>
+      {children}
+    </motion.section>
+  )
+}
+
+const AVATAR_PANE_STYLE = {
+  large: { pane: 'w-[176px]', avatar: 'h-200 w-160', avatarSizes: '160px', likeLabel: 'bottom-8 left-12' },
+  small: { pane: 'w-[118px]', avatar: 'h-90 w-68', avatarSizes: '68px', likeLabel: 'bottom-8 left-8' },
+} as const
+
+function AvatarPane({
+  size,
+  weatherImage,
+  avatar,
+  onAvatarWarmup,
+}: {
+  size: HeaderSize
+  weatherImage: string | null
+  avatar: WearingAvatar | undefined
+  onAvatarWarmup: () => void
+}) {
+  const router = useRouter()
+  const style = AVATAR_PANE_STYLE[size]
+
+  return (
+    <div className={clsx('relative flex flex-shrink-0 items-end justify-end', style.pane)}>
+      {weatherImage &&
+        (size === 'large' ? (
+          <Image
+            className='object-cover'
+            src={weatherImage}
+            alt='Weather Image'
+            fill
+            priority
+            sizes='(max-width: 768px) 100vw, 176px'
+          />
+        ) : (
+          // 원본(176x200) 비율상 height가 90.9px로 계산돼 height 속성(90)과 어긋나며 next/image 경고가 난다.
+          // CSS로 양쪽 크기를 고정해 선언 크기 그대로 렌더하고 object-cover로 비율 차이를 흡수한다.
+          <Image
+            className='absolute h-90 w-80 object-cover'
+            src={weatherImage}
+            alt='Weather Image'
+            width={80}
+            height={90}
+            priority
+          />
+        ))}
+      {avatar && <Avatar className={clsx('absolute', style.avatar)} sizes={style.avatarSizes} {...avatar} />}
+
+      <div className='absolute left-16 top-8 app:top-0'>
+        <AvatarButton onPointerDown={onAvatarWarmup} onClick={() => router.push('/avatar')} />
+      </div>
+      <div className={clsx('absolute', style.likeLabel)}>
+        <SkewedLikeLabel like={300} />
+      </div>
+    </div>
+  )
+}
+
+const USER_INFO_ROW_STYLE = {
+  large: { margin: 'm-[8px_20px_16px]', nickname: 'text-20' },
+  small: { margin: 'm-[8px_20px_10px]', nickname: 'text-16' },
+} as const
+
+function UserInfoRow({ size, nickname }: { size: HeaderSize; nickname: string | undefined }) {
+  const router = useRouter()
+  const style = USER_INFO_ROW_STYLE[size]
+
+  return (
+    <div className={clsx('flex items-center justify-end gap-8', style.margin)}>
+      <div className='flex flex-col items-end'>
+        <span className={clsx('font-bold text-white', style.nickname)}>{nickname}</span>
+        <AddressClipboard>
+          {(address) => (
+            <div className='flex -translate-y-2 translate-x-4 cursor-pointer items-center gap-6 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/20'>
+              <span className='font-jost text-10 tracking-[0.04em] text-white'>{address}</span>
+              <CopyClipboardIcon className='-translate-y-1' size={12} color={colors.white} />
+            </div>
+          )}
+        </AddressClipboard>
+      </div>
+      <button
+        className='rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/20'
+        onClick={() => router.push('/notifications')}>
+        <BellIcon className='-translate-y-1 translate-x-2' size={24} color={colors.white} />
+      </button>
+    </div>
+  )
+}
+
+function WeatherDome({
+  address,
+  weather,
+  onRefreshLocation,
+}: {
+  address: string | null
+  weather: WeatherSummary | null
+  onRefreshLocation: () => void
+}) {
+  return (
+    <div
+      className='relative mr-32 flex w-[152px] flex-1 cursor-pointer flex-col items-center'
+      onClick={() => onRefreshLocation()}>
+      <div className='absolute z-0 h-full w-full rounded-[80px_80px_0_0] bg-gradient-weather opacity-30' />
+      {address == null ? (
+        <div className='mt-24 h-16 w-80 animate-pulse rounded-10 bg-gray' />
+      ) : (
+        <span className='z-10 mt-24 text-12 text-white'>{address.split(' ').slice(1, 3).join(' ')}</span>
+      )}
+      {weather == null ? (
+        <div className='mt-19 h-30 w-122 animate-pulse rounded-10 bg-gray' />
+      ) : (
+        <span className='z-10 mt-4 flex items-center gap-8 font-jost text-40 font-bold tracking-wide text-white'>
+          {/* 아이콘 원본이 40x40 정사각이라 비율이 다른 width/height를 주면
+              preflight(img { height: auto })가 height만 바꿔 next/image 경고가 발생한다 */}
+          <Image src={weather.icon} alt='Weather Icon' width={41} height={41} />
+          {Math.floor(weather.temperature)}°
+        </span>
+      )}
+    </div>
+  )
+}
+
+function WeatherPill({ address, weather }: { address: string | null; weather: WeatherSummary | null }) {
+  if (address == null || weather == null) {
+    return (
+      <div className='relative mr-24 flex h-[28px] w-[160px] animate-pulse rounded-full bg-[#586587] bg-opacity-30' />
+    )
+  }
+
+  return (
+    <div className='relative mr-24 flex h-[28px] w-[160px] items-center justify-center gap-5 rounded-full bg-[#586587] bg-opacity-30'>
+      <Image src={weather.icon} alt='Weather Icon' width={20} height={20} />
+      <span className='font-jost text-16 font-bold text-white'>{Math.floor(weather.temperature)}°</span>
+      <span className='text-12 text-white'>{address.split(' ')[1]}</span>
+    </div>
+  )
+}
+
+function AvatarButton({ onClick, onPointerDown }: { onClick?: () => void; onPointerDown?: () => void }) {
   return (
     <button
       className='flex aspect-square w-40 items-center justify-center rounded-full bg-black-darken/10 active-press-duration active:scale-90 active:bg-gray/20'
