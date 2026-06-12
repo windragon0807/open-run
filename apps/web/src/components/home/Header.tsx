@@ -1,8 +1,8 @@
 import clsx from 'clsx'
-import { motion } from 'framer-motion'
+import { motion, useSpring, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
 import { WearingAvatar } from '@type/avatar'
@@ -26,6 +26,8 @@ type WeatherSummary = { icon: string; temperature: number }
 
 const FULL_HEADER_HEIGHT = 200
 const SMALL_HEADER_HEIGHT = 90
+const COLLAPSE_DISTANCE = FULL_HEADER_HEIGHT - SMALL_HEADER_HEIGHT
+const COLLAPSE_SPRING = { stiffness: 280, damping: 32, mass: 0.55 }
 const SECTION_FADE = { duration: 0.2, ease: 'easeOut' } as const
 
 export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: boolean }) {
@@ -53,19 +55,31 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
       : null
 
   const appTopPadding = insets ? insets.top + 5 : isApp ? 64 : 0
-  const headerHeight = (isSmallHeaderActive ? SMALL_HEADER_HEIGHT : FULL_HEADER_HEIGHT) + appTopPadding
+  const fullHeight = FULL_HEADER_HEIGHT + appTopPadding
+
+  // height를 직접 애니메이션하면 매 프레임 리플로우가 발생한다 — 높이는 fullHeight로 고정하고
+  // clip-path(히트테스트도 함께 잘린다)와 배경 scaleY 조합으로 동일한 축소 모양을 만든다
+  const collapse = useSpring(isSmallHeaderActive ? 1 : 0, COLLAPSE_SPRING)
+  useEffect(() => {
+    collapse.set(isSmallHeaderActive ? 1 : 0)
+  }, [collapse, isSmallHeaderActive])
+  const clipPath = useTransform(collapse, (progress) => `inset(0px 0px ${progress * COLLAPSE_DISTANCE}px 0px)`)
+  // 선형 그라데이션은 scaleY로 압축한 결과가 줄어든 높이에서 다시 그린 것과 동일하다
+  const backgroundScaleY = useTransform(collapse, (progress) => 1 - (progress * COLLAPSE_DISTANCE) / fullHeight)
 
   return (
     <motion.header
-      initial={false}
-      animate={{ height: headerHeight }}
-      transition={{ type: 'spring', stiffness: 280, damping: 32, mass: 0.55 }}
       className={clsx('fixed left-0 right-0 top-0 z-50 overflow-hidden', currentWeather == null && 'animate-pulse')}
-      style={{
-        background: isSmallHeaderActive
-          ? `${weatherBackground}, linear-gradient(to bottom, white 80%, transparent 100%)`
-          : weatherBackground,
-      }}>
+      style={{ height: fullHeight, clipPath }}>
+      <motion.div
+        className='absolute inset-0 origin-top'
+        style={{
+          scaleY: backgroundScaleY,
+          background: isSmallHeaderActive
+            ? `${weatherBackground}, linear-gradient(to bottom, white 80%, transparent 100%)`
+            : weatherBackground,
+        }}
+      />
       <AvatarImageWarmup imageUrls={warmupImageUrls.previewImageUrls} width={80} height={80} sizes='80px' limit={12} />
       <AvatarImageWarmup
         imageUrls={warmupImageUrls.wearableImageUrls}
