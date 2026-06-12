@@ -20,6 +20,7 @@ import { useCurrentWeather } from '@apis/weather/query'
 import addDelimiter from '@utils/addDelimiter'
 import { colors } from '@styles/colors'
 import AvatarImageWarmup from '../avatar/AvatarImageWarmup'
+import GlassSurface from '../shared/GlassSurface'
 
 type HeaderSize = 'large' | 'small'
 type WeatherSummary = { icon: string; temperature: number }
@@ -238,6 +239,7 @@ function UserInfoRow({ size, nickname }: { size: HeaderSize; nickname: string | 
   )
 }
 
+/** 큰 헤더의 주소·날씨 돔 — 탭바와 같은 리퀴드 글래스 표면 위에 옅은 날씨 틴트를 얹는다 */
 function WeatherDome({
   address,
   weather,
@@ -251,7 +253,33 @@ function WeatherDome({
     <div
       className='relative mr-32 flex w-[152px] flex-1 cursor-pointer flex-col items-center'
       onClick={() => onRefreshLocation()}>
-      <div className='absolute z-0 h-full w-full rounded-[80px_80px_0_0] bg-gradient-weather opacity-30' />
+      {/* GlassSurface는 네 모서리가 같은 radius라 높이를 80px 늘려 하단 코너를 클립 밖으로 밀어낸다 */}
+      {/* mask로 유리 전체(프로스트·헤어라인·굴절)를 아래로 갈수록 녹여 헤더에 흡수시킨다.
+          원래 bg-gradient-weather가 75%에서 완전 투명해지던 페이드를 따라가되,
+          텍스트(상단 ~60%) 뒤에서는 유리가 온전히 남도록 55%까지 불투명 유지 */}
+      <div
+        className='absolute inset-0 z-0 overflow-hidden rounded-[80px_80px_0_0]'
+        style={{
+          maskImage: 'linear-gradient(to bottom, black 55%, transparent 92%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, black 55%, transparent 92%)',
+        }}>
+        <GlassSurface
+          width='100%'
+          height='calc(100% + 80px)'
+          borderRadius={80}
+          borderWidth={0.12}
+          backgroundOpacity={0.1}
+          distortionScale={-135}
+          displace={7}
+          greenOffset={6}
+          blueOffset={12}
+          saturation={1.8}
+          blur={6}
+          // 기본 box-shadow의 1px 풀 링은 슬랩처럼 보여 제거 — 상단 글린트만 남긴다
+          style={{ boxShadow: 'inset 0 1px 0 rgba(255, 255, 255, 0.5)' }}
+        />
+        <div className='absolute inset-0 bg-gradient-weather opacity-20' />
+      </div>
       {address == null ? (
         <div className='mt-24 h-16 w-80 animate-pulse rounded-10 bg-gray' />
       ) : (
@@ -271,6 +299,7 @@ function WeatherDome({
   )
 }
 
+/** 작은 헤더의 주소·날씨 필 — 돔과 같은 리퀴드 글래스 계열, 가독성용 다크 틴트 유지 */
 function WeatherPill({ address, weather }: { address: string | null; weather: WeatherSummary | null }) {
   if (address == null || weather == null) {
     return (
@@ -279,21 +308,58 @@ function WeatherPill({ address, weather }: { address: string | null; weather: We
   }
 
   return (
-    <div className='relative mr-24 flex h-[28px] w-[160px] items-center justify-center gap-5 rounded-full bg-[#586587] bg-opacity-30'>
-      <Image src={weather.icon} alt='Weather Icon' width={20} height={20} />
-      <span className='font-jost text-16 font-bold text-white'>{Math.floor(weather.temperature)}°</span>
-      <span className='text-12 text-white'>{address.split(' ')[1]}</span>
-    </div>
+    <GlassSurface
+      className='mr-24'
+      width={160}
+      height={28}
+      borderRadius={14}
+      borderWidth={0.12}
+      backgroundOpacity={0.2}
+      distortionScale={-110}
+      displace={4}
+      greenOffset={6}
+      blueOffset={12}
+      saturation={1.8}
+      blur={4}>
+      <div className='absolute inset-0 bg-[#586587]/20' />
+      <div className='relative z-10 flex items-center justify-center gap-5'>
+        <Image src={weather.icon} alt='Weather Icon' width={20} height={20} />
+        <span className='font-jost text-16 font-bold text-white'>{Math.floor(weather.temperature)}°</span>
+        <span className='text-12 text-white'>{address.split(' ')[1]}</span>
+      </div>
+    </GlassSurface>
   )
 }
 
 function AvatarButton({ onClick, onPointerDown }: { onClick?: () => void; onPointerDown?: () => void }) {
   return (
     <button
-      className='flex aspect-square w-40 items-center justify-center rounded-full bg-black-darken/10 active-press-duration active:scale-90 active:bg-gray/20'
+      className='group aspect-square w-40 rounded-full active-press-duration active:scale-90'
       onPointerDown={onPointerDown}
       onClick={onClick}>
-      <UpperClothIcon size={16} color={colors.white} />
+      {/* 탭바 LiquidCenterVisual과 같은 글래스 렌즈 — 기존 다크 틴트는 아이콘 대비와 active 피드백용으로 유지 */}
+      <GlassSurface
+        width={40}
+        height={40}
+        borderRadius={20}
+        borderWidth={0.16}
+        backgroundOpacity={0.1}
+        distortionScale={-100}
+        displace={1}
+        greenOffset={4}
+        blueOffset={8}
+        saturation={1.5}
+        blur={4}
+        // 기본 box-shadow의 흰 풀 링(0.45)은 어두운 날씨 그라데이션 위에서 도드라진다 —
+        // 링·글린트 알파만 낮춰 은은한 림 라이트로 남기고, 어두운 배경에선 무의미한 외부 그림자는 제거
+        style={{
+          boxShadow: 'inset 0 0 0 1px rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
+        }}>
+        <div className='absolute inset-0 bg-black-darken/10 group-active:bg-gray/20' />
+        <span className='relative z-10 flex items-center justify-center'>
+          <UpperClothIcon size={16} color={colors.white} />
+        </span>
+      </GlassSurface>
     </button>
   )
 }
