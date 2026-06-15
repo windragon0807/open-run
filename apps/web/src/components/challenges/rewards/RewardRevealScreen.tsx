@@ -1,28 +1,33 @@
 'use client'
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useModal } from '@contexts/ModalProvider'
+import { useState } from 'react'
 import { Rarity } from '@type/avatar'
 import RarityBadge from '@components/avatar/shared/RarityBadge'
-import { MODAL_KEY } from '@constants/modal'
 
-type RewardsModalProps = {
+type RewardRevealScreenProps = {
   serialNumber: string
   imageSrc: string
   rarity: Rarity
   name: string
   category: string
+  onConfirm: () => void
 }
 
-export default function RewardsModal({ serialNumber, imageSrc, rarity, name, category }: RewardsModalProps) {
-  const { closeModal } = useModal()
+export default function RewardRevealScreen({
+  serialNumber,
+  imageSrc,
+  rarity,
+  name,
+  category,
+  onConfirm,
+}: RewardRevealScreenProps) {
   const [isImageLoaded, setIsImageLoaded] = useState(false)
 
   return (
-    <section className='fixed inset-0 z-modal'>
+    <section className='relative h-full w-full overflow-hidden'>
       {/* 배경: 파란색 + 하단 흰색 그라데이션 */}
       <div className='absolute inset-0 bg-primary' />
       <div className='absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-b from-transparent to-white' />
@@ -56,7 +61,7 @@ export default function RewardsModal({ serialNumber, imageSrc, rarity, name, cat
             <AnimatePresence>
               {!isImageLoaded && (
                 <motion.div
-                  className='absolute inset-0 rounded-8 bg-white/20 animate-pulse'
+                  className='absolute inset-0 animate-pulse rounded-8 bg-white/20'
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
                 />
@@ -86,11 +91,11 @@ export default function RewardsModal({ serialNumber, imageSrc, rarity, name, cat
         <div className='absolute bottom-40 left-16 right-16 flex flex-col gap-12'>
           <button
             className='flex h-56 w-full items-center justify-center rounded-8 bg-white active-press-duration active:scale-98 active:bg-gray-lighten'
-            onClick={() => closeModal(MODAL_KEY.REWARD)}>
+            onClick={onConfirm}>
             <span className='text-16 font-bold text-black-darken'>확인</span>
           </button>
 
-          <Link href='/avatar' onClick={() => closeModal(MODAL_KEY.REWARD)}>
+          <Link href='/avatar' replace>
             <button className='flex h-56 w-full items-center justify-center rounded-8 bg-primary active-press-duration active:scale-98 active:bg-primary-darken'>
               <span className='text-16 font-bold text-white'>아바타 꾸미러 가기</span>
             </button>

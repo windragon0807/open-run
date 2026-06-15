@@ -8,9 +8,10 @@ import {
 } from './index'
 
 export const completedChallengeQueries = {
+  all: () => ['challenges', 'completed-with-nft'] as const,
   withNft: (request?: CompletedChallengeListRequest) =>
     queryOptions({
-      queryKey: ['challenges', 'completed-with-nft', request] as const,
+      queryKey: [...completedChallengeQueries.all(), request] as const,
       queryFn: () => fetchCompletedChallengeWithNftList(request),
       staleTime: CHALLENGE_LIST_STALE_TIME_MS,
       gcTime: CHALLENGE_LIST_GC_TIME_MS,

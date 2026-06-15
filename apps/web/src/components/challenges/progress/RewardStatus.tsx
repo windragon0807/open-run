@@ -1,13 +1,7 @@
 'use client'
 
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useStartMintJobMutation } from '@apis/v1/nft/mint-jobs/mutation'
-import { MODAL_KEY } from '@constants/modal'
-import { useModal } from '@contexts/ModalProvider'
-import { Rarity } from '@type/avatar'
 import type { ApiDateTime } from '@utils/api'
-import RewardsModal from '../rewards/RewardsModal'
 
 type RewardStatusProps = {
   progress: number
@@ -25,11 +19,6 @@ export default function RewardStatus({
   nftCompleted = false,
 }: RewardStatusProps) {
   const router = useRouter()
-  const { showModal } = useModal()
-  const [lastFailedUserChallengeId, setLastFailedUserChallengeId] = useState<number | null>(null)
-  const { mutate: startMintJob, isPending, variables } = useStartMintJobMutation()
-  const isStarting = isPending && variables?.userChallengeId === userChallengeId
-  const isFailed = lastFailedUserChallengeId === userChallengeId
   const isCompleted = nftCompleted
 
   if (progress < total) {
@@ -70,52 +59,12 @@ export default function RewardStatus({
 
   return (
     <button
-      className='h-40 w-70 rounded-8 bg-primary active-press-duration active:scale-98 active:bg-primary-darken disabled:bg-gray'
-      disabled={isStarting}
+      className='h-40 w-70 rounded-8 bg-primary active-press-duration active:scale-98 active:bg-primary-darken'
       onClick={(event) => {
         event.stopPropagation()
-        startMintJob(
-          { userChallengeId },
-          {
-            onSuccess: (response) => {
-              const mintJob = response.data
-
-              if (mintJob.status === 'FAILED') {
-                setLastFailedUserChallengeId(userChallengeId)
-                router.refresh()
-                return
-              }
-
-              setLastFailedUserChallengeId(null)
-              router.refresh()
-
-              if (
-                mintJob.status !== 'SUCCESS' ||
-                !mintJob.nftName ||
-                !mintJob.nftImage ||
-                !mintJob.nftRarity ||
-                !mintJob.nftCategory
-              ) {
-                return
-              }
-
-              showModal({
-                key: MODAL_KEY.REWARD,
-                component: (
-                  <RewardsModal
-                    serialNumber={String(mintJob.tokenId ?? '').padStart(5, '0')}
-                    imageSrc={mintJob.nftImage}
-                    rarity={mintJob.nftRarity as Rarity}
-                    name={mintJob.nftName}
-                    category={mintJob.nftCategory}
-                  />
-                ),
-              })
-            },
-          },
-        )
+        router.push(`/challenges/reward/${userChallengeId}`)
       }}>
-      <span className='text-14 font-bold text-white'>{isStarting ? '발급 중' : isFailed ? '재시도' : '보상 받기'}</span>
+      <span className='text-14 font-bold text-white'>보상 받기</span>
     </button>
   )
 }
