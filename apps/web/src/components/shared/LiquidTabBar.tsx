@@ -25,7 +25,7 @@ type Props = {
 
 const PILL_SPRING = { type: 'spring', stiffness: 320, damping: 28 } as const
 const PRESS_SPRING = { type: 'spring', stiffness: 260, damping: 20 } as const
-const SHRINK_SPRING = { type: 'spring', stiffness: 300, damping: 30 } as const
+const SHRINK_SPRING = { type: 'spring', stiffness: 220, damping: 32, mass: 0.8 } as const
 /** 수평 이동이 이 값을 넘으면 탭이 아니라 드래그로 판정 */
 const DRAG_START_THRESHOLD_PX = 10
 /** 하향 스크롤이 이만큼 누적되면 바 축소 (바운스 지터 방지), 상향은 즉시 복원 */
@@ -42,7 +42,7 @@ const INACTIVE_GLYPH_COLOR = 'rgba(34, 34, 34, 0.56)'
  * - 활성 탭 뒤 불투명 회색 pill이 spring으로 슬라이드
  * - 누르는 동안 바 1.04 확대(물방울), 드래그하면 pill이 손가락을 연속으로 따라오고
  *   중간에서 놓으면 가장 가까운 탭으로 스냅해 선택
- * - 하향 스크롤 시 0.88 축소 + 6px 침하, 상향 시 즉시 복원
+ * - 하향 스크롤 시 약 40px 높이까지 축소 + 8px 침하, 상향 시 즉시 복원
  */
 export default function LiquidTabBar({
   items,
@@ -64,6 +64,9 @@ export default function LiquidTabBar({
   const dragIndexRef = useRef<number | null>(null)
   const draggingRef = useRef(false)
   const suppressClickRef = useRef(false)
+  const shrunkRef = useRef(false)
+  const queuedShrunkRef = useRef(false)
+  const shrinkFrameRef = useRef<number | null>(null)
   const startXRef = useRef(0)
 
   // 라우터가 따라오면 낙관적 인덱스 해제
@@ -83,6 +86,19 @@ export default function LiquidTabBar({
   useEffect(() => {
     const lastTops = new WeakMap<Element, number>()
     let downwardAcc = 0
+    const commitShrunk = (nextShrunk: boolean) => {
+      if (queuedShrunkRef.current === nextShrunk) return
+      queuedShrunkRef.current = nextShrunk
+      if (shrinkFrameRef.current != null) return
+
+      shrinkFrameRef.current = requestAnimationFrame(() => {
+        shrinkFrameRef.current = null
+        if (shrunkRef.current === queuedShrunkRef.current) return
+        shrunkRef.current = queuedShrunkRef.current
+        setShrunk(queuedShrunkRef.current)
+      })
+    }
+
     const handleScroll = (event: Event) => {
       const el = event.target instanceof Element ? event.target : document.documentElement
       const top = el.scrollTop
@@ -92,14 +108,22 @@ export default function LiquidTabBar({
       const delta = top - last
       if (delta > 0) {
         downwardAcc += delta
-        if (downwardAcc > SHRINK_SCROLL_THRESHOLD_PX) setShrunk(true)
+        if (downwardAcc > SHRINK_SCROLL_THRESHOLD_PX) commitShrunk(true)
       } else if (delta < 0) {
         downwardAcc = 0
-        setShrunk(false)
+        commitShrunk(false)
       }
     }
-    document.addEventListener('scroll', handleScroll, true)
-    return () => document.removeEventListener('scroll', handleScroll, true)
+
+    const options = { capture: true, passive: true } as const
+    document.addEventListener('scroll', handleScroll, options)
+    return () => {
+      document.removeEventListener('scroll', handleScroll, options)
+      if (shrinkFrameRef.current != null) {
+        cancelAnimationFrame(shrinkFrameRef.current)
+        shrinkFrameRef.current = null
+      }
+    }
   }, [])
 
   /* 좌표계: track 콘텐츠 영역(px-[9px] 안쪽)을 5등분한 슬롯. 탭 i ↔ 슬롯(가운데 CTA = 슬롯 2) */
@@ -140,7 +164,16 @@ export default function LiquidTabBar({
 
   const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     setPressed(true)
-    setShrunk(false) // 축소 상태에서 누르면 즉시 복원
+    // 축소 상태에서 누르면 즉시 복원하고, 대기 중인 scroll-frame 업데이트도 취소한다
+    if (shrinkFrameRef.current != null) {
+      cancelAnimationFrame(shrinkFrameRef.current)
+      shrinkFrameRef.current = null
+    }
+    queuedShrunkRef.current = false
+    if (shrunkRef.current) {
+      shrunkRef.current = false
+      setShrunk(false)
+    }
     startXRef.current = event.clientX
     draggingRef.current = false
     suppressClickRef.current = false
@@ -210,14 +243,12 @@ export default function LiquidTabBar({
       <button
         key={item.key}
         type='button'
-        className='relative z-10 flex h-full flex-1 items-center justify-center'
+        className='relative z-10 flex h-full flex-1 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-transparent'
+        aria-label={item.label}
         aria-current={activeIndex === tabIndex ? 'page' : undefined}
         onClick={handleTabClick(tabIndex)}>
-        <span className='flex flex-col items-center justify-center'>
+        <span aria-hidden='true' className='flex size-48 items-center justify-center'>
           {item.renderIcon(glyphColor)}
-          <span className='text-10 font-medium transition-colors duration-150' style={{ color: glyphColor }}>
-            {item.label}
-          </span>
         </span>
       </button>
     )
@@ -225,14 +256,15 @@ export default function LiquidTabBar({
 
   return (
     <motion.div
-      className='w-full max-w-[328px]'
-      style={{ transformOrigin: 'center bottom' }}
-      animate={{ scale: pressed ? 1.04 : shrunk ? 0.88 : 1, y: shrunk && !pressed ? 6 : 0 }}
+      initial={false}
+      className='w-full max-w-[328px] transform-gpu'
+      style={{ transformOrigin: 'center bottom', willChange: 'transform', backfaceVisibility: 'hidden' }}
+      animate={{ scale: pressed ? 1.04 : shrunk ? 0.67 : 1, y: shrunk && !pressed ? 8 : 0 }}
       transition={pressed ? PRESS_SPRING : SHRINK_SPRING}>
       <GlassSurface
         width='100%'
-        height={56}
-        borderRadius={28}
+        height={60}
+        borderRadius={30}
         borderWidth={0.12}
         backgroundOpacity={0.55}
         distortionScale={-135}
@@ -255,7 +287,7 @@ export default function LiquidTabBar({
               initial={false}
               animate={{ x: pillTargetX, scale: dragX != null ? 1.08 : 1 }}
               transition={PILL_SPRING}
-              className='pointer-events-none absolute left-0 top-1/2 -mt-22 h-44 w-56 rounded-full bg-black/[0.07]'
+              className='pointer-events-none absolute left-0 top-1/2 -mt-23 h-46 w-56 rounded-full bg-black/[0.07]'
             />
           )}
           {renderTab(0)}
@@ -264,9 +296,9 @@ export default function LiquidTabBar({
           <button
             type='button'
             aria-label={centerLabel}
-            className='relative z-10 flex h-full flex-1 items-center justify-center'
+            className='relative z-10 flex h-full flex-1 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-transparent'
             onClick={() => onCenterTap()}>
-            {centerVisual}
+            <span aria-hidden='true'>{centerVisual}</span>
           </button>
           {renderTab(2)}
           {renderTab(3)}
@@ -279,11 +311,11 @@ export default function LiquidTabBar({
 /** 가운데 CTA 기본 비주얼: 라임 틴트를 얹은 글래스 렌즈 (탭은 바가 처리하므로 비인터랙티브) */
 export function LiquidCenterVisual({ children }: { children: ReactNode }) {
   return (
-    <div className='relative size-36'>
+    <div className='relative size-38'>
       <GlassSurface
-        width={36}
-        height={36}
-        borderRadius={18}
+        width={38}
+        height={38}
+        borderRadius={19}
         borderWidth={0.16}
         backgroundOpacity={0.15}
         distortionScale={-100}

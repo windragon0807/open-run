@@ -21,28 +21,28 @@ const TABS: (LiquidTabItem & { href: string; isActive: (pathname: string) => boo
     label: '홈',
     href: '/',
     isActive: (pathname) => pathname === '/',
-    renderIcon: (color) => <OpenrunIcon size={24} color={color} />,
+    renderIcon: (color) => <OpenrunIcon size={26} color={color} />,
   },
   {
     key: 'explore',
     label: '탐색',
     href: '/explore',
     isActive: (pathname) => pathname === '/explore',
-    renderIcon: (color) => <ExploreIcon size={24} color={color} />,
+    renderIcon: (color) => <ExploreIcon size={26} color={color} />,
   },
   {
     key: 'challenges',
     label: '도전과제',
     href: '/challenges?list=progress&category=general',
     isActive: (pathname) => pathname.includes('/challenges'),
-    renderIcon: (color) => <OutlinedFlagIcon size={24} color={color} />,
+    renderIcon: (color) => <OutlinedFlagIcon size={26} color={color} />,
   },
   {
     key: 'profile',
     label: '프로필',
     href: '/profile',
     isActive: (pathname) => pathname === '/profile',
-    renderIcon: (color) => <OutlinedPersonIcon size={24} color={color} />,
+    renderIcon: (color) => <OutlinedPersonIcon size={26} color={color} />,
   },
 ]
 
@@ -81,7 +81,7 @@ export default function BottomNavigation() {
         centerLabel='벙 만들기'
         centerVisual={
           <LiquidCenterVisual>
-            <PlusIcon size={20} color={colors.black.darken} />
+            <PlusIcon size={21} color={colors.black.darken} />
           </LiquidCenterVisual>
         }
       />

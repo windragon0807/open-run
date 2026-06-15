@@ -3,7 +3,8 @@ import { IconProps } from '@type/icon'
 export function OutlinedPersonIcon({ size, color, className }: IconProps) {
   return (
     <svg className={className} width={size} height={size} viewBox='0 0 24 24'>
-      <rect fill={color} x='1' y='-1' width='4' height='5' rx='2' transform='matrix(1 0 0 -1 9 8)' strokeWidth='2' />
+      {/* 머리는 몸통 아치(폭 16)와 비율을 맞춘 비채움 원 — 기존 4x5 채움 캡슐은 과하게 작았다 */}
+      <circle cx='12' cy='6.5' r='3.5' fill='none' stroke={color} strokeWidth='2' />
       <path
         fill={color}
         fillRule='evenodd'
