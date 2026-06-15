@@ -28,10 +28,19 @@ type WeatherSummary = { icon: string; temperature: number }
 const FULL_HEADER_HEIGHT = 200
 const SMALL_HEADER_HEIGHT = 90
 const COLLAPSE_DISTANCE = FULL_HEADER_HEIGHT - SMALL_HEADER_HEIGHT
+/** 축소 시 배경을 클립선 아래로 이만큼 더 남긴다 — 높이에 딱 맞춰 압축하면
+    그라데이션이 클립선 직전에 투명해져 날씨 필이 배경을 삐져나온 것처럼 보인다 */
+const COLLAPSED_BG_OVERFLOW = 60
+/** 클립선 직전에서 배경을 투명으로 녹이는 화면 기준 페이드 길이(px) — OVERFLOW로 색을 남기면
+    클립선에서 색이 산 채로 잘려 하드 엣지가 생기므로 mask로 마지막 구간을 부드럽게 끊는다.
+    날씨 필 하단(~78px + topPadding)과 클립선(90px + topPadding) 사이에서 시작해야
+    필 뒤 색 유지와 페이드 부드러움이 같이 산다 */
+const COLLAPSED_BG_FADE = 20
 const COLLAPSE_SPRING = { stiffness: 280, damping: 32, mass: 0.55 }
 const SECTION_FADE = { duration: 0.2, ease: 'easeOut' } as const
 
 export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: boolean }) {
+  const router = useRouter()
   const { isApp, insets } = useAppStore()
   const { userInfo } = useUserStore()
   const { warmupAvatarPage, warmupImageUrls } = useAvatarPageWarmup()
@@ -65,8 +74,21 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
     collapse.set(isSmallHeaderActive ? 1 : 0)
   }, [collapse, isSmallHeaderActive])
   const clipPath = useTransform(collapse, (progress) => `inset(0px 0px ${progress * COLLAPSE_DISTANCE}px 0px)`)
-  // 선형 그라데이션은 scaleY로 압축한 결과가 줄어든 높이에서 다시 그린 것과 동일하다
-  const backgroundScaleY = useTransform(collapse, (progress) => 1 - (progress * COLLAPSE_DISTANCE) / fullHeight)
+  // 배경은 클립보다 COLLAPSED_BG_OVERFLOW만큼 덜 압축한다 — 넘치는 부분은 clip-path가 잘라낸다
+  const backgroundScaleY = useTransform(
+    collapse,
+    (progress) => 1 - (progress * (COLLAPSE_DISTANCE - COLLAPSED_BG_OVERFLOW)) / fullHeight,
+  )
+  // mask는 scaleY 이전 로컬 박스에 적용된 뒤 함께 압축되므로, 화면 기준 페이드 위치를
+  // scale로 나눠 로컬 좌표로 역환산한다 — 펼침(p=0)에선 페이드 구간이 그라데이션이
+  // 이미 알파 0으로 끝나는 마지막 20px과 겹쳐 기존 모습과 사실상 동일하다
+  const backgroundMask = useTransform(collapse, (progress) => {
+    const scale = 1 - (progress * (COLLAPSE_DISTANCE - COLLAPSED_BG_OVERFLOW)) / fullHeight
+    const visibleBottom = fullHeight - progress * COLLAPSE_DISTANCE
+    const startLocal = (visibleBottom - COLLAPSED_BG_FADE) / scale
+    const endLocal = visibleBottom / scale
+    return `linear-gradient(to bottom, black ${startLocal}px, transparent ${endLocal}px)`
+  })
 
   return (
     <motion.header
@@ -76,6 +98,8 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
         className='absolute inset-0 origin-top'
         style={{
           scaleY: backgroundScaleY,
+          maskImage: backgroundMask,
+          WebkitMaskImage: backgroundMask,
           background: isSmallHeaderActive
             ? `${weatherBackground}, linear-gradient(to bottom, white 80%, transparent 100%)`
             : weatherBackground,
@@ -91,12 +115,7 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
       />
 
       <HeaderSection size='large' visible={!isSmallHeaderActive} topPadding={appTopPadding}>
-        <AvatarPane
-          size='large'
-          weatherImage={weatherAssets?.image ?? null}
-          avatar={wearingAvatar?.data}
-          onAvatarWarmup={warmupAvatarPage}
-        />
+        <AvatarPane size='large' weatherImage={weatherAssets?.image ?? null} avatar={wearingAvatar?.data} />
         <div className='flex flex-col'>
           <UserInfoRow size='large' nickname={userInfo?.nickname} />
           <WeatherDome address={addressSummary} weather={weatherSummary} onRefreshLocation={refetch} />
@@ -104,17 +123,20 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
       </HeaderSection>
 
       <HeaderSection size='small' visible={isSmallHeaderActive} topPadding={appTopPadding}>
-        <AvatarPane
-          size='small'
-          weatherImage={weatherAssets?.image ?? null}
-          avatar={wearingAvatar?.data}
-          onAvatarWarmup={warmupAvatarPage}
-        />
+        <AvatarPane size='small' weatherImage={weatherAssets?.image ?? null} avatar={wearingAvatar?.data} />
         <div className='flex flex-col'>
           <UserInfoRow size='small' nickname={userInfo?.nickname} />
-          <WeatherPill address={addressSummary} weather={weatherSummary} />
         </div>
       </HeaderSection>
+
+      {/* 글래스 버튼은 섹션 밖에 한 번만 렌더한다 — 섹션 opacity 페이드가 backdrop root를 만들어
+          전환 중 backdrop-filter가 헤더 배경 대신 섹션 내부만 샘플링해 렌즈 색이 튀고,
+          섹션 y 이동을 함께 타며 꿀렁이기 때문. 버튼 위치는 큰/작은 헤더에서 동일하다 */}
+      <div className='absolute inset-x-0' style={{ top: appTopPadding }}>
+        <div className='absolute left-16 top-8 app:top-0'>
+          <AvatarButton onPointerDown={warmupAvatarPage} onClick={() => router.push('/avatar')} />
+        </div>
+      </div>
     </motion.header>
   )
 }
@@ -162,14 +184,11 @@ function AvatarPane({
   size,
   weatherImage,
   avatar,
-  onAvatarWarmup,
 }: {
   size: HeaderSize
   weatherImage: string | null
   avatar: WearingAvatar | undefined
-  onAvatarWarmup: () => void
 }) {
-  const router = useRouter()
   const style = AVATAR_PANE_STYLE[size]
 
   return (
@@ -198,12 +217,11 @@ function AvatarPane({
         ))}
       {avatar && <Avatar className={clsx('absolute', style.avatar)} sizes={style.avatarSizes} {...avatar} />}
 
-      <div className='absolute left-16 top-8 app:top-0'>
-        <AvatarButton onPointerDown={onAvatarWarmup} onClick={() => router.push('/avatar')} />
-      </div>
-      <div className={clsx('absolute', style.likeLabel)}>
-        <SkewedLikeLabel like={300} />
-      </div>
+      {size === 'large' && (
+        <div className={clsx('absolute', style.likeLabel)}>
+          <SkewedLikeLabel like={300} />
+        </div>
+      )}
     </div>
   )
 }
@@ -296,38 +314,6 @@ function WeatherDome({
         </span>
       )}
     </div>
-  )
-}
-
-/** 작은 헤더의 주소·날씨 필 — 돔과 같은 리퀴드 글래스 계열, 가독성용 다크 틴트 유지 */
-function WeatherPill({ address, weather }: { address: string | null; weather: WeatherSummary | null }) {
-  if (address == null || weather == null) {
-    return (
-      <div className='relative mr-24 flex h-[28px] w-[160px] animate-pulse rounded-full bg-[#586587] bg-opacity-30' />
-    )
-  }
-
-  return (
-    <GlassSurface
-      className='mr-24'
-      width={160}
-      height={28}
-      borderRadius={14}
-      borderWidth={0.12}
-      backgroundOpacity={0.2}
-      distortionScale={-110}
-      displace={4}
-      greenOffset={6}
-      blueOffset={12}
-      saturation={1.8}
-      blur={4}>
-      <div className='absolute inset-0 bg-[#586587]/20' />
-      <div className='relative z-10 flex items-center justify-center gap-5'>
-        <Image src={weather.icon} alt='Weather Icon' width={20} height={20} />
-        <span className='font-jost text-16 font-bold text-white'>{Math.floor(weather.temperature)}°</span>
-        <span className='text-12 text-white'>{address.split(' ')[1]}</span>
-      </div>
-    </GlassSurface>
   )
 }
 
