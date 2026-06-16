@@ -1,6 +1,7 @@
 'use client'
 
 import clsx from 'clsx'
+import RunStartedText from '@shared/RunStartedText'
 import Spacing from '@shared/Spacing'
 import { CalendarIcon } from '@icons/calendar'
 import { BoxedCrownIcon } from '@icons/crown'
@@ -42,25 +43,23 @@ export default function BungCard({
         backgroundImage: `${벙이시작되었는가 ? 'linear-gradient(90deg, rgba(0, 0, 0, 0.00) 0%, rgba(224, 251, 96, 0.50) 100%), ' : ''}url(${backgroundImageUrl})`,
       }}>
       {isBungOwner ? <BoxedCrownIcon className='absolute right-16 top-16' size={24} color={colors.white} /> : null}
-      <span
-        className={clsx(
-          'mb-8 inline-flex text-16 font-black italic',
-          벙이시작되었는가 && 'animate-pulse font-jost font-black text-secondary',
-        )}>
-        {벙이시작되었는가 ? 'Run Started!' : formattedTime}
-      </span>
+      {벙이시작되었는가 ? (
+        <RunStartedText className='mb-8 text-16' />
+      ) : (
+        <span className='mb-8 inline-flex text-16 font-black italic'>{formattedTime}</span>
+      )}
       <p className='mb-8 truncate text-16 font-bold text-white'>{title}</p>
       <div className='mb-2 flex gap-6'>
         <PlaceIcon className='flex-shrink-0 translate-y-2' size={16} color={colors.white} />
-        <span className='text-14'>{place}</span>
+        <span className='text-14 tracking-wide'>{place}</span>
       </div>
       <div className='mb-2 flex items-center gap-6'>
         <CalendarIcon size={16} color={colors.white} />
-        <span className='text-14'>{formattedDate}</span>
+        <span className='text-14 tracking-wide'>{formattedDate}</span>
       </div>
       <div className='flex items-center gap-6'>
         <RunnerIcon size={16} color={colors.white} />
-        <span className='font-jost text-14'>
+        <span className='font-jost text-14 tracking-wide'>
           {distance}km {pace}
         </span>
       </div>

@@ -1,14 +1,26 @@
 import { IconProps } from '@type/icon'
 
-export function PlaceIcon({ size, color, className }: IconProps) {
+export function MapPinIcon({ size = 24, color = 'currentColor', className, strokeWidth = 2 }: IconProps) {
   return (
-    <svg className={className} width={size} height={size} viewBox='0 0 16 16' fill='none'>
-      <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M8 15L3.75736 11.2426C1.41421 8.89949 1.41421 5.1005 3.75736 2.75736C6.1005 0.414214 9.89949 0.414214 12.2426 2.75736C14.5858 5.1005 14.5858 8.89949 12.2426 11.2426L8 15ZM8 9C6.89543 9 6 8.10457 6 7C6 5.89543 6.89543 5 8 5C9.10457 5 10 5.89543 10 7C10 8.10457 9.10457 9 8 9Z'
-        fill={color}
-      />
+    <svg
+      aria-hidden='true'
+      className={className}
+      fill='none'
+      focusable='false'
+      height={size}
+      stroke={color}
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      strokeWidth={strokeWidth}
+      viewBox='0 0 24 24'
+      width={size}
+    >
+      <path d='M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0' />
+      <circle cx='12' cy='10' r='3' />
     </svg>
   )
+}
+
+export function PlaceIcon(props: IconProps) {
+  return <MapPinIcon {...props} />
 }

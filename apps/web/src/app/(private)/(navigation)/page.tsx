@@ -32,7 +32,7 @@ export default function Page() {
 
   return (
     <div className='relative h-full bg-gray-lighten'>
-      <Header isSmallHeaderActive={isSmallHeaderActive} />
+      <Header isSmallHeaderActive={isSmallHeaderActive} scrollY={scrollY} />
       <section ref={scrollRef} className='h-full overflow-y-auto pb-96' style={{ paddingTop: contentPaddingTop }}>
         {/* <ChallengeSwiper /> */}
         <Spacing size={8} />

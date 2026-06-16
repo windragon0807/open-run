@@ -8,6 +8,7 @@ import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { useModal } from '@contexts/ModalProvider'
 import AddressClipboard from '@shared/AddressClipboard'
+import GlassSurface from '@shared/GlassSurface'
 import { CopyClipboardIcon } from '@icons/clipboard'
 import { CrownIcon } from '@icons/crown'
 import { FilledFlagIcon } from '@icons/flag'
@@ -31,8 +32,10 @@ export default function Profile() {
         <header className='mb-12 flex items-center justify-between'>
           <h1 className='text-28 font-bold'>프로필</h1>
           <div className='flex items-center gap-8'>
-            <Link href='/avatar'>
-              <AvatarButton />
+            <Link href='/avatar' aria-label='아바타 페이지로 이동' className={PROFILE_ACTION_BUTTON_CLASS}>
+              <ProfileActionGlass>
+                <UpperClothIcon size={16} color={colors.white} />
+              </ProfileActionGlass>
             </Link>
             <SettingButton
               onClick={() =>
@@ -45,13 +48,13 @@ export default function Profile() {
           </div>
         </header>
 
-        <div className='mx-auto mb-8 size-[88px] shrink-0 rounded-8 border border-gray bg-white'>
+        <div className='mx-auto mb-8 size-[112px] shrink-0'>
           <Image
             className='size-full object-contain'
             src={data?.data.profileImageUrl || DEFAULT_PROFILE_IMAGE_URL}
             alt='avatar'
-            width={88}
-            height={88}
+            width={112}
+            height={112}
           />
         </div>
         <h4 className='mb-4 text-center text-16 font-bold'>{data?.data.nickname}</h4>
@@ -121,7 +124,7 @@ export default function Profile() {
           </Swiper>
         </div>
 
-        <div className='flex h-[calc(100%-495px)] w-full flex-col gap-8 overflow-y-auto scrollbar-hide'>
+        <div className='flex h-[calc(100%-519px)] w-full flex-col gap-8 overflow-y-auto scrollbar-hide'>
           <CompletedBung title='완료한 일정' location='서울 마포구 공덕동' date='6/11 (화) 오후 7:00' />
           <CompletedBung title='완료한 일정' location='서울 마포구 공덕동' date='6/11 (화) 오후 7:00' />
         </div>
@@ -130,20 +133,46 @@ export default function Profile() {
   )
 }
 
-function AvatarButton() {
+const PROFILE_ACTION_BUTTON_CLASS =
+  'group inline-flex aspect-square w-40 items-center justify-center rounded-full active-press-duration active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-gray-lighten'
+
+const PROFILE_ACTION_GLASS_PROPS = {
+  width: 40,
+  height: 40,
+  borderRadius: 20,
+  borderWidth: 0.18,
+  backgroundOpacity: 0.28,
+  distortionScale: -135,
+  displace: 4,
+  greenOffset: 6,
+  blueOffset: 12,
+  saturation: 1.8,
+  blur: 5,
+} as const
+
+const PROFILE_ACTION_GLASS_STYLE = {
+  boxShadow:
+    'inset 0 0 0 1px rgba(255, 255, 255, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -10px 18px rgba(17, 17, 26, 0.1), 0 6px 16px rgba(17, 17, 26, 0.1)',
+} as const
+
+function ProfileActionGlass({ children }: { children: React.ReactNode }) {
   return (
-    <button className='flex h-40 w-40 items-center justify-center rounded-full bg-black-darken/10 active-press-duration active:scale-90 active:bg-black-darken/20'>
-      <UpperClothIcon size={16} color={colors.white} />
-    </button>
+    <GlassSurface {...PROFILE_ACTION_GLASS_PROPS} style={PROFILE_ACTION_GLASS_STYLE}>
+      <div className='absolute inset-0 bg-gray/55 group-active:bg-gray/70' />
+      <div className='absolute inset-0 bg-gradient-to-br from-white/16 via-gray/25 to-black-darken/18 group-active:from-white/10 group-active:via-gray/35 group-active:to-black-darken/24' />
+      <span className='relative z-10 flex items-center justify-center drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]'>
+        {children}
+      </span>
+    </GlassSurface>
   )
 }
 
 function SettingButton({ onClick }: { onClick?: () => void }) {
   return (
-    <button
-      className='flex h-40 w-40 items-center justify-center rounded-full bg-black-darken/10 active-press-duration active:scale-90 active:bg-black-darken/20'
-      onClick={onClick}>
-      <SettingIcon size={16} color={colors.white} />
+    <button type='button' aria-label='설정 열기' className={PROFILE_ACTION_BUTTON_CLASS} onClick={onClick}>
+      <ProfileActionGlass>
+        <SettingIcon size={16} color={colors.white} />
+      </ProfileActionGlass>
     </button>
   )
 }
@@ -209,9 +238,9 @@ function CompletedBung({ title, location, date }: { title: string; location: str
         </div>
 
         <div className='flex flex-col'>
-          <span className='text-12 font-bold'>{title}</span>
-          <span className='text-10 font-medium'>{location}</span>
-          <span className='text-10 font-medium'>{date}</span>
+          <span className='text-14 font-bold leading-[1.25]'>{title}</span>
+          <span className='text-12 font-medium leading-[1.25]'>{location}</span>
+          <span className='text-12 font-medium leading-[1.25]'>{date}</span>
         </div>
       </div>
 

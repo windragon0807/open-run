@@ -9,6 +9,7 @@ import { useModal } from '@contexts/ModalProvider'
 import { useUserStore } from '@store/user'
 import { BungInfo } from '@type/bung'
 import PrimaryButton from '@shared/PrimaryButton'
+import RunStartedText from '@shared/RunStartedText'
 import ToastModal from '@shared/ToastModal'
 import { ArrowLeftIcon, ArrowRightIcon } from '@icons/arrow'
 import { BinIcon } from '@icons/bin'
@@ -24,6 +25,7 @@ import { useJoinBung } from '@apis/v1/bungs/[bungId]/join/mutation'
 import { useDropoutMember } from '@apis/v1/bungs/[bungId]/members/[userId]/mutation'
 import { formatDate, timerFormat } from '@utils/time'
 import { MODAL_KEY } from '@constants/modal'
+import { DEFAULT_PROFILE_IMAGE_URL } from '@constants/profile'
 import { colors } from '@styles/colors'
 import GoogleMap from './GoogleMap'
 import BungCompleteModal from './modal/BungCompleteModal'
@@ -31,6 +33,9 @@ import CertifyParticipationModal from './modal/CertifyParticipationModal'
 import DeleteBungModal from './modal/DeleteBungModal'
 import ModifyBungModal from './modal/ModifyBungModal'
 import WhyCertificationModal from './modal/WhyCertificationModal'
+
+const BUNG_INFO_ICON_GRADIENT_ID = 'bung-info-icon-gradient'
+const BUNG_INFO_ICON_GRADIENT_COLOR = `url(#${BUNG_INFO_ICON_GRADIENT_ID})`
 
 export default function BungDetails({ details, initialChatAction }: { details: BungInfo; initialChatAction?: string }) {
   const 참여인원수 = details.memberList.length
@@ -127,6 +132,11 @@ export default function BungDetails({ details, initialChatAction }: { details: B
   const 벙에참여한유저인가 = isParticipated
   const 현재유저의벙참여정보 = details.memberList.find((member) => member.userId === userInfo!.userId)
   const 벙이진행중인가 = days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0
+  const bungInfoIconColor = 벙에참여한유저인가
+    ? 벙이진행중인가
+      ? BUNG_INFO_ICON_GRADIENT_COLOR
+      : colors.pink
+    : colors.primary.DEFAULT
 
   const hasHandledChatActionRef = useRef(false)
   useEffect(() => {
@@ -207,13 +217,11 @@ export default function BungDetails({ details, initialChatAction }: { details: B
               'absolute -top-32 -z-[1] flex h-40 w-full justify-between rounded-[8px_8px_0_0] px-16',
               벙이진행중인가 ? 'bg-gradient-transparent-secondary' : 'bg-pink/60',
             )}>
-            <span
-              className={clsx(
-                'relative top-6 text-14 font-bold italic',
-                벙이진행중인가 ? 'font-jost font-black text-secondary' : 'text-white',
-              )}>
-              {벙이진행중인가 ? 'Run Started!' : formattedTime}
-            </span>
+            {벙이진행중인가 ? (
+              <RunStartedText className='top-6 text-14' />
+            ) : (
+              <span className='relative top-6 text-14 font-bold italic text-white'>{formattedTime}</span>
+            )}
             {!벙이진행중인가 && <span className='relative top-6 text-14 text-white'>시작까지 남은 시간</span>}
           </div>
         )}
@@ -223,18 +231,20 @@ export default function BungDetails({ details, initialChatAction }: { details: B
           className='overflow-y-auto rounded-[8px_8px_0_0] bg-gray-lighten pb-50'
           style={{ height: 벙에참여한유저인가 ? 'calc(100% - 80px)' : 'calc(100% - 50px)' }}>
           <div className='mb-24 rounded-8 bg-white p-16 shadow-floating-primary'>
+            <BungInfoIconGradientDefs />
+
             {/* 벙 이름 */}
             <span className='mb-16 inline-block text-20 font-bold text-black'>{details.name}</span>
 
             {/* 벙 위치 */}
             <div className='mb-8 flex gap-8'>
-              <PlaceIcon className='flex-shrink-0 translate-y-2' size={16} color={colors.black.DEFAULT} />
+              <PlaceIcon className='flex-shrink-0 translate-y-2' size={16} color={bungInfoIconColor} />
               <span className='text-14 text-black'>{details.location}</span>
             </div>
 
             {/* 벙 시작 날짜 및 시간 */}
             <div className='mb-8 flex items-center gap-8'>
-              <CalendarIcon size={16} color={colors.black.DEFAULT} />
+              <CalendarIcon size={16} color={bungInfoIconColor} />
               <span className='text-14 text-black'>
                 {formatDate({ date: details.startDateTime, formatStr: 'M월 d일 (E) a h:mm', convertUTCtoLocale: true })}
               </span>
@@ -242,13 +252,13 @@ export default function BungDetails({ details, initialChatAction }: { details: B
 
             {/* 벙 거리 및 페이스 */}
             <div className='mb-8 flex items-center gap-8'>
-              <RunnerIcon size={16} color={colors.black.DEFAULT} />
+              <RunnerIcon size={16} color={bungInfoIconColor} />
               <span className='text-14 text-black'>{`${details.distance} km ${details.pace}`}</span>
             </div>
 
             {/* 벙 참여 인원 및 남은 자리 */}
             <div className='mb-24 flex items-center gap-8'>
-              <FilledPersonIcon size={16} color={colors.black.DEFAULT} />
+              <FilledPersonIcon size={16} color={bungInfoIconColor} />
               <div className='flex items-center gap-4'>
                 <span className='text-14 text-black'>{`${참여인원수} / ${details.memberNumber}`}</span>
                 <span className='rounded-4 bg-pink/10 px-4 py-2 text-12 font-bold text-pink'>{`${details.memberNumber - 참여인원수}자리 남았어요`}</span>
@@ -337,7 +347,13 @@ export default function BungDetails({ details, initialChatAction }: { details: B
               {details.memberList.map((member) => (
                 <div key={member.nickname} className='flex flex-col items-center gap-6'>
                   <div className='relative aspect-[1] w-76 rounded-8 bg-black'>
-                    <Image src='/temp/nft_detail_2.png' alt='' fill sizes='100%' />
+                    <Image
+                      className='object-contain'
+                      src={member.profileImageUrl || DEFAULT_PROFILE_IMAGE_URL}
+                      alt=''
+                      fill
+                      sizes='76px'
+                    />
                   </div>
                   <div className='flex items-center gap-4'>
                     <span className='text-12 font-bold text-black-darken'>{member.nickname}</span>
@@ -377,6 +393,19 @@ export default function BungDetails({ details, initialChatAction }: { details: B
         </section>
       </motion.section>
     </section>
+  )
+}
+
+function BungInfoIconGradientDefs() {
+  return (
+    <svg aria-hidden='true' className='pointer-events-none absolute h-0 w-0 overflow-hidden'>
+      <defs>
+        <linearGradient id={BUNG_INFO_ICON_GRADIENT_ID} x1='0' y1='24' x2='24' y2='0' gradientUnits='userSpaceOnUse'>
+          <stop offset='0%' stopColor={colors.primary.DEFAULT} />
+          <stop offset='100%' stopColor={colors.secondary} />
+        </linearGradient>
+      </defs>
+    </svg>
   )
 }
 

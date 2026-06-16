@@ -44,18 +44,18 @@ export default function ListTab({ selectedTab: controlledSelectedTab, onTabChang
 
   return (
     <button
-      className='h-34 shadow-floating-primary relative isolate inline-flex items-center rounded-full'
+      className='h-34 shadow-floating-primary relative isolate inline-flex items-center rounded-full bg-gray-lighten'
       aria-pressed={currentTab === 'progress'}
       onClick={handleToggle}
       type='button'
     >
       {/* 배경 애니메이션 */}
       <motion.div
-        className='h-30 absolute top-2 z-0 rounded-full bg-black'
+        className='absolute left-3 top-3 z-0 h-28 rounded-full bg-black'
         initial={false}
         animate={{
           x: currentTab === 'progress' ? 0 : 76,
-          width: currentTab === 'progress' ? 76 : 43,
+          width: currentTab === 'progress' ? 70 : 37,
         }}
         transition={shouldReduceMotion ? { duration: 0 } : { type: 'spring', stiffness: 300, damping: 30 }}
       />

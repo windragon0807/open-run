@@ -24,6 +24,8 @@ type ReadyChallengeView =
   | { view: 'general'; response: GeneralChallengeListResponse }
   | { view: 'repetitive'; response: RepetitiveChallengeListResponse }
 
+const CHALLENGE_LIST_SKELETON_COUNT = 10
+
 export default function ChallengePage() {
   const searchParams = useSearchParams()
   const urlSelectedList = getSelectedList(searchParams.get('list'))
@@ -118,9 +120,15 @@ function ChallengeListContent({ content }: { content: ReadyChallengeView }) {
 function ChallengeListSkeleton() {
   return (
     <section className='flex flex-col gap-8 p-16'>
-      <div className='h-80 w-full animate-pulse rounded bg-gray' />
-      <div className='h-80 w-full animate-pulse rounded bg-gray' />
-      <div className='h-80 w-full animate-pulse rounded bg-gray' />
+      {Array.from({ length: CHALLENGE_LIST_SKELETON_COUNT }).map((_, index) => (
+        <article key={index} className='h-80 rounded-8 bg-white px-16 py-10'>
+          <section className='grid h-full w-full grid-cols-[60px_1fr_70px] place-items-center gap-8'>
+            <div className='size-48 animate-pulse rounded-full bg-[#E4E6E8]' />
+            <div className='h-16 w-full max-w-180 justify-self-start animate-pulse rounded-full bg-[#E4E6E8]' />
+            <div className='h-40 w-70 animate-pulse rounded-8 bg-[#E4E6E8]' />
+          </section>
+        </article>
+      ))}
     </section>
   )
 }

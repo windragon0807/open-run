@@ -1,8 +1,8 @@
 import clsx from 'clsx'
-import { motion, useSpring, useTransform } from 'framer-motion'
+import { motion, type MotionValue, useSpring, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { ReactNode, useEffect } from 'react'
+import { ReactNode } from 'react'
 import { useAppStore } from '@store/app'
 import { useUserStore } from '@store/user'
 import { WearingAvatar } from '@type/avatar'
@@ -37,9 +37,14 @@ const COLLAPSED_BG_OVERFLOW = 60
     필 뒤 색 유지와 페이드 부드러움이 같이 산다 */
 const COLLAPSED_BG_FADE = 20
 const COLLAPSE_SPRING = { stiffness: 280, damping: 32, mass: 0.55 }
-const SECTION_FADE = { duration: 0.2, ease: 'easeOut' } as const
 
-export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: boolean }) {
+export default function Header({
+  isSmallHeaderActive,
+  scrollY,
+}: {
+  isSmallHeaderActive: boolean
+  scrollY: MotionValue<number>
+}) {
   const router = useRouter()
   const { isApp, insets } = useAppStore()
   const { userInfo } = useUserStore()
@@ -69,10 +74,8 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
 
   // height를 직접 애니메이션하면 매 프레임 리플로우가 발생한다 — 높이는 fullHeight로 고정하고
   // clip-path(히트테스트도 함께 잘린다)와 배경 scaleY 조합으로 동일한 축소 모양을 만든다
-  const collapse = useSpring(isSmallHeaderActive ? 1 : 0, COLLAPSE_SPRING)
-  useEffect(() => {
-    collapse.set(isSmallHeaderActive ? 1 : 0)
-  }, [collapse, isSmallHeaderActive])
+  const rawCollapse = useTransform(scrollY, [0, COLLAPSE_DISTANCE], [0, 1])
+  const collapse = useSpring(rawCollapse, COLLAPSE_SPRING)
   const clipPath = useTransform(collapse, (progress) => `inset(0px 0px ${progress * COLLAPSE_DISTANCE}px 0px)`)
   // 배경은 클립보다 COLLAPSED_BG_OVERFLOW만큼 덜 압축한다 — 넘치는 부분은 clip-path가 잘라낸다
   const backgroundScaleY = useTransform(
@@ -89,6 +92,13 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
     const endLocal = visibleBottom / scale
     return `linear-gradient(to bottom, black ${startLocal}px, transparent ${endLocal}px)`
   })
+  const collapsedBackgroundOpacity = useTransform(collapse, [0, 0.55, 1], [0, 0.25, 1])
+  const largeOpacity = useTransform(collapse, [0, 0.42, 0.7], [1, 0.45, 0])
+  const largeY = useTransform(collapse, [0, 1], [0, -8])
+  const largeScale = useTransform(collapse, [0, 1], [1, 0.985])
+  const smallOpacity = useTransform(collapse, [0.35, 0.65, 1], [0, 0.9, 1])
+  const smallY = useTransform(collapse, [0, 1], [8, 0])
+  const smallScale = useTransform(collapse, [0, 1], [0.985, 1])
 
   return (
     <motion.header
@@ -100,9 +110,17 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
           scaleY: backgroundScaleY,
           maskImage: backgroundMask,
           WebkitMaskImage: backgroundMask,
-          background: isSmallHeaderActive
-            ? `${weatherBackground}, linear-gradient(to bottom, white 80%, transparent 100%)`
-            : weatherBackground,
+          opacity: collapsedBackgroundOpacity,
+          background: 'linear-gradient(to bottom, white 80%, transparent 100%)',
+        }}
+      />
+      <motion.div
+        className='absolute inset-0 origin-top'
+        style={{
+          scaleY: backgroundScaleY,
+          maskImage: backgroundMask,
+          WebkitMaskImage: backgroundMask,
+          background: weatherBackground,
         }}
       />
       <AvatarImageWarmup imageUrls={warmupImageUrls.previewImageUrls} width={80} height={80} sizes='80px' limit={12} />
@@ -114,7 +132,11 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
         limit={9}
       />
 
-      <HeaderSection size='large' visible={!isSmallHeaderActive} topPadding={appTopPadding}>
+      <HeaderSection
+        size='large'
+        isInteractive={!isSmallHeaderActive}
+        animation={{ opacity: largeOpacity, y: largeY, scale: largeScale }}
+        topPadding={appTopPadding}>
         <AvatarPane size='large' weatherImage={weatherAssets?.image ?? null} avatar={wearingAvatar?.data} />
         <div className='flex flex-col'>
           <UserInfoRow size='large' nickname={userInfo?.nickname} />
@@ -122,7 +144,11 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
         </div>
       </HeaderSection>
 
-      <HeaderSection size='small' visible={isSmallHeaderActive} topPadding={appTopPadding}>
+      <HeaderSection
+        size='small'
+        isInteractive={isSmallHeaderActive}
+        animation={{ opacity: smallOpacity, y: smallY, scale: smallScale }}
+        topPadding={appTopPadding}>
         <AvatarPane size='small' weatherImage={weatherAssets?.image ?? null} avatar={wearingAvatar?.data} />
         <div className='flex flex-col'>
           <UserInfoRow size='small' nickname={userInfo?.nickname} />
@@ -142,18 +168,24 @@ export default function Header({ isSmallHeaderActive }: { isSmallHeaderActive: b
 }
 
 const SECTION_STYLE = {
-  large: { height: 'h-[200px]', hiddenY: -18 },
-  small: { height: 'h-[90px]', hiddenY: -14 },
+  large: { height: 'h-[200px]' },
+  small: { height: 'h-[90px]' },
 } as const
 
 function HeaderSection({
   size,
-  visible,
+  isInteractive,
+  animation,
   topPadding,
   children,
 }: {
   size: HeaderSize
-  visible: boolean
+  isInteractive: boolean
+  animation: {
+    opacity: MotionValue<number>
+    y: MotionValue<number>
+    scale: MotionValue<number>
+  }
   topPadding: number
   children: ReactNode
 }) {
@@ -162,14 +194,18 @@ function HeaderSection({
   return (
     <motion.section
       initial={false}
-      animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : style.hiddenY }}
-      transition={SECTION_FADE}
       className={clsx(
         'absolute inset-x-0 flex w-full justify-between',
         style.height,
-        !visible && 'pointer-events-none',
+        !isInteractive && 'pointer-events-none',
       )}
-      style={{ top: topPadding }}>
+      style={{
+        top: topPadding,
+        opacity: animation.opacity,
+        y: animation.y,
+        scale: animation.scale,
+        transformOrigin: 'top center',
+      }}>
       {children}
     </motion.section>
   )
