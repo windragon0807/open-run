@@ -9,6 +9,7 @@ import { Avatar, SelectedCategory, WearingAvatar } from '@type/avatar'
 import AvatarComponent from '@shared/Avatar'
 import ToastModal from '@shared/ToastModal'
 import { ArrowLeftIcon } from '@icons/arrow'
+import { EraserIcon } from '@icons/eraser'
 import { TransparentOpenrunIcon } from '@icons/openrun'
 import { ResetIcon } from '@icons/reset'
 import { SaveIcon } from '@icons/save'
@@ -73,8 +74,12 @@ export default function AvatarPage() {
   const filteredAvatarList = getSelectedCategoryAvatarItems(avatarList, selectedCategory)
   const categoryWarmupImageUrls = useAvatarCategoryWarmupImageUrls(avatarList, selectedCategory)
 
-  const handleReset = () => {
+  const handleClearAvatar = () => {
     setSelectedAvatar(EMPTY_WEARING_AVATAR)
+  }
+
+  const handleRestoreWearingAvatar = () => {
+    setSelectedAvatar(wearingAvatar?.data ?? EMPTY_WEARING_AVATAR)
   }
 
   const handleSave = async () => {
@@ -162,12 +167,20 @@ export default function AvatarPage() {
               {...selectedAvatar}
             />
 
-            {/* 초기화 버튼 */}
-            <button
-              className='absolute bottom-8 right-8 flex aspect-square w-[40px] items-center justify-center rounded-full bg-white active-press-duration active:scale-90 active:bg-white/90'
-              onClick={handleReset}>
-              <ResetIcon />
-            </button>
+            <div className='absolute bottom-8 right-8 flex flex-col gap-8'>
+              <button
+                aria-label='원래 착용 아바타로 되돌리기'
+                className='flex aspect-square w-[40px] items-center justify-center rounded-full bg-white active-press-duration active:scale-90 active:bg-white/90'
+                onClick={handleRestoreWearingAvatar}>
+                <ResetIcon />
+              </button>
+              <button
+                aria-label='아바타 전체 해제'
+                className='flex aspect-square w-[40px] items-center justify-center rounded-full bg-white active-press-duration active:scale-90 active:bg-white/90'
+                onClick={handleClearAvatar}>
+                <EraserIcon size={24} color={colors.black.darken} />
+              </button>
+            </div>
           </div>
         </section>
 
