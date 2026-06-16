@@ -2,6 +2,8 @@ import clsx from 'clsx'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { Avatar } from '@type/avatar'
+import { BackgroundOpenrunIcon } from '@icons/openrun'
+import { colors } from '@styles/colors'
 import { getAvatarPreviewImageUrl } from '@utils/avatarImage'
 
 type AvatarThumbnailProps = {
@@ -43,12 +45,7 @@ function AvatarThumbnailSkeleton({ isVisible }: { isVisible: boolean }) {
         'absolute inset-0 flex items-center justify-center rounded-8 bg-white/40 transition-opacity duration-150',
         isVisible ? 'opacity-100' : 'opacity-0',
       )}>
-      <div className='relative h-[64px] w-[56px] animate-pulse'>
-        <span className='absolute left-1/2 top-4 h-[22px] w-[22px] -translate-x-1/2 rounded-full bg-gray' />
-        <span className='absolute left-1/2 top-[28px] h-[30px] w-[42px] -translate-x-1/2 rounded-[22px_22px_12px_12px] bg-gray' />
-        <span className='absolute left-4 top-[33px] h-[24px] w-[10px] rotate-12 rounded-full bg-gray' />
-        <span className='absolute right-4 top-[33px] h-[24px] w-[10px] -rotate-12 rounded-full bg-gray' />
-      </div>
+      <BackgroundOpenrunIcon size={54} color={colors.gray.darken} className='h-auto animate-pulse opacity-[0.45]' />
     </div>
   )
 }
