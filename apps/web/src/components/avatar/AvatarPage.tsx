@@ -11,6 +11,7 @@ import ToastModal from '@shared/ToastModal'
 import { ArrowLeftIcon } from '@icons/arrow'
 import { TransparentOpenrunIcon } from '@icons/openrun'
 import { ResetIcon } from '@icons/reset'
+import { SaveIcon } from '@icons/save'
 import { useAvatarCategoryWarmupImageUrls } from '@hooks/useAvatarCategoryWarmupImageUrls'
 import { bungsQueries } from '@apis/v1/bungs/query'
 import { SaveWearingNftAvatarRequest } from '@apis/v1/nft/avatar-items'
@@ -132,12 +133,13 @@ export default function AvatarPage() {
           onClick={() => router.back()}>
           <ArrowLeftIcon size={24} color={colors.black.darken} />
         </button>
-        <h1 className='text-16 font-bold text-black'>아바타 변경</h1>
+        <h1 className='text-16 font-bold text-black'>아바타</h1>
         <button
-          className='absolute right-16 translate-x-8 rounded-8 px-8 py-4 active-press-duration active:scale-90 active:bg-gray/50'
+          aria-label='아바타 저장'
+          className='absolute right-16 translate-x-8 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50 disabled:opacity-40'
           disabled={isSaving || saveWearingAvatarWithProfileImageMutation.isPending}
           onClick={handleSave}>
-          <span className='text-14 text-black'>저장</span>
+          <SaveIcon size={24} color={colors.black.darken} />
         </button>
       </header>
 
