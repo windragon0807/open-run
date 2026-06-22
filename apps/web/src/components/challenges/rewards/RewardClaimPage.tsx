@@ -97,30 +97,31 @@ export default function RewardClaimPage({ userChallengeId }: RewardClaimPageProp
   return (
     <section className='relative h-full w-full overflow-hidden'>
       {/* RewardRevealScreen과 동일한 배경: 파란색 + 하단 흰색 그라데이션 */}
-      <div className='absolute inset-0 bg-primary' />
+      <div className='bg-primary absolute inset-0' />
       <div className='absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-b from-transparent to-white' />
 
       <motion.div
         className='relative flex h-full w-full flex-col items-center'
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}>
-        <h1 className='mt-[105px] text-28 font-bold text-white'>
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+      >
+        <h1 className='text-28 mt-[105px] font-bold text-white'>
           {notice != null ? NOTICE_CONTENT[notice].title : '보상 발급 중'}
         </h1>
 
         <div className='mt-40 flex flex-col items-center'>
-          <div className='relative flex aspect-square w-168 items-center justify-center'>
+          <div className='w-168 relative flex aspect-square items-center justify-center'>
             {notice != null ? (
-              <span className='text-center text-14 text-white/80'>
+              <span className='text-14 text-center text-white/80'>
                 {NOTICE_CONTENT[notice].message[0]}
                 <br />
                 {NOTICE_CONTENT[notice].message[1]}
               </span>
             ) : (
               <>
-                <div className='absolute inset-0 animate-pulse rounded-8 bg-white/20' />
-                <LoadingLogo className='w-168' />
+                <div className='rounded-8 absolute inset-0 animate-pulse bg-white/20' />
+                <LoadingLogo className='w-168' pace='relaxed' />
               </>
             )}
           </div>
@@ -129,9 +130,10 @@ export default function RewardClaimPage({ userChallengeId }: RewardClaimPageProp
         {notice != null && (
           <div className='absolute bottom-40 left-16 right-16'>
             <button
-              className='flex h-56 w-full items-center justify-center rounded-8 bg-white active-press-duration active:scale-98 active:bg-gray-lighten'
-              onClick={() => router.replace(CHALLENGES_PROGRESS_PATH)}>
-              <span className='text-16 font-bold text-black-darken'>뒤로가기</span>
+              className='rounded-8 active-press-duration active:scale-98 active:bg-gray-lighten flex h-56 w-full items-center justify-center bg-white'
+              onClick={() => router.replace(CHALLENGES_PROGRESS_PATH)}
+            >
+              <span className='text-16 text-black-darken font-bold'>뒤로가기</span>
             </button>
           </div>
         )}
