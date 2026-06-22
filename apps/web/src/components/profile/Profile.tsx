@@ -134,35 +134,31 @@ export default function Profile() {
 }
 
 const PROFILE_ACTION_BUTTON_CLASS =
-  'group inline-flex aspect-square w-40 items-center justify-center rounded-full active-press-duration active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-gray-lighten'
+  'group inline-flex h-40 w-40 items-center justify-center rounded-full active-press-duration active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-gray-lighten'
 
 const PROFILE_ACTION_GLASS_PROPS = {
   width: 40,
   height: 40,
   borderRadius: 20,
-  borderWidth: 0.18,
-  backgroundOpacity: 0.28,
-  distortionScale: -135,
-  displace: 4,
-  greenOffset: 6,
-  blueOffset: 12,
-  saturation: 1.8,
-  blur: 5,
+  borderWidth: 0.16,
+  backgroundOpacity: 0.1,
+  distortionScale: -100,
+  displace: 1,
+  greenOffset: 4,
+  blueOffset: 8,
+  saturation: 1.5,
+  blur: 4,
 } as const
 
 const PROFILE_ACTION_GLASS_STYLE = {
-  boxShadow:
-    'inset 0 0 0 1px rgba(255, 255, 255, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -10px 18px rgba(17, 17, 26, 0.1), 0 6px 16px rgba(17, 17, 26, 0.1)',
+  boxShadow: 'inset 0 0 0 1px rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
 } as const
 
 function ProfileActionGlass({ children }: { children: React.ReactNode }) {
   return (
     <GlassSurface {...PROFILE_ACTION_GLASS_PROPS} style={PROFILE_ACTION_GLASS_STYLE}>
-      <div className='absolute inset-0 bg-gray/55 group-active:bg-gray/70' />
-      <div className='absolute inset-0 bg-gradient-to-br from-white/16 via-gray/25 to-black-darken/18 group-active:from-white/10 group-active:via-gray/35 group-active:to-black-darken/24' />
-      <span className='relative z-10 flex items-center justify-center drop-shadow-[0_1px_2px_rgba(0,0,0,0.35)]'>
-        {children}
-      </span>
+      <div className='absolute inset-0 bg-black-darken/10 group-active:bg-black-darken/14' />
+      <span className='relative z-10 flex items-center justify-center'>{children}</span>
     </GlassSurface>
   )
 }
