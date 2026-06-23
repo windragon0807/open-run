@@ -1,43 +1,37 @@
 import clsx from 'clsx'
 import Image from 'next/image'
-import type { CategoryType } from '@type/challenge'
 
 export default function CategoryReward({
-  category,
-  imageSrc = '/temp/nft_achievement_reward.png',
-  imageAlt = 'category reward',
+  categoryLabel,
+  highlighted = false,
+  imageSrc,
+  imageAlt,
 }: {
-  category: CategoryType
-  imageSrc?: string
-  imageAlt?: string
+  categoryLabel: string
+  highlighted?: boolean
+  imageSrc: string | null
+  imageAlt: string
 }) {
   return (
     <article className='relative flex size-60 items-center justify-center'>
-      <Category category={category} />
+      <Category label={categoryLabel} highlighted={highlighted} />
       <div className='flex size-48 items-center justify-center rounded-full bg-gradient-achievement-gray'>
-        <Image src={imageSrc} alt={imageAlt} width={32} height={32} className='object-contain' />
+        {imageSrc != null && (
+          <Image src={imageSrc} alt={imageAlt} width={32} height={32} className='object-contain' />
+        )}
       </div>
     </article>
   )
 }
 
-function Category({ category }: { category: CategoryType }) {
+function Category({ label, highlighted }: { label: string; highlighted: boolean }) {
   return (
     <span
       className={clsx(
         'absolute left-0 top-0 rounded-25 px-4 py-2 text-10 font-medium text-white',
-        category === 'event' ? 'bg-primary' : 'bg-black',
+        highlighted ? 'bg-primary' : 'bg-black',
       )}>
-      {(() => {
-        switch (category) {
-          case 'general':
-            return '일반'
-          case 'repetitive':
-            return '반복'
-          case 'event':
-            return '이벤트'
-        }
-      })()}
+      {label}
     </span>
   )
 }

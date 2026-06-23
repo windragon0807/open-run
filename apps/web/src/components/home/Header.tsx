@@ -16,6 +16,7 @@ import { useAvatarPageWarmup } from '@hooks/useAvatarPageWarmup'
 import useGeolocation from '@hooks/useGeolocation'
 import { useReverseGeocoding } from '@apis/maps/reverse-geocoding/query'
 import { useWearingNftAvatarQuery } from '@apis/v1/nft/avatar-items/query'
+import { useProfileSummary } from '@apis/v1/users/profile-summary/query'
 import { useCurrentWeather } from '@apis/weather/query'
 import addDelimiter from '@utils/addDelimiter'
 import { colors } from '@styles/colors'
@@ -51,6 +52,7 @@ export default function Header({
   const { warmupAvatarPage, warmupImageUrls } = useAvatarPageWarmup()
 
   const { data: wearingAvatar } = useWearingNftAvatarQuery()
+  const { data: profileSummary } = useProfileSummary()
   const { location, refetch } = useGeolocation()
   const { data: reverseGeocode } = useReverseGeocoding(
     { lat: location?.lat ?? 0, lng: location?.lng ?? 0 },
@@ -68,6 +70,7 @@ export default function Header({
     location != null && currentWeather != null && weatherAssets != null
       ? { icon: weatherAssets.icon, temperature: currentWeather.temperature }
       : null
+  const receivedLikeCount = profileSummary?.data.receivedLikeCount
 
   const appTopPadding = insets ? insets.top + 5 : isApp ? 64 : 0
   const fullHeight = FULL_HEADER_HEIGHT + appTopPadding
@@ -137,7 +140,12 @@ export default function Header({
         isInteractive={!isSmallHeaderActive}
         animation={{ opacity: largeOpacity, y: largeY, scale: largeScale }}
         topPadding={appTopPadding}>
-        <AvatarPane size='large' weatherImage={weatherAssets?.image ?? null} avatar={wearingAvatar?.data} />
+        <AvatarPane
+          size='large'
+          weatherImage={weatherAssets?.image ?? null}
+          avatar={wearingAvatar?.data}
+          feedback={receivedLikeCount}
+        />
         <div className='flex flex-col'>
           <UserInfoRow size='large' nickname={userInfo?.nickname} />
           <WeatherDome address={addressSummary} weather={weatherSummary} onRefreshLocation={refetch} />
@@ -149,7 +157,12 @@ export default function Header({
         isInteractive={isSmallHeaderActive}
         animation={{ opacity: smallOpacity, y: smallY, scale: smallScale }}
         topPadding={appTopPadding}>
-        <AvatarPane size='small' weatherImage={weatherAssets?.image ?? null} avatar={wearingAvatar?.data} />
+        <AvatarPane
+          size='small'
+          weatherImage={weatherAssets?.image ?? null}
+          avatar={wearingAvatar?.data}
+          feedback={receivedLikeCount}
+        />
         <div className='flex flex-col'>
           <UserInfoRow size='small' nickname={userInfo?.nickname} />
         </div>
@@ -220,10 +233,12 @@ function AvatarPane({
   size,
   weatherImage,
   avatar,
+  feedback,
 }: {
   size: HeaderSize
   weatherImage: string | null
   avatar: WearingAvatar | undefined
+  feedback: number | undefined
 }) {
   const style = AVATAR_PANE_STYLE[size]
 
@@ -255,7 +270,7 @@ function AvatarPane({
 
       {size === 'large' && (
         <div className={clsx('absolute', style.likeLabel)}>
-          <SkewedLikeLabel like={300} />
+          <SkewedLikeLabel like={feedback ?? 0} />
         </div>
       )}
     </div>

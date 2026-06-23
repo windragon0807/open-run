@@ -1,5 +1,4 @@
 import type { ChallengeType, CompletedChallengeWithNft } from '@apis/v1/challenges/type'
-import type { CategoryType } from '@type/challenge'
 import { parseApiDateTime } from '@utils/api'
 import { formatDate } from '@utils/time'
 import CategoryReward from './CategoryReward'
@@ -19,21 +18,23 @@ export default function CompletedList({ challenges }: { challenges: CompletedCha
 function CompletedItem({ challenge }: { challenge: CompletedChallengeWithNft }) {
   const nft = challenge.nft
   const completedDate = parseApiDateTime(nft?.mintedAt ?? challenge.completedDate)
-  const completedAt =
-    completedDate == null ? '시간 정보 없음' : formatDate({ date: completedDate, formatStr: 'yyyy.M.d HH:mm' })
+  const completedAt = completedDate == null ? null : formatDate({ date: completedDate, formatStr: 'yyyy.M.d HH:mm' })
+  const challengeTypeLabel = formatChallengeType(challenge.challengeType)
+  const details = [normalizeText(nft?.name), completedAt].filter(isNonEmpty)
 
   return (
     <article className='grid w-full grid-cols-[60px_1fr_70px] place-items-center gap-8 rounded-8 bg-white px-16 py-10'>
       <CategoryReward
-        category={toCategory(challenge.challengeType)}
-        imageSrc={nft?.image || undefined}
-        imageAlt={nft?.name ?? challenge.challengeName}
+        categoryLabel={challengeTypeLabel}
+        highlighted={challenge.challengeType === 'hidden' || challenge.challengeType === 'tuto'}
+        imageSrc={normalizeText(nft?.image)}
+        imageAlt={normalizeText(nft?.name) ?? challenge.challengeName}
       />
       <div className='flex w-full min-w-0 flex-col justify-start'>
         <span className='line-clamp-1 text-14 font-bold'>{challenge.challengeName}</span>
-        <span className='mt-2 line-clamp-1 text-10 font-medium text-gray-darken'>
-          {nft?.name ?? 'NFT 보상'} · {completedAt}
-        </span>
+        {details.length > 0 && (
+          <span className='mt-2 line-clamp-1 text-10 font-medium text-gray-darken'>{details.join(' · ')}</span>
+        )}
       </div>
       <div className='flex h-40 w-70 items-center justify-center rounded-8 bg-gray text-14 font-bold text-white'>
         보상 완료
@@ -42,8 +43,24 @@ function CompletedItem({ challenge }: { challenge: CompletedChallengeWithNft }) 
   )
 }
 
-function toCategory(challengeType: ChallengeType): CategoryType {
-  if (challengeType === 'normal') return 'general'
-  if (challengeType === 'repetitive') return 'repetitive'
-  return 'event'
+function formatChallengeType(challengeType: ChallengeType) {
+  switch (challengeType) {
+    case 'normal':
+      return '일반'
+    case 'repetitive':
+      return '반복'
+    case 'tuto':
+      return '튜토리얼'
+    case 'hidden':
+      return '이벤트'
+  }
+}
+
+function normalizeText(value: string | null | undefined) {
+  const trimmed = value?.trim()
+  return trimmed ? trimmed : null
+}
+
+function isNonEmpty(value: string | null): value is string {
+  return value != null
 }

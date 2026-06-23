@@ -4,27 +4,26 @@ import { motion } from 'framer-motion'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { Rarity } from '@type/avatar'
-import LoadingLogo from '@shared/LoadingLogo'
 import type { NftMintJob } from '@apis/v1/nft/mint-jobs'
 import { useStartMintJobMutation } from '@apis/v1/nft/mint-jobs/mutation'
+import RandomRewardRoulette from './RandomRewardRoulette'
 import RewardRevealScreen from './RewardRevealScreen'
 
 const CHALLENGES_PROGRESS_PATH = '/challenges?list=progress'
 
 /* 최초 요청 1회 + 자동 재시도 1회 */
 const MAX_ATTEMPTS = 2
+const ROULETTE_MIN_LOOP_DURATION_MS = 1400
+const ROULETTE_SETTLE_DURATION_SECONDS = 2.4
+const PENDING_RETRY_DELAY_MS = 1000
 
-/* failed: 재시도까지 실패 / pending: 응답은 왔지만 발급이 아직 진행 중(PENDING/MINTING) */
-type ClaimNotice = 'failed' | 'pending'
+/* failed: 재시도까지 실패 */
+type ClaimNotice = 'failed'
 
 const NOTICE_CONTENT: Record<ClaimNotice, { title: string; message: [string, string] }> = {
   failed: {
     title: '발급 실패',
     message: ['보상 발급에 실패했어요.', '잠시 후 다시 시도해 주세요.'],
-  },
-  pending: {
-    title: '발급 진행 중',
-    message: ['보상 발급이 진행 중이에요.', '잠시 후 도전과제 목록에서 확인해 주세요.'],
   },
 }
 
@@ -34,54 +33,135 @@ type RewardClaimPageProps = {
 
 export default function RewardClaimPage({ userChallengeId }: RewardClaimPageProps) {
   const router = useRouter()
-  const { mutate: startMintJob } = useStartMintJobMutation()
+  const { mutateAsync: startMintJob } = useStartMintJobMutation()
   const [mintJob, setMintJob] = useState<NftMintJob | null>(null)
+  const [isRouletteRevealComplete, setIsRouletteRevealComplete] = useState(false)
   const [notice, setNotice] = useState<ClaimNotice | null>(null)
+  const startMintJobRef = useRef(startMintJob)
+  const mintRequestRef = useRef<{
+    userChallengeId: number
+    promise: ReturnType<typeof startMintJob>
+  } | null>(null)
   const attemptCountRef = useRef(0)
 
   useEffect(() => {
-    /* StrictMode 중복 마운트 방지 */
-    if (attemptCountRef.current > 0) return
+    startMintJobRef.current = startMintJob
+  }, [startMintJob])
 
-    const handleFailure = () => {
+  useEffect(() => {
+    attemptCountRef.current = 0
+    setMintJob(null)
+    setIsRouletteRevealComplete(false)
+    setNotice(null)
+
+    let isActive = true
+    let settleTimerId: number | null = null
+    let pendingRetryTimerId: number | null = null
+    const requestedAt = Date.now()
+
+    const handleFailure = async () => {
+      if (!isActive) return
+
       if (attemptCountRef.current < MAX_ATTEMPTS) {
-        requestMint()
+        await requestMint()
         return
       }
+
       setNotice('failed')
     }
 
-    const requestMint = () => {
-      attemptCountRef.current += 1
-      startMintJob(
-        { userChallengeId },
-        {
-          onSuccess: (response) => {
-            const job = response.data
+    const getMintRequest = () => {
+      const currentRequest = mintRequestRef.current
 
-            if (job.status === 'SUCCESS' && job.nftName && job.nftImage && job.nftRarity && job.nftCategory) {
-              setMintJob(job)
-              return
-            }
+      if (currentRequest?.userChallengeId === userChallengeId) {
+        return currentRequest.promise
+      }
 
-            if (job.status === 'FAILED') {
-              handleFailure()
-              return
-            }
+      const promise = startMintJobRef.current({ userChallengeId })
+      const nextRequest = { userChallengeId, promise }
+      mintRequestRef.current = nextRequest
 
-            // PENDING/MINTING 등 아직 결과가 없는 상태는 진행 중 안내 화면을 보여준다
-            setNotice('pending')
-          },
-          onError: handleFailure,
-        },
-      )
+      void promise
+        .finally(() => {
+          if (mintRequestRef.current === nextRequest) {
+            mintRequestRef.current = null
+          }
+        })
+        .catch(() => undefined)
+
+      return promise
     }
 
-    requestMint()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    const scheduleRouletteSettle = (job: NftMintJob) => {
+      const elapsedMs = Date.now() - requestedAt
+      const delayMs = Math.max(ROULETTE_MIN_LOOP_DURATION_MS - elapsedMs, 0)
 
-  if (mintJob != null) {
+      if (settleTimerId != null) {
+        window.clearTimeout(settleTimerId)
+      }
+
+      settleTimerId = window.setTimeout(() => {
+        if (!isActive) return
+
+        setIsRouletteRevealComplete(false)
+        setMintJob(job)
+      }, delayMs)
+    }
+
+    const schedulePendingRetry = () => {
+      if (pendingRetryTimerId != null) {
+        window.clearTimeout(pendingRetryTimerId)
+      }
+
+      pendingRetryTimerId = window.setTimeout(() => {
+        if (!isActive) return
+        void requestMint()
+      }, PENDING_RETRY_DELAY_MS)
+    }
+
+    const requestMint = async () => {
+      attemptCountRef.current += 1
+
+      try {
+        const response = await getMintRequest()
+        if (!isActive) return
+
+        const job = response.data
+
+        if (job.status === 'SUCCESS' && job.nftName && job.nftImage && job.nftRarity && job.nftCategory) {
+          scheduleRouletteSettle(job)
+          return
+        }
+
+        if (job.status === 'FAILED') {
+          await handleFailure()
+          return
+        }
+
+        mintRequestRef.current = null
+        schedulePendingRetry()
+      } catch {
+        if (mintRequestRef.current?.userChallengeId === userChallengeId) {
+          mintRequestRef.current = null
+        }
+        await handleFailure()
+      }
+    }
+
+    void requestMint()
+
+    return () => {
+      isActive = false
+      if (settleTimerId != null) {
+        window.clearTimeout(settleTimerId)
+      }
+      if (pendingRetryTimerId != null) {
+        window.clearTimeout(pendingRetryTimerId)
+      }
+    }
+  }, [userChallengeId])
+
+  if (mintJob != null && isRouletteRevealComplete) {
     return (
       <RewardRevealScreen
         serialNumber={String(mintJob.tokenId ?? '').padStart(5, '0')}
@@ -119,10 +199,11 @@ export default function RewardClaimPage({ userChallengeId }: RewardClaimPageProp
                 {NOTICE_CONTENT[notice].message[1]}
               </span>
             ) : (
-              <>
-                <div className='rounded-8 absolute inset-0 animate-pulse bg-white/20' />
-                <LoadingLogo className='w-168' pace='relaxed' />
-              </>
+              <RandomRewardRoulette
+                winningImageSrc={mintJob?.nftImage ?? null}
+                spinDuration={ROULETTE_SETTLE_DURATION_SECONDS}
+                onRevealComplete={() => setIsRouletteRevealComplete(true)}
+              />
             )}
           </div>
         </div>

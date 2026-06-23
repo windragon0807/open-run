@@ -16,15 +16,28 @@ import { SettingIcon } from '@icons/setting'
 import { StarIcon } from '@icons/star'
 import { FilledThumbIcon, OutlinedThumbIcon } from '@icons/thumb'
 import { UpperClothIcon } from '@icons/upper-cloth'
+import { useMyBungs } from '@apis/v1/bungs/my-bungs/query'
+import { useProfileSummary } from '@apis/v1/users/profile-summary/query'
 import { useUserInfo } from '@apis/v1/users/query'
 import { MODAL_KEY } from '@constants/modal'
 import { DEFAULT_PROFILE_IMAGE_URL } from '@constants/profile'
+import type { ApiDateTime } from '@utils/api'
 import { colors } from '@styles/colors'
 import SettingModal from './SettingModal'
 
 export default function Profile() {
   const { data } = useUserInfo()
+  const { data: profileSummary } = useProfileSummary()
+  const { data: completedBungs } = useMyBungs({
+    isOwned: null,
+    status: 'ACCOMPLISHED',
+    page: 0,
+    limit: 10,
+  })
   const { showModal } = useModal()
+  const summary = profileSummary?.data
+  const recentAcquiredNfts = summary?.recentAcquiredNfts ?? []
+  const completedBungList = completedBungs?.data ?? []
 
   return (
     <section className='h-full w-full bg-gray-lighten'>
@@ -71,66 +84,101 @@ export default function Profile() {
           <Record
             className='flex-1'
             icon={<FilledThumbIcon size={16} color={colors.black.DEFAULT} />}
-            value={300}
+            value={summary?.receivedLikeCount ?? 0}
             title='받은 좋아요'
           />
           <Record
             className='flex-1'
             icon={<CrownIcon size={16} color={colors.black.DEFAULT} />}
-            value={78}
+            value={summary?.currentOwnedBungCount ?? 0}
             title='개설한 벙'
           />
           <Record
             className='flex-1'
             icon={<FilledFlagIcon size={16} color={colors.black.DEFAULT} />}
-            value={120}
+            value={summary?.acquiredNftCount ?? 0}
             title='획득한 NFT'
           />
         </div>
 
-        <div className='mb-24 h-76 w-full rounded-8 bg-black-darken'>
-          <Swiper
-            className='h-full'
-            modules={[Autoplay]}
-            slidesPerView={1}
-            centeredSlides
-            loop
-            direction='vertical'
-            autoplay={{ delay: 3000 }}>
-            <SwiperSlide>
-              <RecentNftCard
-                image='/temp/nft_profile_parts.png'
-                title='이벤트 NFT 장착하고 성당 근처에서 달리기'
-                description='도전과제 달성으로 획득'
-                date='2024.12.25'
-              />
-            </SwiperSlide>
-            <SwiperSlide>
-              <RecentNftCard
-                image='/temp/nft_profile_parts.png'
-                title='비 오는 날 10km 달리기'
-                description='특별 도전과제 달성으로 획득'
-                date='2024.12.20'
-              />
-            </SwiperSlide>
-            <SwiperSlide>
-              <RecentNftCard
-                image='/temp/nft_profile_parts.png'
-                title='새벽 5시 러닝 클럽 참여'
-                description='연속 참여 보상으로 획득'
-                date='2024.12.15'
-              />
-            </SwiperSlide>
-          </Swiper>
-        </div>
+        {recentAcquiredNfts.length > 0 && (
+          <div className='mb-24 h-76 w-full rounded-8 bg-black-darken'>
+            <Swiper
+              className='h-full'
+              modules={[Autoplay]}
+              slidesPerView={1}
+              centeredSlides
+              loop={recentAcquiredNfts.length > 1}
+              direction='vertical'
+              autoplay={{ delay: 3000 }}>
+              {recentAcquiredNfts.map((recentNft) => (
+                <SwiperSlide key={recentNft.userChallengeId}>
+                  <RecentNftCard
+                    image={recentNft.nft.image || '/temp/nft_profile_parts.png'}
+                    title={recentNft.challengeName}
+                    description={recentNft.nft.description || recentNft.nft.name || '도전과제 달성으로 획득'}
+                    date={formatProfileDate(recentNft.acquiredAt)}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        )}
 
-        <div className='flex h-[calc(100%-519px)] w-full flex-col gap-8 overflow-y-auto scrollbar-hide'>
-          <CompletedBung title='완료한 일정' location='서울 마포구 공덕동' date='6/11 (화) 오후 7:00' />
-          <CompletedBung title='완료한 일정' location='서울 마포구 공덕동' date='6/11 (화) 오후 7:00' />
+        <div
+          className={clsx(
+            'flex w-full flex-col gap-8 overflow-y-auto scrollbar-hide',
+            recentAcquiredNfts.length > 0 ? 'h-[calc(100%-519px)]' : 'h-[calc(100%-419px)]',
+          )}>
+          {completedBungList.map((bung) => (
+            <CompletedBung
+              key={bung.bungId}
+              bungId={bung.bungId}
+              title={bung.name}
+              location={bung.location}
+              date={formatBungDate(bung.startDateTime)}
+            />
+          ))}
         </div>
       </div>
     </section>
   )
+}
+
+function formatProfileDate(dateTime: ApiDateTime) {
+  if (dateTime == null) {
+    return ''
+  }
+
+  if (Array.isArray(dateTime)) {
+    const [year, month, day] = dateTime
+
+    if (year == null || month == null || day == null) {
+      return ''
+    }
+
+    return `${year}.${String(month).padStart(2, '0')}.${String(day).padStart(2, '0')}`
+  }
+
+  const date = dateTime.trim().split(/[ T]/)[0]
+
+  return date.replaceAll('-', '.')
+}
+
+function formatBungDate(dateTime: string) {
+  const [date, time = ''] = dateTime.split(' ')
+  const [year, month, day] = date.split('-').map(Number)
+  const [hour = 0, minute = 0] = time.split(':').map(Number)
+
+  if (year == null || month == null || day == null || Number.isNaN(month) || Number.isNaN(day)) {
+    return dateTime
+  }
+
+  const dayName = ['일', '월', '화', '수', '목', '금', '토'][new Date(year, month - 1, day).getDay()]
+  const period = hour >= 12 ? '오후' : '오전'
+  const displayHour = hour % 12 || 12
+
+  return `${month}/${day} (${dayName}) ${period} ${displayHour}:${String(minute).padStart(2, '0')}`
 }
 
 const PROFILE_ACTION_BUTTON_CLASS =
@@ -225,7 +273,17 @@ function RecentNftCard({
   )
 }
 
-function CompletedBung({ title, location, date }: { title: string; location: string; date: string }) {
+function CompletedBung({
+  bungId,
+  title,
+  location,
+  date,
+}: {
+  bungId: string
+  title: string
+  location: string
+  date: string
+}) {
   return (
     <div className='flex w-full items-center justify-between rounded-8 bg-white p-16'>
       <div className='flex gap-16'>
@@ -240,9 +298,11 @@ function CompletedBung({ title, location, date }: { title: string; location: str
         </div>
       </div>
 
-      <button className='rounded-8 bg-black-darken px-11 py-10 text-14 font-bold text-white active-press-duration active:scale-95 active:bg-black-darken/80'>
+      <Link
+        href={`/bung/${bungId}`}
+        className='rounded-8 bg-black-darken px-11 py-10 text-14 font-bold text-white active-press-duration active:scale-95 active:bg-black-darken/80'>
         피드백 남기기
-      </button>
+      </Link>
     </div>
   )
 }
