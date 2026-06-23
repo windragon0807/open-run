@@ -35,11 +35,11 @@ export default function RecommendationCard({
       <Spacing size={8} />
       <div className='mb-2 flex gap-6'>
         <PlaceIcon className='translate-y-2' size={16} color={colors.white} />
-        <span className='text-14'>{location}</span>
+        <span className='text-14 tracking-wide'>{location}</span>
       </div>
       <div className='flex items-center gap-6'>
         <CalendarIcon size={16} color={colors.white} />
-        <span className='text-14'>{formattedDate}</span>
+        <span className='text-14 tracking-wide'>{formattedDate}</span>
       </div>
       <Spacing size={12} />
       <div className='flex items-center'>
