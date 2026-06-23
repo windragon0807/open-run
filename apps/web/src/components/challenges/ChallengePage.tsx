@@ -83,7 +83,7 @@ export default function ChallengePage() {
 
   return (
     <section className='h-full w-full bg-gray-lighten'>
-      <div className='h-full pt-32 app:pt-72'>
+      <div className='h-full pt-32 app:pt-[calc(32px+var(--app-inset-top))]'>
         <header className='mb-32 flex items-center justify-between px-24'>
           <h1 className='text-28 font-bold'>도전 과제</h1>
           <ListTab selectedTab={selectedList} onTabChange={handleListChange} />

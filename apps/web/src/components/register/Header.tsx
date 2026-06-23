@@ -14,7 +14,7 @@ export default function Header({
   const 건너뛰기버튼이보이는단계인가 = step === 2 || step === 3
 
   return (
-    <header className='absolute flex h-60 w-full items-center bg-gray-lighten px-16 app:top-50'>
+    <header className='absolute flex h-60 w-full items-center bg-gray-lighten px-16 app:top-[var(--app-inset-top)]'>
       <div className='flex w-full items-center justify-between'>
         <button className='group' onClick={onBackIconClick}>
           <ArrowLeftIcon

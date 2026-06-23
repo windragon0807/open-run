@@ -114,7 +114,7 @@ export default function AvatarPage() {
   }
 
   return (
-    <article className='h-full w-full bg-white app:pt-50'>
+    <article className='h-full w-full bg-white app:pt-[var(--app-inset-top)]'>
       <AvatarImageWarmup
         imageUrls={categoryWarmupImageUrls.previewImageUrls}
         width={80}

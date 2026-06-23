@@ -5,6 +5,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --app-inset-top: 0px;
+  --app-inset-bottom: 0px;
+}
+
 @layer components {
   .rarity-common {
     background: linear-gradient(274deg, #DEE2E6 0%, #ADB5BD 100%);

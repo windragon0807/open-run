@@ -268,7 +268,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
             </div>
 
             {/** 수정 완료 버튼 */}
-            <PrimaryButton type='submit' className='mb-40 app:mb-60'>
+            <PrimaryButton type='submit' className='mb-40 app:mb-[calc(40px+var(--app-inset-bottom))]'>
               {isPending ? <LoadingLogo className='mx-auto' /> : '수정 완료'}
             </PrimaryButton>
           </form>

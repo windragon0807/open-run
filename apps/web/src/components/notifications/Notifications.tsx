@@ -10,7 +10,7 @@ export default function Notifications() {
 
   return (
     <section className='h-full w-full bg-white'>
-      <header className='relative flex h-60 items-center justify-center px-16 app:mt-50'>
+      <header className='relative flex h-60 items-center justify-center px-16 app:mt-[var(--app-inset-top)]'>
         <button
           className='absolute left-12 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
           onClick={() => router.back()}>

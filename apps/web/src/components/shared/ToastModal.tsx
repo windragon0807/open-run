@@ -40,7 +40,7 @@ export default function ToastModal({ mode, message, actionLabel, onAction }: Toa
     <AnimatePresence onExitComplete={handleExitComplete}>
       {isOpen && (
         <motion.div
-          className='fixed left-0 right-0 z-modal mx-auto h-[56px] rounded-16 px-16 bottom-24 app:bottom-40'
+          className='fixed left-0 right-0 z-modal mx-auto h-[56px] rounded-16 px-16 bottom-24 app:bottom-[calc(24px+var(--app-inset-bottom))]'
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}

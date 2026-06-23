@@ -64,7 +64,7 @@ export default function Register() {
       )}>
       {step === 0 ? (
         <button
-          className='group absolute left-0 top-0 z-[10] ml-16 h-60 app:top-50'
+          className='group absolute left-0 top-0 z-[10] ml-16 h-60 app:top-[var(--app-inset-top)]'
           onClick={handlePrevious}>
           <ArrowLeftIcon
             className='rounded-8 active-press-duration group-active:scale-90 group-active:bg-primary-darken/20'
@@ -100,7 +100,7 @@ export default function Register() {
 
       {step === 4 ? <Onboarding nickname={data.nickname} /> : null}
 
-      <section className='absolute left-1/2 w-full max-w-tablet -translate-x-1/2 px-16 bottom-40 app:bottom-56'>
+      <section className='absolute left-1/2 w-full max-w-tablet -translate-x-1/2 px-16 bottom-40 app:bottom-[calc(40px+var(--app-inset-bottom))]'>
         <BottomButton onClick={step === 4 ? handleSubmit : handleNext} disabled={닉네임스텝에서버튼이비활성화상태인가}>
           {step === 0 ? '시작하기' : null}
           {step === 1 || step === 2 || step === 3 ? '다음' : null}

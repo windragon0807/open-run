@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 export default function Onboarding({ nickname }: { nickname: string }) {
   return (
-    <section className='flex flex-col items-center pt-124 app:pt-174'>
+    <section className='flex flex-col items-center pt-124 app:pt-[calc(124px+var(--app-inset-top))]'>
       <p className='text-center text-28'>
         <strong>{nickname}</strong> 님
       </p>

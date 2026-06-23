@@ -41,7 +41,7 @@ export default function Profile() {
 
   return (
     <section className='h-full w-full bg-gray-lighten'>
-      <div className='h-full px-24 pt-32 app:pt-72'>
+      <div className='h-full px-24 pt-32 app:pt-[calc(32px+var(--app-inset-top))]'>
         <header className='mb-12 flex items-center justify-between'>
           <h1 className='text-28 font-bold'>프로필</h1>
           <div className='flex items-center gap-8'>

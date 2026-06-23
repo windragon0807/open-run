@@ -17,7 +17,7 @@ export default function Nickname({
   const { handleNicknameChange } = useNicknameValidation()
 
   return (
-    <section className='flex h-full w-full flex-col items-center bg-gray-lighten pt-124 app:pt-174'>
+    <section className='flex h-full w-full flex-col items-center bg-gray-lighten pt-124 app:pt-[calc(124px+var(--app-inset-top))]'>
       <p className='text-center text-28'>닉네임을 정해주세요</p>
       <TypingText
         text='어떻게 불러드릴까요?'

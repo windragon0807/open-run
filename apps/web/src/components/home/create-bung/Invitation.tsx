@@ -121,10 +121,10 @@ export default function Invitation() {
         </ul>
       </div>
       <Spacing size={32} />
-      <ul className='flex flex-col gap-8 overflow-y-auto pb-20 pr-8 h-[calc(100%-160px)] app:h-[calc(100%-260px)]'>
+      <ul className='flex flex-col gap-8 overflow-y-auto pb-20 pr-8 h-[calc(100%-160px)] app:h-[calc(100%-160px-var(--app-inset-bottom))]'>
         {멤버추천리스트를보여줄상태인가 ? renderSuggestionList() : renderSearchedList()}
       </ul>
-      <div className='absolute w-[calc(100%-32px)] bottom-20 app:bottom-56'>
+      <div className='absolute w-[calc(100%-32px)] bottom-20 app:bottom-[calc(20px+var(--app-inset-bottom))]'>
         <PrimaryButton disabled={selectedMembers.length === 0}>초대 완료</PrimaryButton>
       </div>
     </section>

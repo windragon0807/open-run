@@ -3,7 +3,7 @@ import { colors } from '@styles/colors'
 
 export default function AvatarPageSkeleton() {
   return (
-    <article className='h-full w-full bg-white app:pt-50'>
+    <article className='h-full w-full bg-white app:pt-[var(--app-inset-top)]'>
       <header className='relative z-20 flex h-60 w-full items-center justify-center bg-white px-5'>
         <div className='absolute left-16 h-32 w-32 -translate-x-4 rounded-8 bg-gray' />
         <h1 className='text-16 font-bold text-black'>아바타</h1>

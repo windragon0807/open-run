@@ -29,7 +29,7 @@ function RecommendationBungs() {
       {recommendationList?.data.map((bung) => (
         <Link key={bung.bungId} className='text-start' href={`/bung/${bung.bungId}`}>
           <RecommendationCard
-            backgroundImageUrl={bung.mainImage as string}
+            imageUrl={bung.mainImage as string}
             title={bung.name}
             location={bung.location}
             time={bung.startDateTime}

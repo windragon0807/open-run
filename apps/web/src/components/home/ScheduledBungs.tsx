@@ -34,11 +34,12 @@ function BungList() {
         )}
       </div>
       <ul className='mb-8'>
-        {myBungs!.data.map((item) => (
+        {myBungs!.data.map((item, index) => (
           <li key={`myBungs-${item.bungId}`}>
             <Link className='w-full text-start' href={`/bung/${item.bungId}`}>
               <BungCard
-                backgroundImageUrl={item.mainImage as string}
+                imageUrl={item.mainImage as string}
+                imagePriority={index < 3}
                 time={item.startDateTime}
                 title={item.name}
                 place={item.location}

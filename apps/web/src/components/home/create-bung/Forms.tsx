@@ -416,7 +416,7 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
         </div>
 
         {/** 벙 만들기 버튼 */}
-        <div className='pb-[max(64px,env(safe-area-inset-bottom,64px))] app:pb-[max(76px,env(safe-area-inset-bottom,76px))]'>
+        <div className='pb-[max(64px,env(safe-area-inset-bottom,64px))] app:pb-[calc(max(64px,env(safe-area-inset-bottom,64px))+var(--app-inset-bottom))]'>
           <PrimaryButton type='submit' className='mb-0'>
             {isPending ? <LoadingLogo className='mx-auto' /> : '벙 만들기'}
           </PrimaryButton>

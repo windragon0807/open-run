@@ -33,7 +33,7 @@ export default function SettingModal() {
           <span className='text-16 font-bold text-black-darken'>설정</span>
         </header>
 
-        <section className={clsx('px-16 pb-16 app:pb-40')}>
+        <section className={clsx('px-16 pb-16 app:pb-[calc(16px+var(--app-inset-bottom))]')}>
           <MenuButton
             label='회원 정보 수정'
             rightNode={<ArrowRightIcon size={16} color={colors.black.darken} />}

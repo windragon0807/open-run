@@ -21,7 +21,7 @@ export default function DelegateOwner({ memberList }: { memberList: BungMember[]
   const { search, setSearch, filteredList } = useFushSearch(filteredMemberList, 'nickname')
 
   return (
-    <section className='h-full w-full bg-gray-lighten app:pt-50' onClick={(e) => e.stopPropagation()}>
+    <section className='h-full w-full bg-gray-lighten app:pt-[var(--app-inset-top)]' onClick={(e) => e.stopPropagation()}>
       <header className='relative flex h-60 w-full items-center justify-center'>
         <button
           className='absolute left-16 -translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'

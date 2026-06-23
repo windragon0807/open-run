@@ -3,7 +3,7 @@ import FaceNumberPicker from './FaceNumberPicker'
 
 export default function Pace({ pace, setPace }: { pace: string; setPace: (pace: string) => void }) {
   return (
-    <div className='flex h-full w-full flex-col items-center pt-124 app:pt-174'>
+    <div className='flex h-full w-full flex-col items-center pt-124 app:pt-[calc(124px+var(--app-inset-top))]'>
       <div className='mt-10 text-center text-28'>평균 페이스를 알려주세요</div>
       <TypingText
         text='나의 평균 페이스는'

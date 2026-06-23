@@ -2,12 +2,12 @@ import clsx from 'clsx'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
-import { useAppStore } from '@store/app'
 import { Weather } from '@type/weather'
 import AddressClipboard from '@shared/AddressClipboard'
 import { BellIcon } from '@icons/bell'
 import { CopyClipboardIcon } from '@icons/clipboard'
 import { UpperClothIcon } from '@icons/upper-cloth'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 import { useAvatarPageWarmup } from '@hooks/useAvatarPageWarmup'
 import useGeolocation from '@hooks/useGeolocation'
 import { useReverseGeocoding } from '@apis/maps/reverse-geocoding/query'
@@ -27,7 +27,6 @@ const HEADER_BG_FADE = 20
 
 export default function Header() {
   const router = useRouter()
-  const { isApp, insets } = useAppStore()
   const { userInfo } = useUserInfo()
   const { warmupAvatarPage, warmupImageUrls } = useAvatarPageWarmup()
 
@@ -51,7 +50,7 @@ export default function Header() {
       : null
   const receivedLikeCount = profileSummary?.data.receivedLikeCount
 
-  const appTopPadding = insets ? insets.top + 5 : isApp ? 64 : 0
+  const appTopPadding = useAppInsetSize('top', 0)
   const fullHeight = FULL_HEADER_HEIGHT + appTopPadding
   const backgroundMask = `linear-gradient(to bottom, black ${fullHeight - HEADER_BG_FADE}px, transparent ${fullHeight}px)`
 
@@ -96,7 +95,7 @@ export default function Header() {
       </HeaderSection>
 
       <div className='absolute inset-x-0' style={{ top: appTopPadding }}>
-        <div className='absolute left-16 top-8 app:top-0'>
+        <div className='absolute left-16 top-8'>
           <AvatarButton onPointerDown={warmupAvatarPage} onClick={() => router.push('/avatar')} />
         </div>
       </div>

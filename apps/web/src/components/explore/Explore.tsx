@@ -52,7 +52,7 @@ export default function Explore() {
 
   return (
     <section className='h-full w-full bg-white'>
-      <div className='px-16 pt-32 app:pt-72'>
+      <div className='px-16 pt-32 app:pt-[calc(32px+var(--app-inset-top))]'>
         <h1 className='mb-16 text-28 font-bold'>탐색</h1>
         <div className='mb-24 flex items-center gap-8'>
           <label

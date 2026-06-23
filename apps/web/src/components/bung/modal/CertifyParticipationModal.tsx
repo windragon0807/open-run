@@ -74,7 +74,7 @@ export default function CertifyParticipationModal({ bungId, lat, lng }: { bungId
           )}
         </section>
         <PrimaryButton
-          className='mt-20 mb-40 app:mb-50'
+          className='mt-20 mb-40 app:mb-[calc(40px+var(--app-inset-bottom))]'
           disabled={distance == null || distance > 참여인증거리}
           onClick={handleClick}>
           {distance == null && <LoadingLogo />}

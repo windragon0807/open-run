@@ -18,7 +18,7 @@ export default function ManageMembers({ memberList }: { memberList: BungMember[]
   const { search, setSearch, filteredList } = useFushSearch(memberList, 'nickname')
 
   return (
-    <section className='h-full w-full bg-gray-lighten app:pt-50'>
+    <section className='h-full w-full bg-gray-lighten app:pt-[var(--app-inset-top)]'>
       <header className='relative flex h-60 w-full items-center justify-center'>
         <button
           className='absolute left-16 -translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'

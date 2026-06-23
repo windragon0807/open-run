@@ -162,7 +162,7 @@ export default function BungDetails({ details, initialChatAction }: { details: B
   return (
     <section className='relative h-full w-full'>
       <header
-        className='absolute flex h-60 w-full cursor-pointer items-center justify-between px-16 app:top-50'
+        className='absolute flex h-60 w-full cursor-pointer items-center justify-between px-16 app:top-[var(--app-inset-top)]'
         onClick={handleScrollToTop}>
         <button
           className='-translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-white/10'
@@ -210,7 +210,10 @@ export default function BungDetails({ details, initialChatAction }: { details: B
           )}
         </div>
       </header>
-      <div className='h-200 w-full bg-cover app:h-240' style={{ backgroundImage: `url(${details.mainImage})` }} />
+      <div
+        className='h-200 w-full bg-cover app:h-[calc(200px+var(--app-inset-top))]'
+        style={{ backgroundImage: `url(${details.mainImage})` }}
+      />
 
       <motion.section
         style={{ y: translateY }}
@@ -389,7 +392,7 @@ export default function BungDetails({ details, initialChatAction }: { details: B
           </div>
 
           {/* 해시태그 */}
-          <div className='mb-80 flex flex-wrap gap-8 px-16 app:mb-100'>
+          <div className='mb-80 flex flex-wrap gap-8 px-16 app:mb-[calc(80px+var(--app-inset-bottom))]'>
             {details.hashtags.map((label) => (
               <HashTag key={label} label={label} />
             ))}
