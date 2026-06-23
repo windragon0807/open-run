@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 const DEFAULT_REWARD_ROULETTE_IMAGES = [
   '/images/rewards/roulette/body-acc-5.png',
@@ -33,8 +33,10 @@ const CENTERED_ITEM_Y = (VIEWPORT_SIZE - ITEM_SIZE) / 2
 const REDUCED_MOTION_ROUNDS = 2
 const LOOPING_ROUNDS = 3
 const SPINNING_ROUNDS = 6
-const REVEAL_ANIMATION_DURATION_SECONDS = 0.55
-const REVEAL_HOLD_DURATION_MS = 1000
+const REVEAL_IMAGE_SIZE = 168
+const REVEAL_INITIAL_SCALE = ITEM_SIZE / REVEAL_IMAGE_SIZE
+const REVEAL_ANIMATION_DURATION_SECONDS = 0.72
+const REVEAL_COMPLETE_DELAY_MS = 120
 
 type RandomRewardRouletteProps = {
   imagePaths?: readonly string[]
@@ -67,9 +69,14 @@ export default function RandomRewardRoulette({
   const sourceImages = useMemo(() => createImageSourceList(imagePaths, winningImageSrc), [imagePaths, winningImageSrc])
   const [run, setRun] = useState<RouletteRun>(() => createInitialRouletteRun(sourceImages, finalIndex))
   const [phase, setPhase] = useState<RoulettePhase>('looping')
+  const onRevealCompleteRef = useRef(onRevealComplete)
   const isSettling = winningImageSrc != null && winningImageSrc !== ''
   const rounds = shouldReduceMotion ? REDUCED_MOTION_ROUNDS : isSettling ? SPINNING_ROUNDS : LOOPING_ROUNDS
   const targetRound = shouldReduceMotion ? 1 : SPINNING_ROUNDS - 2
+
+  useEffect(() => {
+    onRevealCompleteRef.current = onRevealComplete
+  }, [onRevealComplete])
 
   useEffect(() => {
     if (!isSettling) {
@@ -87,16 +94,16 @@ export default function RandomRewardRoulette({
     }, settleDurationMs)
     const completeTimerId = window.setTimeout(
       () => {
-        onRevealComplete?.()
+        onRevealCompleteRef.current?.()
       },
-      settleDurationMs + REVEAL_ANIMATION_DURATION_SECONDS * 1000 + REVEAL_HOLD_DURATION_MS,
+      settleDurationMs + REVEAL_ANIMATION_DURATION_SECONDS * 1000 + REVEAL_COMPLETE_DELAY_MS,
     )
 
     return () => {
       window.clearTimeout(revealTimerId)
       window.clearTimeout(completeTimerId)
     }
-  }, [finalIndex, isSettling, onRevealComplete, shouldReduceMotion, sourceImages, spinDuration, winningImageSrc])
+  }, [finalIndex, isSettling, shouldReduceMotion, sourceImages, spinDuration, winningImageSrc])
 
   const reelImages = useMemo(
     () => Array.from({ length: rounds }).flatMap(() => run.imagePaths),
@@ -114,14 +121,18 @@ export default function RandomRewardRoulette({
   return (
     <div
       aria-hidden='true'
-      className={`w-168 rounded-8 bg-white/12 relative aspect-square overflow-hidden shadow-[inset_0_1px_0_rgba(255,255,255,0.24)] ring-1 ring-white/20 ${className}`}
+      className={`w-168 rounded-8 relative aspect-square overflow-hidden transition-[background-color,box-shadow] duration-300 ${
+        isWinnerRevealed
+          ? 'bg-transparent shadow-none ring-0'
+          : 'bg-white/12 shadow-[inset_0_1px_0_rgba(255,255,255,0.24)] ring-1 ring-white/20'
+      } ${className}`}
     >
       <div className='absolute inset-0 [-webkit-mask-image:linear-gradient(to_bottom,transparent,black_22%,black_78%,transparent)] [mask-image:linear-gradient(to_bottom,transparent,black_22%,black_78%,transparent)]'>
         <motion.div
           key={run.runId}
           className='flex flex-col items-center gap-14 will-change-transform'
           initial={{ y: shouldReduceMotion ? targetY : startY }}
-          animate={{ y: targetY }}
+          animate={{ opacity: isWinnerRevealed ? 0 : 1, y: targetY }}
           transition={
             shouldReduceMotion
               ? { duration: 0 }
@@ -142,7 +153,14 @@ export default function RandomRewardRoulette({
               key={`${imageSrc}-${index}`}
               className='relative flex size-56 shrink-0 items-center justify-center rounded-full bg-white/95 shadow-[0_8px_18px_rgba(0,0,0,0.10)]'
             >
-              <Image src={imageSrc} alt='' fill sizes='56px' className='object-contain p-6' />
+              <Image
+                src={imageSrc}
+                alt=''
+                fill
+                sizes='56px'
+                className='object-contain p-6'
+                unoptimized={winningImageSrc === imageSrc}
+              />
             </div>
           ))}
         </motion.div>
@@ -151,7 +169,7 @@ export default function RandomRewardRoulette({
       <motion.div
         className='rounded-8 pointer-events-none absolute inset-0 bg-white'
         initial={{ opacity: 0.12 }}
-        animate={{ opacity: isWinnerRevealed ? 0.16 : shouldReduceMotion ? 0.08 : [0.12, 0.04, 0.08] }}
+        animate={{ opacity: isWinnerRevealed ? 0 : shouldReduceMotion ? 0.08 : [0.12, 0.04, 0.08] }}
         transition={{ duration: shouldReduceMotion ? 0 : isWinnerRevealed ? 0.2 : spinDuration, ease: 'easeOut' }}
       />
 
@@ -165,16 +183,17 @@ export default function RandomRewardRoulette({
             transition={{ duration: shouldReduceMotion ? 0 : 0.16 }}
           >
             <motion.div
-              className='size-132 relative flex items-center justify-center rounded-full bg-white shadow-[0_18px_36px_rgba(0,0,0,0.18)] ring-1 ring-white/80'
-              initial={{ scale: shouldReduceMotion ? 1 : 0.82, y: shouldReduceMotion ? 0 : 8 }}
-              animate={{ scale: shouldReduceMotion ? 1 : [0.82, 1.18, 1], y: 0 }}
+              className='relative flex items-center justify-center'
+              style={{ height: REVEAL_IMAGE_SIZE, width: REVEAL_IMAGE_SIZE }}
+              initial={{ scale: shouldReduceMotion ? 1 : REVEAL_INITIAL_SCALE, y: 0 }}
+              animate={{ scale: shouldReduceMotion ? 1 : [REVEAL_INITIAL_SCALE, 1.04, 1], y: 0 }}
               transition={{
                 duration: shouldReduceMotion ? 0 : REVEAL_ANIMATION_DURATION_SECONDS,
                 ease: [0.16, 1, 0.3, 1],
-                times: [0, 0.62, 1],
+                times: [0, 0.78, 1],
               }}
             >
-              <Image src={winningImageSrc} alt='' fill sizes='132px' className='object-contain p-12' />
+              <Image src={winningImageSrc} alt='' fill sizes='168px' className='object-contain' unoptimized />
             </motion.div>
           </motion.div>
         )}
