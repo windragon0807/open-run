@@ -3,12 +3,11 @@
 import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
-import { useUserStore } from '@store/user'
 import { WeekCount } from '@type/register'
 import Input from '@shared/Input'
 import NumberInput from '@shared/NumberInput'
 import { useRegister } from '@apis/v1/users/mutation'
-import { userQueries } from '@apis/v1/users/query'
+import { useUserInfo, userQueries } from '@apis/v1/users/query'
 import { padStart } from '@utils/string'
 
 type FormValues = {
@@ -21,8 +20,9 @@ type FormValues = {
 export default function Form() {
   const router = useRouter()
   const queryClient = useQueryClient()
-  const { userInfo } = useUserStore()
-  const { paceMinute, paceSecond } = parseRunningPace(userInfo.runningPace)
+  const { userInfo } = useUserInfo()
+  const currentUserInfo = userInfo!
+  const { paceMinute, paceSecond } = parseRunningPace(currentUserInfo.runningPace)
 
   const {
     register,
@@ -32,10 +32,10 @@ export default function Form() {
   } = useForm<FormValues>({
     mode: 'onChange',
     defaultValues: {
-      nickname: userInfo.nickname,
+      nickname: currentUserInfo.nickname,
       paceMinute,
       paceSecond,
-      frequency: userInfo.runningFrequency,
+      frequency: currentUserInfo.runningFrequency,
     },
   })
 

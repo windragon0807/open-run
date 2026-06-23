@@ -6,7 +6,6 @@ import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import { Fragment, useEffect, useRef } from 'react'
 import { useModal } from '@contexts/ModalProvider'
-import { useUserStore } from '@store/user'
 import { BungInfo } from '@type/bung'
 import PrimaryButton from '@shared/PrimaryButton'
 import RunStartedText from '@shared/RunStartedText'
@@ -23,6 +22,7 @@ import useTimer from '@hooks/useTimer'
 import { useCompleteBung } from '@apis/v1/bungs/[bungId]/complete/mutation'
 import { useJoinBung } from '@apis/v1/bungs/[bungId]/join/mutation'
 import { useDropoutMember } from '@apis/v1/bungs/[bungId]/members/[userId]/mutation'
+import { useUserInfo } from '@apis/v1/users/query'
 import { formatDate, timerFormat } from '@utils/time'
 import { MODAL_KEY } from '@constants/modal'
 import { DEFAULT_PROFILE_IMAGE_URL } from '@constants/profile'
@@ -43,13 +43,15 @@ export default function BungDetails({ details, initialChatAction }: { details: B
   const router = useRouter()
   const { bungId } = useParams<{ bungId: string }>()
   const { showModal } = useModal()
-  const { userInfo } = useUserStore()
+  const { userInfo } = useUserInfo()
   const { mutate: completeBung } = useCompleteBung()
   const { mutate: dropoutMember } = useDropoutMember()
   const { mutate: joinBung } = useJoinBung()
+  const currentUserId = userInfo?.userId
 
-  const isParticipated = details.memberList.some((participant) => participant.userId === userInfo!.userId)
-  const isOwner = details.memberList.find((participant) => participant.userId === userInfo!.userId)?.owner ?? false
+  const isParticipated =
+    currentUserId != null && details.memberList.some((participant) => participant.userId === currentUserId)
+  const isOwner = details.memberList.find((participant) => participant.userId === currentUserId)?.owner ?? false
 
   /* 스크롤이 올라갈수록 컨텐츠 영역이 올라가는 효과를 주기 위한 로직 */
   const containerRef = useRef<HTMLDivElement>(null)
@@ -94,7 +96,7 @@ export default function BungDetails({ details, initialChatAction }: { details: B
                 imageUrl={details.mainImage as string}
                 title={details.name}
                 location={details.location}
-                memberList={details.memberList.filter((member) => member.userId !== userInfo!.userId)}
+                memberList={details.memberList.filter((member) => member.userId !== currentUserId)}
               />
             ),
           })
@@ -117,8 +119,10 @@ export default function BungDetails({ details, initialChatAction }: { details: B
   }
 
   const handleExit = () => {
+    if (currentUserId == null) return
+
     dropoutMember(
-      { userId: userInfo!.userId, bungId: details.bungId },
+      { userId: currentUserId, bungId: details.bungId },
       {
         onSuccess: () => {
           router.refresh()
@@ -130,7 +134,7 @@ export default function BungDetails({ details, initialChatAction }: { details: B
   const 벙에참여한벙주인가 = isParticipated && isOwner
   const 벙에참여한멤버인가 = isParticipated && !isOwner
   const 벙에참여한유저인가 = isParticipated
-  const 현재유저의벙참여정보 = details.memberList.find((member) => member.userId === userInfo!.userId)
+  const 현재유저의벙참여정보 = details.memberList.find((member) => member.userId === currentUserId)
   const 벙이진행중인가 = days <= 0 && hours <= 0 && minutes <= 0 && seconds <= 0
   const bungInfoIconColor = 벙에참여한유저인가
     ? 벙이진행중인가

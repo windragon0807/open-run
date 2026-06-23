@@ -26,7 +26,7 @@ import { colors } from '@styles/colors'
 import SettingModal from './SettingModal'
 
 export default function Profile() {
-  const { data } = useUserInfo()
+  const { userInfo } = useUserInfo()
   const { data: profileSummary } = useProfileSummary()
   const { data: completedBungs } = useMyBungs({
     isOwned: null,
@@ -62,15 +62,15 @@ export default function Profile() {
         </header>
 
         <div className='mx-auto mb-8 size-[112px] shrink-0'>
-          <Image
-            className='size-full object-contain'
-            src={data?.data.profileImageUrl || DEFAULT_PROFILE_IMAGE_URL}
-            alt='avatar'
-            width={112}
-            height={112}
-          />
-        </div>
-        <h4 className='mb-4 text-center text-16 font-bold'>{data?.data.nickname}</h4>
+            <Image
+              className='size-full object-contain'
+              src={userInfo?.profileImageUrl || DEFAULT_PROFILE_IMAGE_URL}
+              alt='avatar'
+              width={112}
+              height={112}
+            />
+          </div>
+        <h4 className='mb-4 text-center text-16 font-bold'>{userInfo?.nickname}</h4>
         <AddressClipboard>
           {(address) => (
             <div className='mx-auto mb-8 flex w-fit cursor-pointer items-center gap-8 rounded-16 bg-white px-16 py-4 active-press-duration active:scale-95 active:bg-gray/30'>

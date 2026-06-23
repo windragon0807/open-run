@@ -4,21 +4,19 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
 import { useAppStore } from '@store/app'
-import { useUserStore } from '@store/user'
-import { WearingAvatar } from '@type/avatar'
 import { Weather } from '@type/weather'
 import AddressClipboard from '@shared/AddressClipboard'
-import Avatar from '@shared/Avatar'
 import { BellIcon } from '@icons/bell'
 import { CopyClipboardIcon } from '@icons/clipboard'
 import { UpperClothIcon } from '@icons/upper-cloth'
 import { useAvatarPageWarmup } from '@hooks/useAvatarPageWarmup'
 import useGeolocation from '@hooks/useGeolocation'
 import { useReverseGeocoding } from '@apis/maps/reverse-geocoding/query'
-import { useWearingNftAvatarQuery } from '@apis/v1/nft/avatar-items/query'
 import { useProfileSummary } from '@apis/v1/users/profile-summary/query'
+import { useUserInfo } from '@apis/v1/users/query'
 import { useCurrentWeather } from '@apis/weather/query'
 import addDelimiter from '@utils/addDelimiter'
+import { DEFAULT_PROFILE_IMAGE_URL } from '@constants/profile'
 import { colors } from '@styles/colors'
 import AvatarImageWarmup from '../avatar/AvatarImageWarmup'
 import GlassSurface from '../shared/GlassSurface'
@@ -48,10 +46,9 @@ export default function Header({
 }) {
   const router = useRouter()
   const { isApp, insets } = useAppStore()
-  const { userInfo } = useUserStore()
+  const { userInfo } = useUserInfo()
   const { warmupAvatarPage, warmupImageUrls } = useAvatarPageWarmup()
 
-  const { data: wearingAvatar } = useWearingNftAvatarQuery()
   const { data: profileSummary } = useProfileSummary()
   const { location, refetch } = useGeolocation()
   const { data: reverseGeocode } = useReverseGeocoding(
@@ -143,7 +140,7 @@ export default function Header({
         <AvatarPane
           size='large'
           weatherImage={weatherAssets?.image ?? null}
-          avatar={wearingAvatar?.data}
+          avatarImageUrl={userInfo?.profileImageUrl}
           feedback={receivedLikeCount}
         />
         <div className='flex flex-col'>
@@ -160,7 +157,7 @@ export default function Header({
         <AvatarPane
           size='small'
           weatherImage={weatherAssets?.image ?? null}
-          avatar={wearingAvatar?.data}
+          avatarImageUrl={userInfo?.profileImageUrl}
           feedback={receivedLikeCount}
         />
         <div className='flex flex-col'>
@@ -225,22 +222,33 @@ function HeaderSection({
 }
 
 const AVATAR_PANE_STYLE = {
-  large: { pane: 'w-[176px]', avatar: 'h-200 w-160', avatarSizes: '160px', likeLabel: 'bottom-8 left-12' },
-  small: { pane: 'w-[118px]', avatar: 'h-90 w-68', avatarSizes: '68px', likeLabel: 'bottom-8 left-8' },
+  large: {
+    pane: 'w-[176px]',
+    avatar: 'left-[96px] h-200 w-200 -translate-x-1/2',
+    avatarSizes: '200px',
+    likeLabel: 'bottom-8 left-12',
+  },
+  small: {
+    pane: 'w-[118px]',
+    avatar: 'left-[84px] h-90 w-90 -translate-x-1/2',
+    avatarSizes: '90px',
+    likeLabel: 'bottom-8 left-8',
+  },
 } as const
 
 function AvatarPane({
   size,
   weatherImage,
-  avatar,
+  avatarImageUrl,
   feedback,
 }: {
   size: HeaderSize
   weatherImage: string | null
-  avatar: WearingAvatar | undefined
+  avatarImageUrl: string | null | undefined
   feedback: number | undefined
 }) {
   const style = AVATAR_PANE_STYLE[size]
+  const resolvedAvatarImageUrl = avatarImageUrl || DEFAULT_PROFILE_IMAGE_URL
 
   return (
     <div className={clsx('relative flex flex-shrink-0 items-end justify-end', style.pane)}>
@@ -266,7 +274,15 @@ function AvatarPane({
             priority
           />
         ))}
-      {avatar && <Avatar className={clsx('absolute', style.avatar)} sizes={style.avatarSizes} {...avatar} />}
+      <Image
+        className={clsx('absolute object-contain', style.avatar)}
+        src={resolvedAvatarImageUrl}
+        alt='avatar'
+        width={size === 'large' ? 200 : 90}
+        height={size === 'large' ? 200 : 90}
+        sizes={style.avatarSizes}
+        priority
+      />
 
       {size === 'large' && (
         <div className={clsx('absolute', style.likeLabel)}>

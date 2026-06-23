@@ -40,5 +40,8 @@ export function useUserInfo(options?: UseUserInfoOptions) {
     onSuccessRef.current?.(query.data)
   }, [query.data, query.dataUpdatedAt])
 
-  return query
+  return {
+    ...query,
+    userInfo: query.data?.data ?? null,
+  }
 }
