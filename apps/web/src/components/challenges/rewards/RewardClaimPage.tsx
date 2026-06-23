@@ -189,7 +189,7 @@ export default function RewardClaimPage({ userChallengeId }: RewardClaimPageProp
         <AnimatePresence mode='wait'>
           <motion.h1
             key={notice != null ? notice : isRewardRevealVisible ? 'revealed' : 'claiming'}
-            className='text-28 mt-[105px] font-bold text-white'
+            className='font-jost text-28 mt-[105px] font-black text-white'
             initial={{ y: 8, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -8, opacity: 0 }}
@@ -225,9 +225,9 @@ export default function RewardClaimPage({ userChallengeId }: RewardClaimPageProp
                 exit={{ y: 6, opacity: 0 }}
                 transition={{ duration: 0.28, ease: 'easeOut' }}
               >
-                <RarityBadge rarity={mintJob.nftRarity as Rarity} className='mt-8' />
-                <h4 className='text-16 mt-8 text-center font-bold text-white'>{mintJob.nftName}</h4>
-                <span className='text-12 mt-4 text-white'>{mintJob.nftCategory}</span>
+                <RarityBadge rarity={mintJob.nftRarity as Rarity} className='mt-16' />
+                <h4 className='text-20 mt-8 text-center font-bold text-white'>{mintJob.nftName}</h4>
+                <span className='text-16 mt-4 text-white'>{mintJob.nftCategory}</span>
               </motion.div>
             )}
           </AnimatePresence>

@@ -7,8 +7,9 @@ export function useSaveWearingNftAvatarWithProfileImageMutation() {
 
   return useMutation({
     mutationFn: saveWearingNftAvatarWithProfileImage,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: nftAvatarQueries.wearing().queryKey })
+    onSuccess: (response) => {
+      queryClient.setQueryData(nftAvatarQueries.wearing().queryKey, response)
+      void queryClient.invalidateQueries({ queryKey: nftAvatarQueries.wearing().queryKey })
     },
   })
 }

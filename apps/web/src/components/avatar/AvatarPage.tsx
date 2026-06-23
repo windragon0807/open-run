@@ -18,7 +18,6 @@ import { bungsQueries } from '@apis/v1/bungs/query'
 import { SaveWearingNftAvatarRequest } from '@apis/v1/nft/avatar-items'
 import { useSaveWearingNftAvatarWithProfileImageMutation } from '@apis/v1/nft/avatar-items/mutation'
 import {
-  nftAvatarQueries,
   useSuspenseOwnedNftAvatarItemsQuery,
   useSuspenseWearingNftAvatarQuery,
 } from '@apis/v1/nft/avatar-items/query'
@@ -31,6 +30,7 @@ import AvatarImageWarmup from './AvatarImageWarmup'
 import Category from './Category'
 
 const PROFILE_IMAGE_SIZE = 512
+const AVATAR_CAPTURE_SCALE = 2
 
 const EMPTY_WEARING_AVATAR: WearingAvatar = {
   upperClothing: null,
@@ -100,11 +100,8 @@ export default function AvatarPage() {
       })
       setSelectedAvatar(data)
 
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: nftAvatarQueries.wearing().queryKey }),
-        queryClient.invalidateQueries({ queryKey: userQueries.me().queryKey }),
-        queryClient.invalidateQueries({ queryKey: bungsQueries.all() }),
-      ])
+      void queryClient.invalidateQueries({ queryKey: userQueries.me().queryKey })
+      void queryClient.invalidateQueries({ queryKey: bungsQueries.all() })
 
       showToast(showModal, 'success', '아바타 저장 완료!')
       router.replace('/')
@@ -202,7 +199,7 @@ async function captureAvatarProfileImage(avatarElement: HTMLElement): Promise<Bl
   const sourceCanvas = await html2canvas(avatarElement, {
     backgroundColor: null,
     logging: false,
-    scale: Math.max(2, window.devicePixelRatio || 1),
+    scale: AVATAR_CAPTURE_SCALE,
     useCORS: true,
   })
 
