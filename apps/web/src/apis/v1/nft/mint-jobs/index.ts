@@ -27,8 +27,9 @@ export type MintJobResponseType = ApiResponse<NftMintJob>
 
 export type StartMintJobRequestType = {
   userChallengeId: number
+  signal?: AbortSignal
 }
 
-export function startMintJob({ userChallengeId }: StartMintJobRequestType): Promise<MintJobResponseType> {
-  return http.post('/v1/nft/mint-jobs', null, { params: { userChallengeId } })
+export function startMintJob({ userChallengeId, signal }: StartMintJobRequestType): Promise<MintJobResponseType> {
+  return http.post('/v1/nft/mint-jobs', null, { params: { userChallengeId }, signal })
 }

@@ -4,29 +4,23 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useModal } from '@contexts/ModalProvider'
 import { Rarity } from '@type/avatar'
 import RarityBadge from '@components/avatar/shared/RarityBadge'
+import ToastModal from '@shared/ToastModal'
 import type { NftMintJob } from '@apis/v1/nft/mint-jobs'
 import { useStartMintJobMutation } from '@apis/v1/nft/mint-jobs/mutation'
+import { MODAL_KEY } from '@constants/modal'
 import RandomRewardRoulette from './RandomRewardRoulette'
+import { MAX_MINT_JOB_ATTEMPTS, getRewardClaimAttemptDecision, hasCompleteRewardPayload } from './rewardClaimFlow'
 
 const CHALLENGES_PROGRESS_PATH = '/challenges?list=progress'
+const REWARD_CLAIM_FALLBACK_MESSAGE = '잠시 후 다시 시도해 주세요'
 
-/* 최초 요청 1회 + 자동 재시도 1회 */
-const MAX_ATTEMPTS = 2
 const ROULETTE_MIN_LOOP_DURATION_MS = 1400
 const ROULETTE_SETTLE_DURATION_SECONDS = 2.4
 const PENDING_RETRY_DELAY_MS = 1000
-
-/* failed: 재시도까지 실패 */
-type ClaimNotice = 'failed'
-
-const NOTICE_CONTENT: Record<ClaimNotice, { title: string; message: [string, string] }> = {
-  failed: {
-    title: '발급 실패',
-    message: ['보상 발급에 실패했어요.', '잠시 후 다시 시도해 주세요.'],
-  },
-}
+const MINT_JOB_RESPONSE_TIMEOUT_MS = 8000
 
 type RewardClaimPageProps = {
   userChallengeId: number
@@ -34,10 +28,10 @@ type RewardClaimPageProps = {
 
 export default function RewardClaimPage({ userChallengeId }: RewardClaimPageProps) {
   const router = useRouter()
+  const { showModal } = useModal()
   const { mutateAsync: startMintJob } = useStartMintJobMutation()
   const [mintJob, setMintJob] = useState<NftMintJob | null>(null)
   const [isRewardRevealVisible, setIsRewardRevealVisible] = useState(false)
-  const [notice, setNotice] = useState<ClaimNotice | null>(null)
   const startMintJobRef = useRef(startMintJob)
   const mintRequestRef = useRef<{
     userChallengeId: number
@@ -53,26 +47,28 @@ export default function RewardClaimPage({ userChallengeId }: RewardClaimPageProp
     setIsRewardRevealVisible(true)
   }, [])
 
+  const fallbackToChallenges = useCallback(() => {
+    showModal({
+      key: MODAL_KEY.TOAST,
+      component: <ToastModal mode='error' message={REWARD_CLAIM_FALLBACK_MESSAGE} />,
+    })
+    router.replace(CHALLENGES_PROGRESS_PATH)
+  }, [router, showModal])
+
   useEffect(() => {
     attemptCountRef.current = 0
     setMintJob(null)
     setIsRewardRevealVisible(false)
-    setNotice(null)
 
     let isActive = true
     let settleTimerId: number | null = null
-    let pendingRetryTimerId: number | null = null
+    let retryTimerId: number | null = null
     const requestedAt = Date.now()
 
-    const handleFailure = async () => {
+    const handleFallback = () => {
       if (!isActive) return
 
-      if (attemptCountRef.current < MAX_ATTEMPTS) {
-        await requestMint()
-        return
-      }
-
-      setNotice('failed')
+      fallbackToChallenges()
     }
 
     const getMintRequest = () => {
@@ -82,12 +78,17 @@ export default function RewardClaimPage({ userChallengeId }: RewardClaimPageProp
         return currentRequest.promise
       }
 
-      const promise = startMintJobRef.current({ userChallengeId })
+      const abortController = new AbortController()
+      const timeoutTimerId = window.setTimeout(() => {
+        abortController.abort()
+      }, MINT_JOB_RESPONSE_TIMEOUT_MS)
+      const promise = startMintJobRef.current({ userChallengeId, signal: abortController.signal })
       const nextRequest = { userChallengeId, promise }
       mintRequestRef.current = nextRequest
 
       void promise
         .finally(() => {
+          window.clearTimeout(timeoutTimerId)
           if (mintRequestRef.current === nextRequest) {
             mintRequestRef.current = null
           }
@@ -95,6 +96,17 @@ export default function RewardClaimPage({ userChallengeId }: RewardClaimPageProp
         .catch(() => undefined)
 
       return promise
+    }
+
+    const scheduleRetry = () => {
+      if (retryTimerId != null) {
+        window.clearTimeout(retryTimerId)
+      }
+
+      retryTimerId = window.setTimeout(() => {
+        if (!isActive) return
+        void requestMint()
+      }, PENDING_RETRY_DELAY_MS)
     }
 
     const scheduleRouletteSettle = async (job: NftMintJob) => {
@@ -121,43 +133,52 @@ export default function RewardClaimPage({ userChallengeId }: RewardClaimPageProp
       setMintJob(job)
     }
 
-    const schedulePendingRetry = () => {
-      if (pendingRetryTimerId != null) {
-        window.clearTimeout(pendingRetryTimerId)
-      }
-
-      pendingRetryTimerId = window.setTimeout(() => {
-        if (!isActive) return
-        void requestMint()
-      }, PENDING_RETRY_DELAY_MS)
-    }
-
     const requestMint = async () => {
       attemptCountRef.current += 1
+      const attempt = attemptCountRef.current
 
       try {
         const response = await getMintRequest()
         if (!isActive) return
 
         const job = response.data
+        const decision = getRewardClaimAttemptDecision({
+          attempt,
+          status: job.status,
+          hasRewardPayload: hasCompleteRewardPayload(job),
+        })
 
-        if (job.status === 'SUCCESS' && job.nftName && job.nftImage && job.nftRarity && job.nftCategory) {
+        if (decision === 'reveal') {
           await scheduleRouletteSettle(job)
           return
         }
 
-        if (job.status === 'FAILED') {
-          await handleFailure()
+        if (decision === 'retry') {
+          mintRequestRef.current = null
+          scheduleRetry()
           return
         }
 
-        mintRequestRef.current = null
-        schedulePendingRetry()
+        handleFallback()
       } catch {
+        if (!isActive) return
+
         if (mintRequestRef.current?.userChallengeId === userChallengeId) {
           mintRequestRef.current = null
         }
-        await handleFailure()
+
+        const decision = getRewardClaimAttemptDecision({
+          attempt,
+          status: null,
+          hasRewardPayload: false,
+        })
+
+        if (decision === 'retry') {
+          scheduleRetry()
+          return
+        }
+
+        handleFallback()
       }
     }
 
@@ -168,11 +189,11 @@ export default function RewardClaimPage({ userChallengeId }: RewardClaimPageProp
       if (settleTimerId != null) {
         window.clearTimeout(settleTimerId)
       }
-      if (pendingRetryTimerId != null) {
-        window.clearTimeout(pendingRetryTimerId)
+      if (retryTimerId != null) {
+        window.clearTimeout(retryTimerId)
       }
     }
-  }, [userChallengeId])
+  }, [fallbackToChallenges, userChallengeId])
 
   return (
     <section className='relative h-full w-full overflow-hidden'>
@@ -188,32 +209,24 @@ export default function RewardClaimPage({ userChallengeId }: RewardClaimPageProp
       >
         <AnimatePresence mode='wait'>
           <motion.h1
-            key={notice != null ? notice : isRewardRevealVisible ? 'revealed' : 'claiming'}
+            key={isRewardRevealVisible ? 'revealed' : 'claiming'}
             className='font-jost text-28 mt-[105px] font-black text-white'
             initial={{ y: 8, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -8, opacity: 0 }}
             transition={{ duration: 0.24, ease: 'easeOut' }}
           >
-            {notice != null ? NOTICE_CONTENT[notice].title : isRewardRevealVisible ? '신규 획득!' : '보상 발급 중'}
+            {isRewardRevealVisible ? '신규 획득!' : '보상 발급 중'}
           </motion.h1>
         </AnimatePresence>
 
         <div className='mt-40 flex flex-col items-center'>
           <div className='w-168 relative flex aspect-square items-center justify-center'>
-            {notice != null ? (
-              <span className='text-14 text-center text-white/80'>
-                {NOTICE_CONTENT[notice].message[0]}
-                <br />
-                {NOTICE_CONTENT[notice].message[1]}
-              </span>
-            ) : (
-              <RandomRewardRoulette
-                winningImageSrc={mintJob?.nftImage ?? null}
-                spinDuration={ROULETTE_SETTLE_DURATION_SECONDS}
-                onRevealComplete={handleRouletteRevealComplete}
-              />
-            )}
+            <RandomRewardRoulette
+              winningImageSrc={mintJob?.nftImage ?? null}
+              spinDuration={ROULETTE_SETTLE_DURATION_SECONDS}
+              onRevealComplete={handleRouletteRevealComplete}
+            />
           </div>
 
           <AnimatePresence>
@@ -253,17 +266,6 @@ export default function RewardClaimPage({ userChallengeId }: RewardClaimPageProp
               </button>
             </Link>
           </motion.div>
-        )}
-
-        {notice != null && (
-          <div className='absolute bottom-40 left-16 right-16'>
-            <button
-              className='rounded-8 active-press-duration active:scale-98 active:bg-gray-lighten flex h-56 w-full items-center justify-center bg-white'
-              onClick={() => router.replace(CHALLENGES_PROGRESS_PATH)}
-            >
-              <span className='text-16 text-black-darken font-bold'>뒤로가기</span>
-            </button>
-          </div>
         )}
       </motion.div>
     </section>
