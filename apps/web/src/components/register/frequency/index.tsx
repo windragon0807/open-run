@@ -1,6 +1,9 @@
+'use client'
+
 import TypingText from '@components/shared/TypingText'
 import { WeekCount } from '@type/register'
 import ChainPicker from '@shared/ChainPicker'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 
 export default function Frequency({
   frequency = 0,
@@ -9,8 +12,10 @@ export default function Frequency({
   frequency?: WeekCount
   setFrequency: (frequency: WeekCount) => void
 }) {
+  const topPadding = useAppInsetSize('top', 124)
+
   return (
-    <section className='flex flex-col items-center pt-124 app:pt-[calc(124px+var(--app-inset-top))]'>
+    <section className='flex flex-col items-center pt-124' style={{ paddingTop: topPadding }}>
       <p className='text-center text-28'>얼마나 자주 뛰시나요?</p>
       <TypingText
         text='나의 일주일 러닝 횟수는'

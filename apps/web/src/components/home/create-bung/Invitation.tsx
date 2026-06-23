@@ -10,6 +10,7 @@ import { CheckIcon } from '@icons/check'
 import { MagnifierIcon } from '@icons/magnifier'
 import { BrokenXIcon } from '@icons/x'
 import useDebounce from '@hooks/useDebounce'
+import useAppInsetSize, { useAppInsetValue } from '@hooks/useAppInsetSize'
 import { useSearchByNicknameMutation } from '@apis/v1/users/nickname/query'
 import { fetchSuggestion } from '@apis/v1/users/suggestion'
 import { colors } from '@styles/colors'
@@ -24,6 +25,8 @@ const suggestionQueries = {
 
 export default function Invitation() {
   const { mutate: searchByNickname, data: searchedList } = useSearchByNicknameMutation()
+  const bottomInset = useAppInsetValue('bottom')
+  const buttonBottom = useAppInsetSize('bottom', 20)
   const [selectedMembers, setSelectedMembers] = useState<
     {
       userId: string
@@ -121,10 +124,12 @@ export default function Invitation() {
         </ul>
       </div>
       <Spacing size={32} />
-      <ul className='flex flex-col gap-8 overflow-y-auto pb-20 pr-8 h-[calc(100%-160px)] app:h-[calc(100%-160px-var(--app-inset-bottom))]'>
+      <ul
+        className='flex flex-col gap-8 overflow-y-auto pb-20 pr-8 h-[calc(100%-160px)]'
+        style={{ height: `calc(100% - ${160 + bottomInset}px)` }}>
         {멤버추천리스트를보여줄상태인가 ? renderSuggestionList() : renderSearchedList()}
       </ul>
-      <div className='absolute w-[calc(100%-32px)] bottom-20 app:bottom-[calc(20px+var(--app-inset-bottom))]'>
+      <div className='absolute w-[calc(100%-32px)] bottom-20' style={{ bottom: buttonBottom }}>
         <PrimaryButton disabled={selectedMembers.length === 0}>초대 완료</PrimaryButton>
       </div>
     </section>

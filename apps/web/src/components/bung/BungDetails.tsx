@@ -18,6 +18,7 @@ import { PencilIcon } from '@icons/pencil'
 import { FilledPersonIcon } from '@icons/person'
 import { PlaceIcon } from '@icons/place'
 import { RunnerIcon } from '@icons/runner'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 import useTimer from '@hooks/useTimer'
 import { useCompleteBung } from '@apis/v1/bungs/[bungId]/complete/mutation'
 import { useJoinBung } from '@apis/v1/bungs/[bungId]/join/mutation'
@@ -141,6 +142,9 @@ export default function BungDetails({ details, initialChatAction }: { details: B
       ? BUNG_INFO_ICON_GRADIENT_COLOR
       : colors.pink
     : colors.primary.DEFAULT
+  const top = useAppInsetSize('top', 0)
+  const imageHeight = useAppInsetSize('top', 200)
+  const hashtagMarginBottom = useAppInsetSize('bottom', 80)
 
   const hasHandledChatActionRef = useRef(false)
   useEffect(() => {
@@ -162,7 +166,8 @@ export default function BungDetails({ details, initialChatAction }: { details: B
   return (
     <section className='relative h-full w-full overflow-hidden'>
       <header
-        className='absolute flex h-60 w-full cursor-pointer items-center justify-between px-16 app:top-[var(--app-inset-top)]'
+        className='absolute flex h-60 w-full cursor-pointer items-center justify-between px-16'
+        style={{ top }}
         onClick={handleScrollToTop}>
         <button
           className='-translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-white/10'
@@ -211,8 +216,8 @@ export default function BungDetails({ details, initialChatAction }: { details: B
         </div>
       </header>
       <div
-        className='h-200 w-full bg-cover app:h-[calc(200px+var(--app-inset-top))]'
-        style={{ backgroundImage: `url(${details.mainImage})` }}
+        className='h-200 w-full bg-cover'
+        style={{ height: imageHeight, backgroundImage: `url(${details.mainImage})` }}
       />
 
       <motion.section
@@ -392,7 +397,7 @@ export default function BungDetails({ details, initialChatAction }: { details: B
           </div>
 
           {/* 해시태그 */}
-          <div className='mb-80 flex flex-wrap gap-8 px-16 app:mb-[calc(80px+var(--app-inset-bottom))]'>
+          <div className='mb-80 flex flex-wrap gap-8 px-16' style={{ marginBottom: hashtagMarginBottom }}>
             {details.hashtags.map((label) => (
               <HashTag key={label} label={label} />
             ))}

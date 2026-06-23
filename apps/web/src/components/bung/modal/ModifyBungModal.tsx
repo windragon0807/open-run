@@ -1,3 +1,5 @@
+'use client'
+
 import { differenceInMinutes } from 'date-fns'
 import { useRouter } from 'next/navigation'
 import { useRef } from 'react'
@@ -16,6 +18,7 @@ import TextArea from '@shared/TextArea'
 import { CalendarIcon } from '@icons/calendar'
 import { ClockIcon } from '@icons/clock'
 import { BrokenXIcon } from '@icons/x'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 import { useThumbnailImage } from '@hooks/useThumbnailImage'
 import { useModifyBung } from '@apis/v1/bungs/[bungId]/mutation'
 import { formatDate } from '@utils/time'
@@ -44,6 +47,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
   const { mutate: modifyBung, isPending } = useModifyBung()
   const 참여중인멤버수 = details.memberList.length
   const { nextImage } = useThumbnailImage()
+  const submitButtonMarginBottom = useAppInsetSize('bottom', 40)
 
   const {
     register,
@@ -268,9 +272,9 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
             </div>
 
             {/** 수정 완료 버튼 */}
-            <PrimaryButton type='submit' className='mb-40 app:mb-[calc(40px+var(--app-inset-bottom))]'>
-              {isPending ? <LoadingLogo className='mx-auto' /> : '수정 완료'}
-            </PrimaryButton>
+            <div className='mb-40' style={{ marginBottom: submitButtonMarginBottom }}>
+              <PrimaryButton type='submit'>{isPending ? <LoadingLogo className='mx-auto' /> : '수정 완료'}</PrimaryButton>
+            </div>
           </form>
         </section>
       </BottomSheet>

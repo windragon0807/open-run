@@ -9,6 +9,7 @@ import type { GeneralChallengeListResponse } from '@apis/v1/challenges/general'
 import { useGeneralChallengeListQuery } from '@apis/v1/challenges/general/query'
 import type { RepetitiveChallengeListResponse } from '@apis/v1/challenges/repetitive'
 import { useRepetitiveChallengeListQuery } from '@apis/v1/challenges/repetitive/query'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 import type { CategoryType, ListType } from '@type/challenge'
 import ListTab from './ListTab'
 import CompletedList from './completed/CompletedList'
@@ -74,6 +75,7 @@ export default function ChallengePage() {
     selectedView === 'general' ? generalQuery : selectedView === 'repetitive' ? repetitiveQuery : completedQuery
   const displayView = readyView ?? lastReadyView
   const shouldShowError = activeQuery.isError && displayView == null
+  const topPadding = useAppInsetSize('top', 32)
   const handleListChange = (list: ListType) => {
     setSelectedList(list)
     if (list === 'progress') {
@@ -83,7 +85,7 @@ export default function ChallengePage() {
 
   return (
     <section className='h-full w-full bg-gray-lighten'>
-      <div className='h-full pt-32 app:pt-[calc(32px+var(--app-inset-top))]'>
+      <div className='h-full pt-32' style={{ paddingTop: topPadding }}>
         <header className='mb-32 flex items-center justify-between px-24'>
           <h1 className='text-28 font-bold'>도전 과제</h1>
           <ListTab selectedTab={selectedList} onTabChange={handleListChange} />

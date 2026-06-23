@@ -18,6 +18,24 @@ export function getAppInsetSize({
   return base + (isApp ? (insets?.[edge] ?? 0) : 0)
 }
 
+export function getAppInsetValue({
+  edge,
+  insets,
+  isApp,
+}: {
+  edge: AppInsetEdge
+  insets: Insets | null
+  isApp: boolean
+}) {
+  return isApp ? (insets?.[edge] ?? 0) : 0
+}
+
+export function useAppInsetValue(edge: AppInsetEdge) {
+  const { isApp, insets } = useAppStore()
+
+  return getAppInsetValue({ edge, insets, isApp })
+}
+
 export default function useAppInsetSize(edge: AppInsetEdge, base: number) {
   const { isApp, insets } = useAppStore()
 

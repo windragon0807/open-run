@@ -3,14 +3,16 @@
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { ArrowLeftIcon } from '@icons/arrow'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 import { colors } from '@styles/colors'
 
 export default function Notifications() {
   const router = useRouter()
+  const topMargin = useAppInsetSize('top', 0)
 
   return (
     <section className='h-full w-full bg-white'>
-      <header className='relative flex h-60 items-center justify-center px-16 app:mt-[var(--app-inset-top)]'>
+      <header className='relative flex h-60 items-center justify-center px-16' style={{ marginTop: topMargin }}>
         <button
           className='absolute left-12 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
           onClick={() => router.back()}>

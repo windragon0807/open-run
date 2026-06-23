@@ -24,11 +24,6 @@ export type VibrationMessage = {
   }
 }
 
-const setAppInsetVariables = ({ top, bottom }: { top: number; bottom: number }) => {
-  document.documentElement.style.setProperty('--app-inset-top', `${top}px`)
-  document.documentElement.style.setProperty('--app-inset-bottom', `${bottom}px`)
-}
-
 const extractBridgePayload = (event: MessageEvent): unknown => {
   const candidate = (event as MessageEvent & { nativeEvent?: { data?: unknown } }).data
     ?? (event as MessageEvent & { nativeEvent?: { data?: unknown } }).nativeEvent?.data
@@ -58,7 +53,6 @@ export default function AppBridge({ children }: { children: ReactNode }) {
   const markAsBrowser = useCallback(() => {
     setIsApp(false)
     setBodyAppClass(false)
-    setAppInsetVariables({ top: 0, bottom: 0 })
   }, [setBodyAppClass, setIsApp])
 
   const isBridgeMessageType = useCallback((type: unknown): type is MESSAGE => {
@@ -117,7 +111,6 @@ export default function AppBridge({ children }: { children: ReactNode }) {
             return
           }
           console.log('📱 [AppBridge] Received inset values from native app:', insetData)
-          setAppInsetVariables({ top: insetData.top, bottom: insetData.bottom })
           setInsets({ top: insetData.top, bottom: insetData.bottom })
         }
       } catch (error) {

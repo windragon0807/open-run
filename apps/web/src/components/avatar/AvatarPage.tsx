@@ -13,6 +13,7 @@ import { EraserIcon } from '@icons/eraser'
 import { TransparentOpenrunIcon } from '@icons/openrun'
 import { ResetIcon } from '@icons/reset'
 import { SaveIcon } from '@icons/save'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 import { useAvatarCategoryWarmupImageUrls } from '@hooks/useAvatarCategoryWarmupImageUrls'
 import { bungsQueries } from '@apis/v1/bungs/query'
 import { SaveWearingNftAvatarRequest } from '@apis/v1/nft/avatar-items'
@@ -73,6 +74,7 @@ export default function AvatarPage() {
   const avatarList = ownedAvatarItems?.data ?? []
   const filteredAvatarList = getSelectedCategoryAvatarItems(avatarList, selectedCategory)
   const categoryWarmupImageUrls = useAvatarCategoryWarmupImageUrls(avatarList, selectedCategory)
+  const topPadding = useAppInsetSize('top', 0)
 
   const handleClearAvatar = () => {
     setSelectedAvatar(EMPTY_WEARING_AVATAR)
@@ -114,7 +116,7 @@ export default function AvatarPage() {
   }
 
   return (
-    <article className='h-full w-full bg-white app:pt-[var(--app-inset-top)]'>
+    <article className='h-full w-full bg-white' style={{ paddingTop: topPadding }}>
       <AvatarImageWarmup
         imageUrls={categoryWarmupImageUrls.previewImageUrls}
         width={80}

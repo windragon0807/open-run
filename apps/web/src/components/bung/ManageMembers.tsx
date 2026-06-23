@@ -8,6 +8,7 @@ import Input from '@shared/Input'
 import { ArrowLeftIcon } from '@icons/arrow'
 import { MagnifierIcon } from '@icons/magnifier'
 import useFushSearch from '@hooks/useFuseSearch'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 import ConfirmDropoutModal from './modal/ConfirmDropoutModal'
@@ -16,9 +17,10 @@ export default function ManageMembers({ memberList }: { memberList: BungMember[]
   const router = useRouter()
   const { showModal } = useModal()
   const { search, setSearch, filteredList } = useFushSearch(memberList, 'nickname')
+  const topPadding = useAppInsetSize('top', 0)
 
   return (
-    <section className='h-full w-full bg-gray-lighten app:pt-[var(--app-inset-top)]'>
+    <section className='h-full w-full bg-gray-lighten' style={{ paddingTop: topPadding }}>
       <header className='relative flex h-60 w-full items-center justify-center'>
         <button
           className='absolute left-16 -translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'

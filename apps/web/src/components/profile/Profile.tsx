@@ -16,6 +16,7 @@ import { SettingIcon } from '@icons/setting'
 import { StarIcon } from '@icons/star'
 import { FilledThumbIcon, OutlinedThumbIcon } from '@icons/thumb'
 import { UpperClothIcon } from '@icons/upper-cloth'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 import { useMyBungs } from '@apis/v1/bungs/my-bungs/query'
 import { useProfileSummary } from '@apis/v1/users/profile-summary/query'
 import { useUserInfo } from '@apis/v1/users/query'
@@ -38,10 +39,11 @@ export default function Profile() {
   const summary = profileSummary?.data
   const recentAcquiredNfts = summary?.recentAcquiredNfts ?? []
   const completedBungList = completedBungs?.data ?? []
+  const topPadding = useAppInsetSize('top', 32)
 
   return (
     <section className='h-full w-full bg-gray-lighten'>
-      <div className='h-full px-24 pt-32 app:pt-[calc(32px+var(--app-inset-top))]'>
+      <div className='h-full px-24 pt-32' style={{ paddingTop: topPadding }}>
         <header className='mb-12 flex items-center justify-between'>
           <h1 className='text-28 font-bold'>프로필</h1>
           <div className='flex items-center gap-8'>

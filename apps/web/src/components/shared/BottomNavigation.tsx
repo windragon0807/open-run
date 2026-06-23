@@ -11,6 +11,7 @@ import { PlusIcon } from '@icons/plus'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
 import { VIBRATION_TYPE } from '@constants/app'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 import { useVibration } from '@hooks/useVibration'
 import CreateBung from '../home/create-bung/CreateBung'
 import LiquidTabBar, { LiquidCenterVisual, LiquidTabItem } from './LiquidTabBar'
@@ -56,6 +57,7 @@ export default function BottomNavigation() {
   const router = useRouter()
   const vibrate = useVibration()
   const { showModal } = useModal()
+  const paddingBottom = useAppInsetSize('bottom', 24)
 
   const activeIndex = TABS.findIndex((tab) => tab.isActive(pathname))
 
@@ -65,7 +67,9 @@ export default function BottomNavigation() {
   }, [router])
 
   return (
-    <footer className='fixed bottom-0 left-0 right-0 z-[999] flex justify-center px-16 pb-24 pt-16 app:pb-[calc(24px+var(--app-inset-bottom))]'>
+    <footer
+      className='fixed bottom-0 left-0 right-0 z-[999] flex justify-center px-16 pb-24 pt-16'
+      style={{ paddingBottom }}>
       <LiquidTabBar
         items={TABS}
         activeIndex={activeIndex}

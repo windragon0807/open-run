@@ -1,3 +1,5 @@
+'use client'
+
 import { AdvancedMarker, Map } from '@vis.gl/react-google-maps'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -8,6 +10,7 @@ import { BottomSheet, BottomSheetRef, Dimmed } from '@shared/Modal'
 import PrimaryButton from '@shared/PrimaryButton'
 import ToastModal from '@shared/ToastModal'
 import { BrokenXIcon } from '@icons/x'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 import useGeolocation from '@hooks/useGeolocation'
 import { useCertifyParticipation } from '@apis/v1/bungs/[bungId]/participated/mutation'
 import { calculateDistance } from '@utils/distance'
@@ -25,6 +28,7 @@ export default function CertifyParticipationModal({ bungId, lat, lng }: { bungId
   const handleClose = () => sheetRef.current?.close()
   const { mutate: certifyParticipation } = useCertifyParticipation()
   const { location } = useGeolocation()
+  const buttonMarginBottom = useAppInsetSize('bottom', 40)
 
   const distance = useMemo(() => {
     if (location == null) return null
@@ -73,14 +77,13 @@ export default function CertifyParticipationModal({ bungId, lat, lng }: { bungId
             </div>
           )}
         </section>
-        <PrimaryButton
-          className='mt-20 mb-40 app:mb-[calc(40px+var(--app-inset-bottom))]'
-          disabled={distance == null || distance > 참여인증거리}
-          onClick={handleClick}>
-          {distance == null && <LoadingLogo />}
-          {distance != null && distance <= 참여인증거리 && '참여 인증 완료'}
-          {distance != null && distance > 참여인증거리 && '목적지까지 500m 이내여야 합니다.'}
-        </PrimaryButton>
+        <div className='mt-20 mb-40' style={{ marginBottom: buttonMarginBottom }}>
+          <PrimaryButton disabled={distance == null || distance > 참여인증거리} onClick={handleClick}>
+            {distance == null && <LoadingLogo />}
+            {distance != null && distance <= 참여인증거리 && '참여 인증 완료'}
+            {distance != null && distance > 참여인증거리 && '목적지까지 500m 이내여야 합니다.'}
+          </PrimaryButton>
+        </div>
       </BottomSheet>
     </Dimmed>
   )

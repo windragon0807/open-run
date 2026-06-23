@@ -1,3 +1,5 @@
+'use client'
+
 import clsx from 'clsx'
 import { useRouter } from 'next/navigation'
 import { useMemo, useRef, useState } from 'react'
@@ -18,6 +20,7 @@ import TextArea from '@shared/TextArea'
 import TimePicker from '@shared/TimePicker'
 import { CalendarIcon } from '@icons/calendar'
 import { ClockIcon } from '@icons/clock'
+import { useAppInsetValue } from '@hooks/useAppInsetSize'
 import { useRefetchQuery } from '@hooks/useRefetchQuery'
 import { useThumbnailImage } from '@hooks/useThumbnailImage'
 import { useGeocoding } from '@apis/maps/geocoding/mutation'
@@ -59,6 +62,7 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
   const { mutateAsync: createBung, isPending } = useCreateBung()
   const { mutateAsync: geocoding } = useGeocoding()
   const 메인페이지벙리스트업데이트 = useRefetchQuery(myBungsQueries.all())
+  const bottomInset = useAppInsetValue('bottom')
 
   const defaultValues = useMemo<FormValues>(() => {
     const hashTags = Array.isArray(initialDraft?.hashtags) ? initialDraft?.hashtags : []
@@ -416,7 +420,9 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
         </div>
 
         {/** 벙 만들기 버튼 */}
-        <div className='pb-[max(64px,env(safe-area-inset-bottom,64px))] app:pb-[calc(max(64px,env(safe-area-inset-bottom,64px))+var(--app-inset-bottom))]'>
+        <div
+          className='pb-[max(64px,env(safe-area-inset-bottom,64px))]'
+          style={{ paddingBottom: `calc(max(64px, env(safe-area-inset-bottom, 64px)) + ${bottomInset}px)` }}>
           <PrimaryButton type='submit' className='mb-0'>
             {isPending ? <LoadingLogo className='mx-auto' /> : '벙 만들기'}
           </PrimaryButton>

@@ -5,6 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { parseAsString, parseAsStringLiteral, useQueryStates } from 'nuqs'
 import Recommendation from '@components/home/Recommendation'
 import { MagnifierIcon } from '@icons/magnifier'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 import { colors } from '@styles/colors'
 import ExploreSearch, { type SelectedExploreSearchTab } from './ExploreSearch'
 
@@ -29,6 +30,7 @@ export default function Explore() {
   const shouldShowRecommendation = !isSearchActive && trimmedSearchKeyword.length === 0
   const shouldShowSearchHint = isSearchActive && trimmedSearchKeyword.length < 2
   const shouldShowSearchResult = trimmedSearchKeyword.length >= 2
+  const topPadding = useAppInsetSize('top', 32)
 
   useEffect(() => {
     if (trimmedSearchKeyword.length > 0) {
@@ -52,7 +54,7 @@ export default function Explore() {
 
   return (
     <section className='h-full w-full bg-white'>
-      <div className='px-16 pt-32 app:pt-[calc(32px+var(--app-inset-top))]'>
+      <div className='px-16 pt-32' style={{ paddingTop: topPadding }}>
         <h1 className='mb-16 text-28 font-bold'>탐색</h1>
         <div className='mb-24 flex items-center gap-8'>
           <label

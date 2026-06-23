@@ -1,3 +1,5 @@
+'use client'
+
 import clsx from 'clsx'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -8,6 +10,7 @@ import { BottomSheet, BottomSheetRef, Dimmed } from '@shared/Modal'
 import { ArrowRightIcon } from '@icons/arrow'
 import { MailIcon } from '@icons/mail'
 import { BrokenXIcon } from '@icons/x'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 import useLogout from '@hooks/useLogout'
 import { MODAL_KEY } from '@constants/modal'
 import { colors } from '@styles/colors'
@@ -20,6 +23,7 @@ export default function SettingModal() {
   const handleClose = () => sheetRef.current?.close()
   const { logout } = useLogout()
   const { isApp } = useAppStore()
+  const sectionPaddingBottom = useAppInsetSize('bottom', 16)
 
   return (
     <Dimmed onClick={handleClose}>
@@ -33,7 +37,7 @@ export default function SettingModal() {
           <span className='text-16 font-bold text-black-darken'>설정</span>
         </header>
 
-        <section className={clsx('px-16 pb-16 app:pb-[calc(16px+var(--app-inset-bottom))]')}>
+        <section className={clsx('px-16 pb-16')} style={{ paddingBottom: sectionPaddingBottom }}>
           <MenuButton
             label='회원 정보 수정'
             rightNode={<ArrowRightIcon size={16} color={colors.black.darken} />}

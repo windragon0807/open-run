@@ -1,5 +1,8 @@
+'use client'
+
 import { RegisterStep } from '@type/register'
 import { ArrowLeftIcon } from '@icons/arrow'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 import { colors } from '@styles/colors'
 
 export default function Header({
@@ -12,9 +15,10 @@ export default function Header({
   onSkipTextClick: () => void
 }) {
   const 건너뛰기버튼이보이는단계인가 = step === 2 || step === 3
+  const top = useAppInsetSize('top', 0)
 
   return (
-    <header className='absolute flex h-60 w-full items-center bg-gray-lighten px-16 app:top-[var(--app-inset-top)]'>
+    <header className='absolute flex h-60 w-full items-center bg-gray-lighten px-16' style={{ top }}>
       <div className='flex w-full items-center justify-between'>
         <button className='group' onClick={onBackIconClick}>
           <ArrowLeftIcon

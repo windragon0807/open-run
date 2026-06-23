@@ -1,8 +1,13 @@
+'use client'
+
 import Image from 'next/image'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 
 export default function Onboarding({ nickname }: { nickname: string }) {
+  const topPadding = useAppInsetSize('top', 124)
+
   return (
-    <section className='flex flex-col items-center pt-124 app:pt-[calc(124px+var(--app-inset-top))]'>
+    <section className='flex flex-col items-center pt-124' style={{ paddingTop: topPadding }}>
       <p className='text-center text-28'>
         <strong>{nickname}</strong> 님
       </p>

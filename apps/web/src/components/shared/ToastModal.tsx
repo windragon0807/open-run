@@ -1,3 +1,5 @@
+'use client'
+
 import clsx from 'clsx'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
@@ -5,6 +7,7 @@ import { useModal } from '@contexts/ModalProvider'
 import { CheckIcon } from '@icons/check'
 import { BrokenXIcon } from '@icons/x'
 import { MODAL_KEY } from '@constants/modal'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 import { colors } from '@styles/colors'
 
 type ToastModalProps = {
@@ -17,6 +20,7 @@ type ToastModalProps = {
 export default function ToastModal({ mode, message, actionLabel, onAction }: ToastModalProps) {
   const [isOpen, setIsOpen] = useState(true)
   const { closeModal } = useModal()
+  const bottom = useAppInsetSize('bottom', 24)
 
   useEffect(() => {
     if (!actionLabel) {
@@ -40,7 +44,8 @@ export default function ToastModal({ mode, message, actionLabel, onAction }: Toa
     <AnimatePresence onExitComplete={handleExitComplete}>
       {isOpen && (
         <motion.div
-          className='fixed left-0 right-0 z-modal mx-auto h-[56px] rounded-16 px-16 bottom-24 app:bottom-[calc(24px+var(--app-inset-bottom))]'
+          className='fixed left-0 right-0 z-modal mx-auto h-[56px] rounded-16 px-16 bottom-24'
+          style={{ bottom }}
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}

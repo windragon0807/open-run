@@ -1,4 +1,7 @@
+'use client'
+
 import TypingText from '@components/shared/TypingText'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 import InputText from './InputText'
 import { useNicknameValidation } from './hooks/useNicknameValidation'
 import { NicknameValidState } from './types'
@@ -15,9 +18,10 @@ export default function Nickname({
   setIsValid: (isValid: NicknameValidState) => void
 }) {
   const { handleNicknameChange } = useNicknameValidation()
+  const topPadding = useAppInsetSize('top', 124)
 
   return (
-    <section className='flex h-full w-full flex-col items-center bg-gray-lighten pt-124 app:pt-[calc(124px+var(--app-inset-top))]'>
+    <section className='flex h-full w-full flex-col items-center bg-gray-lighten pt-124' style={{ paddingTop: topPadding }}>
       <p className='text-center text-28'>닉네임을 정해주세요</p>
       <TypingText
         text='어떻게 불러드릴까요?'
