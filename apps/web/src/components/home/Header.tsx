@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import { motion, type MotionValue, useSpring, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
@@ -21,29 +20,12 @@ import { colors } from '@styles/colors'
 import AvatarImageWarmup from '../avatar/AvatarImageWarmup'
 import GlassSurface from '../shared/GlassSurface'
 
-type HeaderSize = 'large' | 'small'
 type WeatherSummary = { icon: string; temperature: number }
 
 const FULL_HEADER_HEIGHT = 200
-const SMALL_HEADER_HEIGHT = 90
-const COLLAPSE_DISTANCE = FULL_HEADER_HEIGHT - SMALL_HEADER_HEIGHT
-/** 축소 시 배경을 클립선 아래로 이만큼 더 남긴다 — 높이에 딱 맞춰 압축하면
-    그라데이션이 클립선 직전에 투명해져 날씨 필이 배경을 삐져나온 것처럼 보인다 */
-const COLLAPSED_BG_OVERFLOW = 60
-/** 클립선 직전에서 배경을 투명으로 녹이는 화면 기준 페이드 길이(px) — OVERFLOW로 색을 남기면
-    클립선에서 색이 산 채로 잘려 하드 엣지가 생기므로 mask로 마지막 구간을 부드럽게 끊는다.
-    날씨 필 하단(~78px + topPadding)과 클립선(90px + topPadding) 사이에서 시작해야
-    필 뒤 색 유지와 페이드 부드러움이 같이 산다 */
-const COLLAPSED_BG_FADE = 20
-const COLLAPSE_SPRING = { stiffness: 280, damping: 32, mass: 0.55 }
+const HEADER_BG_FADE = 20
 
-export default function Header({
-  isSmallHeaderActive,
-  scrollY,
-}: {
-  isSmallHeaderActive: boolean
-  scrollY: MotionValue<number>
-}) {
+export default function Header() {
   const router = useRouter()
   const { isApp, insets } = useAppStore()
   const { userInfo } = useUserInfo()
@@ -71,53 +53,22 @@ export default function Header({
 
   const appTopPadding = insets ? insets.top + 5 : isApp ? 64 : 0
   const fullHeight = FULL_HEADER_HEIGHT + appTopPadding
-
-  // height를 직접 애니메이션하면 매 프레임 리플로우가 발생한다 — 높이는 fullHeight로 고정하고
-  // clip-path(히트테스트도 함께 잘린다)와 배경 scaleY 조합으로 동일한 축소 모양을 만든다
-  const rawCollapse = useTransform(scrollY, [0, COLLAPSE_DISTANCE], [0, 1])
-  const collapse = useSpring(rawCollapse, COLLAPSE_SPRING)
-  const clipPath = useTransform(collapse, (progress) => `inset(0px 0px ${progress * COLLAPSE_DISTANCE}px 0px)`)
-  // 배경은 클립보다 COLLAPSED_BG_OVERFLOW만큼 덜 압축한다 — 넘치는 부분은 clip-path가 잘라낸다
-  const backgroundScaleY = useTransform(
-    collapse,
-    (progress) => 1 - (progress * (COLLAPSE_DISTANCE - COLLAPSED_BG_OVERFLOW)) / fullHeight,
-  )
-  // mask는 scaleY 이전 로컬 박스에 적용된 뒤 함께 압축되므로, 화면 기준 페이드 위치를
-  // scale로 나눠 로컬 좌표로 역환산한다 — 펼침(p=0)에선 페이드 구간이 그라데이션이
-  // 이미 알파 0으로 끝나는 마지막 20px과 겹쳐 기존 모습과 사실상 동일하다
-  const backgroundMask = useTransform(collapse, (progress) => {
-    const scale = 1 - (progress * (COLLAPSE_DISTANCE - COLLAPSED_BG_OVERFLOW)) / fullHeight
-    const visibleBottom = fullHeight - progress * COLLAPSE_DISTANCE
-    const startLocal = (visibleBottom - COLLAPSED_BG_FADE) / scale
-    const endLocal = visibleBottom / scale
-    return `linear-gradient(to bottom, black ${startLocal}px, transparent ${endLocal}px)`
-  })
-  const collapsedBackgroundOpacity = useTransform(collapse, [0, 0.55, 1], [0, 0.25, 1])
-  const largeOpacity = useTransform(collapse, [0, 0.42, 0.7], [1, 0.45, 0])
-  const largeY = useTransform(collapse, [0, 1], [0, -8])
-  const largeScale = useTransform(collapse, [0, 1], [1, 0.985])
-  const smallOpacity = useTransform(collapse, [0.35, 0.65, 1], [0, 0.9, 1])
-  const smallY = useTransform(collapse, [0, 1], [8, 0])
-  const smallScale = useTransform(collapse, [0, 1], [0.985, 1])
+  const backgroundMask = `linear-gradient(to bottom, black ${fullHeight - HEADER_BG_FADE}px, transparent ${fullHeight}px)`
 
   return (
-    <motion.header
+    <header
       className={clsx('fixed left-0 right-0 top-0 z-50 overflow-hidden', currentWeather == null && 'animate-pulse')}
-      style={{ height: fullHeight, clipPath }}>
-      <motion.div
-        className='absolute inset-0 origin-top'
+      style={{ height: fullHeight }}>
+      <div
+        className='absolute inset-0 bg-white'
         style={{
-          scaleY: backgroundScaleY,
           maskImage: backgroundMask,
           WebkitMaskImage: backgroundMask,
-          opacity: collapsedBackgroundOpacity,
-          background: 'linear-gradient(to bottom, white 80%, transparent 100%)',
         }}
       />
-      <motion.div
-        className='absolute inset-0 origin-top'
+      <div
+        className='absolute inset-0'
         style={{
-          scaleY: backgroundScaleY,
           maskImage: backgroundMask,
           WebkitMaskImage: backgroundMask,
           background: weatherBackground,
@@ -132,180 +83,100 @@ export default function Header({
         limit={9}
       />
 
-      <HeaderSection
-        size='large'
-        isInteractive={!isSmallHeaderActive}
-        animation={{ opacity: largeOpacity, y: largeY, scale: largeScale }}
-        topPadding={appTopPadding}>
+      <HeaderSection topPadding={appTopPadding}>
         <AvatarPane
-          size='large'
           weatherImage={weatherAssets?.image ?? null}
           avatarImageUrl={userInfo?.profileImageUrl}
           feedback={receivedLikeCount}
         />
         <div className='flex flex-col'>
-          <UserInfoRow size='large' nickname={userInfo?.nickname} />
+          <UserInfoRow nickname={userInfo?.nickname} />
           <WeatherDome address={addressSummary} weather={weatherSummary} onRefreshLocation={refetch} />
         </div>
       </HeaderSection>
 
-      <HeaderSection
-        size='small'
-        isInteractive={isSmallHeaderActive}
-        animation={{ opacity: smallOpacity, y: smallY, scale: smallScale }}
-        topPadding={appTopPadding}>
-        <AvatarPane
-          size='small'
-          weatherImage={weatherAssets?.image ?? null}
-          avatarImageUrl={userInfo?.profileImageUrl}
-          feedback={receivedLikeCount}
-        />
-        <div className='flex flex-col'>
-          <UserInfoRow size='small' nickname={userInfo?.nickname} />
-        </div>
-      </HeaderSection>
-
-      {/* 글래스 버튼은 섹션 밖에 한 번만 렌더한다 — 섹션 opacity 페이드가 backdrop root를 만들어
-          전환 중 backdrop-filter가 헤더 배경 대신 섹션 내부만 샘플링해 렌즈 색이 튀고,
-          섹션 y 이동을 함께 타며 꿀렁이기 때문. 버튼 위치는 큰/작은 헤더에서 동일하다 */}
       <div className='absolute inset-x-0' style={{ top: appTopPadding }}>
         <div className='absolute left-16 top-8 app:top-0'>
           <AvatarButton onPointerDown={warmupAvatarPage} onClick={() => router.push('/avatar')} />
         </div>
       </div>
-    </motion.header>
+    </header>
   )
 }
 
-const SECTION_STYLE = {
-  large: { height: 'h-[200px]' },
-  small: { height: 'h-[90px]' },
-} as const
-
 function HeaderSection({
-  size,
-  isInteractive,
-  animation,
   topPadding,
   children,
 }: {
-  size: HeaderSize
-  isInteractive: boolean
-  animation: {
-    opacity: MotionValue<number>
-    y: MotionValue<number>
-    scale: MotionValue<number>
-  }
   topPadding: number
   children: ReactNode
 }) {
-  const style = SECTION_STYLE[size]
-
   return (
-    <motion.section
-      initial={false}
-      className={clsx(
-        'absolute inset-x-0 flex w-full justify-between',
-        style.height,
-        !isInteractive && 'pointer-events-none',
-      )}
-      style={{
-        top: topPadding,
-        opacity: animation.opacity,
-        y: animation.y,
-        scale: animation.scale,
-        transformOrigin: 'top center',
-      }}>
+    <section className='absolute inset-x-0 flex h-[200px] w-full justify-between' style={{ top: topPadding }}>
       {children}
-    </motion.section>
+    </section>
   )
 }
 
 const AVATAR_PANE_STYLE = {
-  large: {
-    pane: 'w-[176px]',
-    avatar: 'left-[96px] h-200 w-200 -translate-x-1/2',
-    avatarSizes: '200px',
-    likeLabel: 'bottom-8 left-12',
-  },
-  small: {
-    pane: 'w-[118px]',
-    avatar: 'left-[84px] h-90 w-90 -translate-x-1/2',
-    avatarSizes: '90px',
-    likeLabel: 'bottom-8 left-8',
-  },
+  pane: 'w-[176px]',
+  avatar: 'left-[96px] h-200 w-200 -translate-x-1/2',
+  avatarSizes: '200px',
+  likeLabel: 'bottom-8 left-12',
 } as const
 
 function AvatarPane({
-  size,
   weatherImage,
   avatarImageUrl,
   feedback,
 }: {
-  size: HeaderSize
   weatherImage: string | null
   avatarImageUrl: string | null | undefined
   feedback: number | undefined
 }) {
-  const style = AVATAR_PANE_STYLE[size]
   const resolvedAvatarImageUrl = avatarImageUrl || DEFAULT_PROFILE_IMAGE_URL
 
   return (
-    <div className={clsx('relative flex flex-shrink-0 items-end justify-end', style.pane)}>
-      {weatherImage &&
-        (size === 'large' ? (
-          <Image
-            className='object-cover'
-            src={weatherImage}
-            alt='Weather Image'
-            fill
-            priority
-            sizes='(max-width: 768px) 100vw, 176px'
-          />
-        ) : (
-          // 원본(176x200) 비율상 height가 90.9px로 계산돼 height 속성(90)과 어긋나며 next/image 경고가 난다.
-          // CSS로 양쪽 크기를 고정해 선언 크기 그대로 렌더하고 object-cover로 비율 차이를 흡수한다.
-          <Image
-            className='absolute h-90 w-80 object-cover'
-            src={weatherImage}
-            alt='Weather Image'
-            width={80}
-            height={90}
-            priority
-          />
-        ))}
+    <div className={clsx('relative flex flex-shrink-0 items-end justify-end', AVATAR_PANE_STYLE.pane)}>
+      {weatherImage && (
+        <Image
+          className='object-cover'
+          src={weatherImage}
+          alt='Weather Image'
+          fill
+          priority
+          sizes='(max-width: 768px) 100vw, 176px'
+        />
+      )}
       <Image
-        className={clsx('absolute object-contain', style.avatar)}
+        className={clsx('absolute object-contain', AVATAR_PANE_STYLE.avatar)}
         src={resolvedAvatarImageUrl}
         alt='avatar'
-        width={size === 'large' ? 200 : 90}
-        height={size === 'large' ? 200 : 90}
-        sizes={style.avatarSizes}
+        width={200}
+        height={200}
+        sizes={AVATAR_PANE_STYLE.avatarSizes}
         priority
       />
 
-      {size === 'large' && (
-        <div className={clsx('absolute', style.likeLabel)}>
-          <SkewedLikeLabel like={feedback ?? 0} />
-        </div>
-      )}
+      <div className={clsx('absolute', AVATAR_PANE_STYLE.likeLabel)}>
+        <SkewedLikeLabel like={feedback ?? 0} />
+      </div>
     </div>
   )
 }
 
 const USER_INFO_ROW_STYLE = {
-  large: { margin: 'm-[8px_20px_16px]', nickname: 'text-20' },
-  small: { margin: 'm-[8px_20px_10px]', nickname: 'text-16' },
+  margin: 'm-[8px_20px_16px]',
+  nickname: 'text-20',
 } as const
 
-function UserInfoRow({ size, nickname }: { size: HeaderSize; nickname: string | undefined }) {
+function UserInfoRow({ nickname }: { nickname: string | undefined }) {
   const router = useRouter()
-  const style = USER_INFO_ROW_STYLE[size]
 
   return (
-    <div className={clsx('flex items-center justify-end gap-8', style.margin)}>
+    <div className={clsx('flex items-center justify-end gap-8', USER_INFO_ROW_STYLE.margin)}>
       <div className='flex flex-col items-end'>
-        <span className={clsx('font-bold text-white', style.nickname)}>{nickname}</span>
+        <span className={clsx('font-bold text-white', USER_INFO_ROW_STYLE.nickname)}>{nickname}</span>
         <AddressClipboard>
           {(address) => (
             <div className='flex -translate-y-2 translate-x-4 cursor-pointer items-center gap-6 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/20'>
@@ -469,20 +340,20 @@ function getWeatherData(weather: Weather) {
   const data = weatherData[weather]
 
   // 현재 시간 기준 오전 6시 ~ 오후 4시 사이면 오전, 오후 4시 ~ 오전 8시 사이면 오후, 나머지는 밤
-  let background: string
+  let period: 'morning' | 'afternoon' | 'night'
   const now = new Date()
   const hours = now.getHours()
   if (hours >= 6 && hours < 16) {
-    background = data.background.morning
+    period = 'morning'
   } else if (hours >= 16 && hours < 20) {
-    background = data.background.afternoon
+    period = 'afternoon'
   } else {
-    background = data.background.night
+    period = 'night'
   }
 
   return {
     image: data.image,
     icon: data.icon,
-    background,
+    background: data.background[period],
   }
 }
