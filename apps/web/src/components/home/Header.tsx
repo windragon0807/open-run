@@ -1,3 +1,5 @@
+'use client'
+
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -8,7 +10,7 @@ import { BellIcon } from '@icons/bell'
 import { CopyClipboardIcon } from '@icons/clipboard'
 import { UpperClothIcon } from '@icons/upper-cloth'
 import useAppInsetSize from '@hooks/useAppInsetSize'
-import { useAvatarPageWarmup } from '@hooks/useAvatarPageWarmup'
+import { useHomeWarmup } from '@hooks/useHomeWarmup'
 import useGeolocation from '@hooks/useGeolocation'
 import { useReverseGeocoding } from '@apis/maps/reverse-geocoding/query'
 import { useProfileSummary } from '@apis/v1/users/profile-summary/query'
@@ -17,7 +19,7 @@ import { useCurrentWeather } from '@apis/weather/query'
 import addDelimiter from '@utils/addDelimiter'
 import { DEFAULT_PROFILE_IMAGE_URL } from '@constants/profile'
 import { colors } from '@styles/colors'
-import AvatarImageWarmup from '../avatar/AvatarImageWarmup'
+import ImageWarmup from '../shared/ImageWarmup'
 import GlassSurface from '../shared/GlassSurface'
 
 type WeatherSummary = { icon: string; temperature: number }
@@ -28,7 +30,7 @@ const HEADER_BG_FADE = 20
 export default function Header() {
   const router = useRouter()
   const { userInfo } = useUserInfo()
-  const { warmupAvatarPage, warmupImageUrls } = useAvatarPageWarmup()
+  const { warmupAvatarPage, warmupImageUrls } = useHomeWarmup()
 
   const { data: profileSummary } = useProfileSummary()
   const { location, refetch } = useGeolocation()
@@ -73,14 +75,14 @@ export default function Header() {
           background: weatherBackground,
         }}
       />
-      <AvatarImageWarmup imageUrls={warmupImageUrls.previewImageUrls} width={80} height={80} sizes='80px' limit={12} />
-      <AvatarImageWarmup
-        imageUrls={warmupImageUrls.wearableImageUrls}
+      <ImageWarmup imageUrls={warmupImageUrls.avatarPreviewImageUrls} width={80} height={80} sizes='80px' />
+      <ImageWarmup
+        imageUrls={warmupImageUrls.avatarWearableImageUrls}
         width={216}
         height={270}
         sizes='216px'
-        limit={9}
       />
+      <ImageWarmup imageUrls={warmupImageUrls.createBungImageUrls} width={160} height={90} sizes='160px' />
 
       <HeaderSection topPadding={appTopPadding}>
         <AvatarPane
