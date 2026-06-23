@@ -58,7 +58,7 @@ export default function DelegateOwner({ memberList }: { memberList: BungMember[]
           }
         />
 
-        <ul className='flex h-[calc(100%-230px)] flex-col gap-16 overflow-y-auto pb-40'>
+        <ul className='scrollbar-hidden flex h-[calc(100%-230px)] flex-col gap-16 overflow-y-auto pb-40'>
           {filteredList.map((member) => (
             <li key={member.userId} className='flex items-center justify-between gap-8'>
               <div className='flex items-center gap-16'>

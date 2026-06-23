@@ -160,7 +160,7 @@ export default function BungDetails({ details, initialChatAction }: { details: B
   }, [details, initialChatAction, showModal, 벙에참여한벙주인가])
 
   return (
-    <section className='relative h-full w-full'>
+    <section className='relative h-full w-full overflow-hidden'>
       <header
         className='absolute flex h-60 w-full cursor-pointer items-center justify-between px-16 app:top-[var(--app-inset-top)]'
         onClick={handleScrollToTop}>
@@ -235,7 +235,7 @@ export default function BungDetails({ details, initialChatAction }: { details: B
 
         <section
           ref={containerRef}
-          className='overflow-y-auto rounded-[8px_8px_0_0] bg-gray-lighten pb-50'
+          className='scrollbar-hidden overflow-y-auto rounded-[8px_8px_0_0] bg-gray-lighten pb-50'
           style={{ height: 벙에참여한유저인가 ? 'calc(100% - 80px)' : 'calc(100% - 50px)' }}>
           <div className='mb-24 rounded-8 bg-white p-16 shadow-floating-primary'>
             <BungInfoIconGradientDefs />
@@ -350,7 +350,7 @@ export default function BungDetails({ details, initialChatAction }: { details: B
                 </button>
               )}
             </div>
-            <div className='flex gap-8 overflow-x-auto px-16'>
+            <div className='scrollbar-hidden flex gap-8 overflow-x-auto px-16'>
               {details.memberList.map((member) => (
                 <div key={member.nickname} className='flex flex-col items-center gap-6'>
                   <div className='relative aspect-[1] w-76 rounded-8 bg-black'>
