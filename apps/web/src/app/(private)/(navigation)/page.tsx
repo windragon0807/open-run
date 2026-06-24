@@ -1,6 +1,5 @@
 'use client'
 
-import ChallengeSwiper from '@components/home/ChallengeSwiper'
 import Header from '@components/home/Header'
 import Recommendation from '@components/home/Recommendation'
 import ScheduledBungs from '@components/home/ScheduledBungs'
@@ -26,7 +25,6 @@ export default function Page() {
         style={{ paddingTop: contentPaddingTop }}
         onScroll={handleHomeScroll}
       >
-        {/* <ChallengeSwiper /> */}
         <Spacing size={8} />
         <ScheduledBungs />
         <Spacing size={40} />
