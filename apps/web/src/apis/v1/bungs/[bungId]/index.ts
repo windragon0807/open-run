@@ -2,7 +2,7 @@ import { BungInfo } from '@type/bung'
 import http from '@apis/http.client'
 import { ApiResponse } from '@apis/type'
 
-type FetchBungDetailRequestType = {
+export type FetchBungDetailRequestType = {
   bungId: string
 }
 

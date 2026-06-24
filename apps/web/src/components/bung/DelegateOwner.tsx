@@ -4,22 +4,26 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useMemo } from 'react'
 import { useModal } from '@contexts/ModalProvider'
-import { BungMember } from '@type/bung'
+import ErrorFallback from '@shared/ErrorFallback'
 import Input from '@shared/Input'
+import Skeleton from '@shared/Skeleton'
 import { ArrowLeftIcon } from '@icons/arrow'
 import { MagnifierIcon } from '@icons/magnifier'
-import useFushSearch from '@hooks/useFuseSearch'
+import useBungMemberList from '@hooks/useBungMemberList'
+import useFuseSearch from '@hooks/useFuseSearch'
 import useAppInsetSize from '@hooks/useAppInsetSize'
 import { MODAL_KEY } from '@constants/modal'
+import { DEFAULT_PROFILE_IMAGE_URL } from '@constants/profile'
 import { colors } from '@styles/colors'
 import ConfirmDelegateModal from './modal/ConfirmDelegateModal'
 
-export default function DelegateOwner({ memberList }: { memberList: BungMember[] }) {
+export default function DelegateOwner({ bungId }: { bungId: string }) {
+  const { memberList, isError, isPending } = useBungMemberList(bungId)
   const filteredMemberList = useMemo(() => memberList.filter(({ owner }) => !owner), [memberList])
 
   const router = useRouter()
   const { showModal } = useModal()
-  const { search, setSearch, filteredList } = useFushSearch(filteredMemberList, 'nickname')
+  const { search, setSearch, filteredList } = useFuseSearch(filteredMemberList, 'nickname')
   const topPadding = useAppInsetSize('top', 0)
 
   return (
@@ -60,33 +64,59 @@ export default function DelegateOwner({ memberList }: { memberList: BungMember[]
           }
         />
 
-        <ul className='scrollbar-hidden flex h-[calc(100%-230px)] flex-col gap-16 overflow-y-auto pb-40'>
-          {filteredList.map((member) => (
-            <li key={member.userId} className='flex items-center justify-between gap-8'>
-              <div className='flex items-center gap-16'>
-                <Image
-                  className='rounded-8 bg-black-darken'
-                  src='/temp/nft_detail_2.png'
-                  alt={`${member.nickname}의 아바타`}
-                  width={76}
-                  height={76}
-                />
-                <span className='text-14 font-bold text-black-darken'>{member.nickname}</span>
-              </div>
-              <button
-                className='active:scale-98 rounded-12 bg-black-darken px-13 py-4 text-12 text-white active-press-duration active:bg-black-darken/80'
-                onClick={() =>
-                  showModal({
-                    key: MODAL_KEY.CONFIRM_DELEGATE,
-                    component: <ConfirmDelegateModal member={member} onSuccess={() => router.back()} />,
-                  })
-                }>
-                벙주 넘기기
-              </button>
-            </li>
-          ))}
-        </ul>
+        {isPending ? (
+          <MemberListSkeleton />
+        ) : isError ? (
+          <div className='h-[calc(100%-230px)]'>
+            <ErrorFallback type='medium' />
+          </div>
+        ) : (
+          <ul className='scrollbar-hidden flex h-[calc(100%-230px)] flex-col gap-16 overflow-y-auto pb-40'>
+            {filteredList.map((member) => (
+              <li key={member.userId} className='flex items-center justify-between gap-8'>
+                <div className='flex items-center gap-16'>
+                  <Image
+                    className='rounded-8 bg-black-darken object-contain'
+                    src={member.profileImageUrl || DEFAULT_PROFILE_IMAGE_URL}
+                    alt={`${member.nickname}의 아바타`}
+                    width={76}
+                    height={76}
+                  />
+                  <span className='text-14 font-bold text-black-darken'>{member.nickname}</span>
+                </div>
+                <button
+                  className='active:scale-98 rounded-12 bg-black-darken px-13 py-4 text-12 text-white active-press-duration active:bg-black-darken/80'
+                  onClick={() =>
+                    showModal({
+                      key: MODAL_KEY.CONFIRM_DELEGATE,
+                      component: <ConfirmDelegateModal member={member} onSuccess={() => router.back()} />,
+                    })
+                  }>
+                  벙주 넘기기
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
     </section>
+  )
+}
+
+function MemberListSkeleton() {
+  return (
+    <ul className='flex h-[calc(100%-230px)] flex-col gap-16'>
+      {Array(5)
+        .fill(null)
+        .map((_, index) => (
+          <li key={index} className='flex items-center justify-between gap-8'>
+            <div className='flex items-center gap-16'>
+              <Skeleton className='h-76 w-76 rounded-8 bg-gray' />
+              <Skeleton className='h-20 w-90 rounded-8 bg-gray' />
+            </div>
+            <Skeleton className='h-27 w-90 rounded-8 bg-gray' />
+          </li>
+        ))}
+    </ul>
   )
 }

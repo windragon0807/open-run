@@ -5,11 +5,13 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import { Fragment, useEffect, useRef } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 import { useModal } from '@contexts/ModalProvider'
 import { BungInfo } from '@type/bung'
 import PrimaryButton from '@shared/PrimaryButton'
 import RunStartedText from '@shared/RunStartedText'
 import ToastModal from '@shared/ToastModal'
+import { bungDetailQueries } from '@apis/v1/bungs/[bungId]/query'
 import { ArrowLeftIcon, ArrowRightIcon } from '@icons/arrow'
 import { BinIcon } from '@icons/bin'
 import { CalendarIcon } from '@icons/calendar'
@@ -44,6 +46,7 @@ export default function BungDetails({ details, initialChatAction }: { details: B
 
   const router = useRouter()
   const { bungId } = useParams<{ bungId: string }>()
+  const queryClient = useQueryClient()
   const { showModal } = useModal()
   const { userInfo } = useUserInfo()
   const { mutate: completeBung } = useCompleteBung()
@@ -148,6 +151,21 @@ export default function BungDetails({ details, initialChatAction }: { details: B
   const hashtagMarginBottom = useAppInsetSize('bottom', 80)
 
   const hasHandledChatActionRef = useRef(false)
+
+  useEffect(() => {
+    queryClient.setQueryData(bungDetailQueries.detail({ bungId: details.bungId }).queryKey, {
+      message: '',
+      data: details,
+    })
+  }, [details, queryClient])
+
+  useEffect(() => {
+    if (!벙에참여한벙주인가) return
+
+    router.prefetch(`/bung/${bungId}/delegate-owner`)
+    router.prefetch(`/bung/${bungId}/manage-members`)
+  }, [bungId, router, 벙에참여한벙주인가])
+
   useEffect(() => {
     if (hasHandledChatActionRef.current) return
     if (initialChatAction !== 'modify') return
@@ -199,9 +217,7 @@ export default function BungDetails({ details, initialChatAction }: { details: B
               {/** 벙주 넘기기 */}
               <button
                 className='rounded-8 p-4 active-press-duration active:scale-90 active:bg-white/10'
-                onClick={() =>
-                  router.push(`/bung/${bungId}/delegate-owner?memberList=${JSON.stringify(details.memberList)}`)
-                }>
+                onClick={() => router.push(`/bung/${bungId}/delegate-owner`)}>
                 <ChangeOwnerIcon size={24} color={colors.white} />
               </button>
               {/** 벙 삭제 */}
@@ -349,9 +365,7 @@ export default function BungDetails({ details, initialChatAction }: { details: B
               {벙에참여한벙주인가 && (
                 <button
                   className='translate-x-8 rounded-8 px-8 py-4 text-14 font-normal text-black-darken active-press-duration active:scale-90 active:bg-gray/50'
-                  onClick={() =>
-                    router.push(`/bung/${bungId}/manage-members?memberList=${JSON.stringify(details.memberList)}`)
-                  }>
+                  onClick={() => router.push(`/bung/${bungId}/manage-members`)}>
                   멤버관리
                 </button>
               )}
