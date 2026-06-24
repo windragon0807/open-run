@@ -6,7 +6,7 @@ type Options = {
   onError?: ReactNode
 }
 
-export default function withBoundary<Props = Record<string, never>>(
+export default function withBoundary<Props extends object = Record<string, never>>(
   Component: ComponentType<Props>,
   options?: Options,
 ) {
@@ -14,7 +14,7 @@ export default function withBoundary<Props = Record<string, never>>(
     return (
       <ErrorBoundary fallbackComponent={options?.onError}>
         <Suspense fallback={options?.onLoading}>
-          <Component {...(props as any)} />
+          <Component {...props} />
         </Suspense>
       </ErrorBoundary>
     )

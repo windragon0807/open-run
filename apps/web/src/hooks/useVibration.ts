@@ -13,11 +13,9 @@ export function useVibration() {
   const vibrate = useCallback(
     (vibrationType: VIBRATION_TYPE = VIBRATION_TYPE.IMPACT_MEDIUM) => {
       if (!isApp) {
-        console.log('🌐 [Web] Not in app environment, skipping vibration')
         return
       }
 
-      console.log('📱 [Web] Sending vibration request to native app:', vibrationType)
       postMessageToRN({
         type: MESSAGE.REQUEST_VIBRATION,
         data: {

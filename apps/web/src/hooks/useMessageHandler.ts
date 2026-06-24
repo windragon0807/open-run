@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useAppStore } from '@store/app'
 import { BridgeMessage } from '@shared/AppBridge'
 
-type MessageHandler = (parsedMessage: BridgeMessage<any>) => void
+type MessageHandler = (parsedMessage: BridgeMessage<unknown>) => void
 
 export const useMessageHandler = (messageHandler: MessageHandler) => {
   const { isApp } = useAppStore()

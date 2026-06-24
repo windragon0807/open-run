@@ -61,6 +61,9 @@ const nextConfig = {
       '@react-native-async-storage/async-storage': './src/shims/empty.ts',
     },
   },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
   webpack: (config) => {
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
@@ -80,9 +83,6 @@ const nextConfig = {
       },
     ]
   },
-  // compiler: {
-  //   removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error'] } : false,
-  // },
 }
 
 module.exports = nextConfig

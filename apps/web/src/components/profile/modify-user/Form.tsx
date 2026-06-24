@@ -2,7 +2,7 @@
 
 import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { WeekCount } from '@type/register'
 import Input from '@shared/Input'
 import NumberInput from '@shared/NumberInput'
@@ -26,7 +26,7 @@ export default function Form() {
 
   const {
     register,
-    watch,
+    control,
     formState: { errors },
     handleSubmit,
   } = useForm<FormValues>({
@@ -38,6 +38,7 @@ export default function Form() {
       frequency: currentUserInfo.runningFrequency,
     },
   })
+  const nickname = useWatch({ control, name: 'nickname' }) ?? ''
 
   const { mutate: updateUser } = useRegister()
   const onSubmit = (data: FormValues) => {
@@ -65,7 +66,7 @@ export default function Form() {
           error={errors.nickname?.message}
           addon={
             <span className='absolute right-20 top-20 -translate-y-1/2 text-14 text-gray-darken'>
-              {watch('nickname').length}/10
+              {nickname.length}/10
             </span>
           }
           {...register('nickname', {

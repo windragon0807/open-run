@@ -3,7 +3,7 @@
 import clsx from 'clsx'
 import { useRouter } from 'next/navigation'
 import { useMemo, useRef, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { useModal } from '@contexts/ModalProvider'
 import { imageList } from '@store/image'
 import Button from '@components/bung/components/Button'
@@ -86,7 +86,7 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     setValue,
     setError,
     clearErrors,
@@ -94,6 +94,13 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
   } = useForm<FormValues>({
     defaultValues,
   })
+
+  const startDateValue = useWatch({ control, name: 'startDate' })
+  const startTimeValue = useWatch({ control, name: 'startTime' })
+  const selectedImageUrl = useWatch({ control, name: 'imageUrl' }) || imageList[0]
+  const selectedLocation = useWatch({ control, name: 'location' }) || ''
+  const hasAfterRun = useWatch({ control, name: 'hasAfterRun' })
+  const hashTags = useWatch({ control, name: 'hashTags' }) ?? []
 
   const onSubmit = async (formData: FormValues) => {
     if (formData.startDate == null) {
@@ -152,9 +159,8 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
     }
   }
 
-  const 시작날짜를선택했는가 = watch('startDate') != null
-  const 시작시간을선택했는가 = watch('startTime') != null
-  const selectedImageUrl = watch('imageUrl')
+  const 시작날짜를선택했는가 = startDateValue != null
+  const 시작시간을선택했는가 = startTimeValue != null
 
   return (
     <section className='flex w-full flex-col px-16'>
@@ -190,7 +196,7 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
           <FormTitle required>장소</FormTitle>
           <div className='flex w-full gap-8'>
             <div className='flex-1'>
-              <Input className='disabled:bg-gray' placeholder='주소 검색' value={watch('location')} disabled />
+              <Input className='disabled:bg-gray' placeholder='주소 검색' value={selectedLocation} disabled />
             </div>
             <button
               className='active:scale-98 h-40 w-80 place-items-center rounded-8 bg-primary text-14 font-semibold text-white active-press-duration active:bg-primary-darken'
@@ -231,7 +237,7 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
               <CalendarIcon size={16} color={시작날짜를선택했는가 ? colors.primary.DEFAULT : colors.black.DEFAULT} />
               <p className={시작날짜를선택했는가 ? 'text-primary' : 'text-black'}>
                 {시작날짜를선택했는가
-                  ? formatDate({ date: watch('startDate') as Date, formatStr: 'yyyy년 M월 d일' })
+                  ? formatDate({ date: startDateValue as Date, formatStr: 'yyyy년 M월 d일' })
                   : '날짜 선택'}
               </p>
             </Button>
@@ -248,7 +254,7 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
               }}>
               <ClockIcon size={16} color={시작시간을선택했는가 ? colors.primary.DEFAULT : colors.black.DEFAULT} />
               <p className={시작시간을선택했는가 ? 'text-primary' : 'text-black'}>
-                {시작시간을선택했는가 ? (watch('startTime') as string).replace(':', ' : ') : '시간 선택'}
+                {시작시간을선택했는가 ? startTimeValue.replace(':', ' : ') : '시간 선택'}
               </p>
             </Button>
           </div>
@@ -256,7 +262,7 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
           {isDatePickerOpen ? (
             <div className='flex w-full justify-center rounded-8 border border-gray bg-white p-16'>
               <DatePicker
-                defaultValue={watch('startDate')}
+                defaultValue={startDateValue}
                 onDateClick={(date) => {
                   setValue('startDate', date)
                   clearErrors('startDate')
@@ -275,11 +281,11 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
           {isTimePickerOpen ? (
             <div className='rounded-8 border border-gray bg-white p-16'>
               <TimePicker
-                value={watch('startTime')}
+                value={startTimeValue}
                 onChange={(time) => {
-                  if (errors.startTime) {
+                  if (errors.startTime && startDateValue != null) {
                     const [hour, minute] = time.split(':').map(Number)
-                    const startDate = watch('startDate') as Date
+                    const startDate = new Date(startDateValue)
                     startDate.setHours(hour)
                     startDate.setMinutes(minute)
 
@@ -372,7 +378,7 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
             <Button
               className={clsx(
                 'justify-center',
-                watch('hasAfterRun') === true ? 'border-primary bg-primary/10' : 'border-gray bg-white',
+                hasAfterRun === true ? 'border-primary bg-primary/10' : 'border-gray bg-white',
               )}
               onClick={() => setValue('hasAfterRun', true)}>
               유
@@ -380,13 +386,13 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
             <Button
               className={clsx(
                 'justify-center',
-                watch('hasAfterRun') === false ? 'border-primary bg-primary/10' : 'border-gray bg-white',
+                hasAfterRun === false ? 'border-primary bg-primary/10' : 'border-gray bg-white',
               )}
               onClick={() => setValue('hasAfterRun', false)}>
               무
             </Button>
           </div>
-          {watch('hasAfterRun') ? (
+          {hasAfterRun ? (
             <TextArea
               placeholder='뒷풀이에 대한 내용을 입력하세요'
               className='h-80 pt-10'
@@ -399,14 +405,14 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
         <div className='relative mb-20 flex flex-col gap-8'>
           <FormTitle>해시태그</FormTitle>
           <div className='flex flex-wrap gap-8'>
-            {watch('hashTags').map((label) => (
+            {hashTags.map((label) => (
               <HashTag
                 key={`HashTag-${label}`}
                 label={label}
                 onCloseButtonClick={() => {
                   setValue(
                     'hashTags',
-                    watch('hashTags').filter((tag) => tag !== label),
+                    hashTags.filter((tag) => tag !== label),
                   )
                 }}
               />
@@ -414,7 +420,7 @@ export default function Forms({ nextStep, initialDraft }: { nextStep: () => void
           </div>
           <HashTagSearch
             onTagClick={(newTag) => {
-              setValue('hashTags', watch('hashTags').concat(newTag))
+              setValue('hashTags', hashTags.concat(newTag))
             }}
           />
         </div>

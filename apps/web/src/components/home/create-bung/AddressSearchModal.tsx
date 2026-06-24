@@ -76,7 +76,7 @@ export default function AddressSearchModal({ onComplete }: { onComplete: (addres
         },
       },
     )
-  }, [debouncedSearch])
+  }, [debouncedSearch, fetchPlacesAutocomplete])
 
   return (
     <Dimmed onClick={() => closeModal(MODAL_KEY.ADDRESS_SEARCH)}>

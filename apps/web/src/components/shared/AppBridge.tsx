@@ -17,6 +17,11 @@ export type BridgeMessage<T = unknown> = {
   data: T
 }
 
+export type OutgoingBridgeMessage = {
+  type: MESSAGE
+  data?: unknown
+}
+
 export type VibrationMessage = {
   type: MESSAGE.REQUEST_VIBRATION
   data: {
@@ -110,10 +115,9 @@ export default function AppBridge({ children }: { children: ReactNode }) {
           if (typeof insetData?.top !== 'number' || typeof insetData?.bottom !== 'number') {
             return
           }
-          console.log('📱 [AppBridge] Received inset values from native app:', insetData)
           setInsets({ top: insetData.top, bottom: insetData.bottom })
         }
-      } catch (error) {
+      } catch {
         // 메시지 파싱 실패는 무시 (다른 메시지일 수 있음)
       }
     }
@@ -144,13 +148,10 @@ export const checkIsApp = () => {
   return isReactNativeWebView || isAndroidWebView || isIOSWebView
 }
 
-export const postMessageToRN = (payload: any) => {
+export const postMessageToRN = (payload: OutgoingBridgeMessage) => {
   if (typeof window === 'undefined' || !window.ReactNativeWebView) {
-    console.log('⚠️ [Web] Cannot send message - not in app environment')
     return
   }
   const messageString = JSON.stringify(payload)
-  console.log('📤 [Web] Sending message to React Native:', payload)
-  console.log('📤 [Web] Message string:', messageString)
   window.ReactNativeWebView.postMessage(messageString)
 }

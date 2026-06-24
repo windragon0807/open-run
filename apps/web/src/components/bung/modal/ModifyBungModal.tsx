@@ -3,7 +3,7 @@
 import { differenceInMinutes } from 'date-fns'
 import { useRouter } from 'next/navigation'
 import { useRef } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, useWatch } from 'react-hook-form'
 import { useModal } from '@contexts/ModalProvider'
 import { imageList } from '@store/image'
 import { BungInfo } from '@type/bung'
@@ -52,7 +52,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     setValue,
     formState: { errors },
   } = useForm<FormValues>({
@@ -66,7 +66,9 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
       mainImage: details.mainImage || imageList[0],
     },
   })
-  const selectedMainImage = watch('mainImage') || imageList[0]
+  const selectedMainImage = useWatch({ control, name: 'mainImage' }) || imageList[0]
+  const hasAfterRun = useWatch({ control, name: 'hasAfterRun' })
+  const hashTags = useWatch({ control, name: 'hashTags' }) ?? []
 
   const onSubmit = (formData: FormValues) => {
     if (Number(formData.memberNumber) < 참여중인멤버수) {
@@ -224,21 +226,21 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
               <FormTitle required>뒷풀이</FormTitle>
               <div className='flex gap-8'>
                 <Button
-                  className={`justify-center ${watch('hasAfterRun') === true ? 'border-primary bg-primary/10' : 'border-gray bg-white'}`}
+                  className={`justify-center ${hasAfterRun === true ? 'border-primary bg-primary/10' : 'border-gray bg-white'}`}
                   onClick={() => {
                     setValue('hasAfterRun', true)
                   }}>
                   유
                 </Button>
                 <Button
-                  className={`justify-center ${watch('hasAfterRun') === false ? 'border-primary bg-primary/10' : 'border-gray bg-white'}`}
+                  className={`justify-center ${hasAfterRun === false ? 'border-primary bg-primary/10' : 'border-gray bg-white'}`}
                   onClick={() => {
                     setValue('hasAfterRun', false)
                   }}>
                   무
                 </Button>
               </div>
-              {watch('hasAfterRun') ? (
+              {hasAfterRun ? (
                 <TextArea
                   className='h-80 pt-10'
                   placeholder='뒷풀이에 대한 내용을 입력하세요'
@@ -251,14 +253,14 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
             <div className='relative mb-80 flex flex-col gap-8'>
               <FormTitle>해시태그</FormTitle>
               <div className='flex flex-wrap gap-8'>
-                {watch('hashTags').map((label) => (
+                {hashTags.map((label) => (
                   <HashTag
                     key={`HashTag-${label}`}
                     label={label}
                     onCloseButtonClick={() => {
                       setValue(
                         'hashTags',
-                        watch('hashTags').filter((tag) => tag !== label),
+                        hashTags.filter((tag) => tag !== label),
                       )
                     }}
                   />
@@ -266,7 +268,7 @@ export default function ModifyBungModal({ details }: { details: BungInfo }) {
               </div>
               <HashTagSearch
                 onTagClick={(newTag) => {
-                  setValue('hashTags', watch('hashTags').concat(newTag))
+                  setValue('hashTags', hashTags.concat(newTag))
                 }}
               />
             </div>

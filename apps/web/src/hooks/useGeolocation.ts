@@ -113,7 +113,6 @@ export default function useGeolocation() {
       try {
         const result = isApp ? await getAppLocation() : await getBrowserLocation()
         setIsGeolocationPermissionGranted(true)
-        console.info('위치 정보 수신:', result)
         return result
       } catch (err) {
         setIsGeolocationPermissionGranted(false)

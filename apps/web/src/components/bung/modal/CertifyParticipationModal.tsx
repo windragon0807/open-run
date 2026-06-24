@@ -33,11 +33,6 @@ export default function CertifyParticipationModal({ bungId, lat, lng }: { bungId
   const distance = useMemo(() => {
     if (location == null) return null
     const distance = calculateDistance(location.lat, location.lng, coordinates.lat, coordinates.lng)
-    console.log('Distance', {
-      start: location,
-      destination: coordinates,
-      distance: `${distance}m`,
-    })
     return distance
   }, [location, coordinates])
 
