@@ -11,10 +11,12 @@ export default function AvatarList({
   avatarList,
   selectedAvatar,
   setSelectedAvatar,
+  onAvatarWarmup,
 }: {
   avatarList: Avatar[]
   selectedAvatar: WearingAvatar
   setSelectedAvatar: (avatar: WearingAvatar) => void
+  onAvatarWarmup?: (avatar: Avatar) => void
 }) {
   const { showModal } = useModal()
 
@@ -68,6 +70,8 @@ export default function AvatarList({
                     ? 'bg-white shadow-floating-primary'
                     : ''
               }`}
+              onFocus={() => onAvatarWarmup?.(avatar)}
+              onPointerDown={() => onAvatarWarmup?.(avatar)}
               onClick={() => handleAvatarSelect(avatar)}>
               <div className='relative aspect-square w-full max-w-80'>
                 <AvatarThumbnail avatar={avatar} />

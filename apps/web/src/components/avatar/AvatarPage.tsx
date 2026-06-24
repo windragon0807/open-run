@@ -14,7 +14,7 @@ import { TransparentOpenrunIcon } from '@icons/openrun'
 import { ResetIcon } from '@icons/reset'
 import { SaveIcon } from '@icons/save'
 import useAppInsetSize from '@hooks/useAppInsetSize'
-import { useAvatarCategoryWarmupImageUrls } from '@hooks/useAvatarCategoryWarmupImageUrls'
+import { useAvatarPageImageWarmup } from '@hooks/useAvatarPageImageWarmup'
 import { bungsQueries } from '@apis/v1/bungs/query'
 import { SaveWearingNftAvatarRequest } from '@apis/v1/nft/avatar-items'
 import { useSaveWearingNftAvatarWithProfileImageMutation } from '@apis/v1/nft/avatar-items/mutation'
@@ -73,7 +73,7 @@ export default function AvatarPage() {
 
   const avatarList = ownedAvatarItems?.data ?? []
   const filteredAvatarList = getSelectedCategoryAvatarItems(avatarList, selectedCategory)
-  const categoryWarmupImageUrls = useAvatarCategoryWarmupImageUrls(avatarList, selectedCategory)
+  const avatarPageImageWarmup = useAvatarPageImageWarmup(avatarList, selectedCategory)
   const topPadding = useAppInsetSize('top', 0)
 
   const handleClearAvatar = () => {
@@ -118,13 +118,13 @@ export default function AvatarPage() {
   return (
     <article className='h-full w-full bg-white' style={{ paddingTop: topPadding }}>
       <AvatarImageWarmup
-        imageUrls={categoryWarmupImageUrls.previewImageUrls}
+        imageUrls={avatarPageImageWarmup.previewImageUrls}
         width={80}
         height={80}
         sizes='80px'
       />
       <AvatarImageWarmup
-        imageUrls={categoryWarmupImageUrls.wearableImageUrls}
+        imageUrls={avatarPageImageWarmup.wearableImageUrls}
         width={216}
         height={270}
         sizes='216px'
@@ -191,6 +191,7 @@ export default function AvatarPage() {
           avatarList={filteredAvatarList}
           selectedAvatar={selectedAvatar}
           setSelectedAvatar={setSelectedAvatar}
+          onAvatarWarmup={avatarPageImageWarmup.warmupAvatarItem}
         />
       </section>
     </article>

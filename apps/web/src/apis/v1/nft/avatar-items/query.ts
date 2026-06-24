@@ -31,6 +31,10 @@ export function getOwnedNftAvatarItemsQueryOptions() {
   return nftAvatarQueries.ownedItems()
 }
 
+export function getWearingNftAvatarQueryOptions() {
+  return nftAvatarQueries.wearing()
+}
+
 export function useOwnedNftAvatarItemsQuery(options?: QueryOptions<ReturnType<typeof nftAvatarQueries.ownedItems>>) {
   return useQuery({
     ...nftAvatarQueries.ownedItems(),
