@@ -40,10 +40,11 @@ export default function Profile() {
   const recentAcquiredNfts = summary?.recentAcquiredNfts ?? []
   const completedBungList = completedBungs?.data ?? []
   const topPadding = useAppInsetSize('top', 32)
+  const scrollBottomPadding = useAppInsetSize('bottom', 104)
 
   return (
     <section className='h-full w-full bg-gray-lighten'>
-      <div className='h-full px-24 pt-32' style={{ paddingTop: topPadding }}>
+      <div className='flex h-full flex-col px-24 pt-32' style={{ paddingTop: topPadding }}>
         <header className='mb-12 flex items-center justify-between'>
           <h1 className='text-28 font-bold'>프로필</h1>
           <div className='flex items-center gap-8'>
@@ -64,14 +65,14 @@ export default function Profile() {
         </header>
 
         <div className='mx-auto mb-8 size-[112px] shrink-0'>
-            <Image
-              className='size-full object-contain'
-              src={userInfo?.profileImageUrl || DEFAULT_PROFILE_IMAGE_URL}
-              alt='avatar'
-              width={112}
-              height={112}
-            />
-          </div>
+          <Image
+            className='size-full object-contain'
+            src={userInfo?.profileImageUrl || DEFAULT_PROFILE_IMAGE_URL}
+            alt='avatar'
+            width={112}
+            height={112}
+          />
+        </div>
         <h4 className='mb-4 text-center text-16 font-bold'>{userInfo?.nickname}</h4>
         <AddressClipboard>
           {(address) => (
@@ -103,35 +104,33 @@ export default function Profile() {
           />
         </div>
 
-        {recentAcquiredNfts.length > 0 && (
-          <div className='mb-24 h-76 w-full rounded-8 bg-black-darken'>
-            <Swiper
-              className='h-full'
-              modules={[Autoplay]}
-              slidesPerView={1}
-              centeredSlides
-              loop={recentAcquiredNfts.length > 1}
-              direction='vertical'
-              autoplay={{ delay: 3000 }}>
-              {recentAcquiredNfts.map((recentNft) => (
-                <SwiperSlide key={recentNft.userChallengeId}>
-                  <RecentNftCard
-                    image={recentNft.nft.image || DEFAULT_PROFILE_IMAGE_URL}
-                    title={recentNft.challengeName}
-                    description={recentNft.nft.description || recentNft.nft.name || '도전과제 달성으로 획득'}
-                    date={formatProfileDate(recentNft.acquiredAt)}
-                  />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        )}
-
         <div
-          className={clsx(
-            'flex w-full flex-col gap-8 overflow-y-auto scrollbar-hide',
-            recentAcquiredNfts.length > 0 ? 'h-[calc(100%-519px)]' : 'h-[calc(100%-419px)]',
-          )}>
+          className='flex min-h-0 flex-1 w-full flex-col gap-8 overflow-y-auto scrollbar-hide'
+          style={{ paddingBottom: scrollBottomPadding }}>
+          {recentAcquiredNfts.length > 0 && (
+            <div className='mb-16 h-76 w-full shrink-0 rounded-8 bg-black-darken'>
+              <Swiper
+                className='h-full'
+                modules={[Autoplay]}
+                slidesPerView={1}
+                centeredSlides
+                loop={recentAcquiredNfts.length > 1}
+                direction='vertical'
+                autoplay={{ delay: 3000 }}>
+                {recentAcquiredNfts.map((recentNft) => (
+                  <SwiperSlide key={recentNft.userChallengeId}>
+                    <RecentNftCard
+                      image={recentNft.nft.image || DEFAULT_PROFILE_IMAGE_URL}
+                      title={recentNft.challengeName}
+                      description={recentNft.nft.description || recentNft.nft.name || '도전과제 달성으로 획득'}
+                      date={formatProfileDate(recentNft.acquiredAt)}
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+          )}
+
           {completedBungList.map((bung) => (
             <CompletedBung
               key={bung.bungId}
@@ -287,22 +286,22 @@ function CompletedBung({
   date: string
 }) {
   return (
-    <div className='flex w-full items-center justify-between rounded-8 bg-white p-16'>
-      <div className='flex gap-16'>
-        <div className='flex size-40 items-center justify-center rounded-8 bg-gray-lighten'>
+    <div className='flex w-full items-center gap-12 rounded-8 bg-white p-16'>
+      <div className='flex min-w-0 flex-1 gap-16'>
+        <div className='flex size-40 shrink-0 items-center justify-center rounded-8 bg-gray-lighten'>
           <OutlinedThumbIcon size={16} color={colors.black.darken} />
         </div>
 
-        <div className='flex flex-col'>
-          <span className='text-14 font-bold leading-[1.25]'>{title}</span>
-          <span className='text-12 font-medium leading-[1.25]'>{location}</span>
-          <span className='text-12 font-medium leading-[1.25]'>{date}</span>
+        <div className='flex min-w-0 flex-col'>
+          <span className='truncate text-14 font-bold leading-[1.25]'>{title}</span>
+          <span className='truncate text-12 font-medium leading-[1.25]'>{location}</span>
+          <span className='truncate text-12 font-medium leading-[1.25]'>{date}</span>
         </div>
       </div>
 
       <Link
         href={`/bung/${bungId}`}
-        className='rounded-8 bg-black-darken px-11 py-10 text-14 font-bold text-white active-press-duration active:scale-95 active:bg-black-darken/80'>
+        className='flex h-40 w-100 shrink-0 items-center justify-center whitespace-nowrap rounded-8 bg-black-darken text-14 font-bold text-white active-press-duration active:scale-95 active:bg-black-darken/80'>
         피드백 남기기
       </Link>
     </div>
