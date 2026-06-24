@@ -40,6 +40,7 @@ const BUNG_INFO_ICON_GRADIENT_COLOR = `url(#${BUNG_INFO_ICON_GRADIENT_ID})`
 
 export default function BungDetails({ details, initialChatAction }: { details: BungInfo; initialChatAction?: string }) {
   const 참여인원수 = details.memberList.length
+  const memberListWithOwnerFirst = [...details.memberList].sort((a, b) => Number(b.owner) - Number(a.owner))
 
   const router = useRouter()
   const { bungId } = useParams<{ bungId: string }>()
@@ -356,8 +357,8 @@ export default function BungDetails({ details, initialChatAction }: { details: B
               )}
             </div>
             <div className='scrollbar-hidden flex gap-8 overflow-x-auto px-16'>
-              {details.memberList.map((member) => (
-                <div key={member.nickname} className='flex flex-col items-center gap-6'>
+              {memberListWithOwnerFirst.map((member) => (
+                <div key={member.userId} className='flex flex-col items-center gap-6'>
                   <div className='relative aspect-[1] w-76 rounded-8 bg-black'>
                     <Image
                       className='object-contain'

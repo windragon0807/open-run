@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import {
   CSSProperties,
   forwardRef,
@@ -13,16 +13,25 @@ import {
 } from 'react'
 
 export function Dimmed({ children, onClick }: { children: ReactNode; onClick?: () => void }) {
+  const prefersReducedMotion = useReducedMotion()
+  const dimmedDuration = prefersReducedMotion ? 0.1 : 0.24
+  const contentDuration = prefersReducedMotion ? 0.1 : 0.3
+
   return (
-    <section className='z-modal fixed bottom-0 left-0 right-0 top-0 bg-black-darkest/60' onClick={onClick}>
+    <motion.section
+      className='z-modal fixed bottom-0 left-0 right-0 top-0'
+      initial={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
+      animate={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
+      transition={{ duration: dimmedDuration, ease: 'easeOut' }}
+      onClick={onClick}>
       <motion.section
         className='h-full w-full'
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}>
+        transition={{ duration: contentDuration, ease: 'easeInOut' }}>
         {children}
       </motion.section>
-    </section>
+    </motion.section>
   )
 }
 
