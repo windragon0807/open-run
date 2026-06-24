@@ -9,6 +9,7 @@ import { FilledThumbIcon, OutlinedThumbIcon } from '@icons/thumb'
 import { BrokenXIcon } from '@icons/x'
 import { useSendMemberLike } from '@apis/v1/users/feedback/mutation'
 import { MODAL_KEY } from '@constants/modal'
+import { DEFAULT_PROFILE_IMAGE_URL } from '@constants/profile'
 import { colors } from '@styles/colors'
 
 export default function BungCompleteModal({
@@ -100,8 +101,8 @@ export default function BungCompleteModal({
               <li key={member.userId} className='flex items-center justify-between gap-8'>
                 <div className='flex items-center gap-16'>
                   <Image
-                    className='rounded-8 bg-black-darken'
-                    src='/temp/nft_detail_2.png'
+                    className='rounded-8 bg-black-darken object-contain'
+                    src={member.profileImageUrl || DEFAULT_PROFILE_IMAGE_URL}
                     alt={`${member.nickname}의 아바타`}
                     width={76}
                     height={76}

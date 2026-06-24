@@ -116,7 +116,7 @@ export default function Profile() {
               {recentAcquiredNfts.map((recentNft) => (
                 <SwiperSlide key={recentNft.userChallengeId}>
                   <RecentNftCard
-                    image={recentNft.nft.image || '/temp/nft_profile_parts.png'}
+                    image={recentNft.nft.image || DEFAULT_PROFILE_IMAGE_URL}
                     title={recentNft.challengeName}
                     description={recentNft.nft.description || recentNft.nft.name || '도전과제 달성으로 획득'}
                     date={formatProfileDate(recentNft.acquiredAt)}

@@ -7,6 +7,7 @@ import Checkbox from '@shared/Checkbox'
 import { Dimmed, Popup } from '@shared/Modal'
 import { useDropoutMember } from '@apis/v1/bungs/[bungId]/members/[userId]/mutation'
 import { MODAL_KEY } from '@constants/modal'
+import { DEFAULT_PROFILE_IMAGE_URL } from '@constants/profile'
 
 export default function ConfirmDropoutModal({ member }: { member: BungMember }) {
   const router = useRouter()
@@ -36,8 +37,8 @@ export default function ConfirmDropoutModal({ member }: { member: BungMember }) 
           <div className='mt-24 flex flex-col gap-8'>
             <div className='flex items-center gap-8 self-center'>
               <Image
-                className='rounded-4 bg-black-darken'
-                src='/temp/nft_detail_2.png'
+                className='rounded-4 bg-black-darken object-contain'
+                src={member.profileImageUrl || DEFAULT_PROFILE_IMAGE_URL}
                 alt={`${member.nickname}의 아바타`}
                 width={24}
                 height={24}

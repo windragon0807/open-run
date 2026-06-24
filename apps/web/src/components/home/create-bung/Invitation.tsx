@@ -13,6 +13,7 @@ import useDebounce from '@hooks/useDebounce'
 import useAppInsetSize, { useAppInsetValue } from '@hooks/useAppInsetSize'
 import { useSearchByNicknameMutation } from '@apis/v1/users/nickname/query'
 import { fetchSuggestion } from '@apis/v1/users/suggestion'
+import { DEFAULT_PROFILE_IMAGE_URL } from '@constants/profile'
 import { colors } from '@styles/colors'
 
 const suggestionQueries = {
@@ -41,10 +42,10 @@ export default function Invitation() {
     if (suggestionList == null) return null
     if (suggestionList.data.length === 0)
       return <div className='mt-20 text-center text-14 text-gray'>아직 함께했던 멤버가 없습니다.</div>
-    return suggestionList.data.map(({ userId, nickname }) => (
+    return suggestionList.data.map(({ userId, nickname, profileImageUrl }) => (
       <Member
         key={userId}
-        imageUrl='/temp/nft_invitation.png' // TODO
+        imageUrl={profileImageUrl || DEFAULT_PROFILE_IMAGE_URL}
         isRecommend
         name={nickname}
         isSelected={selectedMembers.some((member) => member.userId === userId)}
@@ -72,10 +73,10 @@ export default function Invitation() {
     if (searchedList == null) return null
     if (searchedList.data.length === 0)
       return <div className='mt-20 text-center text-14 text-gray'>검색 결과가 없습니다.</div>
-    return searchedList.data.map(({ userId, nickname }) => (
+    return searchedList.data.map(({ userId, nickname, profileImageUrl }) => (
       <Member
         key={userId}
-        imageUrl='/temp/nft_invitation.png' // TODO
+        imageUrl={profileImageUrl || DEFAULT_PROFILE_IMAGE_URL}
         isRecommend={false}
         name={nickname}
         isSelected={selectedMembers.some((member) => member.userId === userId)}
@@ -153,7 +154,7 @@ function Member({
     <li>
       <div className='flex items-center justify-between'>
         <div className='flex items-center gap-16'>
-          <Image src={imageUrl} alt='' width={76} height={76} />
+          <Image className='rounded-8 bg-black-darken object-contain' src={imageUrl} alt='' width={76} height={76} />
           <div className='flex flex-col gap-4'>
             {isRecommend && <span className='w-fit rounded-4 bg-gray px-4 py-2 text-12 text-black-darken'>추천</span>}
             <span className='text-14 font-bold text-black-darken'>{name}</span>

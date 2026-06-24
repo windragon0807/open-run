@@ -15,6 +15,7 @@ type ResponseType = Pagination &
       runningPace: string
       runningFrequency: number
       collabCount: number
+      profileImageUrl: string | null
     }>
   >
 

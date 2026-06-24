@@ -17,6 +17,7 @@ export type ResponseType = ApiResponse<
     blockchainAddress: string
     runningPace: string
     runningFrequency: number
+    profileImageUrl: string | null
   }>
 >
 
