@@ -3,7 +3,7 @@ import ErrorFallback from '@shared/ErrorFallback'
 import Skeleton from '@shared/Skeleton'
 import Spacing from '@shared/Spacing'
 import withBoundary from '@shared/withBoundary'
-import { useMyBungsQuery } from '@apis/v1/bungs/my-bungs/query'
+import { useAllMyBungsQuery } from '@apis/v1/bungs/my-bungs/query'
 import BungCard from './BungCard'
 import CreateBungButton from './CreateBungButton'
 
@@ -18,11 +18,9 @@ export default function ScheduledBungs() {
 
 function BungList() {
   /* 실시간 타이머를 포함하고 있는 컴포넌트는 클라이언트 컴포넌트로 렌더링해야 합니다. */
-  const { data: myBungs } = useMyBungsQuery({
+  const { data: myBungs } = useAllMyBungsQuery({
     isOwned: null,
     status: 'ONGOING',
-    page: 0,
-    limit: 10,
   })
 
   return (
