@@ -8,6 +8,7 @@ import MarketingLayout from './MarketingLayout'
 export default function Layout({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const [isDesktop, setIsDesktop] = useState(true)
+  const isPublicDocument = pathname === '/privacy' || pathname === '/support'
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -18,6 +19,22 @@ export default function Layout({ children }: { children: ReactNode }) {
     window.addEventListener('resize', checkScreenSize)
     return () => window.removeEventListener('resize', checkScreenSize)
   }, [])
+
+  useEffect(() => {
+    if (!isPublicDocument) return
+
+    document.body.classList.remove('touch-none')
+    document.body.classList.add('touch-pan-y')
+
+    return () => {
+      document.body.classList.add('touch-none')
+      document.body.classList.remove('touch-pan-y')
+    }
+  }, [isPublicDocument])
+
+  if (isPublicDocument) {
+    return <main className='h-dvh w-full touch-pan-y overflow-y-auto overscroll-contain bg-gray-lighten'>{children}</main>
+  }
 
   if (pathname.startsWith('/admin')) {
     return (
