@@ -13,7 +13,7 @@ export function useSmartWalletLogin() {
       const { jwtToken, nickname } = data
       setCookie(COOKIE.ACCESSTOKEN, jwtToken, 60 * 60 * 6) // 6시간
       authAnalytics.walletLoginSucceeded({ hasNickname: nickname != null })
-      router.push(nickname == null ? '/register' : '/')
+      router.replace(nickname == null ? '/register' : '/')
     },
     onError: () => {
       authAnalytics.walletLoginFailed()

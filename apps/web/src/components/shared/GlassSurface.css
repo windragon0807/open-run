@@ -54,7 +54,7 @@
     0 10px 32px rgba(17, 17, 26, 0.07);
 }
 
-@supports not (backdrop-filter: blur(10px)) {
+@supports not ((backdrop-filter: blur(10px)) or (-webkit-backdrop-filter: blur(10px))) {
   .glass-surface--fallback {
     background: rgba(255, 255, 255, 0.4);
     box-shadow:
