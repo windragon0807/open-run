@@ -9,6 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { useModal } from '@contexts/ModalProvider'
 import AddressClipboard from '@shared/AddressClipboard'
 import GlassSurface from '@shared/GlassSurface'
+import Skeleton from '@shared/Skeleton'
 import { profileAnalytics } from '@analytics'
 import { CopyClipboardIcon } from '@icons/clipboard'
 import { CrownIcon } from '@icons/crown'
@@ -27,10 +28,12 @@ import type { ApiDateTime } from '@utils/api'
 import { colors } from '@styles/colors'
 import SettingModal from './SettingModal'
 
+const COMPLETED_BUNG_SKELETON_COUNT = 3
+
 export default function Profile() {
   const { userInfo } = useUserInfo()
   const { data: profileSummary } = useProfileSummary()
-  const { data: completedBungs } = useMyBungs({
+  const { data: completedBungs, isLoading: isCompletedBungsLoading } = useMyBungs({
     isOwned: null,
     status: 'ACCOMPLISHED',
     page: 0,
@@ -132,15 +135,19 @@ export default function Profile() {
             </div>
           )}
 
-          {completedBungList.map((bung) => (
-            <CompletedBung
-              key={bung.bungId}
-              bungId={bung.bungId}
-              title={bung.name}
-              location={bung.location}
-              date={formatBungDate(bung.startDateTime)}
-            />
-          ))}
+          {isCompletedBungsLoading ? (
+            <CompletedBungListSkeleton />
+          ) : (
+            completedBungList.map((bung) => (
+              <CompletedBung
+                key={bung.bungId}
+                bungId={bung.bungId}
+                title={bung.name}
+                location={bung.location}
+                date={formatBungDate(bung.startDateTime)}
+              />
+            ))
+          )}
         </div>
       </div>
     </section>
@@ -308,4 +315,22 @@ function CompletedBung({
       </Link>
     </div>
   )
+}
+
+function CompletedBungListSkeleton() {
+  return Array.from({ length: COMPLETED_BUNG_SKELETON_COUNT }).map((_, index) => (
+    <div key={index} className='flex w-full items-center gap-12 rounded-8 bg-white p-16' aria-hidden>
+      <div className='flex min-w-0 flex-1 gap-16'>
+        <Skeleton className='size-40 shrink-0 rounded-8 bg-gray' />
+
+        <div className='flex min-w-0 flex-1 flex-col justify-center gap-4'>
+          <Skeleton className='h-14 w-full max-w-[136px] rounded-8 bg-gray' />
+          <Skeleton className='h-12 w-full max-w-[104px] rounded-8 bg-gray' />
+          <Skeleton className='h-12 w-full max-w-[120px] rounded-8 bg-gray' />
+        </div>
+      </div>
+
+      <Skeleton className='h-40 w-100 shrink-0 rounded-8 bg-gray' />
+    </div>
+  ))
 }
