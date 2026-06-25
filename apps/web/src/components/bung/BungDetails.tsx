@@ -8,6 +8,7 @@ import { Fragment, useEffect, useRef } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { useModal } from '@contexts/ModalProvider'
 import { BungInfo } from '@type/bung'
+import { bungAnalytics } from '@analytics'
 import PrimaryButton from '@shared/PrimaryButton'
 import RunStartedText from '@shared/RunStartedText'
 import ToastModal from '@shared/ToastModal'
@@ -90,6 +91,10 @@ export default function BungDetails({ details, initialChatAction }: { details: B
       { bungId: details.bungId },
       {
         onSuccess: () => {
+          bungAnalytics.completed({
+            bungId: details.bungId,
+            memberCount: details.memberList.length,
+          })
           router.refresh()
           router.replace('/')
 
@@ -112,11 +117,16 @@ export default function BungDetails({ details, initialChatAction }: { details: B
 
   const handleJoinBung = () => {
     if (window.confirm('벙에 참여하시겠습니까?')) {
+      bungAnalytics.joinClicked({ bungId: details.bungId })
       joinBung(
         { bungId: details.bungId },
         {
           onSuccess: () => {
+            bungAnalytics.joinSucceeded({ bungId: details.bungId })
             router.refresh()
+          },
+          onError: () => {
+            bungAnalytics.joinFailed({ bungId: details.bungId })
           },
         },
       )

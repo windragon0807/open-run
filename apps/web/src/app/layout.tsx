@@ -5,6 +5,7 @@ import GoogleMapContext from '@contexts/GoogleMapContext'
 import { ModalProvider } from '@contexts/ModalProvider'
 import ReactQueryProvider from '@contexts/ReactQueryProvider'
 import { WalletProvider } from '@contexts/WalletProvider'
+import { AnalyticsProvider } from '@analytics'
 import AppBridge from '@shared/AppBridge'
 import Layout from '@shared/Layout'
 import '@styles/globals.css'
@@ -23,9 +24,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <GoogleMapContext>
               <NuqsAdapter>
                 <AppBridge>
-                  <ModalProvider>
-                    <Layout>{children}</Layout>
-                  </ModalProvider>
+                  <AnalyticsProvider>
+                    <ModalProvider>
+                      <Layout>{children}</Layout>
+                    </ModalProvider>
+                  </AnalyticsProvider>
                 </AppBridge>
               </NuqsAdapter>
             </GoogleMapContext>

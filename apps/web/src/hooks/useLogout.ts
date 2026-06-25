@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query'
 
 import { useRouter } from 'next/navigation'
 import { useDisconnect } from '@reown/appkit/react'
+import { resetAnalyticsSession } from '@analytics'
 import { userQueries } from '@apis/v1/users/query'
 import { removeCookie } from '@utils/cookie'
 import { COOKIE } from '@constants/cookie'
@@ -18,6 +19,7 @@ export default function useLogout() {
     queryClient.removeQueries({ queryKey: userQueries.all() })
     window.localStorage.removeItem('openrun:user-store')
     removeCookie(COOKIE.ACCESSTOKEN)
+    resetAnalyticsSession()
     router.replace('/signin')
   }, [router, disconnect, queryClient])
 

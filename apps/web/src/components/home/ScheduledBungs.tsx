@@ -3,6 +3,7 @@ import ErrorFallback from '@shared/ErrorFallback'
 import Skeleton from '@shared/Skeleton'
 import Spacing from '@shared/Spacing'
 import withBoundary from '@shared/withBoundary'
+import { bungAnalytics } from '@analytics'
 import { useAllMyBungsQuery } from '@apis/v1/bungs/my-bungs/query'
 import BungCard from './BungCard'
 import CreateBungButton from './CreateBungButton'
@@ -34,7 +35,17 @@ function BungList() {
       <ul className='mb-8'>
         {myBungs!.data.map((item, index) => (
           <li key={`myBungs-${item.bungId}`}>
-            <Link className='w-full text-start' href={`/bung/${item.bungId}`}>
+            <Link
+              className='w-full text-start'
+              href={`/bung/${item.bungId}`}
+              onClick={() =>
+                bungAnalytics.cardClicked({
+                  bungId: item.bungId,
+                  source: 'my_bungs',
+                  isOwner: item.hasOwnership,
+                  position: index + 1,
+                })
+              }>
               <BungCard
                 imageUrl={item.mainImage as string}
                 imagePriority={index < 3}

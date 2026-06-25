@@ -9,6 +9,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { useModal } from '@contexts/ModalProvider'
 import AddressClipboard from '@shared/AddressClipboard'
 import GlassSurface from '@shared/GlassSurface'
+import { profileAnalytics } from '@analytics'
 import { CopyClipboardIcon } from '@icons/clipboard'
 import { CrownIcon } from '@icons/crown'
 import { FilledFlagIcon } from '@icons/flag'
@@ -301,6 +302,7 @@ function CompletedBung({
 
       <Link
         href={`/bung/${bungId}`}
+        onClick={() => profileAnalytics.feedbackClicked({ bungId })}
         className='flex h-40 w-100 shrink-0 items-center justify-center whitespace-nowrap rounded-8 bg-black-darken text-14 font-bold text-white active-press-duration active:scale-95 active:bg-black-darken/80'>
         피드백 남기기
       </Link>
