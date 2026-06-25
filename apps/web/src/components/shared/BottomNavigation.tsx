@@ -75,7 +75,7 @@ export default function BottomNavigation() {
         activeIndex={activeIndex}
         onTabSelect={(index) => {
           vibrate(VIBRATION_TYPE.SELECTION)
-          router.push(TABS[index].href)
+          router.replace(TABS[index].href)
         }}
         onSnap={() => vibrate(VIBRATION_TYPE.SELECTION)}
         onCenterTap={() => {
