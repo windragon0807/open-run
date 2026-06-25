@@ -48,7 +48,7 @@ const TABS: (LiquidTabItem & { href: string; isActive: (pathname: string) => boo
 ]
 
 /**
- * Liquid glass 바텀 네비게이션 (인스타그램식 슬라이딩 pill + 드래그 선택 + 스크롤 축소).
+ * Liquid glass 바텀 네비게이션 (인스타그램식 슬라이딩 pill + 드래그 선택).
  * 배경 굴절은 Chromium(Chrome/Android WebView) 전용이고,
  * Safari/iOS WebView는 GlassSurface가 blur 프로스트 글래스로 자동 폴백한다.
  */
