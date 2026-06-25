@@ -40,11 +40,21 @@ export default function Signin() {
 function SignInApp() {
   const [isLoading, setIsLoading] = useState(false)
   const { mutate: smartWalletLogin } = useSmartWalletLogin()
+  const loginWithSmartWallet = useCallback((code: SmartWalletConnectResponse) => {
+    smartWalletLogin(
+      { code },
+      {
+        onError: () => {
+          setIsLoading(false)
+        },
+      },
+    )
+  }, [smartWalletLogin])
 
   useMessageHandler(({ type, data }) => {
     switch (type) {
       case MESSAGE.RESPONSE_SMART_WALLET_CONNECT:
-        smartWalletLogin({ code: data as SmartWalletConnectResponse })
+        loginWithSmartWallet(data as SmartWalletConnectResponse)
         break
 
       case MESSAGE.RESPONSE_SMART_WALLET_CONNECT_ERROR:

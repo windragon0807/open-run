@@ -272,7 +272,8 @@ export default function LiquidTabBar({
         greenOffset={6}
         blueOffset={12}
         saturation={1.8}
-        blur={6}>
+        blur={6}
+        className='liquid-tab-bar__surface'>
         <div
           ref={trackRef}
           className='relative flex h-full w-full touch-none items-center justify-between px-[9px]'

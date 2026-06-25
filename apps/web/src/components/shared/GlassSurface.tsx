@@ -159,10 +159,14 @@ export default function GlassSurface({
       return false
     }
 
-    const isWebkit = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)
-    const isFirefox = /Firefox/.test(navigator.userAgent)
+    const userAgent = navigator.userAgent
+    const isIOS =
+      /iP(hone|ad|od)/.test(userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
+    const isChromeLike = /Chrome|Chromium|CriOS|Edg|OPR/.test(userAgent)
+    const isWebkit = /AppleWebKit/.test(userAgent) && !isChromeLike
+    const isFirefox = /Firefox|FxiOS/.test(userAgent)
 
-    if (isWebkit || isFirefox) {
+    if (isIOS || isWebkit || isFirefox) {
       return false
     }
 
