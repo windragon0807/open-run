@@ -9,6 +9,7 @@ import { OpenrunIcon } from '@icons/openrun'
 import { OutlinedPersonIcon } from '@icons/person'
 import { PlusIcon } from '@icons/plus'
 import { MODAL_KEY } from '@constants/modal'
+import { NAVIGATION_ROUTES } from '@constants/navigationRoutes'
 import { colors } from '@styles/colors'
 import { VIBRATION_TYPE } from '@constants/app'
 import useAppInsetSize from '@hooks/useAppInsetSize'
@@ -20,28 +21,28 @@ const TABS: (LiquidTabItem & { href: string; isActive: (pathname: string) => boo
   {
     key: 'home',
     label: '홈',
-    href: '/',
+    href: NAVIGATION_ROUTES[0].href,
     isActive: (pathname) => pathname === '/',
     renderIcon: (color) => <OpenrunIcon size={26} color={color} />,
   },
   {
     key: 'explore',
     label: '탐색',
-    href: '/explore',
+    href: NAVIGATION_ROUTES[1].href,
     isActive: (pathname) => pathname === '/explore',
     renderIcon: (color) => <ExploreIcon size={26} color={color} />,
   },
   {
     key: 'challenges',
     label: '도전과제',
-    href: '/challenges?list=progress&category=general',
+    href: NAVIGATION_ROUTES[2].href,
     isActive: (pathname) => pathname.includes('/challenges'),
     renderIcon: (color) => <OutlinedFlagIcon size={26} color={color} />,
   },
   {
     key: 'profile',
     label: '프로필',
-    href: '/profile',
+    href: NAVIGATION_ROUTES[3].href,
     isActive: (pathname) => pathname === '/profile',
     renderIcon: (color) => <OutlinedPersonIcon size={26} color={color} />,
   },
