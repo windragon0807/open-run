@@ -394,7 +394,7 @@ export default function BungDetails({ details, initialChatAction }: { details: B
                   </div>
                   <div className='flex items-center gap-4'>
                     <span className='text-12 font-bold text-black-darken'>{member.nickname}</span>
-                    {member.owner && <Image src='/images/icon_crown.png' alt='Crown Icon' width={16} height={16} />}
+                    {member.owner && <OwnerCrownIcon size={16} color={bungInfoIconColor} />}
                   </div>
                 </div>
               ))}
@@ -414,7 +414,7 @@ export default function BungDetails({ details, initialChatAction }: { details: B
 
           {/* 위치 및 지도 */}
           <div className='mb-8 mt-40 flex gap-4 px-16'>
-            <PlaceIcon className='flex-shrink-0 translate-y-2' size={16} color={colors.black.DEFAULT} />
+            <PlaceIcon className='flex-shrink-0 translate-y-2' size={16} color={bungInfoIconColor} />
             <span className='whitespace-pre-wrap text-14 font-bold text-black-darken'>{details.location}</span>
           </div>
           <div className='mb-18 px-16'>
@@ -430,6 +430,26 @@ export default function BungDetails({ details, initialChatAction }: { details: B
         </section>
       </motion.section>
     </section>
+  )
+}
+
+function OwnerCrownIcon({ size, color }: { size: number; color: string }) {
+  return (
+    <svg
+      aria-hidden='true'
+      width={size}
+      height={size}
+      viewBox='0 0 24 24'
+      fill='none'
+      stroke={color}
+      strokeWidth='2'
+      strokeLinecap='round'
+      strokeLinejoin='round'>
+      <path
+        transform='translate(0 2)'
+        d='M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z'
+      />
+    </svg>
   )
 }
 
