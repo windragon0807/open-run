@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 function LoadingFallback() {
   return (
-    <section className='flex h-screen w-screen flex-col bg-gray-lighten'>
+    <section className='flex h-full w-full flex-col bg-gray-lighten'>
       <div className='h-200 bg-gray' />
       <div className='-translate-y-15 rounded-[8px_8px_0_0] bg-gray-lighten'>
         <div className='mb-24 rounded-8 bg-white p-16 shadow-floating-primary'>

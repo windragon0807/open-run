@@ -2,13 +2,13 @@
 
 import clsx from 'clsx'
 import Image from 'next/image'
-import Link from 'next/link'
 import 'swiper/css'
 import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { useModal } from '@contexts/ModalProvider'
 import AddressClipboard from '@shared/AddressClipboard'
 import GlassSurface from '@shared/GlassSurface'
+import PushTransitionLink from '@shared/PushTransitionLink'
 import Skeleton from '@shared/Skeleton'
 import { profileAnalytics } from '@analytics'
 import { CopyClipboardIcon } from '@icons/clipboard'
@@ -43,20 +43,20 @@ export default function Profile() {
   const summary = profileSummary?.data
   const recentAcquiredNfts = summary?.recentAcquiredNfts ?? []
   const completedBungList = completedBungs?.data ?? []
-  const topPadding = useAppInsetSize('top', 32)
+  const topPadding = useAppInsetSize('top', 24)
   const scrollBottomPadding = useAppInsetSize('bottom', 104)
 
   return (
     <section className='h-full w-full bg-gray-lighten'>
-      <div className='flex h-full flex-col px-24 pt-32' style={{ paddingTop: topPadding }}>
+      <div className='flex h-full flex-col px-24 pt-24' style={{ paddingTop: topPadding }}>
         <header className='mb-12 flex items-center justify-between'>
           <h1 className='text-28 font-bold'>프로필</h1>
           <div className='flex items-center gap-8'>
-            <Link href='/avatar' aria-label='아바타 페이지로 이동' className={PROFILE_ACTION_BUTTON_CLASS}>
+            <PushTransitionLink href='/avatar' aria-label='아바타 페이지로 이동' className={PROFILE_ACTION_BUTTON_CLASS}>
               <ProfileActionGlass>
                 <UpperClothIcon size={16} color={colors.white} />
               </ProfileActionGlass>
-            </Link>
+            </PushTransitionLink>
             <SettingButton
               onClick={() =>
                 showModal({
@@ -307,12 +307,12 @@ function CompletedBung({
         </div>
       </div>
 
-      <Link
+      <PushTransitionLink
         href={`/bung/${bungId}`}
         onClick={() => profileAnalytics.feedbackClicked({ bungId })}
         className='flex h-40 w-100 shrink-0 items-center justify-center whitespace-nowrap rounded-8 bg-black-darken text-14 font-bold text-white active-press-duration active:scale-95 active:bg-black-darken/80'>
         피드백 남기기
-      </Link>
+      </PushTransitionLink>
     </div>
   )
 }

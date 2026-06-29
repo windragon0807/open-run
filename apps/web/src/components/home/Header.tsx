@@ -2,10 +2,10 @@
 
 import clsx from 'clsx'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import { ReactNode } from 'react'
 import { Weather } from '@type/weather'
 import AddressClipboard from '@shared/AddressClipboard'
+import usePushTransitionRouter from '@shared/usePushTransitionRouter'
 import { BellIcon } from '@icons/bell'
 import { CopyClipboardIcon } from '@icons/clipboard'
 import { UpperClothIcon } from '@icons/upper-cloth'
@@ -30,7 +30,7 @@ const FULL_HEADER_HEIGHT = 200
 const HEADER_BG_FADE = 20
 
 export default function Header() {
-  const router = useRouter()
+  const pushTransitionRouter = usePushTransitionRouter()
   const { userInfo } = useUserInfo()
   const { warmupAvatarPage, warmupImageUrls } = useHomeWarmup()
 
@@ -102,7 +102,7 @@ export default function Header() {
 
       <div className='absolute inset-x-0' style={{ top: appTopPadding }}>
         <div className='absolute left-16 top-8'>
-          <AvatarButton onPointerDown={warmupAvatarPage} onClick={() => router.push('/avatar')} />
+          <AvatarButton onPointerDown={warmupAvatarPage} onClick={() => pushTransitionRouter.push('/avatar')} />
         </div>
       </div>
     </header>
@@ -176,7 +176,7 @@ const USER_INFO_ROW_STYLE = {
 } as const
 
 function UserInfoRow({ nickname }: { nickname: string | undefined }) {
-  const router = useRouter()
+  const pushTransitionRouter = usePushTransitionRouter()
 
   return (
     <div className={clsx('flex items-center justify-end gap-8', USER_INFO_ROW_STYLE.margin)}>
@@ -193,7 +193,7 @@ function UserInfoRow({ nickname }: { nickname: string | undefined }) {
       </div>
       <button
         className='rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/20'
-        onClick={() => router.push('/notifications')}>
+        onClick={() => pushTransitionRouter.push('/notifications')}>
         <BellIcon className='-translate-y-1 translate-x-2' size={24} color={colors.white} />
       </button>
     </div>

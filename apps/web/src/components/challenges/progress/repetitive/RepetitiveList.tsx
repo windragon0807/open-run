@@ -5,9 +5,9 @@ import CircularProgress, { RandomGiftImage, RepeatImage } from '../CircularProgr
 import RewardStatus from '../RewardStatus'
 import RepetitiveItem from './RepetitiveItem'
 
-export default function RepetitiveList({ challenges }: { challenges: ChallengeInfo[] }) {
+export default function RepetitiveList({ challenges, bottomPadding }: { challenges: ChallengeInfo[]; bottomPadding: number }) {
   return (
-    <section className='flex h-[calc(100%-102px)] flex-col gap-8 overflow-y-auto p-16 pb-120'>
+    <section className='flex h-[calc(100%-102px)] flex-col gap-8 overflow-y-auto p-16 pb-140' style={{ paddingBottom: bottomPadding }}>
       {challenges.map((challenge) => {
         const progressPercent = Math.round(challenge.progressStat)
 

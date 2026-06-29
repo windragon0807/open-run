@@ -1,10 +1,10 @@
 import clsx from 'clsx'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useEffect, useMemo } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { keepPreviousData } from '@tanstack/react-query'
 import { BungInfo, BungMember } from '@type/bung'
+import PushTransitionLink from '@shared/PushTransitionLink'
 import useDebounce from '@hooks/useDebounce'
 import {
   BungSearchCategory,
@@ -268,7 +268,7 @@ function ExploreResult({
   const memberProfileImageUrl = matchedMember?.profileImageUrl || DEFAULT_PROFILE_IMAGE_URL
 
   return (
-    <Link
+    <PushTransitionLink
       className='-mx-4 flex gap-16 rounded-8 px-4 py-6 transition-colors hover:bg-gray-lighten active-press-duration active:scale-[0.99] active:bg-gray/50'
       href={`/bung/${bungId}`}>
       <div className='relative h-94 w-140 flex-shrink-0'>
@@ -306,7 +306,7 @@ function ExploreResult({
             </span>
           ))}
       </div>
-    </Link>
+    </PushTransitionLink>
   )
 }
 

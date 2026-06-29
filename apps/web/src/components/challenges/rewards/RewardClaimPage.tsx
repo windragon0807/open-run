@@ -1,13 +1,13 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useModal } from '@contexts/ModalProvider'
 import { Rarity } from '@type/avatar'
 import { challengeAnalytics } from '@analytics'
 import RarityBadge from '@components/avatar/shared/RarityBadge'
+import PushTransitionLink from '@shared/PushTransitionLink'
 import ToastModal from '@shared/ToastModal'
 import type { NftMintJob } from '@apis/v1/nft/mint-jobs'
 import { useStartMintJobMutation } from '@apis/v1/nft/mint-jobs/mutation'
@@ -280,11 +280,11 @@ export default function RewardClaimPage({ userChallengeId }: RewardClaimPageProp
               <span className='text-16 text-black-darken font-bold'>확인</span>
             </button>
 
-            <Link href='/avatar' replace>
+            <PushTransitionLink href='/avatar' replace>
               <button className='rounded-8 bg-primary active-press-duration active:scale-98 active:bg-primary-darken flex h-56 w-full items-center justify-center'>
                 <span className='text-16 font-bold text-white'>아바타 꾸미러 가기</span>
               </button>
-            </Link>
+            </PushTransitionLink>
           </motion.div>
         )}
       </motion.div>

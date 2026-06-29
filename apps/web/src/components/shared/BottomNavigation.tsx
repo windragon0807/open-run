@@ -58,7 +58,7 @@ export default function BottomNavigation() {
   const router = useRouter()
   const vibrate = useVibration()
   const { showModal } = useModal()
-  const paddingBottom = useAppInsetSize('bottom', 24)
+  const paddingBottom = useAppInsetSize('bottom', 16)
 
   const activeIndex = TABS.findIndex((tab) => tab.isActive(pathname))
 

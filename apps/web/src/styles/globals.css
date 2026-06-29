@@ -43,3 +43,57 @@
 #root-portal > * {
   pointer-events: auto;
 }
+
+.app-route-view-transition-scope {
+  view-transition-name: openrun-app-route;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.push-route-view-transition::view-transition-group(root) {
+    animation: none;
+  }
+
+  html.push-route-view-transition::view-transition-old(root),
+  html.push-route-view-transition::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  html.push-route-view-transition::view-transition-group(openrun-app-route) {
+    overflow: hidden;
+    animation-duration: 340ms;
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  html.push-route-view-transition::view-transition-image-pair(openrun-app-route) {
+    isolation: isolate;
+  }
+
+  html.push-route-view-transition::view-transition-old(openrun-app-route) {
+    z-index: 0;
+    animation: none;
+    mix-blend-mode: normal;
+  }
+
+  html.push-route-view-transition::view-transition-new(openrun-app-route) {
+    z-index: 1;
+    animation: push-route-view-enter 340ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    mix-blend-mode: normal;
+  }
+}
+
+@media (min-width: 576px) and (prefers-reduced-motion: no-preference) {
+  html.push-route-view-transition::view-transition-group(openrun-app-route) {
+    border-radius: 40px;
+  }
+}
+
+@keyframes push-route-view-enter {
+  from {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}

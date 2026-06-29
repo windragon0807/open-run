@@ -1,6 +1,6 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import ErrorFallback from '@shared/ErrorFallback'
+import PushTransitionLink from '@shared/PushTransitionLink'
 import Skeleton from '@shared/Skeleton'
 import withBoundary from '@shared/withBoundary'
 import { bungAnalytics } from '@analytics'
@@ -28,7 +28,7 @@ function RecommendationBungs() {
   return (
     <section className='flex flex-col gap-8'>
       {recommendationList?.data.map((bung, index) => (
-        <Link
+        <PushTransitionLink
           key={bung.bungId}
           className='text-start'
           href={`/bung/${bung.bungId}`}
@@ -49,7 +49,7 @@ function RecommendationBungs() {
             hashtags={bung.hashtags}
             participantImageUrls={bung.memberList.map((member) => member.profileImageUrl)}
           />
-        </Link>
+        </PushTransitionLink>
       ))}
       {recommendationList?.data.length === 0 && (
         <div className='mt-32 flex h-full w-full flex-col items-center justify-center gap-8'>

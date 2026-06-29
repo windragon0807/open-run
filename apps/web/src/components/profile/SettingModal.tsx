@@ -2,11 +2,11 @@
 
 import clsx from 'clsx'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { ReactNode, useRef } from 'react'
 import { useModal } from '@contexts/ModalProvider'
 import { useAppStore } from '@store/app'
 import { BottomSheet, BottomSheetRef, Dimmed } from '@shared/Modal'
+import usePushTransitionRouter from '@shared/usePushTransitionRouter'
 import { ArrowRightIcon } from '@icons/arrow'
 import { MailIcon } from '@icons/mail'
 import { BrokenXIcon } from '@icons/x'
@@ -17,7 +17,7 @@ import { colors } from '@styles/colors'
 import DeleteUserModal from './DeleteUserModal'
 
 export default function SettingModal() {
-  const router = useRouter()
+  const router = usePushTransitionRouter()
   const { closeModal, showModal } = useModal()
   const sheetRef = useRef<BottomSheetRef>(null)
   const handleClose = () => sheetRef.current?.close()

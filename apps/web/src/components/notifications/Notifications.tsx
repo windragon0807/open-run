@@ -8,11 +8,11 @@ import { colors } from '@styles/colors'
 
 export default function Notifications() {
   const router = useRouter()
-  const topMargin = useAppInsetSize('top', 0)
+  const topPadding = useAppInsetSize('top', 0)
 
   return (
-    <section className='h-full w-full bg-white'>
-      <header className='relative flex h-60 items-center justify-center px-16' style={{ marginTop: topMargin }}>
+    <section className='flex h-full w-full flex-col bg-white' style={{ paddingTop: topPadding }}>
+      <header className='relative flex h-60 shrink-0 items-center justify-center px-16'>
         <button
           className='absolute left-12 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
           onClick={() => router.back()}>
@@ -21,7 +21,7 @@ export default function Notifications() {
         <h1 className='text-16 font-bold'>알림</h1>
       </header>
 
-      <div className='h-[calc(100%-60px)] overflow-y-auto px-16 pb-120'>
+      <div className='min-h-0 flex-1 overflow-y-auto px-16 pb-120'>
         <div className='flex h-full w-full flex-col items-center justify-center gap-8'>
           <Image src='/images/home/skewed_x_button.png' alt='기울어진 X 버튼 이미지' width={56} height={56} />
           <p className='text-center text-14 leading-20 text-gray-darken'>

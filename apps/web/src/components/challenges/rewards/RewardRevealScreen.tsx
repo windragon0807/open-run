@@ -2,9 +2,9 @@
 
 import { AnimatePresence, motion } from 'framer-motion'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useState } from 'react'
 import { Rarity } from '@type/avatar'
+import PushTransitionLink from '@shared/PushTransitionLink'
 import RarityBadge from '@components/avatar/shared/RarityBadge'
 
 type RewardRevealScreenProps = {
@@ -95,11 +95,11 @@ export default function RewardRevealScreen({
             <span className='text-16 font-bold text-black-darken'>확인</span>
           </button>
 
-          <Link href='/avatar' replace>
+          <PushTransitionLink href='/avatar' replace>
             <button className='flex h-56 w-full items-center justify-center rounded-8 bg-primary active-press-duration active:scale-98 active:bg-primary-darken'>
               <span className='text-16 font-bold text-white'>아바타 꾸미러 가기</span>
             </button>
-          </Link>
+          </PushTransitionLink>
         </div>
       </motion.div>
     </section>

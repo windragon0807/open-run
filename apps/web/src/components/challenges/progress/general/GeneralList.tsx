@@ -3,9 +3,9 @@ import CircularProgress, { QuestionMarkImage, RandomGiftImage } from '../Circula
 import RewardStatus from '../RewardStatus'
 import GeneralItem from './GeneralItem'
 
-export default function GeneralList({ challenges }: { challenges: ChallengeInfo[] }) {
+export default function GeneralList({ challenges, bottomPadding }: { challenges: ChallengeInfo[]; bottomPadding: number }) {
   return (
-    <section className='flex h-[calc(100%-102px)] flex-col gap-8 overflow-y-auto p-16 pb-120'>
+    <section className='flex h-[calc(100%-102px)] flex-col gap-8 overflow-y-auto p-16 pb-140' style={{ paddingBottom: bottomPadding }}>
       {challenges.map((challenge) => {
         const progressPercent = Math.round(challenge.progressStat)
 

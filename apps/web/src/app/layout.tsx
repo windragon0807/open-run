@@ -8,6 +8,7 @@ import { WalletProvider } from '@contexts/WalletProvider'
 import { AnalyticsProvider } from '@analytics'
 import AppBridge from '@shared/AppBridge'
 import Layout from '@shared/Layout'
+import RouteViewTransitions from '@shared/RouteViewTransitions'
 import '@styles/globals.css'
 
 const jost = Jost({
@@ -17,25 +18,27 @@ const jost = Jost({
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='ko'>
-      <body suppressHydrationWarning className={`font-pretendard ${jost.variable} touch-none`}>
-        <ReactQueryProvider>
-          <WalletProvider>
-            <GoogleMapContext>
-              <NuqsAdapter>
-                <AppBridge>
-                  <AnalyticsProvider>
-                    <ModalProvider>
-                      <Layout>{children}</Layout>
-                    </ModalProvider>
-                  </AnalyticsProvider>
-                </AppBridge>
-              </NuqsAdapter>
-            </GoogleMapContext>
-          </WalletProvider>
-        </ReactQueryProvider>
-      </body>
-    </html>
+    <RouteViewTransitions>
+      <html lang='ko'>
+        <body suppressHydrationWarning className={`font-pretendard ${jost.variable} touch-none`}>
+          <ReactQueryProvider>
+            <WalletProvider>
+              <GoogleMapContext>
+                <NuqsAdapter>
+                  <AppBridge>
+                    <AnalyticsProvider>
+                      <ModalProvider>
+                        <Layout>{children}</Layout>
+                      </ModalProvider>
+                    </AnalyticsProvider>
+                  </AppBridge>
+                </NuqsAdapter>
+              </GoogleMapContext>
+            </WalletProvider>
+          </ReactQueryProvider>
+        </body>
+      </html>
+    </RouteViewTransitions>
   )
 }
 

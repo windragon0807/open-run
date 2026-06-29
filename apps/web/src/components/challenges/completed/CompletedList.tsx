@@ -3,9 +3,17 @@ import { parseApiDateTime } from '@utils/api'
 import { formatDate } from '@utils/time'
 import CategoryReward from './CategoryReward'
 
-export default function CompletedList({ challenges }: { challenges: CompletedChallengeWithNft[] }) {
+export default function CompletedList({
+  challenges,
+  bottomPadding,
+}: {
+  challenges: CompletedChallengeWithNft[]
+  bottomPadding: number
+}) {
   return (
-    <section className='flex h-[calc(100%-102px)] w-full flex-col gap-8 overflow-y-auto px-16 pb-120'>
+    <section
+      className='flex h-[calc(100%-102px)] w-full flex-col gap-8 overflow-y-auto px-16 pb-140'
+      style={{ paddingBottom: bottomPadding }}>
       {challenges.length === 0 ? (
         <p className='mt-80 text-center text-14 leading-20 text-gray-darken'>아직 완료한 도전과제가 없어요</p>
       ) : (

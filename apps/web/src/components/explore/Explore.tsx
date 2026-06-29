@@ -30,7 +30,8 @@ export default function Explore() {
   const shouldShowRecommendation = !isSearchActive && trimmedSearchKeyword.length === 0
   const shouldShowSearchHint = isSearchActive && trimmedSearchKeyword.length < 2
   const shouldShowSearchResult = trimmedSearchKeyword.length >= 2
-  const topPadding = useAppInsetSize('top', 32)
+  const topPadding = useAppInsetSize('top', 24)
+  const listBottomPadding = useAppInsetSize('bottom', 80)
 
   useEffect(() => {
     if (trimmedSearchKeyword.length > 0) {
@@ -54,7 +55,7 @@ export default function Explore() {
 
   return (
     <section className='h-full w-full bg-white'>
-      <div className='px-16 pt-32' style={{ paddingTop: topPadding }}>
+      <div className='px-16 pt-24' style={{ paddingTop: topPadding }}>
         <h1 className='mb-16 text-28 font-bold'>탐색</h1>
         <div className='mb-24 flex items-center gap-8'>
           <label
@@ -83,7 +84,7 @@ export default function Explore() {
           )}
         </div>
       </div>
-      <div className='h-[calc(100%-148px)] w-full overflow-y-auto pb-60'>
+      <div className='h-[calc(100%-140px)] w-full overflow-y-auto pb-80' style={{ paddingBottom: listBottomPadding }}>
         {shouldShowRecommendation && <Recommendation />}
         {shouldShowSearchHint && <ExploreSearchHint />}
         {isSearchActive && shouldShowSearchResult && (

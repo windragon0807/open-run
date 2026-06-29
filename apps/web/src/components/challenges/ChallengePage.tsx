@@ -75,7 +75,8 @@ export default function ChallengePage() {
     selectedView === 'general' ? generalQuery : selectedView === 'repetitive' ? repetitiveQuery : completedQuery
   const displayView = readyView ?? lastReadyView
   const shouldShowError = activeQuery.isError && displayView == null
-  const topPadding = useAppInsetSize('top', 32)
+  const topPadding = useAppInsetSize('top', 24)
+  const listBottomPadding = useAppInsetSize('bottom', 140)
   const handleListChange = (list: ListType) => {
     setSelectedList(list)
     if (list === 'progress') {
@@ -85,7 +86,7 @@ export default function ChallengePage() {
 
   return (
     <section className='h-full w-full bg-gray-lighten'>
-      <div className='h-full pt-32' style={{ paddingTop: topPadding }}>
+      <div className='h-full pt-24' style={{ paddingTop: topPadding }}>
         <header className='mb-32 flex items-center justify-between px-24'>
           <h1 className='text-28 font-bold'>도전 과제</h1>
           <ListTab selectedTab={selectedList} onTabChange={handleListChange} />
@@ -98,30 +99,30 @@ export default function ChallengePage() {
         {shouldShowError ? (
           <ChallengeListError />
         ) : displayView ? (
-          <ChallengeListContent content={displayView} />
+          <ChallengeListContent content={displayView} bottomPadding={listBottomPadding} />
         ) : (
-          <ChallengeListSkeleton />
+          <ChallengeListSkeleton bottomPadding={listBottomPadding} />
         )}
       </div>
     </section>
   )
 }
 
-function ChallengeListContent({ content }: { content: ReadyChallengeView }) {
+function ChallengeListContent({ content, bottomPadding }: { content: ReadyChallengeView; bottomPadding: number }) {
   if (content.view === 'completed') {
-    return <CompletedList challenges={content.response.data} />
+    return <CompletedList challenges={content.response.data} bottomPadding={bottomPadding} />
   }
 
   if (content.view === 'repetitive') {
-    return <RepetitiveList challenges={content.response.data} />
+    return <RepetitiveList challenges={content.response.data} bottomPadding={bottomPadding} />
   }
 
-  return <GeneralList challenges={content.response.data} />
+  return <GeneralList challenges={content.response.data} bottomPadding={bottomPadding} />
 }
 
-function ChallengeListSkeleton() {
+function ChallengeListSkeleton({ bottomPadding }: { bottomPadding: number }) {
   return (
-    <section className='flex flex-col gap-8 p-16'>
+    <section className='flex flex-col gap-8 p-16 pb-140' style={{ paddingBottom: bottomPadding }}>
       {Array.from({ length: CHALLENGE_LIST_SKELETON_COUNT }).map((_, index) => (
         <article key={index} className='h-80 rounded-8 bg-white px-16 py-10'>
           <section className='grid h-full w-full grid-cols-[60px_1fr_70px] place-items-center gap-8'>

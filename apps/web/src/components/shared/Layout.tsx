@@ -72,7 +72,9 @@ export default function Layout({ children }: { children: ReactNode }) {
     <>
       <AppStatusBarController />
       <main className='h-dvh w-dvw'>
-        <section className='mx-auto h-full w-full max-w-tablet overflow-hidden'>{children}</section>
+        <section className='app-route-view-transition-scope mx-auto h-full w-full max-w-tablet overflow-hidden'>
+          {children}
+        </section>
         <div id={ROOT_PORTAL_ID} />
       </main>
     </>

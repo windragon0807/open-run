@@ -17,23 +17,19 @@ const APP_READY_DELAY_MS = 250
 const REVEALED_HEADER_HIDDEN_CLASS = 'max-[1040px]:hidden'
 const MARKETING_PREVIEW_INSETS = { top: 20, bottom: 18 } satisfies Insets
 const MOCKUP_VIEWPORT_HEIGHT = '100dvh'
+const APP_DESIGN_WIDTH = 432
+const APP_DESIGN_HEIGHT = 932
 
 export default function MarketingLayout({ children }: { children: ReactNode }) {
   const containerRef = useRef<HTMLDivElement>(null)
-
-  // 고정 크기 설정 - iPhone 15 Pro Max 크기와 동일
-  const MOCKUP_WIDTH = 430 // iPhone 15 Pro Max 너비
-  const SCREEN_RATIO = 0.84 // 베젤을 제외한 화면 영역 비율
-  const IPHONE_WIDTH = 430 // iPhone 15 Pro Max 너비
-
-  const screenWidth = MOCKUP_WIDTH * SCREEN_RATIO
-  const scale = screenWidth / IPHONE_WIDTH
+  const screenRef = useRef<HTMLDivElement>(null)
 
   const [mockupY, setMockupY] = useState('100%')
   const [isAppReady, setIsAppReady] = useState(false)
   const [isRevealed, setIsRevealed] = useState(false)
   const [isMockupAnimating, setIsMockupAnimating] = useState(false)
   const [canClickToReveal, setCanClickToReveal] = useState(false) // 30%까지 올라온 뒤에만 클릭 허용
+  const [screenScale, setScreenScale] = useState<number | null>(null)
   const hasClickedRef = useRef(false)
   const mockupDelayRef = useRef<number | null>(null)
 
@@ -80,6 +76,33 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
     const img = new window.Image()
     img.src = BG_IMAGE
   }, [BG_IMAGE])
+
+  useEffect(() => {
+    const screenElement = screenRef.current
+    if (screenElement == null) return
+
+    const syncScreenScale = () => {
+      const { width, height } = screenElement.getBoundingClientRect()
+      if (width <= 0 || height <= 0) return
+
+      const nextScale = Math.min(width / APP_DESIGN_WIDTH, height / APP_DESIGN_HEIGHT)
+      setScreenScale((previousScale) => {
+        if (previousScale != null && Math.abs(previousScale - nextScale) < 0.001) return previousScale
+        return nextScale
+      })
+    }
+
+    syncScreenScale()
+
+    const resizeObserver = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(syncScreenScale)
+    resizeObserver?.observe(screenElement)
+    window.addEventListener('resize', syncScreenScale)
+
+    return () => {
+      resizeObserver?.disconnect()
+      window.removeEventListener('resize', syncScreenScale)
+    }
+  }, [])
 
   const bgTransition = { duration: 1.2, ease: [0.4, 0, 0.2, 1] }
 
@@ -181,7 +204,7 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
           상호작용 이슈 회피). 100% → 30% 슬라이드 인, 클릭 시 30% → 0% 슬라이드 업. */}
       <div
         className={clsx(
-          'absolute z-20',
+          'absolute isolate z-20',
           canClickToReveal && !isRevealed && 'cursor-pointer transition-[filter] duration-300 hover:drop-shadow-[0_0_30px_rgba(255,255,255,0.6)]',
         )}
         onClick={handleBackgroundClick}
@@ -199,15 +222,17 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
           fill
           // 컨테이너가 height: 100dvh, aspect-ratio 430/932 → 렌더 너비는 약 46dvh
           sizes='46vh'
-          className='object-contain'
+          className='pointer-events-none z-30 object-contain'
           priority
         />
 
         {/* 베젤 안 영역에 실제 앱(children)을 직접 렌더 — 더 이상 iframe을 쓰지 않는다.
-            scale 트릭은 그대로 두어 432×932 좌표계가 베젤 영역에 정확히 맞춰지도록 한다.
-            transform + contain으로 자식의 fixed positioning이 이 컨테이너 기준으로 격리된다. */}
+            실제 screen bbox를 기준으로 432×932 좌표계를 scale해 목업 화면 안에 고정한다.
+            transform + contain으로 자식의 fixed positioning이 이 컨테이너 기준으로 격리된다.
+            frame 이미지는 이 영역보다 위 레이어에 둬서 full-bleed 페이지의 edge bleed를 베젤이 가린다. */}
         <div
-          className='absolute overflow-hidden rounded-[40px]'
+          ref={screenRef}
+          className='app-route-view-transition-scope absolute z-10 overflow-hidden rounded-[40px]'
           style={{
             top: '7.85%',
             left: '7.9%',
@@ -215,7 +240,7 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
             bottom: '7.85%',
             contain: 'layout paint',
           }}>
-          <MarketingPreviewAppRoot scale={scale}>{children}</MarketingPreviewAppRoot>
+          <MarketingPreviewAppRoot scale={screenScale}>{children}</MarketingPreviewAppRoot>
           {/* reveal 전: children 위 투명 오버레이로 클릭 가로채기 / reveal 후: 제거하여 조작 허용 */}
           {!isRevealed && <div className='absolute inset-0 z-10' />}
           {/* 모달 portal: 베젤 안 영역 부모(contain: layout paint) 안에 둠 → portal 자식의
@@ -228,7 +253,7 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
   )
 }
 
-function MarketingPreviewAppRoot({ children, scale }: { children: ReactNode; scale: number }) {
+function MarketingPreviewAppRoot({ children, scale }: { children: ReactNode; scale: number | null }) {
   useEffect(() => {
     const previousPreviewInsets = useAppStore.getState().previewInsets
 
@@ -245,10 +270,11 @@ function MarketingPreviewAppRoot({ children, scale }: { children: ReactNode; sca
     <div
       className='app relative'
       style={{
-        aspectRatio: '432/932',
-        height: MOCKUP_VIEWPORT_HEIGHT,
-        transform: `scale(${scale})`,
+        width: APP_DESIGN_WIDTH,
+        height: APP_DESIGN_HEIGHT,
+        transform: `scale(${scale ?? 1})`,
         transformOrigin: 'top left',
+        visibility: scale == null ? 'hidden' : 'visible',
       }}>
       {children}
     </div>

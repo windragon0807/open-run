@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import ErrorFallback from '@shared/ErrorFallback'
+import PushTransitionLink from '@shared/PushTransitionLink'
 import Skeleton from '@shared/Skeleton'
 import Spacing from '@shared/Spacing'
 import withBoundary from '@shared/withBoundary'
@@ -35,7 +35,7 @@ function BungList() {
       <ul className='mb-8'>
         {myBungs!.data.map((item, index) => (
           <li key={`myBungs-${item.bungId}`}>
-            <Link
+            <PushTransitionLink
               className='w-full text-start'
               href={`/bung/${item.bungId}`}
               onClick={() =>
@@ -56,7 +56,7 @@ function BungList() {
                 pace={item.pace}
                 isBungOwner={item.hasOwnership}
               />
-            </Link>
+            </PushTransitionLink>
             <Spacing size={8} />
           </li>
         ))}
