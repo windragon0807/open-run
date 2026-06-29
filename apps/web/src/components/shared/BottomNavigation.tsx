@@ -9,7 +9,7 @@ import { OpenrunIcon } from '@icons/openrun'
 import { OutlinedPersonIcon } from '@icons/person'
 import { PlusIcon } from '@icons/plus'
 import { MODAL_KEY } from '@constants/modal'
-import { NAVIGATION_ROUTES } from '@constants/navigationRoutes'
+import { HOME_SCROLL_TO_TOP_EVENT, NAVIGATION_ROUTES } from '@constants/navigationRoutes'
 import { colors } from '@styles/colors'
 import { VIBRATION_TYPE } from '@constants/app'
 import useAppInsetSize from '@hooks/useAppInsetSize'
@@ -76,6 +76,11 @@ export default function BottomNavigation() {
         activeIndex={activeIndex}
         onTabSelect={(index) => {
           vibrate(VIBRATION_TYPE.SELECTION)
+          if (TABS[index].key === 'home' && activeIndex === index) {
+            window.dispatchEvent(new Event(HOME_SCROLL_TO_TOP_EVENT))
+            return
+          }
+
           router.replace(TABS[index].href)
         }}
         onSnap={() => vibrate(VIBRATION_TYPE.SELECTION)}

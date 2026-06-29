@@ -5,6 +5,8 @@ export const NAVIGATION_ROUTES = [
   { key: 'profile', path: '/profile', href: '/profile' },
 ] as const
 
+export const HOME_SCROLL_TO_TOP_EVENT = 'openrun:home-scroll-to-top'
+
 export type NavigationRoutePath = (typeof NAVIGATION_ROUTES)[number]['path']
 
 export function getNavigationRouteIndex(pathname: string): number | null {
