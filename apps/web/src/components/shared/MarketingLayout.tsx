@@ -7,6 +7,7 @@ import { ReactNode, useCallback, useEffect, useRef, useState } from 'react'
 import LoadingLogo from '@components/shared/LoadingLogo'
 import { ROOT_PORTAL_ID } from '@constants/layout'
 import { BackgroundOpenrunIcon } from '@icons/openrun'
+import { type Insets, useAppStore } from '@store/app'
 import { colors } from '@styles/colors'
 
 // 기존에는 iframe 로드를 기다려 mockup이 등장했지만, 단일 React 트리로 옮기면 children mount가 즉시라
@@ -14,6 +15,7 @@ import { colors } from '@styles/colors'
 const APP_READY_DELAY_MS = 250
 
 const REVEALED_HEADER_HIDDEN_CLASS = 'max-[1040px]:hidden'
+const MARKETING_PREVIEW_INSETS = { top: 20, bottom: 18 } satisfies Insets
 const MOCKUP_VIEWPORT_HEIGHT = '100dvh'
 
 export default function MarketingLayout({ children }: { children: ReactNode }) {
@@ -213,16 +215,7 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
             bottom: '7.85%',
             contain: 'layout paint',
           }}>
-          <div
-            className='relative'
-            style={{
-              aspectRatio: '432/932',
-              height: MOCKUP_VIEWPORT_HEIGHT,
-              transform: `scale(${scale * 1.0})`,
-              transformOrigin: 'top left',
-            }}>
-            {children}
-          </div>
+          <MarketingPreviewAppRoot scale={scale}>{children}</MarketingPreviewAppRoot>
           {/* reveal 전: children 위 투명 오버레이로 클릭 가로채기 / reveal 후: 제거하여 조작 허용 */}
           {!isRevealed && <div className='absolute inset-0 z-10' />}
           {/* 모달 portal: 베젤 안 영역 부모(contain: layout paint) 안에 둠 → portal 자식의
@@ -231,6 +224,33 @@ export default function MarketingLayout({ children }: { children: ReactNode }) {
           <div id={ROOT_PORTAL_ID} className='pointer-events-none absolute inset-0' />
         </div>
       </div>
+    </div>
+  )
+}
+
+function MarketingPreviewAppRoot({ children, scale }: { children: ReactNode; scale: number }) {
+  useEffect(() => {
+    const previousPreviewInsets = useAppStore.getState().previewInsets
+
+    useAppStore.setState({ previewInsets: MARKETING_PREVIEW_INSETS })
+
+    return () => {
+      const currentState = useAppStore.getState()
+      if (currentState.previewInsets !== MARKETING_PREVIEW_INSETS) return
+      useAppStore.setState({ previewInsets: previousPreviewInsets })
+    }
+  }, [])
+
+  return (
+    <div
+      className='app relative'
+      style={{
+        aspectRatio: '432/932',
+        height: MOCKUP_VIEWPORT_HEIGHT,
+        transform: `scale(${scale})`,
+        transformOrigin: 'top left',
+      }}>
+      {children}
     </div>
   )
 }
