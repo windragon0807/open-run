@@ -13,6 +13,7 @@ import {
 } from '@apis/v1/admin'
 import { useGrantAdminNftAvatarItemMutation } from '@apis/v1/admin/mutation'
 import { useAdminNftAvatarItemsQuery, useAdminUsersQuery } from '@apis/v1/admin/query'
+import { logoutSession } from '@openrun/api-client/auth'
 import { COOKIE } from '@openrun/api-client/constants'
 import { removeCookie } from '@openrun/api-client/cookie'
 import { getApiErrorMessage } from '@openrun/api-client/error'
@@ -65,6 +66,7 @@ export default function AdminPage() {
   const [grantResult, setGrantResult] = useState<AdminNftGrantResult | null>(null)
 
   const handleLogout = async () => {
+    await logoutSession()
     removeCookie(COOKIE.ACCESSTOKEN)
     try {
       await disconnect({ namespace: 'eip155' })

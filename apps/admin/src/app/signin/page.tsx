@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useAppKitAccount, useAppKitState, useDisconnect } from '@reown/appkit/react'
+import { useSignMessage } from 'wagmi'
 import {
   AccountController,
   ChainController,
@@ -11,6 +12,7 @@ import {
   type Connector,
 } from '@reown/appkit-controllers'
 import { useModal } from '@contexts/ModalProvider'
+import { createSignedSmartWalletLoginRequest } from '@openrun/api-client/auth'
 import { useSmartWalletLogin } from '@apis/v1/users/login/smart_wallet/mutation'
 import {
   consumePendingReownSocialProvider,
@@ -34,6 +36,7 @@ export default function AdminSignInPage() {
   const { open: isAppKitModalOpen } = useAppKitState()
   const { address, isConnected, status } = useAppKitAccount({ namespace: 'eip155' })
   const { disconnect } = useDisconnect()
+  const { signMessageAsync } = useSignMessage()
   const [isLoading, setIsLoading] = useState(false)
   const hasRequestedLoginRef = useRef(false)
   const hasObservedModalOpenRef = useRef(false)
@@ -41,18 +44,25 @@ export default function AdminSignInPage() {
   const { mutate: smartWalletLogin } = useSmartWalletLogin()
 
   const loginWithAddress = useCallback(
-    (walletAddress: string) => {
+    async (walletAddress: string) => {
       hasRequestedLoginRef.current = false
-      smartWalletLogin(
-        { code: walletAddress },
-        {
-          onError: () => {
-            setIsLoading(false)
+      try {
+        const loginRequest = await createSignedSmartWalletLoginRequest(walletAddress, (message) =>
+          signMessageAsync({ message }),
+        )
+        smartWalletLogin(
+          loginRequest,
+          {
+            onError: () => {
+              setIsLoading(false)
+            },
           },
-        },
-      )
+        )
+      } catch {
+        setIsLoading(false)
+      }
     },
-    [smartWalletLogin],
+    [signMessageAsync, smartWalletLogin],
   )
 
   const stopWalletConnect = useCallback(() => {

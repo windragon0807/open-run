@@ -1,5 +1,10 @@
 import AdminPage from '@components/admin/AdminPage'
+import AdminAuthGuard from '@components/admin/AdminAuthGuard'
 
 export default function Page() {
-  return <AdminPage />
+  return (
+    <AdminAuthGuard>
+      <AdminPage />
+    </AdminAuthGuard>
+  )
 }

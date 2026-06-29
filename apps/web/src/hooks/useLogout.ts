@@ -7,13 +7,15 @@ import { resetAnalyticsSession } from '@analytics'
 import { userQueries } from '@apis/v1/users/query'
 import { removeCookie } from '@utils/cookie'
 import { COOKIE } from '@constants/cookie'
+import { logoutSession } from '@openrun/api-client/auth'
 
 export default function useLogout() {
   const router = useRouter()
   const queryClient = useQueryClient()
   const { disconnect } = useDisconnect()
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
+    await logoutSession()
     // Reown wallet은 로그인 시점에만 쓰이지만, 로그아웃에서는 명시적으로 끊어 connector 상태를 정리한다.
     void disconnect({ namespace: 'eip155' })
     queryClient.removeQueries({ queryKey: userQueries.all() })

@@ -1,19 +1,11 @@
-import http, { ApiResponse } from '@apis/http.client'
-
-export type RequestType = {
-  code: string
-}
-
-export type ResponseType = ApiResponse<{
-  email: string // deprecated
-  identifier: string
-  nickname: string | null
-  jwtToken: string
-}>
-
-/**
- * 스마트 월렛 로그인
- */
-export function smartWalletLogin(params: RequestType): Promise<ResponseType> {
-  return http.get('/v1/users/login/smart_wallet', { params })
-}
+export {
+  createSmartWalletLoginNonce,
+  createSignedSmartWalletLoginRequest,
+  smartWalletLogin,
+} from '@openrun/api-client/auth'
+export type {
+  SmartWalletLoginNonceRequest as LoginNonceRequestType,
+  SmartWalletLoginNonceResponse as LoginNonceResponseType,
+  SmartWalletLoginRequest as RequestType,
+  SmartWalletLoginResponse as ResponseType,
+} from '@openrun/api-client/auth'

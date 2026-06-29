@@ -2,12 +2,16 @@ export function setCookie(name: string, value: string, maxAgeSeconds?: number) {
   if (typeof document === 'undefined') return
   let cookie = `${name}=${encodeURIComponent(value)}; path=/`
   if (maxAgeSeconds != null) cookie += `; max-age=${maxAgeSeconds}`
+  cookie += '; samesite=lax'
+  if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
+    cookie += '; secure'
+  }
   document.cookie = cookie
 }
 
 export function removeCookie(name: string) {
   if (typeof document === 'undefined') return
-  document.cookie = `${name}=; path=/; max-age=0`
+  document.cookie = `${name}=; path=/; max-age=0; samesite=lax`
 }
 
 export function getCookie(name: string): string | undefined {
