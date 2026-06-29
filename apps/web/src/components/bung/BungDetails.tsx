@@ -162,9 +162,10 @@ export default function BungDetails({ details, initialChatAction }: { details: B
       ? BUNG_INFO_ICON_GRADIENT_COLOR
       : colors.pink
     : colors.primary.DEFAULT
+  const detailBottomMarginBase = 벙에참여한유저인가 ? 80 : 120
   const top = useAppInsetSize('top', 0)
   const imageHeight = useAppInsetSize('top', 200)
-  const hashtagMarginBottom = useAppInsetSize('bottom', 80)
+  const hashtagMarginBottom = useAppInsetSize('bottom', detailBottomMarginBase)
 
   const hasHandledChatActionRef = useRef(false)
 
