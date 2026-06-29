@@ -11,8 +11,12 @@ export enum MESSAGE {
 
   REQUEST_VIBRATION = 'REQUEST_VIBRATION',
 
+  SET_STATUS_BAR_STYLE = 'SET_STATUS_BAR_STYLE',
+
   INSET = 'INSET',
 }
+
+export type AppStatusBarStyle = 'light' | 'dark'
 
 // 진동 타입 정의
 export enum VIBRATION_TYPE {

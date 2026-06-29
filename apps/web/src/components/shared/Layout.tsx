@@ -3,6 +3,7 @@
 import { ReactNode, useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { ROOT_PORTAL_ID } from '@constants/layout'
+import AppStatusBarController from './AppStatusBarController'
 import MarketingLayout from './MarketingLayout'
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -33,15 +34,23 @@ export default function Layout({ children }: { children: ReactNode }) {
   }, [isPublicDocument])
 
   if (isPublicDocument) {
-    return <main className='h-dvh w-full touch-pan-y overflow-y-auto overscroll-contain bg-gray-lighten'>{children}</main>
+    return (
+      <>
+        <AppStatusBarController />
+        <main className='h-dvh w-full touch-pan-y overflow-y-auto overscroll-contain bg-gray-lighten'>{children}</main>
+      </>
+    )
   }
 
   if (pathname.startsWith('/admin')) {
     return (
-      <main className='h-dvh w-dvw overflow-hidden'>
-        {children}
-        <div id={ROOT_PORTAL_ID} />
-      </main>
+      <>
+        <AppStatusBarController />
+        <main className='h-dvh w-dvw overflow-hidden'>
+          {children}
+          <div id={ROOT_PORTAL_ID} />
+        </main>
+      </>
     )
   }
 
@@ -49,17 +58,23 @@ export default function Layout({ children }: { children: ReactNode }) {
   // 모달 portal은 MarketingLayout 내부 베젤 영역에 배치되어 fixed 자식이 mockup 안에 갇힌다.
   if (isDesktop) {
     return (
-      <main className='h-dvh w-dvw'>
-        <MarketingLayout>{children}</MarketingLayout>
-      </main>
+      <>
+        <AppStatusBarController />
+        <main className='h-dvh w-dvw'>
+          <MarketingLayout>{children}</MarketingLayout>
+        </main>
+      </>
     )
   }
 
   // 576px 이하: 원래 모바일 Layout
   return (
-    <main className='h-dvh w-dvw'>
-      <section className='mx-auto h-full w-full max-w-tablet overflow-hidden'>{children}</section>
-      <div id={ROOT_PORTAL_ID} />
-    </main>
+    <>
+      <AppStatusBarController />
+      <main className='h-dvh w-dvw'>
+        <section className='mx-auto h-full w-full max-w-tablet overflow-hidden'>{children}</section>
+        <div id={ROOT_PORTAL_ID} />
+      </main>
+    </>
   )
 }

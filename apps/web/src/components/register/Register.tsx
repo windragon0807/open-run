@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { RegisterStep, UserRegister } from '@type/register'
 import { ArrowLeftIcon } from '@icons/arrow'
 import useAppInsetSize from '@hooks/useAppInsetSize'
+import useAppStatusBarStyle from '@hooks/useAppStatusBarStyle'
 import { useRegister } from '@apis/v1/users/mutation'
 import { colors } from '@styles/colors'
 import BottomButton from './BottomButton'
@@ -29,6 +30,7 @@ export default function Register() {
     runningFrequency: 0,
   })
   const [step, setStep] = useState<RegisterStep>(0)
+  useAppStatusBarStyle(step === 0 ? 'light' : 'dark')
 
   const handlePrevious = () => {
     if (step === 0) {

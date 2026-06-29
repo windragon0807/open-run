@@ -10,6 +10,7 @@ import { BellIcon } from '@icons/bell'
 import { CopyClipboardIcon } from '@icons/clipboard'
 import { UpperClothIcon } from '@icons/upper-cloth'
 import useAppInsetSize from '@hooks/useAppInsetSize'
+import useAppStatusBarStyle from '@hooks/useAppStatusBarStyle'
 import { useHomeWarmup } from '@hooks/useHomeWarmup'
 import useGeolocation from '@hooks/useGeolocation'
 import { useReverseGeocoding } from '@apis/maps/reverse-geocoding/query'
@@ -17,6 +18,7 @@ import { useProfileSummary } from '@apis/v1/users/profile-summary/query'
 import { useUserInfo } from '@apis/v1/users/query'
 import { useCurrentWeather } from '@apis/weather/query'
 import addDelimiter from '@utils/addDelimiter'
+import type { AppStatusBarStyle } from '@constants/app'
 import { DEFAULT_PROFILE_IMAGE_URL } from '@constants/profile'
 import { colors } from '@styles/colors'
 import ImageWarmup from '../shared/ImageWarmup'
@@ -45,6 +47,7 @@ export default function Header() {
 
   const weatherAssets = currentWeather ? getWeatherData(currentWeather.weather) : null
   const weatherBackground = weatherAssets?.background ?? weatherData.clouds.background.morning
+  const statusBarStyle = getStatusBarStyleForBackground(weatherBackground)
   const addressSummary = location != null && reverseGeocode != null ? reverseGeocode : null
   const weatherSummary: WeatherSummary | null =
     location != null && currentWeather != null && weatherAssets != null
@@ -55,6 +58,7 @@ export default function Header() {
   const appTopPadding = useAppInsetSize('top', 0)
   const fullHeight = FULL_HEADER_HEIGHT + appTopPadding
   const backgroundMask = `linear-gradient(to bottom, black ${fullHeight - HEADER_BG_FADE}px, transparent ${fullHeight}px)`
+  useAppStatusBarStyle(statusBarStyle, { pathname: '/' })
 
   return (
     <header
@@ -357,4 +361,31 @@ function getWeatherData(weather: Weather) {
     icon: data.icon,
     background: data.background[period],
   }
+}
+
+const HEX_COLOR_PATTERN = /#([0-9a-fA-F]{6})\b/
+
+function getStatusBarStyleForBackground(background: string): AppStatusBarStyle {
+  const topColor = background.match(HEX_COLOR_PATTERN)?.[1]
+  if (topColor == null) {
+    return 'dark'
+  }
+
+  const red = Number.parseInt(topColor.slice(0, 2), 16)
+  const green = Number.parseInt(topColor.slice(2, 4), 16)
+  const blue = Number.parseInt(topColor.slice(4, 6), 16)
+  const luminance = getRelativeLuminance(red, green, blue)
+  const lightIconContrast = 1.05 / (luminance + 0.05)
+  const darkIconContrast = (luminance + 0.05) / 0.05
+
+  return lightIconContrast >= darkIconContrast ? 'light' : 'dark'
+}
+
+function getRelativeLuminance(red: number, green: number, blue: number) {
+  const [r, g, b] = [red, green, blue].map((channel) => {
+    const value = channel / 255
+    return value <= 0.03928 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4
+  })
+
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b
 }
