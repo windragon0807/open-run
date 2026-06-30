@@ -35,7 +35,7 @@ export default function Header() {
   const { warmupAvatarPage, warmupImageUrls } = useHomeWarmup()
 
   const { data: profileSummary } = useProfileSummary()
-  const { location, refetch } = useGeolocation()
+  const { location } = useGeolocation()
   const { data: reverseGeocode } = useReverseGeocoding(
     { lat: location?.lat ?? 0, lng: location?.lng ?? 0 },
     { enabled: location != null },
@@ -96,7 +96,7 @@ export default function Header() {
         />
         <div className='flex flex-col'>
           <UserInfoRow nickname={userInfo?.nickname} />
-          <WeatherDome address={addressSummary} weather={weatherSummary} onRefreshLocation={refetch} />
+          <WeatherDome address={addressSummary} weather={weatherSummary} />
         </div>
       </HeaderSection>
 
@@ -204,16 +204,12 @@ function UserInfoRow({ nickname }: { nickname: string | undefined }) {
 function WeatherDome({
   address,
   weather,
-  onRefreshLocation,
 }: {
   address: string | null
   weather: WeatherSummary | null
-  onRefreshLocation: () => void
 }) {
   return (
-    <div
-      className='relative mr-32 flex w-[152px] flex-1 cursor-pointer flex-col items-center'
-      onClick={() => onRefreshLocation()}>
+    <div className='relative mr-32 flex w-[152px] flex-1 flex-col items-center'>
       {/* GlassSurface는 네 모서리가 같은 radius라 높이를 80px 늘려 하단 코너를 클립 밖으로 밀어낸다 */}
       {/* mask로 유리 전체(프로스트·헤어라인·굴절)를 아래로 갈수록 녹여 헤더에 흡수시킨다.
           원래 bg-gradient-weather가 75%에서 완전 투명해지던 페이드를 따라가되,

@@ -40,6 +40,11 @@ import {
   storePendingReownSocialProvider,
   type ReownSocialProvider,
 } from '@utils/reownSocialRedirect'
+import {
+  RECOVERED_WALLETCONNECT_SESSION_MESSAGE,
+  clearWalletConnectSessionStorage,
+  isRecoverableWalletConnectSessionError,
+} from '@utils/walletConnectSessionRecovery'
 
 type SheetView = 'connect' | 'allWallets' | 'walletConnect' | 'externalWallet' | 'socialWallet'
 type SocialProvider = ReownSocialProvider
@@ -94,7 +99,7 @@ type FeaturedWalletMetadataState = {
 
 type WalletLoginBottomSheetProps = {
   onConnectStart: () => void
-  onConnectError: () => void
+  onConnectError: (error?: unknown) => void
   onConnectSuccess: () => void
   onCancel: () => void
 }
@@ -114,6 +119,25 @@ const SOCIAL_LOGIN_ORIGIN = 'https://secure.walletconnect.org'
 const SOCIAL_LOGIN_LOADING_URL = `${SOCIAL_LOGIN_ORIGIN}/loading`
 const SOCIAL_LOGIN_POPUP_FEATURES = 'width=600,height=800,scrollbars=yes'
 const SOCIAL_LOGIN_TIMEOUT_MS = 45_000
+
+async function recoverWalletConnectSessionState(error: unknown): Promise<boolean> {
+  if (!isRecoverableWalletConnectSessionError(error)) {
+    return false
+  }
+
+  try {
+    await ConnectionController.disconnect('eip155')
+  } catch {
+    // The stale session often throws during disconnect too; storage cleanup below is the actual recovery.
+  }
+
+  clearWalletConnectSessionStorage()
+  ConnectionController.resetUri()
+  ConnectionController.setWcLinking(undefined)
+  ConnectionController.setRecentWallet(undefined)
+
+  return true
+}
 
 const SOCIAL_OPTIONS: SocialLoginOption[] = [
   {
@@ -400,7 +424,7 @@ export default function WalletLoginBottomSheet({
 
           storePendingReownSocialProvider(provider)
           window.location.assign(buildReownSocialRedirectUri(uri))
-        } catch {
+        } catch (error) {
           if (requestId !== socialRequestIdRef.current) return
           setSelectedAction(null)
           setSocialConnection({
@@ -408,7 +432,7 @@ export default function WalletLoginBottomSheet({
             mode: 'redirect',
             errorMessage: '소셜 로그인 페이지로 이동하지 못했어요. 다시 시도해 주세요.',
           })
-          onConnectError()
+          onConnectError(error)
         }
 
         return
@@ -442,15 +466,18 @@ export default function WalletLoginBottomSheet({
           setErrorMessage(null)
           onConnectSuccess()
           closeSheet(false)
-        } catch {
+        } catch (error) {
           if (requestId !== socialRequestIdRef.current) return
+          const recoveredSession = await recoverWalletConnectSessionState(error)
           setSelectedAction(null)
           setSocialConnection({
             provider,
             mode: 'popup',
-            errorMessage: '로그인을 완료하지 못했어요. 다시 시도해 주세요.',
+            errorMessage: recoveredSession
+              ? RECOVERED_WALLETCONNECT_SESSION_MESSAGE
+              : '로그인을 완료하지 못했어요. 다시 시도해 주세요.',
           })
-          onConnectError()
+          onConnectError(error)
         }
       }
 
@@ -478,7 +505,7 @@ export default function WalletLoginBottomSheet({
         }
 
         popup.location.href = uri
-      } catch {
+      } catch (error) {
         clearSocialLoginSideEffects(true)
         if (requestId !== socialRequestIdRef.current) return
         setSelectedAction(null)
@@ -487,7 +514,7 @@ export default function WalletLoginBottomSheet({
           mode: 'popup',
           errorMessage: '소셜 로그인 창을 열지 못했어요. 다시 시도해 주세요.',
         })
-        onConnectError()
+        onConnectError(error)
       }
     },
     [clearSocialLoginSideEffects, closeSheet, onConnectError, onConnectStart, onConnectSuccess, selectedAction],
@@ -534,17 +561,19 @@ export default function WalletLoginBottomSheet({
         if (requestId !== walletConnectRequestIdRef.current) return
         connectionSettledRef.current = true
         onConnectSuccess()
-      } catch {
+      } catch (error) {
         if (requestId !== walletConnectRequestIdRef.current) return
 
-        if (hasWalletConnectUri()) {
+        const recoveredSession = await recoverWalletConnectSessionState(error)
+
+        if (!recoveredSession && hasWalletConnectUri()) {
           ConnectionController.setWcError(false)
           return
         }
 
         ConnectionController.setWcError(true)
-        setErrorMessage(null)
-        onConnectError()
+        setErrorMessage(recoveredSession ? RECOVERED_WALLETCONNECT_SESSION_MESSAGE : null)
+        onConnectError(error)
       }
     },
     [onConnectError, onConnectStart, onConnectSuccess],
@@ -580,14 +609,17 @@ export default function WalletLoginBottomSheet({
         setErrorMessage(null)
         onConnectSuccess()
         closeSheet(false)
-      } catch {
+      } catch (error) {
         if (requestId !== externalWalletRequestIdRef.current) return
+        const recoveredSession = await recoverWalletConnectSessionState(error)
         setSelectedAction(null)
         setSelectedDirectoryWalletId(null)
         setExternalWalletConnection(null)
         setView(returnView === 'externalWallet' ? 'connect' : returnView)
-        setErrorMessage('연결이 취소되었어요. 다시 선택해 주세요.')
-        onConnectError()
+        setErrorMessage(
+          recoveredSession ? RECOVERED_WALLETCONNECT_SESSION_MESSAGE : '연결이 취소되었어요. 다시 선택해 주세요.',
+        )
+        onConnectError(error)
       }
     },
     [closeSheet, onConnectError, onConnectStart, onConnectSuccess],

@@ -7,7 +7,6 @@ import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { useModal } from '@contexts/ModalProvider'
 import AddressClipboard from '@shared/AddressClipboard'
-import GlassSurface from '@shared/GlassSurface'
 import PushTransitionLink from '@shared/PushTransitionLink'
 import Skeleton from '@shared/Skeleton'
 import { profileAnalytics } from '@analytics'
@@ -53,9 +52,9 @@ export default function Profile() {
           <h1 className='text-28 font-bold'>프로필</h1>
           <div className='flex items-center gap-8'>
             <PushTransitionLink href='/avatar' aria-label='아바타 페이지로 이동' className={PROFILE_ACTION_BUTTON_CLASS}>
-              <ProfileActionGlass>
+              <ProfileActionButtonSurface>
                 <UpperClothIcon size={16} color={colors.white} />
-              </ProfileActionGlass>
+              </ProfileActionButtonSurface>
             </PushTransitionLink>
             <SettingButton
               onClick={() =>
@@ -191,41 +190,20 @@ function formatBungDate(dateTime: string) {
 }
 
 const PROFILE_ACTION_BUTTON_CLASS =
-  'group inline-flex h-40 w-40 items-center justify-center rounded-full active-press-duration active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-gray-lighten'
+  'inline-flex h-40 w-40 items-center justify-center rounded-full bg-gray-darken active-press-duration active:scale-90 active:bg-gray-darker focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-gray-lighten'
 
-const PROFILE_ACTION_GLASS_PROPS = {
-  width: 40,
-  height: 40,
-  borderRadius: 20,
-  borderWidth: 0.16,
-  backgroundOpacity: 0.1,
-  distortionScale: -100,
-  displace: 1,
-  greenOffset: 4,
-  blueOffset: 8,
-  saturation: 1.5,
-  blur: 4,
-} as const
-
-const PROFILE_ACTION_GLASS_STYLE = {
-  boxShadow: 'inset 0 0 0 1px rgba(255, 255, 255, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
-} as const
-
-function ProfileActionGlass({ children }: { children: React.ReactNode }) {
+function ProfileActionButtonSurface({ children }: { children: React.ReactNode }) {
   return (
-    <GlassSurface {...PROFILE_ACTION_GLASS_PROPS} style={PROFILE_ACTION_GLASS_STYLE}>
-      <div className='absolute inset-0 bg-black-darken/10 group-active:bg-black-darken/14' />
-      <span className='relative z-10 flex items-center justify-center'>{children}</span>
-    </GlassSurface>
+    <span className='flex h-full w-full items-center justify-center rounded-full bg-inherit text-white'>{children}</span>
   )
 }
 
 function SettingButton({ onClick }: { onClick?: () => void }) {
   return (
     <button type='button' aria-label='설정 열기' className={PROFILE_ACTION_BUTTON_CLASS} onClick={onClick}>
-      <ProfileActionGlass>
+      <ProfileActionButtonSurface>
         <SettingIcon size={16} color={colors.white} />
-      </ProfileActionGlass>
+      </ProfileActionButtonSurface>
     </button>
   )
 }

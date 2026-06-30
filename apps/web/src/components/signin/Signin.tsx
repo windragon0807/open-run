@@ -27,6 +27,10 @@ import { removeCookie } from '@utils/cookie'
 import { MESSAGE } from '@constants/app'
 import { COOKIE } from '@constants/cookie'
 import { consumePendingReownSocialProvider, hasPendingReownSocialRedirect, type ReownSocialProvider } from '@utils/reownSocialRedirect'
+import {
+  clearWalletConnectSessionStorage,
+  isRecoverableWalletConnectSessionError,
+} from '@utils/walletConnectSessionRecovery'
 import { useSignMessage } from 'wagmi'
 import DontWorryModal from './DontWorryModal'
 import WalletLoginBottomSheet from './WalletLoginBottomSheet'
@@ -155,7 +159,11 @@ function SignInBrowser() {
     }
   }, [signMessageAsync, smartWalletLogin])
 
-  const stopWalletConnect = useCallback(() => {
+  const stopWalletConnect = useCallback((error?: unknown) => {
+    if (isRecoverableWalletConnectSessionError(error)) {
+      clearWalletConnectSessionStorage()
+    }
+
     hasRequestedLoginRef.current = false
     hasObservedModalOpenRef.current = false
     setIsLoading(false)
@@ -226,9 +234,9 @@ function SignInBrowser() {
         )
         StorageUtil.setConnectedSocialProvider(socialProvider as Parameters<typeof StorageUtil.setConnectedSocialProvider>[0])
         await ConnectionController.connectExternal(authConnector, authConnector.chain)
-      } catch {
+      } catch (error) {
         if (!cancelled) {
-          stopWalletConnect()
+          stopWalletConnect(error)
         }
       }
     }
