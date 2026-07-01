@@ -19,10 +19,6 @@ import { postMessageToRN } from '@shared/AppBridge'
 import LoadingLogo from '@shared/LoadingLogo'
 import { useMessageHandler } from '@hooks/useMessageHandler'
 import { useSmartWalletLogin } from '@apis/v1/users/login/smart_wallet/mutation'
-import {
-  createSignedSmartWalletLoginRequest,
-  createSmartWalletLoginNonce,
-} from '@apis/v1/users/login/smart_wallet'
 import { removeCookie } from '@utils/cookie'
 import { MESSAGE } from '@constants/app'
 import { COOKIE } from '@constants/cookie'
@@ -31,7 +27,6 @@ import {
   clearWalletConnectSessionStorage,
   isRecoverableWalletConnectSessionError,
 } from '@utils/walletConnectSessionRecovery'
-import { useSignMessage } from 'wagmi'
 import DontWorryModal from './DontWorryModal'
 import WalletLoginBottomSheet from './WalletLoginBottomSheet'
 
@@ -39,12 +34,6 @@ type SocialAuthConnector = Connector & {
   provider?: {
     getSocialRedirectUri?: (params: { provider: ReownSocialProvider }) => Promise<{ uri?: string }>
   }
-}
-
-type SmartWalletSignatureResponse = {
-  address: string
-  nonce: string
-  signature: string
 }
 
 export default function Signin() {
@@ -55,27 +44,9 @@ export default function Signin() {
 function SignInApp() {
   const [isLoading, setIsLoading] = useState(false)
   const { mutate: smartWalletLogin } = useSmartWalletLogin()
-
-  const requestSmartWalletSignature = useCallback(async (walletAddress: SmartWalletConnectResponse) => {
-    try {
-      const { data } = await createSmartWalletLoginNonce({ blockchainAddress: walletAddress })
-      postMessageToRN({
-        type: MESSAGE.REQUEST_SMART_WALLET_SIGNATURE,
-        data: {
-          address: walletAddress,
-          nonce: data.nonce,
-          message: data.message,
-        },
-      })
-    } catch {
-      authAnalytics.walletLoginFailed({ surface: 'app', reason: 'nonce_error' })
-      setIsLoading(false)
-    }
-  }, [])
-
-  const loginWithSmartWallet = useCallback((proof: SmartWalletSignatureResponse) => {
+  const loginWithSmartWallet = useCallback((code: SmartWalletConnectResponse) => {
     smartWalletLogin(
-      { code: proof.address, nonce: proof.nonce, state: proof.signature },
+      { code },
       {
         onError: () => {
           setIsLoading(false)
@@ -87,15 +58,10 @@ function SignInApp() {
   useMessageHandler(({ type, data }) => {
     switch (type) {
       case MESSAGE.RESPONSE_SMART_WALLET_CONNECT:
-        void requestSmartWalletSignature(data as SmartWalletConnectResponse)
-        break
-
-      case MESSAGE.RESPONSE_SMART_WALLET_SIGNATURE:
-        loginWithSmartWallet(data as SmartWalletSignatureResponse)
+        loginWithSmartWallet(data as SmartWalletConnectResponse)
         break
 
       case MESSAGE.RESPONSE_SMART_WALLET_CONNECT_ERROR:
-      case MESSAGE.RESPONSE_SMART_WALLET_SIGNATURE_ERROR:
         authAnalytics.walletLoginFailed({ surface: 'app', reason: 'bridge_error' })
         setIsLoading(false)
         break
@@ -132,32 +98,23 @@ function SignInBrowser() {
   const { open: isAppKitModalOpen } = useAppKitState()
   const { address, isConnected, status } = useAppKitAccount({ namespace: 'eip155' })
   const { disconnect } = useDisconnect()
-  const { signMessageAsync } = useSignMessage()
   const [isLoading, setIsLoading] = useState(false)
   const hasRequestedLoginRef = useRef(false)
   const hasObservedModalOpenRef = useRef(false)
 
   const { mutate: smartWalletLogin } = useSmartWalletLogin()
 
-  const loginWithAddress = useCallback(async (walletAddress: string) => {
+  const loginWithAddress = useCallback((walletAddress: string) => {
     hasRequestedLoginRef.current = false
-    try {
-      const loginRequest = await createSignedSmartWalletLoginRequest(walletAddress, (message) =>
-        signMessageAsync({ message }),
-      )
-      smartWalletLogin(
-        loginRequest,
-        {
-          onError: () => {
-            setIsLoading(false)
-          },
+    smartWalletLogin(
+      { code: walletAddress },
+      {
+        onError: () => {
+          setIsLoading(false)
         },
-      )
-    } catch {
-      authAnalytics.walletLoginFailed({ surface: 'browser', reason: 'signature_error' })
-      setIsLoading(false)
-    }
-  }, [signMessageAsync, smartWalletLogin])
+      },
+    )
+  }, [smartWalletLogin])
 
   const stopWalletConnect = useCallback((error?: unknown) => {
     if (isRecoverableWalletConnectSessionError(error)) {

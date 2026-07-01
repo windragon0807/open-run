@@ -3,7 +3,6 @@ import { useRouter } from 'next/navigation'
 import { authAnalytics } from '@analytics'
 import { setCookie } from '@utils/cookie'
 import { COOKIE } from '@constants/cookie'
-import { ACCESS_TOKEN_MAX_AGE_SECONDS } from '@openrun/api-client/constants'
 import { smartWalletLogin } from './index'
 
 export function useSmartWalletLogin() {
@@ -12,7 +11,7 @@ export function useSmartWalletLogin() {
     mutationFn: smartWalletLogin,
     onSuccess: ({ data }) => {
       const { jwtToken, nickname } = data
-      setCookie(COOKIE.ACCESSTOKEN, jwtToken, ACCESS_TOKEN_MAX_AGE_SECONDS)
+      setCookie(COOKIE.ACCESSTOKEN, jwtToken, 60 * 60 * 6) // 6시간
       authAnalytics.walletLoginSucceeded({ hasNickname: nickname != null })
       router.replace(nickname == null ? '/register' : '/')
     },

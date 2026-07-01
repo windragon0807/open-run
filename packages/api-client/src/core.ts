@@ -4,46 +4,33 @@ export type HttpParams = Record<string, unknown> | URLSearchParams
 
 export type HttpConfig = Omit<RequestInit, 'body' | 'method'> & {
   params?: HttpParams
-  skipAuthRefresh?: boolean
 }
 
 export type HttpClientOptions = {
   baseURL?: string
   getHeaders?: () => HeadersInit | undefined | Promise<HeadersInit | undefined>
   fetcher?: typeof fetch
-  onUnauthorized?: () => Promise<boolean>
 }
 
-export function createHttpClient({ baseURL, getHeaders, fetcher = fetch, onUnauthorized }: HttpClientOptions = {}) {
+export function createHttpClient({ baseURL, getHeaders, fetcher = fetch }: HttpClientOptions = {}) {
   async function request<T>(
     method: string,
     path: string,
     data?: unknown,
     config: HttpConfig = {},
   ): Promise<T> {
-    const { params, headers: configHeaders, skipAuthRefresh, ...requestConfig } = config
+    const { params, headers: configHeaders, ...requestConfig } = config
     const url = buildUrl(baseURL, path, params)
+    const headers = new Headers(configHeaders)
+    mergeHeaders(headers, await getHeaders?.())
+    const body = createBody(data, headers)
 
-    const send = async () => {
-      const headers = new Headers(configHeaders)
-      mergeHeaders(headers, await getHeaders?.())
-      const body = createBody(data, headers)
-
-      return fetcher(url, {
-        ...requestConfig,
-        method,
-        headers,
-        body,
-      })
-    }
-
-    let response = await send()
-    if (response.status === 401 && !skipAuthRefresh && onUnauthorized != null) {
-      const refreshed = await onUnauthorized()
-      if (refreshed) {
-        response = await send()
-      }
-    }
+    const response = await fetcher(url, {
+      ...requestConfig,
+      method,
+      headers,
+      body,
+    })
 
     return parseResponse<T>(response, method, url)
   }

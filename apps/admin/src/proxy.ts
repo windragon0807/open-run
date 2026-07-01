@@ -1,6 +1,24 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-export function proxy() {
+const ACCESSTOKEN = 'ACCESSTOKEN'
+
+export function proxy(request: NextRequest) {
+  const token = request.cookies.get(ACCESSTOKEN)?.value
+  const { pathname } = request.nextUrl
+  const isSignInPath = pathname === '/signin' || pathname.startsWith('/signin/')
+
+  if (!token && !isSignInPath) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/signin'
+    return NextResponse.redirect(url)
+  }
+
+  if (token && isSignInPath) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/'
+    return NextResponse.redirect(url)
+  }
+
   return NextResponse.next()
 }
 

@@ -6,7 +6,6 @@ import { resetAnalyticsSession, useIdentifyAnalyticsUser } from '@analytics'
 import { useUserInfo } from '@apis/v1/users/query'
 import { COOKIE } from '@constants/cookie'
 import { removeCookie } from '@utils/cookie'
-import { logoutSession } from '@openrun/api-client/auth'
 import LoadingLogo from './LoadingLogo'
 
 export default function AuthGuard({ children }: { children: ReactNode }) {
@@ -14,10 +13,10 @@ export default function AuthGuard({ children }: { children: ReactNode }) {
   const { userInfo, isError, isSuccess } = useUserInfo()
   useIdentifyAnalyticsUser(userInfo)
 
-  // /v1/users가 refresh/retry 후에도 실패하면 무한 LoadingLogo에 갇히지 않도록 세션을 정리한다.
+  // /v1/users가 retry 후에도 실패하면 (JWT 만료, 5xx, 네트워크 단절 등) 무한 LoadingLogo에 갇히지 않도록
+  // cookie를 정리하고 signin으로 보낸다. middleware는 쿠키 "존재"만 보므로 client-side에서 만료를 감지해야 한다.
   useEffect(() => {
     if (isError) {
-      void logoutSession()
       removeCookie(COOKIE.ACCESSTOKEN)
       resetAnalyticsSession()
       router.replace('/signin')
@@ -30,7 +29,7 @@ export default function AuthGuard({ children }: { children: ReactNode }) {
     }
   }, [isSuccess, router, userInfo?.nickname])
 
-  // 인증은 access token refresh와 백엔드 user 정보로 충분하다.
+  // 인증은 cookie의 JWT(middleware에서 검증)와 백엔드 user 정보로 충분하다.
   // Reown wallet 상태는 더 이상 게이트에 영향을 주지 않는다 — wallet은 로그인/로그아웃 시점에만 사용된다.
   if (userInfo?.nickname == null) {
     return (
