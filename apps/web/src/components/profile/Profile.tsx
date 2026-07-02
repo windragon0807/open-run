@@ -7,6 +7,7 @@ import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { useModal } from '@contexts/ModalProvider'
 import AddressClipboard from '@shared/AddressClipboard'
+import GlassSurface from '@shared/GlassSurface'
 import PushTransitionLink from '@shared/PushTransitionLink'
 import Skeleton from '@shared/Skeleton'
 import { profileAnalytics } from '@analytics'
@@ -53,7 +54,7 @@ export default function Profile() {
           <div className='flex items-center gap-8'>
             <PushTransitionLink href='/avatar' aria-label='아바타 페이지로 이동' className={PROFILE_ACTION_BUTTON_CLASS}>
               <ProfileActionButtonSurface>
-                <UpperClothIcon size={16} color={colors.white} />
+                <UpperClothIcon size={16} color={PROFILE_ACTION_ICON_COLOR} />
               </ProfileActionButtonSurface>
             </PushTransitionLink>
             <SettingButton
@@ -190,11 +191,37 @@ function formatBungDate(dateTime: string) {
 }
 
 const PROFILE_ACTION_BUTTON_CLASS =
-  'inline-flex h-40 w-40 items-center justify-center rounded-full bg-gray-darken active-press-duration active:scale-90 active:bg-gray-darker focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-gray-lighten'
+  'group inline-flex h-40 w-40 items-center justify-center rounded-full bg-white/60 shadow-[0_10px_22px_rgba(33,37,41,0.12),0_2px_6px_rgba(33,37,41,0.08),inset_0_1px_0_rgba(255,255,255,0.9)] active-press-duration active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-gray-lighten'
+
+const PROFILE_ACTION_ICON_COLOR = colors.gray.darker
 
 function ProfileActionButtonSurface({ children }: { children: React.ReactNode }) {
   return (
-    <span className='flex h-full w-full items-center justify-center rounded-full bg-inherit text-white'>{children}</span>
+    <GlassSurface
+      width='100%'
+      height='100%'
+      borderRadius={20}
+      borderWidth={0.2}
+      backgroundOpacity={0.5}
+      distortionScale={-130}
+      displace={3.2}
+      greenOffset={5}
+      blueOffset={10}
+      saturation={1.75}
+      blur={6}
+      className='ring-1 ring-inset ring-white/65'
+      style={{
+        background:
+          'radial-gradient(circle at 32% 22%, rgba(255,255,255,0.98), rgba(255,255,255,0.62) 38%, rgba(255,255,255,0.34) 72%)',
+        boxShadow:
+          'inset 0 1px 2px rgba(255,255,255,0.98), inset 0 -5px 10px rgba(173,181,189,0.16), 0 7px 18px rgba(33,37,41,0.10)',
+      }}>
+      <span className='absolute inset-[1px] rounded-full bg-white/20 transition-colors duration-200 group-active:bg-gray/20' />
+      <span className='pointer-events-none absolute left-7 top-5 h-11 w-20 rotate-[-18deg] rounded-full bg-white/90 blur-[1px]' />
+      <span className='pointer-events-none absolute bottom-3 right-4 h-14 w-18 rotate-[-18deg] rounded-full bg-gray/20 blur-[3px]' />
+      <span className='pointer-events-none absolute inset-x-7 bottom-4 h-1 rounded-full bg-white/70 blur-[0.5px]' />
+      <span className='relative z-10 flex h-full w-full items-center justify-center rounded-full text-gray-darkest'>{children}</span>
+    </GlassSurface>
   )
 }
 
@@ -202,7 +229,7 @@ function SettingButton({ onClick }: { onClick?: () => void }) {
   return (
     <button type='button' aria-label='설정 열기' className={PROFILE_ACTION_BUTTON_CLASS} onClick={onClick}>
       <ProfileActionButtonSurface>
-        <SettingIcon size={16} color={colors.white} />
+        <SettingIcon size={16} color={PROFILE_ACTION_ICON_COLOR} />
       </ProfileActionButtonSurface>
     </button>
   )
