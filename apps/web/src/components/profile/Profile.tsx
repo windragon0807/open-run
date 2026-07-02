@@ -2,15 +2,19 @@
 
 import clsx from 'clsx'
 import Image from 'next/image'
+import { useState } from 'react'
 import 'swiper/css'
 import { Autoplay } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { useQueryClient } from '@tanstack/react-query'
 import { useModal } from '@contexts/ModalProvider'
 import AddressClipboard from '@shared/AddressClipboard'
 import GlassSurface from '@shared/GlassSurface'
 import PushTransitionLink from '@shared/PushTransitionLink'
 import Skeleton from '@shared/Skeleton'
+import ToastModal from '@shared/ToastModal'
 import { profileAnalytics } from '@analytics'
+import { bungDetailQueries } from '@apis/v1/bungs/[bungId]/query'
 import { CopyClipboardIcon } from '@icons/clipboard'
 import { CrownIcon } from '@icons/crown'
 import { FilledFlagIcon } from '@icons/flag'
@@ -26,6 +30,7 @@ import { MODAL_KEY } from '@constants/modal'
 import { DEFAULT_PROFILE_IMAGE_URL } from '@constants/profile'
 import type { ApiDateTime } from '@utils/api'
 import { colors } from '@styles/colors'
+import BungCompleteModal from '../bung/modal/BungCompleteModal'
 import SettingModal from './SettingModal'
 
 const COMPLETED_BUNG_SKELETON_COUNT = 3
@@ -34,8 +39,9 @@ export default function Profile() {
   const { userInfo } = useUserInfo()
   const { data: profileSummary } = useProfileSummary()
   const { data: completedBungs, isLoading: isCompletedBungsLoading } = useMyBungs({
-    isOwned: null,
+    isOwned: false,
     status: 'ACCOMPLISHED',
+    feedbackPending: true,
     page: 0,
     limit: 10,
   })
@@ -54,7 +60,7 @@ export default function Profile() {
           <div className='flex items-center gap-8'>
             <PushTransitionLink href='/avatar' aria-label='아바타 페이지로 이동' className={PROFILE_ACTION_BUTTON_CLASS}>
               <ProfileActionButtonSurface>
-                <UpperClothIcon size={16} color={PROFILE_ACTION_ICON_COLOR} />
+                <UpperClothIcon size={16} color={colors.gray.darker} />
               </ProfileActionButtonSurface>
             </PushTransitionLink>
             <SettingButton
@@ -145,6 +151,7 @@ export default function Profile() {
                 title={bung.name}
                 location={bung.location}
                 date={formatBungDate(bung.startDateTime)}
+                currentUserId={userInfo?.userId}
               />
             ))
           )}
@@ -193,8 +200,6 @@ function formatBungDate(dateTime: string) {
 const PROFILE_ACTION_BUTTON_CLASS =
   'group inline-flex h-40 w-40 items-center justify-center rounded-full bg-white/60 shadow-[0_10px_22px_rgba(33,37,41,0.12),0_2px_6px_rgba(33,37,41,0.08),inset_0_1px_0_rgba(255,255,255,0.9)] active-press-duration active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-gray-lighten'
 
-const PROFILE_ACTION_ICON_COLOR = colors.gray.darker
-
 function ProfileActionButtonSurface({ children }: { children: React.ReactNode }) {
   return (
     <GlassSurface
@@ -229,7 +234,7 @@ function SettingButton({ onClick }: { onClick?: () => void }) {
   return (
     <button type='button' aria-label='설정 열기' className={PROFILE_ACTION_BUTTON_CLASS} onClick={onClick}>
       <ProfileActionButtonSurface>
-        <SettingIcon size={16} color={PROFILE_ACTION_ICON_COLOR} />
+        <SettingIcon size={16} color={colors.gray.darker} />
       </ProfileActionButtonSurface>
     </button>
   )
@@ -292,12 +297,57 @@ function CompletedBung({
   title,
   location,
   date,
+  currentUserId,
 }: {
   bungId: string
   title: string
   location: string
   date: string
+  currentUserId?: string
 }) {
+  const queryClient = useQueryClient()
+  const { showModal } = useModal()
+  const [isOpeningFeedbackModal, setIsOpeningFeedbackModal] = useState(false)
+
+  const showFeedbackError = (message: string) => {
+    showModal({
+      key: MODAL_KEY.TOAST,
+      component: <ToastModal mode='error' message={message} />,
+    })
+  }
+
+  const handleFeedbackClick = async () => {
+    profileAnalytics.feedbackClicked({ bungId })
+
+    if (currentUserId == null) {
+      showFeedbackError('사용자 정보를 불러오지 못했습니다.')
+      return
+    }
+
+    setIsOpeningFeedbackModal(true)
+
+    try {
+      const { data: details } = await queryClient.fetchQuery(bungDetailQueries.detail({ bungId }))
+
+      showModal({
+        key: MODAL_KEY.BUNG_COMPLETE,
+        component: (
+          <BungCompleteModal
+            bungId={details.bungId}
+            imageUrl={details.mainImage || DEFAULT_PROFILE_IMAGE_URL}
+            title={details.name}
+            location={details.location}
+            memberList={details.memberList.filter((member) => member.userId !== currentUserId)}
+          />
+        ),
+      })
+    } catch {
+      showFeedbackError('피드백 정보를 불러오지 못했습니다.')
+    } finally {
+      setIsOpeningFeedbackModal(false)
+    }
+  }
+
   return (
     <div className='flex w-full items-center gap-12 rounded-8 bg-white p-16'>
       <div className='flex min-w-0 flex-1 gap-16'>
@@ -312,12 +362,14 @@ function CompletedBung({
         </div>
       </div>
 
-      <PushTransitionLink
-        href={`/bung/${bungId}`}
-        onClick={() => profileAnalytics.feedbackClicked({ bungId })}
-        className='flex h-40 w-100 shrink-0 items-center justify-center whitespace-nowrap rounded-8 bg-black-darken text-14 font-bold text-white active-press-duration active:scale-95 active:bg-black-darken/80'>
+      <button
+        type='button'
+        disabled={isOpeningFeedbackModal}
+        aria-busy={isOpeningFeedbackModal}
+        onClick={handleFeedbackClick}
+        className='flex h-40 w-100 shrink-0 items-center justify-center whitespace-nowrap rounded-8 bg-black-darken text-14 font-bold text-white active-press-duration active:scale-95 active:bg-black-darken/80 disabled:scale-100 disabled:bg-gray disabled:text-white'>
         피드백 남기기
-      </PushTransitionLink>
+      </button>
     </div>
   )
 }

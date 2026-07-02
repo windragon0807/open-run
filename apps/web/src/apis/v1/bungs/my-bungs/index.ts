@@ -12,6 +12,7 @@ export type RequestType = {
    * ONGOING : 참여 예정 중이거나 진행 중인 벙
    */
   status: 'PARTICIPATING' | 'ACCOMPLISHED' | 'ONGOING' | null
+  feedbackPending?: boolean
   page: number
   limit: number
 }

@@ -1,16 +1,18 @@
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 import { useModal } from '@contexts/ModalProvider'
 import { BungMember } from '@type/bung'
 import { BottomSheet, BottomSheetRef, Dimmed } from '@shared/Modal'
+import PrimaryButton from '@shared/PrimaryButton'
 import { PlaceIcon } from '@icons/place'
 import { FilledThumbIcon, OutlinedThumbIcon } from '@icons/thumb'
 import { BrokenXIcon } from '@icons/x'
+import useAppInsetSize from '@hooks/useAppInsetSize'
 import { useSendMemberLike } from '@apis/v1/users/feedback/mutation'
 import { MODAL_KEY } from '@constants/modal'
 import { DEFAULT_PROFILE_IMAGE_URL } from '@constants/profile'
 import { colors } from '@styles/colors'
+import { sortBungMembersOwnerFirst } from './sortBungMembersOwnerFirst'
 
 export default function BungCompleteModal({
   bungId,
@@ -25,27 +27,22 @@ export default function BungCompleteModal({
   location: string
   memberList: BungMember[]
 }) {
-  const router = useRouter()
   const { closeModal } = useModal()
   const sheetRef = useRef<BottomSheetRef>(null)
   const handleClose = () => sheetRef.current?.close()
-  const { mutate: sendMemberLike } = useSendMemberLike()
+  const { mutate: sendMemberLike, isPending } = useSendMemberLike()
+  const buttonMarginBottom = useAppInsetSize('bottom', 40)
 
   const [checkedUserIdList, setCheckedUserIdList] = useState<string[]>([])
+  const hasSelectedFeedback = checkedUserIdList.length > 0
+  const memberListWithOwnerFirst = sortBungMembersOwnerFirst(memberList)
 
   const handleSaveButton = () => {
-    if (checkedUserIdList.length === 0) {
-      closeModal(MODAL_KEY.BUNG_COMPLETE)
-      return
-    }
-
     sendMemberLike(
       { bungId, targetUserIds: checkedUserIdList },
       {
         onSuccess: () => {
-          /* 자기 자신에게 좋아요를 눌렀을 경우, 메인 페이지에서의 좋아요 갯수 업데이트 */
-          router.refresh()
-          closeModal(MODAL_KEY.BUNG_COMPLETE)
+          handleClose()
         },
       },
     )
@@ -53,22 +50,22 @@ export default function BungCompleteModal({
 
   return (
     <Dimmed onClick={handleClose}>
-      <BottomSheet ref={sheetRef} onClose={() => closeModal(MODAL_KEY.BUNG_COMPLETE)} fullSize>
-        <header className='relative mb-16 flex h-60 w-full items-center justify-center px-16'>
+      <BottomSheet
+        ref={sheetRef}
+        onClose={() => closeModal(MODAL_KEY.BUNG_COMPLETE)}
+        className='flex h-[93%] flex-col overflow-hidden'>
+        <header className='relative flex h-60 w-full shrink-0 items-center justify-center px-16'>
           <button
+            type='button'
+            aria-label='피드백 모달 닫기'
             className='absolute right-16 translate-x-4 rounded-8 p-4 active-press-duration active:scale-90 active:bg-gray/50'
             onClick={handleClose}>
             <BrokenXIcon size={24} color={colors.black.DEFAULT} />
           </button>
           <span className='text-16 font-bold'>벙 완료!</span>
-          <button
-            className='absolute right-56 rounded-8 px-8 py-4 active-press-duration active:scale-90 active:bg-gray/50'
-            onClick={handleSaveButton}>
-            <span className='text-14 text-black-darken'>저장</span>
-          </button>
         </header>
 
-        <section className='h-[calc(100%-110px)] overflow-y-auto px-16'>
+        <section className='scrollbar-hidden min-h-0 flex-1 overflow-y-auto px-16'>
           <div className='mb-40 flex flex-col items-center gap-8 text-center'>
             <h1 className='text-20 font-bold'>
               함께 달렸던 멤버들에게
@@ -96,8 +93,8 @@ export default function BungCompleteModal({
             </div>
           </div>
 
-          <ul className='flex h-[calc(100%-230px)] flex-col gap-16 overflow-y-auto pb-40'>
-            {memberList.map((member) => (
+          <ul className='flex flex-col gap-16'>
+            {memberListWithOwnerFirst.map((member) => (
               <li key={member.userId} className='flex items-center justify-between gap-8'>
                 <div className='flex items-center gap-16'>
                   <Image
@@ -114,9 +111,13 @@ export default function BungCompleteModal({
                 </div>
 
                 <button
+                  type='button'
+                  aria-label={`${member.nickname}에게 좋아요 남기기`}
+                  aria-pressed={checkedUserIdList.includes(member.userId)}
+                  className='shrink-0 rounded-8 p-8 active-press-duration active:scale-90 active:bg-gray/50'
                   onClick={() => {
                     setCheckedUserIdList((prev) =>
-                      checkedUserIdList.includes(member.userId)
+                      prev.includes(member.userId)
                         ? prev.filter((id) => id !== member.userId)
                         : [...prev, member.userId],
                     )
@@ -130,6 +131,15 @@ export default function BungCompleteModal({
               </li>
             ))}
           </ul>
+
+          <div className='mt-24' style={{ marginBottom: buttonMarginBottom }}>
+            <PrimaryButton
+              variant={hasSelectedFeedback ? 'primary' : 'neutral'}
+              disabled={isPending}
+              onClick={handleSaveButton}>
+              {isPending ? '저장 중...' : hasSelectedFeedback ? '피드백 저장' : '피드백 없이 완료'}
+            </PrimaryButton>
+          </div>
         </section>
       </BottomSheet>
     </Dimmed>

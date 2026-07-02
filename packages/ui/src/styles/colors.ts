@@ -13,6 +13,7 @@ export const colors = {
   },
   gray: {
     lighten: 'hsl(210, 17%, 98%)', // #F8F9FA
+    soft: 'hsl(220, 13%, 95%)', // #F2F3F5
     DEFAULT: 'hsl(210, 14%, 89%)', // #DEE2E6
     darken: 'hsl(210, 11%, 71%)', // #ADB5BD
     darker: 'hsl(210, 11%, 62%)', // #89939D
